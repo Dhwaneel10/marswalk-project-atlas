@@ -10970,24 +10970,32 @@ def pillars_environment_meda_calibrate_api(payload: Dict[str, Any]) -> Dict[str,
     if "optical_depth_tau" in payload:
         try:
             tau = float(payload["optical_depth_tau"])
+            if tau < 0.0:
+                raise APIError("Optical depth tau must be non-negative (tau >= 0.0)", 400)
             label = payload.get("calibration_label", f"Injected Atmospheric State (Tau={tau:.2f})")
         except (ValueError, TypeError):
-            pass
+            raise APIError("Invalid numeric value for optical_depth_tau", 400)
     if "air_temp_c" in payload:
         try:
             t_air = float(payload["air_temp_c"])
+            if t_air < -273.15:
+                raise APIError("Air temperature cannot fall below absolute zero (-273.15°C)", 400)
         except (ValueError, TypeError):
-            pass
+            raise APIError("Invalid numeric value for air_temp_c", 400)
     if "pressure_pa" in payload:
         try:
             p_pa = float(payload["pressure_pa"])
+            if p_pa < 0.0:
+                raise APIError("Atmospheric pressure must be non-negative (P >= 0 Pa)", 400)
         except (ValueError, TypeError):
-            pass
+            raise APIError("Invalid numeric value for pressure_pa", 400)
     if "wind_speed_ms" in payload:
         try:
             w_spd = float(payload["wind_speed_ms"])
+            if w_spd < 0.0:
+                raise APIError("Wind speed must be non-negative (wind >= 0 m/s)", 400)
         except (ValueError, TypeError):
-            pass
+            raise APIError("Invalid numeric value for wind_speed_ms", 400)
 
     # Physical derivations:
     # 1. Solar atmospheric optical transmission T = exp(-tau / cos(z)), assume sub-tropical midday cos(z) ~ 0.85
@@ -11086,17 +11094,33 @@ def pillars_science_targets_plan_api(
 
     # Start: Three Forks Depot at (153, 123) if not provided
     req_start = payload.get("start_rc") or payload.get("start")
-    if req_start and isinstance(req_start, (list, tuple)) and len(req_start) == 2:
-        start_rc = (int(req_start[0]), int(req_start[1]))
+    if req_start:
+        if not (isinstance(req_start, (list, tuple)) and len(req_start) == 2):
+            raise APIError("start_rc must be a list or tuple of 2 integer coordinates [row, col]", 400)
+        try:
+            start_rc = (int(req_start[0]), int(req_start[1]))
+        except (ValueError, TypeError):
+            raise APIError("start_rc coordinates must be numeric integers", 400)
     else:
         start_rc = (153, 123)
 
     # Destination: Delta Scarp Rim / Crest at (50, 90) if not provided
     req_dest = payload.get("goal_rc") or payload.get("destination_rc") or payload.get("end_rc") or payload.get("destination")
-    if req_dest and isinstance(req_dest, (list, tuple)) and len(req_dest) == 2:
-        end_rc = (int(req_dest[0]), int(req_dest[1]))
+    if req_dest:
+        if not (isinstance(req_dest, (list, tuple)) and len(req_dest) == 2):
+            raise APIError("goal_rc must be a list or tuple of 2 integer coordinates [row, col]", 400)
+        try:
+            end_rc = (int(req_dest[0]), int(req_dest[1]))
+        except (ValueError, TypeError):
+            raise APIError("goal_rc coordinates must be numeric integers", 400)
     else:
         end_rc = (50, 90)
+
+    # Validate coordinate grid bounds against active terrain
+    if not (0 <= start_rc[0] < active_terrain.height and 0 <= start_rc[1] < active_terrain.width):
+        raise APIError(f"Start coordinates {start_rc} are outside Jezero terrain grid bounds ([0..{active_terrain.height-1}], [0..{active_terrain.width-1}])", 400)
+    if not (0 <= end_rc[0] < active_terrain.height and 0 <= end_rc[1] < active_terrain.width):
+        raise APIError(f"Destination coordinates {end_rc} are outside Jezero terrain grid bounds ([0..{active_terrain.height-1}], [0..{active_terrain.width-1}])", 400)
 
     config = PlannerConfig()
 

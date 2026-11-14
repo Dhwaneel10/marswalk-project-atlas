@@ -135,7 +135,13 @@ async def run_golden_path_browser_audit():
                 # Execute Step Action
                 print("  Executing step action...")
                 await eval_js("document.getElementById('btnGpExecuteStep').click()")
-                await asyncio.sleep(1.8)
+                # Wait dynamically for step action execution to complete
+                for _ in range(35):
+                    await asyncio.sleep(0.2)
+                    btn_txt = await eval_js("document.getElementById('btnGpExecuteStep').innerText")
+                    if "EXECUTING" not in btn_txt:
+                        break
+                await asyncio.sleep(0.3)
 
                 out_text = await eval_js("document.getElementById('gpOutputBox').innerText")
                 print(f"  Output preview: {out_text[:120].strip()}...")

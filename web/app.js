@@ -27977,7 +27977,7 @@ function initEvaluatorGoldenPathTour() {
         } catch (e) {
           console.warn('Manifest fetch fallback', e);
         }
-        const p1Btn = document.getElementById('btnPillar1');
+        const p1Btn = document.getElementById('btnPillar1Terrain') || document.getElementById('btnPillar1');
         if (p1Btn) p1Btn.click();
 
         return `[STEP 1: VERIFIED PLANETARY DATA ARCHIVES]
@@ -28026,7 +28026,7 @@ function initEvaluatorGoldenPathTour() {
         } catch (e) {
           console.warn('Depot fetch fallback', e);
         }
-        const p2Btn = document.getElementById('btnPillar2');
+        const p2Btn = document.getElementById('btnPillar2GroundTruth') || document.getElementById('btnPillar2');
         if (p2Btn) p2Btn.click();
 
         return `[STEP 3: THREE FORKS SAMPLE DEPOT & PDS ROVER TRAVERSE]
@@ -28055,7 +28055,7 @@ function initEvaluatorGoldenPathTour() {
         } catch (e) {
           console.warn('Calibrate fetch fallback', e);
         }
-        const p3Btn = document.getElementById('btnPillar3');
+        const p3Btn = document.getElementById('btnPillar3Meda') || document.getElementById('btnPillar3');
         if (p3Btn) p3Btn.click();
 
         return `[STEP 4: MEDA ATMOSPHERIC COUPLING & SUBSYSTEM DEGRADATION]
@@ -28085,7 +28085,7 @@ function initEvaluatorGoldenPathTour() {
         } catch (e) {
           console.warn('Plan fetch fallback', e);
         }
-        const p4Btn = document.getElementById('btnPillar4');
+        const p4Btn = document.getElementById('btnPillar4Science') || document.getElementById('btnPillar4');
         if (p4Btn) p4Btn.click();
 
         return `[STEP 5: MULTI-OBJECTIVE SCIENCE TRADE-OFF ANALYSIS]
@@ -28112,7 +28112,7 @@ Astrobiology Reward Yield      0 pts                      160 pts               
         } catch (e) {
           console.warn('Flagship fetch fallback', e);
         }
-        const p5Btn = document.getElementById('btnPillar5');
+        const p5Btn = document.getElementById('btnPillar5Resilience') || document.getElementById('btnPillar5');
         if (p5Btn) p5Btn.click();
 
         return `[STEP 6: FLAGSHIP AUTONOMOUS RESILIENCE & RECOVERY]
@@ -28150,6 +28150,10 @@ Astrobiology Reward Yield      0 pts                      160 pts               
     const cfg = STEPS_CONFIG[step] || STEPS_CONFIG[1];
     if (stepHeader) stepHeader.innerText = cfg.title;
     if (contentBox) contentBox.innerHTML = cfg.desc;
+    if (outputBox) {
+      outputBox.innerText = '';
+      outputBox.style.display = 'none';
+    }
 
     stepButtons.forEach(btn => {
       const s = parseInt(btn.getAttribute('data-step'), 10);
@@ -28218,6 +28222,10 @@ Astrobiology Reward Yield      0 pts                      160 pts               
       if (!cfg) return;
       btnExec.disabled = true;
       btnExec.innerText = '⏳ EXECUTING...';
+      if (outputBox) {
+        outputBox.innerText = '⏳ CALCULATING STEP EVIDENCE...';
+        outputBox.style.display = 'block';
+      }
       try {
         const text = await cfg.execute();
         if (outputBox) {

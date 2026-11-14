@@ -1,6 +1,6 @@
 # Project MarsWalk 2.0 / Atlas — Official Release Manifest
 **Release ID:** `MARSWALK-2.0.0-MISSION7-QUALIFIED`  
-**Generated At (UTC):** `2026-11-14T15:53:23.080827+00:00`  
+**Generated At (UTC):** `2026-11-14T16:22:36.032162+00:00`  
 **Platform:** `Linux 6.8.0-149-generic (x86_64)`  
 **Python Runtime:** `3.10.12`  
 **Cryptographic Merkle Root:** `0380a7cf112a7bd394ef8a21f3ddae772d8103e0caf9998cf36538b7844069b8`  
@@ -39,17 +39,17 @@
 
 | File Relative Path | Size (Bytes) | SHA-256 Digest |
 | :--- | :--- | :--- |
-| `src/marswalk/api/service.py` | 484,910 | `79ffdd4356327466f6c89389...` |
+| `src/marswalk/api/service.py` | 486,747 | `f4244bf6947cb7d21b8555d7...` |
 | `src/marswalk/core/terrain.py` | 21,040 | `7f07f9968a035e3bdc62f2ca...` |
 | `web/index.html` | 665,018 | `d2741a1e9647619b2653302c...` |
-| `web/app.js` | 1,261,395 | `4a7d0169f999fa19f02e1e56...` |
+| `web/app.js` | 1,261,878 | `2e0ac57fcfe0841698c9fdc5...` |
 | `scripts/run_atlas.py` | 108,657 | `c8dd6c7cdf6a08b1957d3448...` |
 | `scripts/start_atlas.sh` | 3,146 | `2bcea5660f4ffa29b785e71c...` |
 | `scripts/run_tests.sh` | 736 | `1444fe84e2785ececd285ba0...` |
 | `scripts/run_showcase.sh` | 5,284 | `3087105303d5ac98b3baccfb...` |
 | `scripts/audit_nasa_data.py` | 5,256 | `a26f2186a108ba338f598324...` |
 | `scripts/validate_nasa_data.py` | 9,807 | `1c77cbecf1f14ed81d77b875...` |
-| `scripts/audit_golden_path_browser.py` | 8,555 | `0af204f7db30b24ee4055941...` |
+| `scripts/audit_golden_path_browser.py` | 8,891 | `ea09293a82eefacdf94eab2c...` |
 | `scripts/audit_browser_linux.py` | 9,504 | `f53a40c7becc065879a42111...` |
 
 ---
