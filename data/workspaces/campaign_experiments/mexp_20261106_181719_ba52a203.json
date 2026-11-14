@@ -1,0 +1,227 @@
+{
+  "schema_version": "2.0.0",
+  "experiment_id": "mexp_20261106_181719_ba52a203",
+  "campaign_id": "cmp_12i_integration_test",
+  "campaign_version": 1,
+  "campaign_fingerprint": "ba43774816f6ebea0a6c295ad27d283ef7a4291cabb632143a4a0bd663c3609b",
+  "title": "Orchestrated Experiment: 12I Integration Test Campaign (mobility_derating)",
+  "description": "Multi-scenario resilience study combining Robustness Lab 'mobility_derating' and Rehearsal Director 'balanced' recovery policy.",
+  "created_at_utc": "2026-11-06T18:17:19.944911+00:00",
+  "status": "COMPLETED",
+  "config": {
+    "campaign_id": "cmp_12i_integration_test",
+    "campaign_version": 1,
+    "suite_type": "mobility_derating",
+    "scenario_selection_strategy": "all",
+    "rehearsal_policy": "balanced",
+    "min_margin_threshold_s": 1800.0,
+    "max_scenarios": 2,
+    "max_rehearsals": 2,
+    "custom_scenarios": null,
+    "explicit_rehearsal_scenario_ids": null,
+    "title": null,
+    "description": null
+  },
+  "robustness_experiment_id": "rob_exp_c3658f4e4448",
+  "scenarios": [
+    {
+      "scenario_id": "scen_mob_85",
+      "name": "Mobility Derating 0.85x (Mild Regolith Slip)",
+      "description": "Reduces traverse speed to 85% of nominal due to terrain wheel slip.",
+      "disruption_type": "mobility_change",
+      "trigger_time_s": 0.0,
+      "parameters": {
+        "type": "mobility_change",
+        "speed_factor": 0.85
+      },
+      "status": "REHEARSED",
+      "evidence_completeness": "FULL_REHEARSAL",
+      "robustness_case": {
+        "is_feasible": true,
+        "duration_delta_s": 319.8369307883513,
+        "remaining_margin_s": 23967.9,
+        "science_score_delta": 0.0
+      },
+      "rehearsal_id": "reh_20261106_181720_0a481d",
+      "rehearsal_outcome_status": "RECOVERED",
+      "three_track_summary": {
+        "baseline": {
+          "science_score": 150.0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 3
+        },
+        "disturbed": {
+          "science_score": 150.0,
+          "duration_s": 5308.6,
+          "distance_m": 861.6,
+          "margin_s": 23491.4,
+          "targets": 3
+        },
+        "recovered": {
+          "science_score": 150.0,
+          "duration_s": 5308.6,
+          "distance_m": 861.6,
+          "margin_s": 23491.4,
+          "targets": 3
+        }
+      },
+      "causal_links_count": 9,
+      "divergence_summary": {
+        "has_divergence": true,
+        "divergence_time_s": 0.0,
+        "primary_cause": "mobility_derating"
+      }
+    },
+    {
+      "scenario_id": "scen_mob_70",
+      "name": "Mobility Derating 0.70x (Moderate Loose Sand)",
+      "description": "Reduces traverse speed to 70% of nominal due to terrain wheel slip.",
+      "disruption_type": "mobility_change",
+      "trigger_time_s": 0.0,
+      "parameters": {
+        "type": "mobility_change",
+        "speed_factor": 0.7
+      },
+      "status": "REHEARSED",
+      "evidence_completeness": "FULL_REHEARSAL",
+      "robustness_case": {
+        "is_feasible": true,
+        "duration_delta_s": 776.6369307883506,
+        "remaining_margin_s": 23511.1,
+        "science_score_delta": 0.0
+      },
+      "rehearsal_id": "reh_20261106_181720_b92521",
+      "rehearsal_outcome_status": "RECOVERED",
+      "three_track_summary": {
+        "baseline": {
+          "science_score": 150.0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 3
+        },
+        "disturbed": {
+          "science_score": 150.0,
+          "duration_s": 6446.1,
+          "distance_m": 861.6,
+          "margin_s": 22353.9,
+          "targets": 3
+        },
+        "recovered": {
+          "science_score": 150.0,
+          "duration_s": 6446.1,
+          "distance_m": 861.6,
+          "margin_s": 22353.9,
+          "targets": 3
+        }
+      },
+      "causal_links_count": 9,
+      "divergence_summary": {
+        "has_divergence": true,
+        "divergence_time_s": 0.0,
+        "primary_cause": "mobility_derating"
+      }
+    }
+  ],
+  "cross_scenario_matrix": {
+    "headers": [
+      "Scenario ID",
+      "Scenario Name",
+      "Disruption Type",
+      "Trigger (s)",
+      "Robustness Status",
+      "Is Feasible",
+      "Rehearsal Executed",
+      "Rehearsal ID",
+      "Outcome Status",
+      "Baseline Science",
+      "Disturbed Science",
+      "Recovered Science",
+      "Science Preserved (%)",
+      "Delay Incurred (s)",
+      "Margin Delta (s)",
+      "Distance Delta (m)",
+      "Targets Retained",
+      "Targets Dropped",
+      "Selected Strategy"
+    ],
+    "rows": [
+      {
+        "scenario_id": "scen_mob_85",
+        "scenario_name": "Mobility Derating 0.85x (Mild Regolith Slip)",
+        "disruption_type": "mobility_change",
+        "trigger_time_s": 0.0,
+        "robustness_status": "FEASIBLE",
+        "is_feasible": true,
+        "rehearsal_executed": true,
+        "rehearsal_id": "reh_20261106_181720_0a481d",
+        "outcome_status": "RECOVERED",
+        "baseline_science": 150.0,
+        "disturbed_science": 150.0,
+        "recovered_science": 150.0,
+        "science_preservation_pct": 100.0,
+        "delay_incurred_s": 796.3,
+        "margin_delta_s": -796.3,
+        "distance_delta_m": 0.0,
+        "targets_retained": 3,
+        "targets_dropped": 0,
+        "selected_strategy": "BALANCED"
+      },
+      {
+        "scenario_id": "scen_mob_70",
+        "scenario_name": "Mobility Derating 0.70x (Moderate Loose Sand)",
+        "disruption_type": "mobility_change",
+        "trigger_time_s": 0.0,
+        "robustness_status": "FEASIBLE",
+        "is_feasible": true,
+        "rehearsal_executed": true,
+        "rehearsal_id": "reh_20261106_181720_b92521",
+        "outcome_status": "RECOVERED",
+        "baseline_science": 150.0,
+        "disturbed_science": 150.0,
+        "recovered_science": 150.0,
+        "science_preservation_pct": 100.0,
+        "delay_incurred_s": 1933.8,
+        "margin_delta_s": -1933.8,
+        "distance_delta_m": 0.0,
+        "targets_retained": 3,
+        "targets_dropped": 0,
+        "selected_strategy": "BALANCED"
+      }
+    ],
+    "summary_narrative": "Evaluated 2 stress scenarios across baseline campaign 'cmp_12i_integration_test'. Robustness sweep demonstrated 2/2 feasible cases. Orchestrated 2 dynamic closed-loop rehearsals under policy 'balanced'. Mean science yield preservation was 100.0% with an average induced delay of 1365s. No physical astronaut flight safety guarantees are implied."
+  },
+  "summary_metrics": {
+    "total_scenarios_evaluated": 2,
+    "robustness_feasible_count": 2,
+    "rehearsals_executed_count": 2,
+    "recovered_count": 2,
+    "unmitigated_aborts_count": 0,
+    "mean_science_preservation_pct": 100.0,
+    "mean_delay_incurred_s": 1365.0,
+    "execution_duration_ms": 277.2
+  },
+  "provenance": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "coordinate_reference": "ESRI:103885",
+    "model_version": "MarsWalk-2.0.0-Atlas",
+    "assumptions_version": "2026.1",
+    "units": {
+      "distance": "meters (m)",
+      "duration": "seconds (s)",
+      "velocity": "meters per second (m/s)",
+      "elevation": "meters (m)",
+      "slope": "degrees (°)",
+      "science_score": "dimensionless priority points"
+    }
+  },
+  "truth_disclosures": [
+    "Tested scenario frequencies (e.g., 80% feasible) measure robustness across modeled disruptions only and MUST NEVER be presented as physical Martian operational success probabilities.",
+    "Modeled traverses and recovery recommendations are planning heuristics and MUST NEVER be characterized as flight-certified or safe for astronauts.",
+    "All calculations are strictly deterministic based on USGS CTX 20m Jezero Crater Digital Terrain Model (DTM) mosaic, IAU 2000 Mars Sphere datum (R = 3,396,190m), CRS ESRI:103885.",
+    "Environmental data is sourced from NASA PDS4 MEDA archives (Sol 890 tranche). All units adhere to standard SI: distance in meters (m), time in seconds (s), elevation in meters (m), science yield in dimensionless priority points."
+  ]
+}

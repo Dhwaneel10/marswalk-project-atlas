@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-configuration.schema.json",
+  "title": "Fleet Configuration Contract",
+  "description": "Defines multi-rover fleet specifications, registered exploration units, base station coordinates, and shared infrastructure.",
+  "type": "object",
+  "required": [
+    "fleet_id",
+    "name",
+    "campaign_id",
+    "base_station",
+    "rovers"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "1.0.0"
+    },
+    "fleet_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,64}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "campaign_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1
+    },
+    "base_station": {
+      "type": "object",
+      "required": ["rc", "antenna_height_m"],
+      "properties": {
+        "rc": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "antenna_height_m": {
+          "type": "number",
+          "minimum": 0.5
+        }
+      }
+    },
+    "rovers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["rover_id", "name", "usable_battery_capacity_wh", "instrument_ids"],
+        "properties": {
+          "rover_id": { "type": "string" },
+          "name": { "type": "string" },
+          "unit_type": { "type": "string" },
+          "starting_location_rc": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "antenna_height_m": { "type": "number" },
+          "usable_battery_capacity_wh": { "type": "number", "minimum": 100.0 },
+          "reserve_margin_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+          "nominal_speed_mps": { "type": "number", "minimum": 0.01 },
+          "storage_capacity_mb": { "type": "number", "minimum": 100.0 },
+          "instrument_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "can_act_as_mobile_relay": { "type": "boolean" },
+          "color_hex": { "type": "string" }
+        }
+      }
+    },
+    "shared_relay_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "science_target_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

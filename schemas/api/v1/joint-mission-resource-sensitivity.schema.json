@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk Joint Mission Resource Sensitivity Schema",
+  "description": "JSON Schema for MarsWalk 2.0 / Project Atlas Milestone 13F Multi-Parameter Resource Sensitivity Analysis",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "baseline",
+    "speed_variations",
+    "temperature_sweeps",
+    "payload_power_sweeps",
+    "initial_soc_sweeps",
+    "solar_tau_sweeps",
+    "critical_cliff_points",
+    "operational_recommendations",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "analysis_id": { "type": "string" },
+    "baseline": {
+      "type": "object",
+      "required": ["feasibility", "final_soc_pct", "total_energy_wh", "total_time_s"]
+    },
+    "speed_variations": { "type": "array", "items": { "type": "object" } },
+    "temperature_sweeps": { "type": "array", "items": { "type": "object" } },
+    "payload_power_sweeps": { "type": "array", "items": { "type": "object" } },
+    "initial_soc_sweeps": { "type": "array", "items": { "type": "object" } },
+    "solar_tau_sweeps": { "type": "array", "items": { "type": "object" } },
+    "critical_cliff_points": { "type": "object" },
+    "operational_recommendations": { "type": "array", "items": { "type": "string" } },
+    "provenance": { "type": "object" }
+  }
+}

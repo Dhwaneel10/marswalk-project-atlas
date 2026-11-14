@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/api-error.schema.json",
+  "title": "MarsWalk API Error",
+  "description": "Structured machine-readable API error response with stable error code, details, and retry advisory.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "error_code",
+    "message",
+    "status_code",
+    "is_retryable"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "error_code": {
+      "type": "string",
+      "enum": [
+        "ERR_MALFORMED_JSON",
+        "ERR_VALIDATION_FAILED",
+        "ERR_MISSING_REQUIRED_FIELD",
+        "ERR_ENDPOINT_OUT_OF_BOUNDS",
+        "ERR_NO_DATA_BARRIER",
+        "ERR_DUPLICATE_STOPS",
+        "ERR_UNSUPPORTED_PROFILE",
+        "ERR_UNSUPPORTED_VEHICLE_MODE",
+        "ERR_UNREACHABLE_TRAVERSE",
+        "ERR_STALE_SIMULATION",
+        "ERR_TERRAIN_UNAVAILABLE",
+        "ERR_NOT_FOUND",
+        "ERR_INTERNAL_ROUTING"
+      ],
+      "description": "Stable machine-readable error classification code."
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable explanation of the error."
+    },
+    "status_code": {
+      "type": "integer",
+      "enum": [400, 404, 409, 422, 500, 503],
+      "description": "Corresponding HTTP status code."
+    },
+    "details": {
+      "type": "array",
+      "description": "Optional list of specific field-level validation errors or constraint violations.",
+      "items": {
+        "type": "object",
+        "required": ["field", "issue"],
+        "properties": {
+          "field": { "type": "string" },
+          "issue": { "type": "string" },
+          "value": {}
+        },
+        "additionalProperties": false
+      }
+    },
+    "is_retryable": {
+      "type": "boolean",
+      "description": "True if client can retry request without modifying parameters (e.g. temporary server load or transient I/O)."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "ISO 8601 UTC timestamp of error generation."
+    },
+    "error": {
+      "type": "string",
+      "description": "Legacy compatibility key mirroring message."
+    },
+    "status": {
+      "type": "integer",
+      "description": "Legacy compatibility key mirroring status_code."
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,377 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "cmp_hardening_base",
+  "name": "Hardening Base Campaign",
+  "description": "",
+  "version": 1,
+  "revision_id": "rev_01",
+  "parent_campaign_id": null,
+  "created_at_utc": "2026-11-14T11:40:07.843664+00:00",
+  "updated_at_utc": "2026-11-14T11:40:07.843664+00:00",
+  "region_id": "jezero_crater",
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "reproducibility_manifest": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "model_version": "2.0.0",
+    "software_version": "2.0.0",
+    "input_fingerprint": "beef85aa327da0ad45bf4ead5f54ff00aef3e05e26df1e69ecdce5307a8bf72a",
+    "assumptions_version": "1.0.0"
+  },
+  "config": {
+    "planning_profile": "science_priority",
+    "vehicle_mode": "crew_eva",
+    "speed_multiplier": 1.0,
+    "max_duration_per_sortie_s": 28800.0,
+    "max_sols": 2,
+    "max_total_duration_s": null,
+    "base_start_rc": [
+      117,
+      157
+    ],
+    "base_end_rc": null,
+    "return_to_base_each_sol": true,
+    "dwell_time_per_stop_s": 900.0,
+    "objective_weights": {
+      "science": 1.0,
+      "time": 0.2,
+      "margin": 0.1
+    }
+  },
+  "targets": [
+    {
+      "id": "tgt_h1_landing",
+      "name": "Octavia Landing",
+      "row": 117,
+      "col": 157,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": null,
+      "priority_score": 100.0,
+      "priority_label": "default",
+      "dwell_time_s": 600.0,
+      "prerequisites": [],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_01",
+      "assigned_sol_index": 1,
+      "assigned_unit_id": null,
+      "unscheduled_reason": null,
+      "science_objective": null,
+      "objective_classification": "NOT_ASSESSED",
+      "linked_observation_ids": [],
+      "repeat_observation_requested": false
+    },
+    {
+      "id": "tgt_h1_delta",
+      "name": "Delta Front",
+      "row": 130,
+      "col": 135,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": null,
+      "priority_score": 85.0,
+      "priority_label": "default",
+      "dwell_time_s": 900.0,
+      "prerequisites": [],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_01",
+      "assigned_sol_index": 1,
+      "assigned_unit_id": null,
+      "unscheduled_reason": null,
+      "science_objective": null,
+      "objective_classification": "NOT_ASSESSED",
+      "linked_observation_ids": [],
+      "repeat_observation_requested": false
+    }
+  ],
+  "sorties": [
+    {
+      "sortie_id": "sortie_sol_01",
+      "sol_index": 1,
+      "name": "Sol 1: Octavia Landing, Delta Front",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "tgt_h1_landing",
+        "tgt_h1_delta"
+      ],
+      "target_names": [
+        "Octavia Landing",
+        "Delta Front"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          156
+        ],
+        [
+          119,
+          155
+        ],
+        [
+          120,
+          154
+        ],
+        [
+          121,
+          153
+        ],
+        [
+          122,
+          152
+        ],
+        [
+          122,
+          151
+        ],
+        [
+          122,
+          150
+        ],
+        [
+          123,
+          149
+        ],
+        [
+          124,
+          148
+        ],
+        [
+          125,
+          147
+        ],
+        [
+          126,
+          146
+        ],
+        [
+          127,
+          145
+        ],
+        [
+          128,
+          144
+        ],
+        [
+          128,
+          143
+        ],
+        [
+          128,
+          142
+        ],
+        [
+          128,
+          141
+        ],
+        [
+          128,
+          140
+        ],
+        [
+          128,
+          139
+        ],
+        [
+          128,
+          138
+        ],
+        [
+          128,
+          137
+        ],
+        [
+          129,
+          136
+        ],
+        [
+          130,
+          135
+        ],
+        [
+          129,
+          136
+        ],
+        [
+          128,
+          137
+        ],
+        [
+          128,
+          138
+        ],
+        [
+          128,
+          139
+        ],
+        [
+          128,
+          140
+        ],
+        [
+          128,
+          141
+        ],
+        [
+          128,
+          142
+        ],
+        [
+          128,
+          143
+        ],
+        [
+          128,
+          144
+        ],
+        [
+          128,
+          145
+        ],
+        [
+          127,
+          146
+        ],
+        [
+          126,
+          147
+        ],
+        [
+          125,
+          148
+        ],
+        [
+          124,
+          149
+        ],
+        [
+          123,
+          150
+        ],
+        [
+          122,
+          151
+        ],
+        [
+          122,
+          152
+        ],
+        [
+          121,
+          153
+        ],
+        [
+          120,
+          154
+        ],
+        [
+          119,
+          155
+        ],
+        [
+          118,
+          156
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 1058.3,
+      "travel_time_s": 2098.8,
+      "dwell_time_s": 1500.0,
+      "total_duration_s": 3598.8,
+      "remaining_margin_s": 25201.2,
+      "science_score": 185.0,
+      "terrain_cost": 1166.0,
+      "max_slope_deg": 1.7,
+      "cumulative_climb_m": 5.3,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "unit_id": null,
+      "legs_summary": [
+        {
+          "leg_index": 1,
+          "start_rc": [
+            117,
+            157
+          ],
+          "goal_rc": [
+            117,
+            157
+          ],
+          "distance_m": 0.0,
+          "cost": 0.0,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 2,
+          "start_rc": [
+            117,
+            157
+          ],
+          "goal_rc": [
+            130,
+            135
+          ],
+          "distance_m": 529.1,
+          "cost": 585.3,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 3,
+          "start_rc": [
+            130,
+            135
+          ],
+          "goal_rc": [
+            117,
+            157
+          ],
+          "distance_m": 529.1,
+          "cost": 580.7,
+          "is_reachable": true
+        }
+      ],
+      "timeline_events": []
+    }
+  ],
+  "summary": {
+    "total_sols": 1,
+    "total_sorties": 1,
+    "total_distance_m": 1058.3,
+    "total_travel_time_s": 2098.8,
+    "total_dwell_time_s": 1500.0,
+    "total_duration_s": 3598.8,
+    "total_science_score": 185.0,
+    "targets_total": 2,
+    "targets_scheduled": 2,
+    "targets_unscheduled": 0,
+    "targets_completed": 0,
+    "is_campaign_feasible": true,
+    "overall_status": "FEASIBLE",
+    "bottlenecks_and_notes": []
+  },
+  "disruption": null,
+  "revision_comparison": null,
+  "progress": null,
+  "observations_summary": null,
+  "intelligence_recommendation": null,
+  "coordination": null
+}

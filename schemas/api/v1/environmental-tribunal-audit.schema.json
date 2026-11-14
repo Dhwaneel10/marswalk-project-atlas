@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa/schemas/api/v1/environmental-tribunal-audit.schema.json",
+  "title": "EnvironmentalTribunalAuditReport",
+  "description": "JSON Schema Draft 2020-12 contract for independent reproducibility tribunal audit certificates and claim ledgers.",
+  "type": "object",
+  "required": [
+    "tribunal_session_id",
+    "timestamp_utc",
+    "audit_authority",
+    "overall_certification_status",
+    "claims_audited_count",
+    "claims_reproduced_count",
+    "claims_with_deviation_count",
+    "the_52_percent_claim_verdict",
+    "the_52_percent_benchmark_reduction_pct",
+    "the_52_percent_full_archive_reduction_pct",
+    "provenance_report",
+    "calibration_report",
+    "evidence_records",
+    "evidence_summary",
+    "formal_tribunal_declaration"
+  ],
+  "properties": {
+    "tribunal_session_id": {
+      "type": "string"
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "audit_authority": {
+      "type": "string"
+    },
+    "overall_certification_status": {
+      "type": "string",
+      "enum": [
+        "QUALIFIED_WITH_SCIENTIFIC_DISCLOSURES",
+        "FULLY_CERTIFIED_REPRODUCIBLE",
+        "REJECTED_UNREPRODUCIBLE"
+      ]
+    },
+    "claims_audited_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "claims_reproduced_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "claims_with_deviation_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "claims_rejected_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "the_52_percent_claim_verdict": {
+      "type": "string",
+      "enum": [
+        "REPRODUCED",
+        "REPRODUCED_WITH_DEVIATION",
+        "PARTIALLY_REPRODUCED",
+        "NOT_REPRODUCIBLE"
+      ]
+    },
+    "the_52_percent_benchmark_reduction_pct": {
+      "type": "number"
+    },
+    "the_52_percent_full_archive_reduction_pct": {
+      "type": "number"
+    },
+    "provenance_report": {
+      "type": "object",
+      "required": [
+        "audit_id",
+        "total_manifest_products",
+        "verified_products_count",
+        "overall_provenance_verdict"
+      ]
+    },
+    "calibration_report": {
+      "type": "object",
+      "required": [
+        "audit_id",
+        "benchmark_slice_result",
+        "full_archive_result",
+        "central_question_verdict"
+      ]
+    },
+    "evidence_records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim_id",
+          "claim_description",
+          "target_capability",
+          "tribunal_verdict"
+        ]
+      }
+    },
+    "evidence_summary": {
+      "type": "object",
+      "required": [
+        "total_claims_audited",
+        "reproduced_claims_count",
+        "reproduced_with_deviation_count",
+        "overall_reproducibility_rate_pct"
+      ]
+    },
+    "formal_tribunal_declaration": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

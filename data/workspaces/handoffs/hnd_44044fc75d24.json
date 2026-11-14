@@ -1,0 +1,17 @@
+{
+  "handoff_id": "hnd_44044fc75d24",
+  "target_id": "t_dep_1",
+  "source_unit_id": "unit_perseverance",
+  "receiving_unit_id": "unit_crew_eva_1",
+  "sol_index": 1,
+  "status": "ACCEPTED",
+  "reason": "Operational task responsibility handoff",
+  "is_valid": true,
+  "validation_details": [
+    "Source unit 'Perseverance Rover Analogue' verified as current owner of t_dep_1.",
+    "Receiving unit 'Crew EVA Team Alpha' is available on Sol 1.",
+    "Terrain slope check passed for Crew EVA Team Alpha.",
+    "Prerequisite DAG timeline dependencies verified."
+  ],
+  "rejection_reason": null
+}

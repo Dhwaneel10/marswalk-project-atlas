@@ -1,0 +1,144 @@
+{
+  "metadata": {
+    "target": "Mars",
+    "region": "Jezero Crater Western Delta",
+    "crs": "IAU_Mars_2000_Sphere",
+    "datum": "MOLA_DeltaGeoid",
+    "source": "NASA Mars 2020 Perseverance Mission & MRO CRISM Science Team",
+    "description": "Curated high-priority scientific waypoints and landmarks across the Jezero Western Delta Front for traverse planning and trade-off analysis."
+  },
+  "waypoints": [
+    {
+      "id": "octavia_butler_landing",
+      "name": "Octavia E. Butler Landing",
+      "lat_deg": 18.4447,
+      "lon_deg": 77.4508,
+      "priority_score": 10,
+      "type": "landing_site",
+      "geological_context": "Perseverance touchdown site on crater floor regolith over Máaz formation basaltic flows.",
+      "crism_signature": "Low albedo pyroxene-bearing basaltic crater floor.",
+      "pds_citation": "Farley, K.A. et al. (2022), Science 377, eabo2196; NASA Mars 2020 EDL Report."
+    },
+    {
+      "id": "three_forks",
+      "name": "Three Forks Sample Depot",
+      "lat_deg": 18.4326,
+      "lon_deg": 77.4392,
+      "priority_score": 75,
+      "type": "sample_depot",
+      "geological_context": "Flat delta-front terrain selected for humanity's first extraterrestrial sample cache (10 titanium tubes deposited Sols 653-690).",
+      "crism_signature": "Contact zone between crater floor olivine-carbonate and fine-grained deltaic mudstones.",
+      "pds_citation": "NASA Mars 2020 Sample Depot Science Verification, JPL D-104928."
+    },
+    {
+      "id": "hawksbill_gap",
+      "name": "Hawksbill Gap Delta Ascent",
+      "lat_deg": 18.4385,
+      "lon_deg": 77.4284,
+      "priority_score": 95,
+      "type": "scarp_channel",
+      "geological_context": "Prominent incised channel through the delta scarp exposing finely laminated mudstones (Wildcat Ridge). Primary biosignature target.",
+      "crism_signature": "Strong Fe/Mg smectite clay and sulfate absorption bands at 1.9 and 2.3 microns (CRISM FRT000047A3).",
+      "pds_citation": "Scheller, E.L. et al. (2022), Science 378, 1105-1110; CRISM PDS Geosciences Node."
+    },
+    {
+      "id": "kodiak_butte",
+      "name": "Kodiak Butte Outlier",
+      "lat_deg": 18.4190,
+      "lon_deg": 77.4420,
+      "priority_score": 60,
+      "type": "erosional_butte",
+      "geological_context": "Erosional mesa exhibiting classic delta foreset and topset sedimentary bedding, proving an ancient lacustrine delta system.",
+      "crism_signature": "Layered clay and smectite signatures on weathered scarp faces.",
+      "pds_citation": "Mangold, N. et al. (2021), Science 374, 711-717."
+    },
+    {
+      "id": "delta_rim_overlook",
+      "name": "Delta Rim Overlook (Tenby)",
+      "lat_deg": 18.4620,
+      "lon_deg": 77.4410,
+      "priority_score": 70,
+      "type": "strategic_overlook",
+      "geological_context": "Elevated scarp rim atop the western delta providing strategic line-of-sight and access to upper delta channel deposits.",
+      "crism_signature": "Carbonate-bearing olivine unit and hydrated silica lag deposits.",
+      "pds_citation": "Horgan, B.H.N. et al. (2020), Icarus 339, 113526."
+    },
+    {
+      "id": "neretva_margin",
+      "name": "Neretva Vallis Inflow Margin",
+      "lat_deg": 18.4550,
+      "lon_deg": 77.4250,
+      "priority_score": 85,
+      "type": "flood_channel",
+      "geological_context": "Coarse boulder conglomerate and braided channel deposits from high-energy catastrophic flood breaches entering Jezero crater.",
+      "crism_signature": "Diverse mineralogical mixture including polyhydrated sulfates and aluminum phyllosilicates.",
+      "pds_citation": "Goudge, T.A. et al. (2015), JGR Planets 120, 775-797."
+    },
+    {
+      "id": "seitah_dunes",
+      "name": "Séítah Sand Dune Margin",
+      "lat_deg": 18.4380,
+      "lon_deg": 77.4450,
+      "priority_score": 55,
+      "type": "dune_field",
+      "geological_context": "Layered olivine-rich cumulate rocks interleaved with rippled aeolian sand dunes; high rover wheel sinkage hazard.",
+      "crism_signature": "Strong olivine signature at 1.05 microns with basaltic pyroxene sand.",
+      "pds_citation": "Wiens, R.C. et al. (2022), Science Advances 8, eabo3399."
+    },
+    {
+      "id": "artuby_ridge",
+      "name": "Artuby Ridge Scarp",
+      "lat_deg": 18.4405,
+      "lon_deg": 77.4475,
+      "priority_score": 65,
+      "type": "ridge_scarp",
+      "geological_context": "Prominent fractured ridge defining the boundary between the Séítah and Máaz formations.",
+      "crism_signature": "Carbonate-bearing olivine bedrock with pyroxene veneers.",
+      "pds_citation": "Liu, Y. et al. (2022), Science 377, 1513-1519."
+    },
+    {
+      "id": "skinner_ridge",
+      "name": "Skinner Ridge Delta Base",
+      "lat_deg": 18.4395,
+      "lon_deg": 77.4295,
+      "priority_score": 90,
+      "type": "delta_base",
+      "geological_context": "Finely layered sedimentary outcrop where abrasion patch 'Swift Run' revealed abundant sulfate minerals.",
+      "crism_signature": "Hydrated silica and smectite clay spectral features.",
+      "pds_citation": "Farley, K.A. et al. (2023), JGR Planets 128, e2022JE007627."
+    },
+    {
+      "id": "enchanted_lake",
+      "name": "Enchanted Lake Outcrop",
+      "lat_deg": 18.4370,
+      "lon_deg": 77.4340,
+      "priority_score": 80,
+      "type": "lacustrine_deposit",
+      "geological_context": "Base of the delta scarp displaying laminated mudstones deposited in quiet lacustrine conditions.",
+      "crism_signature": "Fe/Mg smectite and magnesium carbonate absorption bands.",
+      "pds_citation": "Stack, K.M. et al. (2020), Space Sci. Rev. 216, 127."
+    },
+    {
+      "id": "belva_crater_overlook",
+      "name": "Belva Crater Rim Overlook",
+      "lat_deg": 18.4650,
+      "lon_deg": 77.4280,
+      "priority_score": 75,
+      "type": "impact_crater_rim",
+      "geological_context": "Raised rim of the 1-km impact crater Belva excavated into delta topset beds, exposing 3D stratigraphy.",
+      "crism_signature": "Mixed olivine-carbonate conglomerates and impact melt sheets.",
+      "pds_citation": "Beyssac, O. et al. (2023), JGR Planets 128, e2022JE007705."
+    },
+    {
+      "id": "dourbes_floor",
+      "name": "Dourbes Floor Sampling Site",
+      "lat_deg": 18.4430,
+      "lon_deg": 77.4480,
+      "priority_score": 70,
+      "type": "crater_floor",
+      "geological_context": "Basaltic Máaz unit sampled during initial crater floor exploration (cored sample 'Montdenier').",
+      "crism_signature": "Pyroxene-rich basalt with minimal alteration.",
+      "pds_citation": "Simon, J.I. et al. (2023), JGR Planets 128, e2022JE007474."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa/schemas/api/v1/deep-space-autonomy.schema.json",
+  "title": "DeepSpaceAutonomyReport",
+  "description": "JSON Schema Draft 2020-12 contract for deep space communications, command lifecycle, and onboard rover autonomy state.",
+  "type": "object",
+  "required": [
+    "mission_id",
+    "sim_time_s",
+    "comm_status",
+    "fleet_status",
+    "active_scenarios",
+    "system_disclaimer"
+  ],
+  "properties": {
+    "mission_id": {
+      "type": "string"
+    },
+    "sim_time_s": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "comm_status": {
+      "type": "object",
+      "required": [
+        "uplink_owlt_minutes",
+        "downlink_owlt_minutes",
+        "rtlt_minutes",
+        "in_flight_uplink",
+        "in_flight_downlink",
+        "is_solar_conjunction"
+      ],
+      "properties": {
+        "uplink_owlt_minutes": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "downlink_owlt_minutes": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "rtlt_minutes": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "in_flight_uplink": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "in_flight_downlink": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "is_solar_conjunction": {
+          "type": "boolean"
+        }
+      }
+    },
+    "fleet_status": {
+      "type": "object",
+      "required": [
+        "fleet_size",
+        "partition_status",
+        "rovers"
+      ],
+      "properties": {
+        "fleet_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "partition_status": {
+          "type": "string",
+          "enum": [
+            "FULLY_CONNECTED",
+            "PARTIALLY_PARTITIONED",
+            "SEVERELY_ISOLATED",
+            "RECONNECTING_RECONCILING"
+          ]
+        },
+        "rovers": {
+          "type": "object"
+        }
+      }
+    },
+    "active_scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "scenario_id",
+          "title",
+          "summary"
+        ],
+        "properties": {
+          "scenario_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "system_disclaimer": {
+      "type": "string"
+    }
+  }
+}

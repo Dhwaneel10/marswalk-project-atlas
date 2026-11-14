@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/scenario-comparison-request.schema.json",
+  "title": "MarsWalk Scenario Comparison Request",
+  "description": "Request payload to evaluate a batch of disruption scenarios against an identical baseline mission.",
+  "type": "object",
+  "required": ["start", "goal"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "1.0.0"
+    },
+    "mission_id": {
+      "type": "string"
+    },
+    "start": {
+      "type": "object",
+      "required": ["row", "col"],
+      "properties": {
+        "row": { "type": "integer", "minimum": 0 },
+        "col": { "type": "integer", "minimum": 0 },
+        "name": { "type": "string" },
+        "id": { "type": "string" }
+      }
+    },
+    "goal": {
+      "type": "object",
+      "required": ["row", "col"],
+      "properties": {
+        "row": { "type": "integer", "minimum": 0 },
+        "col": { "type": "integer", "minimum": 0 },
+        "name": { "type": "string" },
+        "id": { "type": "string" }
+      }
+    },
+    "stops": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": ["row", "col"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "row": { "type": "integer", "minimum": 0 },
+          "col": { "type": "integer", "minimum": 0 },
+          "priority_score": { "type": "number", "minimum": 0.0, "maximum": 100.0 }
+        }
+      }
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["conservative", "balanced", "science_first"],
+      "default": "conservative"
+    },
+    "vehicle_mode": {
+      "type": "string",
+      "enum": ["crew_eva", "robotic_rover"],
+      "default": "crew_eva"
+    },
+    "scenario_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional list of scenario IDs to evaluate. If omitted, evaluates curated baseline batch."
+    },
+    "voice_mode": {
+      "type": "string",
+      "enum": ["technical_briefing", "crew_tactical", "mission_control"],
+      "default": "technical_briefing"
+    },
+    "dwell_time_per_stop_s": {
+      "type": "number",
+      "minimum": 0.0,
+      "default": 900.0
+    },
+    "speed_multiplier": {
+      "type": "number",
+      "exclusiveMinimum": 0.0,
+      "default": 1.0
+    }
+  },
+  "additionalProperties": true
+}

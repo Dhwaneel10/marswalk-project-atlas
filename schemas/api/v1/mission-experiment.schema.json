@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-experiment.schema.json",
+  "title": "MarsWalk Mission Experiment Record",
+  "description": "Validated output of a multi-scenario campaign orchestration study uniting Robustness Lab stress testing and Mission Rehearsal closed-loop recovery.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "campaign_id",
+    "campaign_version",
+    "campaign_fingerprint",
+    "title",
+    "status",
+    "created_at_utc",
+    "config",
+    "scenarios",
+    "cross_scenario_matrix",
+    "summary_metrics",
+    "provenance",
+    "truth_disclosures"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "2.0.0" },
+    "experiment_id": { "type": "string", "pattern": "^mexp_[a-zA-Z0-9_-]{3,64}$" },
+    "campaign_id": { "type": "string", "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$" },
+    "campaign_version": { "type": "integer", "minimum": 1 },
+    "campaign_fingerprint": { "type": "string" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "description": { "type": "string", "maxLength": 4000 },
+    "created_at_utc": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["COMPLETED", "PARTIAL", "FAILED", "IN_PROGRESS"]
+    },
+    "config": {
+      "type": "object",
+      "required": ["scenario_selection_strategy", "rehearsal_policy", "min_margin_threshold_s", "max_scenarios", "max_rehearsals"],
+      "properties": {
+        "suite_type": { "type": "string" },
+        "scenario_selection_strategy": { "type": "string" },
+        "rehearsal_policy": { "type": "string" },
+        "min_margin_threshold_s": { "type": "number", "minimum": 0 },
+        "max_scenarios": { "type": "integer", "minimum": 1, "maximum": 15 },
+        "max_rehearsals": { "type": "integer", "minimum": 0, "maximum": 10 }
+      }
+    },
+    "robustness_experiment_id": { "type": ["string", "null"] },
+    "scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["scenario_id", "name", "disruption_type", "trigger_time_s", "status", "robustness_case"],
+        "properties": {
+          "scenario_id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "disruption_type": { "type": "string" },
+          "trigger_time_s": { "type": "number" },
+          "parameters": { "type": "object" },
+          "status": {
+            "type": "string",
+            "enum": ["PENDING", "EVALUATING", "EVALUATED_ROBUSTNESS", "REHEARSAL_REQUIRED", "REHEARSED", "FAILED", "REJECTED", "INCOMPLETE", "SKIPPED"]
+          },
+          "evidence_completeness": {
+            "type": "string",
+            "enum": ["FULL_REHEARSAL", "ROBUSTNESS_ONLY", "NONE"]
+          },
+          "robustness_case": {
+            "type": "object",
+            "required": ["is_feasible", "duration_delta_s", "remaining_margin_s", "science_score_delta"],
+            "properties": {
+              "is_feasible": { "type": "boolean" },
+              "duration_delta_s": { "type": "number" },
+              "remaining_margin_s": { "type": "number" },
+              "science_score_delta": { "type": "number" }
+            }
+          },
+          "rehearsal_id": { "type": ["string", "null"], "pattern": "^(reh_[a-zA-Z0-9_-]{3,64})?$" },
+          "rehearsal_outcome_status": {
+            "type": ["string", "null"],
+            "enum": ["NOMINAL", "RECOVERED", "RECOVERED_WITH_DEGRADATION", "NO_FEASIBLE_RECOVERY", "DISTURBANCE_REJECTED", "FAILED", null]
+          },
+          "three_track_summary": { "type": ["object", "null"] },
+          "causal_links_count": { "type": "integer", "minimum": 0 },
+          "divergence_summary": { "type": ["object", "null"] }
+        }
+      }
+    },
+    "cross_scenario_matrix": {
+      "type": "object",
+      "required": ["headers", "rows", "summary_narrative"],
+      "properties": {
+        "headers": { "type": "array", "items": { "type": "string" } },
+        "rows": { "type": "array", "items": { "type": "object" } },
+        "summary_narrative": { "type": "string" }
+      }
+    },
+    "summary_metrics": {
+      "type": "object",
+      "required": ["total_scenarios_evaluated", "robustness_feasible_count", "rehearsals_executed_count", "recovered_count", "mean_science_preservation_pct"],
+      "properties": {
+        "total_scenarios_evaluated": { "type": "integer" },
+        "robustness_feasible_count": { "type": "integer" },
+        "rehearsals_executed_count": { "type": "integer" },
+        "recovered_count": { "type": "integer" },
+        "unmitigated_aborts_count": { "type": "integer" },
+        "mean_science_preservation_pct": { "type": "number" },
+        "mean_delay_incurred_s": { "type": "number" },
+        "execution_duration_ms": { "type": "number" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["terrain_dataset_id", "terrain_sha256", "coordinate_reference", "model_version", "assumptions_version", "units"],
+      "properties": {
+        "terrain_dataset_id": { "type": "string" },
+        "terrain_sha256": { "type": "string" },
+        "coordinate_reference": { "type": "string" },
+        "model_version": { "type": "string" },
+        "assumptions_version": { "type": "string" },
+        "units": { "type": "object" }
+      }
+    },
+    "truth_disclosures": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 4
+    }
+  },
+  "additionalProperties": false
+}

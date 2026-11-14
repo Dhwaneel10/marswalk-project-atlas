@@ -1,0 +1,11 @@
+{
+  "handoff_id": "hnd_test_coord_21",
+  "target_id": "t_dep_1",
+  "source_unit_id": "unit_perseverance",
+  "receiving_unit_id": "unit_crew_eva_1",
+  "sol_index": 1,
+  "status": "ACCEPTED",
+  "is_valid": true,
+  "reason": "Test handoff",
+  "campaign_id": "cmp_coord_test"
+}

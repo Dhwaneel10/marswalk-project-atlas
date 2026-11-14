@@ -1,0 +1,310 @@
+{
+  "schema_version": "2.0.0",
+  "experiment_id": "mexp_20261030_201305_5b4e04d3",
+  "campaign_id": "cmp_12i_integration_test",
+  "campaign_version": 1,
+  "campaign_fingerprint": "ba43774816f6ebea0a6c295ad27d283ef7a4291cabb632143a4a0bd663c3609b",
+  "title": "Orchestrated Experiment: 12I Integration Test Campaign (corridor_closures)",
+  "description": "Multi-scenario resilience study combining Robustness Lab 'corridor_closures' and Rehearsal Director 'balanced' recovery policy.",
+  "created_at_utc": "2026-10-30T20:13:05.415828+00:00",
+  "status": "COMPLETED",
+  "config": {
+    "campaign_id": "cmp_12i_integration_test",
+    "campaign_version": 1,
+    "suite_type": "corridor_closures",
+    "scenario_selection_strategy": "all",
+    "rehearsal_policy": "balanced",
+    "min_margin_threshold_s": 1800.0,
+    "max_scenarios": 3,
+    "max_rehearsals": 3,
+    "custom_scenarios": null,
+    "explicit_rehearsal_scenario_ids": null,
+    "title": null,
+    "description": null
+  },
+  "robustness_experiment_id": "rob_exp_7aafb71db8e3",
+  "scenarios": [
+    {
+      "scenario_id": "scen_closure_30m",
+      "name": "Corridor Obstacle Closure (Radius 30m)",
+      "description": "Simulates localized rockfall / scarp collapse blocking radius of 30m at grid (116, 156).",
+      "disruption_type": "corridor_closure",
+      "trigger_time_s": 0.0,
+      "parameters": {
+        "type": "corridor_closure",
+        "center_rc": [
+          116,
+          156
+        ],
+        "radius_m": 30.0
+      },
+      "status": "REHEARSED",
+      "evidence_completeness": "FULL_REHEARSAL",
+      "robustness_case": {
+        "is_feasible": false,
+        "duration_delta_s": -4512.263069211649,
+        "remaining_margin_s": 28800.0,
+        "science_score_delta": -150.0
+      },
+      "rehearsal_id": "reh_20261030_201305_9b74a6",
+      "rehearsal_outcome_status": "RECOVERED",
+      "three_track_summary": {
+        "baseline": {
+          "science_score": 150.0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 3
+        },
+        "disturbed": {
+          "science_score": 0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 0
+        },
+        "recovered": {
+          "science_score": 150.0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 3
+        }
+      },
+      "causal_links_count": 9,
+      "divergence_summary": {
+        "has_divergence": true,
+        "divergence_time_s": 1200.0,
+        "primary_cause": "corridor_closure"
+      }
+    },
+    {
+      "scenario_id": "scen_closure_60m",
+      "name": "Corridor Obstacle Closure (Radius 60m)",
+      "description": "Simulates localized rockfall / scarp collapse blocking radius of 60m at grid (116, 156).",
+      "disruption_type": "corridor_closure",
+      "trigger_time_s": 0.0,
+      "parameters": {
+        "type": "corridor_closure",
+        "center_rc": [
+          116,
+          156
+        ],
+        "radius_m": 60.0
+      },
+      "status": "REHEARSED",
+      "evidence_completeness": "FULL_REHEARSAL",
+      "robustness_case": {
+        "is_feasible": false,
+        "duration_delta_s": -4512.263069211649,
+        "remaining_margin_s": 28800.0,
+        "science_score_delta": -150.0
+      },
+      "rehearsal_id": "reh_20261030_201305_94daa1",
+      "rehearsal_outcome_status": "RECOVERED",
+      "three_track_summary": {
+        "baseline": {
+          "science_score": 150.0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 3
+        },
+        "disturbed": {
+          "science_score": 0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 0
+        },
+        "recovered": {
+          "science_score": 150.0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 3
+        }
+      },
+      "causal_links_count": 9,
+      "divergence_summary": {
+        "has_divergence": true,
+        "divergence_time_s": 1200.0,
+        "primary_cause": "corridor_closure"
+      }
+    },
+    {
+      "scenario_id": "scen_closure_100m",
+      "name": "Corridor Obstacle Closure (Radius 100m)",
+      "description": "Simulates localized rockfall / scarp collapse blocking radius of 100m at grid (116, 156).",
+      "disruption_type": "corridor_closure",
+      "trigger_time_s": 0.0,
+      "parameters": {
+        "type": "corridor_closure",
+        "center_rc": [
+          116,
+          156
+        ],
+        "radius_m": 100.0
+      },
+      "status": "REHEARSED",
+      "evidence_completeness": "FULL_REHEARSAL",
+      "robustness_case": {
+        "is_feasible": false,
+        "duration_delta_s": -4512.263069211649,
+        "remaining_margin_s": 28800.0,
+        "science_score_delta": -150.0
+      },
+      "rehearsal_id": "reh_20261030_201305_28c7f1",
+      "rehearsal_outcome_status": "RECOVERED",
+      "three_track_summary": {
+        "baseline": {
+          "science_score": 150.0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 3
+        },
+        "disturbed": {
+          "science_score": 0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 0
+        },
+        "recovered": {
+          "science_score": 150.0,
+          "duration_s": 4512.3,
+          "distance_m": 861.6,
+          "margin_s": 24287.7,
+          "targets": 3
+        }
+      },
+      "causal_links_count": 9,
+      "divergence_summary": {
+        "has_divergence": true,
+        "divergence_time_s": 1200.0,
+        "primary_cause": "corridor_closure"
+      }
+    }
+  ],
+  "cross_scenario_matrix": {
+    "headers": [
+      "Scenario ID",
+      "Scenario Name",
+      "Disruption Type",
+      "Trigger (s)",
+      "Robustness Status",
+      "Is Feasible",
+      "Rehearsal Executed",
+      "Rehearsal ID",
+      "Outcome Status",
+      "Baseline Science",
+      "Disturbed Science",
+      "Recovered Science",
+      "Science Preserved (%)",
+      "Delay Incurred (s)",
+      "Margin Delta (s)",
+      "Distance Delta (m)",
+      "Targets Retained",
+      "Targets Dropped",
+      "Selected Strategy"
+    ],
+    "rows": [
+      {
+        "scenario_id": "scen_closure_30m",
+        "scenario_name": "Corridor Obstacle Closure (Radius 30m)",
+        "disruption_type": "corridor_closure",
+        "trigger_time_s": 0.0,
+        "robustness_status": "INFEASIBLE",
+        "is_feasible": false,
+        "rehearsal_executed": true,
+        "rehearsal_id": "reh_20261030_201305_9b74a6",
+        "outcome_status": "RECOVERED",
+        "baseline_science": 150.0,
+        "disturbed_science": 0,
+        "recovered_science": 150.0,
+        "science_preservation_pct": 100.0,
+        "delay_incurred_s": 0.0,
+        "margin_delta_s": 0.0,
+        "distance_delta_m": 0.0,
+        "targets_retained": 3,
+        "targets_dropped": 0,
+        "selected_strategy": "BALANCED"
+      },
+      {
+        "scenario_id": "scen_closure_60m",
+        "scenario_name": "Corridor Obstacle Closure (Radius 60m)",
+        "disruption_type": "corridor_closure",
+        "trigger_time_s": 0.0,
+        "robustness_status": "INFEASIBLE",
+        "is_feasible": false,
+        "rehearsal_executed": true,
+        "rehearsal_id": "reh_20261030_201305_94daa1",
+        "outcome_status": "RECOVERED",
+        "baseline_science": 150.0,
+        "disturbed_science": 0,
+        "recovered_science": 150.0,
+        "science_preservation_pct": 100.0,
+        "delay_incurred_s": 0.0,
+        "margin_delta_s": 0.0,
+        "distance_delta_m": 0.0,
+        "targets_retained": 3,
+        "targets_dropped": 0,
+        "selected_strategy": "BALANCED"
+      },
+      {
+        "scenario_id": "scen_closure_100m",
+        "scenario_name": "Corridor Obstacle Closure (Radius 100m)",
+        "disruption_type": "corridor_closure",
+        "trigger_time_s": 0.0,
+        "robustness_status": "INFEASIBLE",
+        "is_feasible": false,
+        "rehearsal_executed": true,
+        "rehearsal_id": "reh_20261030_201305_28c7f1",
+        "outcome_status": "RECOVERED",
+        "baseline_science": 150.0,
+        "disturbed_science": 0,
+        "recovered_science": 150.0,
+        "science_preservation_pct": 100.0,
+        "delay_incurred_s": 0.0,
+        "margin_delta_s": 0.0,
+        "distance_delta_m": 0.0,
+        "targets_retained": 3,
+        "targets_dropped": 0,
+        "selected_strategy": "BALANCED"
+      }
+    ],
+    "summary_narrative": "Evaluated 3 stress scenarios across baseline campaign 'cmp_12i_integration_test'. Robustness sweep demonstrated 0/3 feasible cases. Orchestrated 3 dynamic closed-loop rehearsals under policy 'balanced'. Mean science yield preservation was 100.0% with an average induced delay of 0s. No physical astronaut flight safety guarantees are implied."
+  },
+  "summary_metrics": {
+    "total_scenarios_evaluated": 3,
+    "robustness_feasible_count": 0,
+    "rehearsals_executed_count": 3,
+    "recovered_count": 3,
+    "unmitigated_aborts_count": 0,
+    "mean_science_preservation_pct": 100.0,
+    "mean_delay_incurred_s": 0.0,
+    "execution_duration_ms": 92.6
+  },
+  "provenance": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "coordinate_reference": "ESRI:103885",
+    "model_version": "MarsWalk-2.0.0-Atlas",
+    "assumptions_version": "2026.1",
+    "units": {
+      "distance": "meters (m)",
+      "duration": "seconds (s)",
+      "velocity": "meters per second (m/s)",
+      "elevation": "meters (m)",
+      "slope": "degrees (°)",
+      "science_score": "dimensionless priority points"
+    }
+  },
+  "truth_disclosures": [
+    "Tested scenario frequencies (e.g., 80% feasible) measure robustness across modeled disruptions only and MUST NEVER be presented as physical Martian operational success probabilities.",
+    "Modeled traverses and recovery recommendations are planning heuristics and MUST NEVER be characterized as flight-certified or safe for astronauts.",
+    "All calculations are strictly deterministic based on USGS CTX 20m Jezero Crater Digital Terrain Model (DTM) mosaic, IAU 2000 Mars Sphere datum (R = 3,396,190m), CRS ESRI:103885.",
+    "Environmental data is sourced from NASA PDS4 MEDA archives (Sol 890 tranche). All units adhere to standard SI: distance in meters (m), time in seconds (s), elevation in meters (m), science yield in dimensionless priority points."
+  ]
+}

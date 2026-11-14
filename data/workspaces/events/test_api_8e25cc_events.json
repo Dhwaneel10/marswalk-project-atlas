@@ -1,0 +1,28 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "event_id": "evt_live_ce53e661",
+    "source_mission_id": "test_api_8e25cc",
+    "continuation_id": null,
+    "event_type": "sortie_started",
+    "mission_time_s": 0.0,
+    "playback_elapsed_s": 0.0,
+    "recorded_at_utc": "2026-11-07T05:26:22.338598+00:00",
+    "route_variant": "nominal",
+    "rover_rc": [
+      117,
+      157
+    ],
+    "rover_float_rc": null,
+    "elevation_m": -2540.0,
+    "slope_deg": 1.5,
+    "speed_m_s": 0.55,
+    "payload": {
+      "status": "nominal_departure"
+    },
+    "provenance": {
+      "source": "live_test",
+      "is_recomputed": false
+    }
+  }
+]

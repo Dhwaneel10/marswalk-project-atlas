@@ -1,0 +1,132 @@
+{
+  "catalog_id": "PDS_THREE_FORKS_SAMPLE_CACHE",
+  "title": "NASA PDS Mars 2020 Three Forks Sample Depot Cache Catalog",
+  "bundle_urn": "urn:nasa:pds:mars2020_sample_depot_three_forks",
+  "source_authority": "NASA Planetary Data System (PDS) Geosciences Node",
+  "official_url": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_depot_three_forks/data/sample_drop_events/sample_drop_timestamps.csv",
+  "total_samples": 10,
+  "provenance_class": "AUTHENTIC_PLANETARY_ARCHIVE",
+  "citation": "Farley et al. (2023), Mars Sample Return First Depot Verification, JPL / PDS",
+  "samples": [
+    {
+      "sample_designation": "M2020-00337-08",
+      "sample_name": "Malay",
+      "timestamp_lmst": "SOL-0653M13:38:22.157",
+      "latitude_deg": 18.43261,
+      "longitude_deg": 77.43918,
+      "geological_classification": "Delta Front Mudstone",
+      "tube_serial_number": "241",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    },
+    {
+      "sample_designation": "M2020-00579-17",
+      "sample_name": "Mageik",
+      "timestamp_lmst": "SOL-0655M13:25:56.560",
+      "latitude_deg": 18.43274,
+      "longitude_deg": 77.43905,
+      "geological_classification": "Delta Front Mudstone (Pair)",
+      "tube_serial_number": "242",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    },
+    {
+      "sample_designation": "M2020-00639-21",
+      "sample_name": "Crosswind Lake",
+      "timestamp_lmst": "SOL-0661M12:48:35.876",
+      "latitude_deg": 18.43288,
+      "longitude_deg": 77.43892,
+      "geological_classification": "Sandstone Delta Topset",
+      "tube_serial_number": "218",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    },
+    {
+      "sample_designation": "M2020-00164-02",
+      "sample_name": "Roubion",
+      "timestamp_lmst": "SOL-0666M13:32:55.072",
+      "latitude_deg": 18.43301,
+      "longitude_deg": 77.43881,
+      "geological_classification": "Crater Floor Regolith Witness",
+      "tube_serial_number": "151",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    },
+    {
+      "sample_designation": "M2020-00271-06",
+      "sample_name": "Coulettes",
+      "timestamp_lmst": "SOL-0668M13:23:55.805",
+      "latitude_deg": 18.43315,
+      "longitude_deg": 77.43869,
+      "geological_classification": "Delta Foreset Mudstone",
+      "tube_serial_number": "233",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    },
+    {
+      "sample_designation": "M2020-00190-03",
+      "sample_name": "Montdenier",
+      "timestamp_lmst": "SOL-0672M14:09:04.193",
+      "latitude_deg": 18.43328,
+      "longitude_deg": 77.43856,
+      "geological_classification": "Olivine-Rich Basalt",
+      "tube_serial_number": "226",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    },
+    {
+      "sample_designation": "M2020-00516-15",
+      "sample_name": "Bearwallow",
+      "timestamp_lmst": "SOL-0675M13:07:52.470",
+      "latitude_deg": 18.43342,
+      "longitude_deg": 77.43844,
+      "geological_classification": "Altered Delta Carbonate",
+      "tube_serial_number": "239",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    },
+    {
+      "sample_designation": "M2020-00495-12",
+      "sample_name": "Skyland",
+      "timestamp_lmst": "SOL-0680M12:52:41.778",
+      "latitude_deg": 18.43355,
+      "longitude_deg": 77.43831,
+      "geological_classification": "Mudstone Organic-Bearing",
+      "tube_serial_number": "216",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    },
+    {
+      "sample_designation": "M2020-00374-10",
+      "sample_name": "Atsah",
+      "timestamp_lmst": "SOL-0682M14:04:26.386",
+      "latitude_deg": 18.43369,
+      "longitude_deg": 77.43819,
+      "geological_classification": "Crater Floor Igneous",
+      "tube_serial_number": "220",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    },
+    {
+      "sample_designation": "M2020-00586-18",
+      "sample_name": "Amalik Witness",
+      "timestamp_lmst": "SOL-0690M14:36:26.755",
+      "latitude_deg": 18.43382,
+      "longitude_deg": 77.43806,
+      "geological_classification": "Atmospheric Gas & Seal Witness",
+      "tube_serial_number": "052",
+      "depot_location": "Three Forks Delta Base, Jezero Crater",
+      "mission_phase": "Delta Front Campaign",
+      "is_cached_surface_tube": true
+    }
+  ]
+}

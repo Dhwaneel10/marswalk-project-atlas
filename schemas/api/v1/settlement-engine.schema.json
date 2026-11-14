@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/settlement-engine.schema.json",
+  "title": "AtlasPlanetarySettlementEngineContract",
+  "description": "Milestone 13S Planetary Infrastructure Design, Autonomous Construction, ISRU, and Surface Operations API Contract.",
+  "type": "object",
+  "required": [
+    "status",
+    "current_sol",
+    "lifecycle_state",
+    "site_id",
+    "archetype",
+    "power",
+    "consumables",
+    "isru_inventories",
+    "construction_summary",
+    "mandatory_scientific_disclosure"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["NOMINAL", "CONSTRUCTION", "COMMISSIONING", "OPERATIONAL_SIMULATION", "DEGRADED", "RECOVERY"]
+    },
+    "current_sol": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "lifecycle_state": {
+      "type": "string"
+    },
+    "site_id": {
+      "type": "string"
+    },
+    "archetype": {
+      "type": "string",
+      "enum": ["SMALL_OUTPOST", "EXPEDITION_BASE", "MARS_BASE_ALPHA"]
+    },
+    "power": {
+      "type": "object",
+      "required": ["generation_gross_kw", "total_demand_kw", "total_delivered_kw", "battery_soc_pct", "active_shed_loads"],
+      "properties": {
+        "generation_gross_kw": { "type": "number", "minimum": 0.0 },
+        "total_demand_kw": { "type": "number", "minimum": 0.0 },
+        "total_delivered_kw": { "type": "number", "minimum": 0.0 },
+        "battery_soc_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+        "active_shed_loads": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "consumables": {
+      "type": "object",
+      "required": ["water", "oxygen", "food"],
+      "properties": {
+        "water": {
+          "type": "object",
+          "required": ["final_inventory", "days_of_reserve_remaining"],
+          "properties": {
+            "final_inventory": { "type": "number" },
+            "days_of_reserve_remaining": { "type": "number" }
+          }
+        },
+        "oxygen": {
+          "type": "object",
+          "required": ["final_inventory", "days_of_reserve_remaining"],
+          "properties": {
+            "final_inventory": { "type": "number" },
+            "days_of_reserve_remaining": { "type": "number" }
+          }
+        },
+        "food": {
+          "type": "object",
+          "required": ["final_inventory", "days_of_reserve_remaining"],
+          "properties": {
+            "final_inventory": { "type": "number" },
+            "days_of_reserve_remaining": { "type": "number" }
+          }
+        }
+      }
+    },
+    "isru_inventories": {
+      "type": "object",
+      "required": ["water_h2o_kg", "liquid_oxygen_o2_kg", "liquid_methane_ch4_kg", "sintered_regolith_blocks"],
+      "properties": {
+        "water_h2o_kg": { "type": "number" },
+        "liquid_oxygen_o2_kg": { "type": "number" },
+        "liquid_methane_ch4_kg": { "type": "number" },
+        "sintered_regolith_blocks": { "type": "integer" }
+      }
+    },
+    "construction_summary": {
+      "type": "object",
+      "required": ["total_operations", "completed_count", "ready_count", "blocked_count"],
+      "properties": {
+        "total_operations": { "type": "integer" },
+        "completed_count": { "type": "integer" },
+        "ready_count": { "type": "integer" },
+        "blocked_count": { "type": "integer" }
+      }
+    },
+    "crew_readiness": {
+      "type": "object",
+      "required": ["is_ready_for_simulation_arrival", "readiness_score_pct", "mandatory_safety_disclaimer"],
+      "properties": {
+        "is_ready_for_simulation_arrival": { "type": "boolean" },
+        "readiness_score_pct": { "type": "number" },
+        "verified_checkpoints": { "type": "array", "items": { "type": "string" } },
+        "unmet_gaps": { "type": "array", "items": { "type": "string" } },
+        "mandatory_safety_disclaimer": { "type": "string" }
+      }
+    },
+    "mandatory_scientific_disclosure": {
+      "type": "string"
+    }
+  }
+}

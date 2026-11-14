@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-run-bundle.schema.json",
+  "title": "MarsWalk Canonical Mission Run Bundle",
+  "description": "Decision-grade, self-contained, reproducible record of a single mission planning run, containing inputs, terrain provenance, baseline route, disruption scenarios, comparison deltas, and audit disclosures.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "created_at",
+    "computation_fingerprint",
+    "execution_digest",
+    "mission_input",
+    "terrain_provenance",
+    "baseline_route",
+    "reachability_and_feasibility",
+    "engine_metadata",
+    "disclosures"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "bundle_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,64}$"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "computation_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "execution_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Cryptographic SHA-256 digest of computed baseline and scenario route geometries, metrics, and reachability truth states to prevent post-execution tampering."
+    },
+    "baseline_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "mission_input": {
+      "type": "object",
+      "required": ["start", "goal", "profile", "vehicle_mode"],
+      "properties": {
+        "start": {
+          "type": "object",
+          "required": ["row", "col"],
+          "properties": {
+            "row": { "type": "integer", "minimum": 0 },
+            "col": { "type": "integer", "minimum": 0 },
+            "name": { "type": "string" }
+          }
+        },
+        "goal": {
+          "type": "object",
+          "required": ["row", "col"],
+          "properties": {
+            "row": { "type": "integer", "minimum": 0 },
+            "col": { "type": "integer", "minimum": 0 },
+            "name": { "type": "string" }
+          }
+        },
+        "stops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["row", "col"],
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "row": { "type": "integer", "minimum": 0 },
+              "col": { "type": "integer", "minimum": 0 },
+              "priority_score": { "type": "number", "minimum": 0.0 },
+              "dwell_time_s": { "type": "number", "minimum": 0.0 }
+            }
+          }
+        },
+        "profile": {
+          "type": "string",
+          "enum": ["conservative", "balanced", "science_first"]
+        },
+        "vehicle_mode": {
+          "type": "string",
+          "enum": ["crew_eva", "robotic_rover"]
+        },
+        "speed_multiplier": {
+          "type": "number",
+          "exclusiveMinimum": 0.0,
+          "maximum": 1.0
+        },
+        "operational_limit_s": {
+          "type": ["number", "null"],
+          "minimum": 0.0
+        },
+        "dwell_time_per_stop_s": {
+          "type": ["number", "null"],
+          "minimum": 0.0
+        },
+        "max_distance_m": {
+          "type": ["number", "null"],
+          "minimum": 0.0
+        },
+        "optimize_stops": {
+          "type": "boolean"
+        }
+      }
+    },
+    "contingency_input": {
+      "type": ["object", "null"],
+      "properties": {
+        "events": { "type": "array" },
+        "is_compound": { "type": "boolean" },
+        "num_events": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "terrain_provenance": {
+      "type": "object",
+      "required": [
+        "dataset_id",
+        "source",
+        "resolution_m",
+        "dimensions",
+        "coordinate_reference",
+        "sha256_hash"
+      ],
+      "properties": {
+        "dataset_id": { "type": "string" },
+        "source": { "type": "string" },
+        "resolution_m": { "type": "number", "minimum": 0.0 },
+        "dimensions": {
+          "type": "object",
+          "required": ["height", "width"],
+          "properties": {
+            "height": { "type": "integer", "minimum": 1 },
+            "width": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "coordinate_reference": { "type": "string" },
+        "sha256_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "file_size_bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "baseline_route": { "type": "object" },
+    "scenario_result": { "type": ["object", "null"] },
+    "comparison_metrics": { "type": ["object", "null"] },
+    "reachability_and_feasibility": {
+      "type": "object",
+      "required": ["is_baseline_reachable", "is_baseline_budget_feasible"],
+      "properties": {
+        "is_baseline_reachable": { "type": "boolean" },
+        "is_baseline_budget_feasible": { "type": "boolean" },
+        "is_scenario_reachable": { "type": ["boolean", "null"] },
+        "is_scenario_budget_feasible": { "type": ["boolean", "null"] },
+        "overall_status": { "type": "string" }
+      }
+    },
+    "engine_metadata": {
+      "type": "object",
+      "required": ["model_version", "assumptions_version", "planner_algorithm", "assumptions"],
+      "properties": {
+        "model_version": { "type": "string" },
+        "assumptions_version": { "type": "string" },
+        "planner_algorithm": { "type": "string" },
+        "assumptions": { "type": "object" }
+      }
+    },
+    "disclosures": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

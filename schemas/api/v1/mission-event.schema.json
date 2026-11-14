@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-event.schema.json",
+  "title": "MarsWalk Mission Event",
+  "description": "Milestone 10C — Sortie Black Box Mission Event Ledger Entry Schema.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "event_id",
+    "source_mission_id",
+    "event_type",
+    "mission_time_s",
+    "playback_elapsed_s",
+    "recorded_at_utc",
+    "route_variant",
+    "payload",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^evt_[a-zA-Z0-9_-]{1,64}$"
+    },
+    "source_mission_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,64}$"
+    },
+    "continuation_id": {
+      "type": ["string", "null"]
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "sortie_started",
+        "playback_checkpoint",
+        "target_reached",
+        "science_dwell_started",
+        "science_dwell_completed",
+        "operational_hold_started",
+        "operational_hold_ended",
+        "contingency_injected",
+        "route_recalculated",
+        "continuation_selected",
+        "mission_completed",
+        "mission_suspended",
+        "mission_infeasible",
+        "decision_pack_exported"
+      ]
+    },
+    "mission_time_s": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "playback_elapsed_s": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "recorded_at_utc": {
+      "type": "string"
+    },
+    "route_variant": {
+      "type": "string",
+      "enum": ["nominal", "disrupted", "adaptive", "continuation"]
+    },
+    "rover_rc": {
+      "type": ["array", "null"],
+      "items": { "type": "integer" },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "rover_float_rc": {
+      "type": ["array", "null"],
+      "items": { "type": "number" },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "elevation_m": {
+      "type": ["number", "null"]
+    },
+    "slope_deg": {
+      "type": ["number", "null"]
+    },
+    "speed_m_s": {
+      "type": ["number", "null"]
+    },
+    "payload": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["source", "is_recomputed"],
+      "properties": {
+        "source": { "type": "string" },
+        "is_recomputed": { "type": "boolean" },
+        "algorithm_version": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

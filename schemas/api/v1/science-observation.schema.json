@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk Science Observation Record",
+  "description": "Validated schema for scientific observations captured during planetary campaign sorties, supporting both simulated measurements and imported authentic rover telemetry.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "observation_id",
+    "campaign_id",
+    "target_id",
+    "timestamp_utc",
+    "observation_type",
+    "provenance",
+    "is_simulated"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "observation_id": {
+      "type": "string",
+      "pattern": "^obs_[a-zA-Z0-9_-]{3,64}$",
+      "description": "Unique identifier for the science observation with 'obs_' prefix."
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$",
+      "description": "Parent campaign identifier."
+    },
+    "sortie_id": {
+      "type": ["string", "null"],
+      "description": "Associated sortie ID during which observation was acquired."
+    },
+    "mission_id": {
+      "type": ["string", "null"],
+      "description": "Associated baseline mission ID if applicable."
+    },
+    "target_id": {
+      "type": "string",
+      "description": "Scientific target waypoint ID where observation took place."
+    },
+    "target_name": {
+      "type": "string",
+      "description": "Human-readable target name."
+    },
+    "sol_index": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "Campaign sol index when observation occurred."
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp of observation recording."
+    },
+    "observation_type": {
+      "type": "string",
+      "enum": [
+        "GEOLOGICAL_ASSAY",
+        "SPECTRAL_SURVEY",
+        "ATMOSPHERIC_MEASUREMENT",
+        "SAMPLE_CORE_EXTRACTION",
+        "HAZARD_INSPECTION",
+        "TERRAIN_IMAGING",
+        "PHOTOMETRIC_ANALYSIS"
+      ],
+      "description": "Scientific domain classification of the observation."
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "SIMULATED",
+        "IMPORTED_PDS_MEDA",
+        "IMPORTED_PDS_REMS",
+        "MEASURED_IN_SITU",
+        "UNKNOWN"
+      ],
+      "description": "Authentic source provenance of the observational data."
+    },
+    "instrument_name": {
+      "type": "string",
+      "description": "Instrument or sensor payload used (e.g. Mastcam-Z, SuperCam, MEDA)."
+    },
+    "quantitative_measurements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["parameter", "value", "unit"],
+        "properties": {
+          "parameter": { "type": "string" },
+          "value": { "type": "number" },
+          "unit": { "type": "string" },
+          "uncertainty": { "type": ["number", "null"] }
+        }
+      },
+      "description": "List of quantitative measurements with strict SI physical units."
+    },
+    "qualitative_notes": {
+      "type": "string",
+      "description": "Scientific summary notes or geological descriptions."
+    },
+    "evidence_references": {
+      "type": "object",
+      "description": "Key-value citations to source telemetry, raster coordinates, or CRISM products."
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Scientific confidence or data quality index from 0.0 to 1.0."
+    },
+    "is_simulated": {
+      "type": "boolean",
+      "description": "Flag explicitly indicating whether data is simulated (true) or authentic empirical observation (false)."
+    }
+  },
+  "additionalProperties": false
+}

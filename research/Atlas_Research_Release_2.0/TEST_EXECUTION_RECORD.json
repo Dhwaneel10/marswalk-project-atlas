@@ -1,0 +1,44 @@
+{
+  "test_execution_record_version": "2.0.0",
+  "milestone": "13AG",
+  "recorded_timestamp": "2026-11-07T12:29:15Z",
+  "full_repository_regression": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests -q",
+    "working_directory": "E:\\Python\\NASA-Spaceapps\\Marswalk",
+    "python_interpreter": "Python 3.12.4 (64-bit AMD64)",
+    "pytest_version": "9.1.1",
+    "total_test_files": 94,
+    "total_tests_collected": 1254,
+    "tests_passed": 1254,
+    "tests_failed": 0,
+    "warnings": 2,
+    "warning_details": [
+      "PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication in campaign_simulator.py:361"
+    ],
+    "raw_pytest_duration_seconds": 241.54,
+    "duration_formatted": "0:04:01",
+    "task_log_source": ".system_generated/tasks/task-32216.log"
+  },
+  "dedicated_benchmark_suite": {
+    "command": ".\\.venv\\Scripts\\python.exe -m pytest tests/test_milestone_13af_independent_benchmark.py -q",
+    "total_tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "duration_seconds": 0.47
+  },
+  "preflight_readiness_check": {
+    "command": ".\\.venv\\Scripts\\python.exe scripts/preflight_check.py",
+    "checkpoints_total": 12,
+    "checkpoints_passed": 12,
+    "duration_ms": 496.6,
+    "server_endpoint_verified": "http://127.0.0.1:3000"
+  },
+  "adversarial_mutation_campaign": {
+    "command": ".\\.venv\\Scripts\\python.exe scratch/run_13af_mutations.py",
+    "total_mutations_injected": 8,
+    "mutations_killed": 8,
+    "mutations_survived": 0,
+    "mutation_score_pct": 100.0,
+    "report_path": "docs/13af-mutation-results.md"
+  }
+}

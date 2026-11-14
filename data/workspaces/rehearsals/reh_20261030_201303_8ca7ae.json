@@ -1,0 +1,505 @@
+{
+  "rehearsal_id": "reh_20261030_201303_8ca7ae",
+  "campaign_id": "cmp_test_12h_001",
+  "title": "Mission Rehearsal",
+  "status": "COMPLETED",
+  "outcome_status": "RECOVERED",
+  "created_at": "2026-10-30T20:13:03.722881+00:00",
+  "computation_fingerprint": "d2f09763b8757dd3b97d5573dd2d6f9fed90415bb66d617bc1bf97078cb07fd3",
+  "execution_duration_ms": 0.2,
+  "recovery_policy": {
+    "policy_type": "balanced",
+    "min_margin_threshold_s": 1800.0
+  },
+  "disturbances": [
+    {
+      "disturbance_id": "dst_scen_mob_70_1",
+      "disturbance_type": "mobility_derating",
+      "trigger_time_s": 0.0,
+      "parameters": {
+        "speed_factor": 0.7
+      },
+      "description": "Mobility derated to 0.70x nominal velocity"
+    }
+  ],
+  "baseline_metrics": {
+    "track_name": "baseline",
+    "total_duration_s": 4208.0,
+    "total_distance_m": 741.1,
+    "science_score": 180.0,
+    "targets_completed": 3,
+    "targets_attempted": 3,
+    "completed_target_ids": [
+      "t1",
+      "t2",
+      "t3"
+    ],
+    "dropped_target_ids": [],
+    "min_margin_s": 24592.0,
+    "critical_events_count": 0,
+    "violations": [],
+    "path_rc": [],
+    "coordinates_3d": []
+  },
+  "disturbed_metrics": {
+    "track_name": "disturbed",
+    "total_duration_s": 6011.4,
+    "total_distance_m": 741.1,
+    "science_score": 180.0,
+    "targets_completed": 3,
+    "targets_attempted": 3,
+    "completed_target_ids": [
+      "t1",
+      "t2",
+      "t3"
+    ],
+    "dropped_target_ids": [],
+    "min_margin_s": 22788.6,
+    "critical_events_count": 1,
+    "violations": [],
+    "path_rc": [],
+    "coordinates_3d": []
+  },
+  "recovered_metrics": {
+    "track_name": "recovered",
+    "total_duration_s": 6011.4,
+    "total_distance_m": 741.1,
+    "science_score": 180.0,
+    "targets_completed": 3,
+    "targets_attempted": 3,
+    "completed_target_ids": [
+      "t1",
+      "t2",
+      "t3"
+    ],
+    "dropped_target_ids": [],
+    "min_margin_s": 22788.6,
+    "critical_events_count": 0,
+    "violations": [],
+    "path_rc": [],
+    "coordinates_3d": []
+  },
+  "comparison": {
+    "science_preservation_pct": 100.0,
+    "net_science_delta": 0.0,
+    "delay_incurred_s": 1803.4,
+    "margin_delta_s": -1803.4,
+    "distance_delta_m": 0.0,
+    "targets_retained_count": 3,
+    "targets_dropped_count": 0,
+    "recovery_efficiency_pct": 100.0,
+    "executive_assessment": "Modeled recovery feasible: 100% of scientific objectives preserved within operational margins via Conservative Detour (Preserve All Feasible Targets)."
+  },
+  "recovery_candidates": [
+    {
+      "strategy": "conservative_detour",
+      "title": "Conservative Detour (Preserve All Feasible Targets)",
+      "is_feasible": true,
+      "projected_duration_s": 6011.4,
+      "projected_margin_s": 22788.6,
+      "projected_science_score": 180.0,
+      "projected_targets_completed": 3,
+      "dropped_targets": [],
+      "reallocated_targets": [],
+      "selection_status": "SELECTED",
+      "decision_rationale": "Feasible: Detour preserves 180.0 science with 22789s margin remaining.",
+      "added_detour_distance_m": 0.0
+    },
+    {
+      "strategy": "target_shedding",
+      "title": "Target Shedding (Safety Margin Safeguard)",
+      "is_feasible": true,
+      "projected_duration_s": 6011.4,
+      "projected_margin_s": 22788.6,
+      "projected_science_score": 180.0,
+      "projected_targets_completed": 3,
+      "dropped_targets": [],
+      "reallocated_targets": [],
+      "selection_status": "REJECTED",
+      "decision_rationale": "Feasible without target shedding: nominal margin (22789s) satisfies threshold (>= 1800s).",
+      "added_detour_distance_m": 0.0
+    },
+    {
+      "strategy": "priority_rebalance",
+      "title": "Priority Rebalance & Workload Reallocation",
+      "is_feasible": true,
+      "projected_duration_s": 6011.4,
+      "projected_margin_s": 22788.6,
+      "projected_science_score": 180.0,
+      "projected_targets_completed": 3,
+      "dropped_targets": [],
+      "reallocated_targets": [],
+      "selection_status": "REJECTED",
+      "decision_rationale": "Feasible: Rebalanced visit sequence prioritizing critical geological targets ahead of thermal margins.",
+      "added_detour_distance_m": 0.0
+    }
+  ],
+  "causal_ledger": [
+    {
+      "step_id": "step_1_initial_state",
+      "step_index": 1,
+      "step_type": "INITIAL_STATE",
+      "preceding_step_id": null,
+      "simulated_time_s": 0.0,
+      "title": "Baseline Mission Readiness",
+      "description": "Nominal campaign 'cmp_test_12h_001' scheduled with 3 targets and 180.0 science priority points.",
+      "details": {
+        "baseline_targets": 3,
+        "baseline_margin_s": 24592.0
+      },
+      "active_unit_ids": [],
+      "associated_target_ids": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "causal_links": [
+        {
+          "link_id": "clink_init_001",
+          "source_type": "campaign_config",
+          "source_id": "cmp_test_12h_001",
+          "target_type": "decision_step",
+          "target_id": "step_1_initial_state",
+          "relation_type": "defines",
+          "status": "CONFIRMED",
+          "confidence": 1.0,
+          "evidence_rationale": "Baseline campaign 'cmp_test_12h_001' schedules nominal sortie sequence and target allocations."
+        }
+      ],
+      "evidence_status": "CONFIRMED"
+    },
+    {
+      "step_id": "step_2_disturbance_trigger",
+      "step_index": 2,
+      "step_type": "DISTURBANCE_TRIGGER",
+      "preceding_step_id": "step_1_initial_state",
+      "simulated_time_s": 0.0,
+      "title": "Disturbance Injected at T+0s",
+      "description": "mobility_derating: Mobility derated to 0.70x nominal velocity",
+      "details": {
+        "disturbances_count": 1,
+        "first_trigger_s": 0.0,
+        "hazard_intersects_path": false
+      },
+      "active_unit_ids": [],
+      "associated_target_ids": [],
+      "causal_links": [
+        {
+          "link_id": "clink_dst_scen_mob_70_1",
+          "source_type": "disturbance",
+          "source_id": "dst_scen_mob_70_1",
+          "target_type": "decision_step",
+          "target_id": "step_2_disturbance_trigger",
+          "relation_type": "triggers",
+          "status": "CONFIRMED",
+          "confidence": 1.0,
+          "evidence_rationale": "Injected disturbance 'mobility_derating' perturbs mission execution."
+        }
+      ],
+      "evidence_status": "CONFIRMED"
+    },
+    {
+      "step_id": "step_3_impact_analysis",
+      "step_index": 3,
+      "step_type": "IMPACT_ANALYSIS",
+      "preceding_step_id": "step_2_disturbance_trigger",
+      "simulated_time_s": 0.0,
+      "title": "Unmitigated Disruption Impact Assessment",
+      "description": "Without recovery, mission margin falls to 22789s with 0 operational violations and 0 lost targets.",
+      "details": {
+        "disturbed_margin_s": 22788.6,
+        "dropped_targets": [],
+        "violations": []
+      },
+      "active_unit_ids": [],
+      "associated_target_ids": [],
+      "causal_links": [
+        {
+          "link_id": "clink_impact_analysis",
+          "source_type": "decision_step",
+          "source_id": "step_2_disturbance_trigger",
+          "target_type": "decision_step",
+          "target_id": "step_3_impact_analysis",
+          "relation_type": "constrains",
+          "status": "CONFIRMED",
+          "confidence": 1.0,
+          "evidence_rationale": "Disturbances reduce margin to 22789s with 0 operational violations."
+        }
+      ],
+      "evidence_status": "CONFIRMED"
+    },
+    {
+      "step_id": "step_4_candidate_evaluation",
+      "step_index": 4,
+      "step_type": "CANDIDATE_EVALUATION",
+      "preceding_step_id": "step_3_impact_analysis",
+      "simulated_time_s": 0.0,
+      "title": "Recovery Strategy Option Space Evaluation",
+      "description": "Generated and scored 3 candidate recovery options under policy 'balanced': conservative_detour: feasible=True, sci=180.0, margin=22789s; target_shedding: feasible=True, sci=180.0, margin=22789s; priority_rebalance: feasible=True, sci=180.0, margin=22789s.",
+      "details": {
+        "candidates": [
+          {
+            "strategy": "conservative_detour",
+            "title": "Conservative Detour (Preserve All Feasible Targets)",
+            "is_feasible": true,
+            "projected_duration_s": 6011.4,
+            "projected_margin_s": 22788.6,
+            "projected_science_score": 180.0,
+            "projected_targets_completed": 3,
+            "dropped_targets": [],
+            "reallocated_targets": [],
+            "selection_status": "REJECTED",
+            "decision_rationale": "Feasible: Detour preserves 180.0 science with 22789s margin remaining.",
+            "added_detour_distance_m": 0.0
+          },
+          {
+            "strategy": "target_shedding",
+            "title": "Target Shedding (Safety Margin Safeguard)",
+            "is_feasible": true,
+            "projected_duration_s": 6011.4,
+            "projected_margin_s": 22788.6,
+            "projected_science_score": 180.0,
+            "projected_targets_completed": 3,
+            "dropped_targets": [],
+            "reallocated_targets": [],
+            "selection_status": "REJECTED",
+            "decision_rationale": "Feasible without target shedding: nominal margin (22789s) satisfies threshold (>= 1800s).",
+            "added_detour_distance_m": 0.0
+          },
+          {
+            "strategy": "priority_rebalance",
+            "title": "Priority Rebalance & Workload Reallocation",
+            "is_feasible": true,
+            "projected_duration_s": 6011.4,
+            "projected_margin_s": 22788.6,
+            "projected_science_score": 180.0,
+            "projected_targets_completed": 3,
+            "dropped_targets": [],
+            "reallocated_targets": [],
+            "selection_status": "REJECTED",
+            "decision_rationale": "Feasible: Rebalanced visit sequence prioritizing critical geological targets ahead of thermal margins.",
+            "added_detour_distance_m": 0.0
+          }
+        ]
+      },
+      "active_unit_ids": [],
+      "associated_target_ids": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "causal_links": [
+        {
+          "link_id": "clink_cand_conservative_detour",
+          "source_type": "decision_step",
+          "source_id": "step_3_impact_analysis",
+          "target_type": "recovery_candidate",
+          "target_id": "conservative_detour",
+          "relation_type": "generates",
+          "status": "DERIVED",
+          "confidence": 0.95,
+          "evidence_rationale": "Evaluated candidate conservative_detour: feasible=True, projected margin=22789s."
+        },
+        {
+          "link_id": "clink_cand_target_shedding",
+          "source_type": "decision_step",
+          "source_id": "step_3_impact_analysis",
+          "target_type": "recovery_candidate",
+          "target_id": "target_shedding",
+          "relation_type": "generates",
+          "status": "DERIVED",
+          "confidence": 0.95,
+          "evidence_rationale": "Evaluated candidate target_shedding: feasible=True, projected margin=22789s."
+        },
+        {
+          "link_id": "clink_cand_priority_rebalance",
+          "source_type": "decision_step",
+          "source_id": "step_3_impact_analysis",
+          "target_type": "recovery_candidate",
+          "target_id": "priority_rebalance",
+          "relation_type": "generates",
+          "status": "DERIVED",
+          "confidence": 0.95,
+          "evidence_rationale": "Evaluated candidate priority_rebalance: feasible=True, projected margin=22789s."
+        }
+      ],
+      "evidence_status": "CONFIRMED"
+    },
+    {
+      "step_id": "step_5_selection_decision",
+      "step_index": 5,
+      "step_type": "SELECTION_DECISION",
+      "preceding_step_id": "step_4_candidate_evaluation",
+      "simulated_time_s": 0.0,
+      "title": "Autonomous Recovery Selected: Conservative Detour (Preserve All Feasible Targets)",
+      "description": "Selected 'conservative_detour' under policy 'balanced'. Decision rationale: Feasible: Detour preserves 180.0 science with 22789s margin remaining.",
+      "details": {
+        "selected_strategy": "conservative_detour",
+        "policy": "balanced"
+      },
+      "active_unit_ids": [],
+      "associated_target_ids": [],
+      "causal_links": [
+        {
+          "link_id": "clink_policy_select",
+          "source_type": "recovery_policy",
+          "source_id": "balanced",
+          "target_type": "recovery_candidate",
+          "target_id": "conservative_detour",
+          "relation_type": "selects",
+          "status": "CONFIRMED",
+          "confidence": 1.0,
+          "evidence_rationale": "Policy 'balanced' selects candidate 'conservative_detour'. Decision rationale: Feasible: Detour preserves 180.0 science with 22789s margin remaining."
+        }
+      ],
+      "evidence_status": "CONFIRMED"
+    },
+    {
+      "step_id": "step_6_revised_execution",
+      "step_index": 6,
+      "step_type": "REVISED_EXECUTION",
+      "preceding_step_id": "step_5_selection_decision",
+      "simulated_time_s": 6011.4,
+      "title": "Revised Plan Executed (Conservative Detour (Preserve All Feasible Targets))",
+      "description": "Execution resumed from T+0s under revised plan, completing 3 targets.",
+      "details": {
+        "completed_targets": [
+          "t1",
+          "t2",
+          "t3"
+        ],
+        "duration_s": 6011.4,
+        "strategy": "conservative_detour"
+      },
+      "active_unit_ids": [],
+      "associated_target_ids": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "causal_links": [
+        {
+          "link_id": "clink_exec_revised",
+          "source_type": "decision_step",
+          "source_id": "step_5_selection_decision",
+          "target_type": "action",
+          "target_id": "revised_execution",
+          "relation_type": "supersedes",
+          "status": "CONFIRMED",
+          "confidence": 1.0,
+          "evidence_rationale": "Executed recovery strategy 'conservative_detour', reassigning routes to preserve 180.0 science."
+        }
+      ],
+      "evidence_status": "CONFIRMED"
+    },
+    {
+      "step_id": "step_7_final_outcome",
+      "step_index": 7,
+      "step_type": "FINAL_OUTCOME",
+      "preceding_step_id": "step_6_revised_execution",
+      "simulated_time_s": 6011.4,
+      "title": "Rehearsal Concluded: RECOVERED",
+      "description": "Preserved 180.0 / 180.0 science score (100.0%) with 22789s remaining margin.",
+      "details": {
+        "outcome_status": "RECOVERED",
+        "science_preservation_pct": 100.0,
+        "min_margin_s": 22788.6
+      },
+      "active_unit_ids": [],
+      "associated_target_ids": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "causal_links": [
+        {
+          "link_id": "clink_outcome_resolution",
+          "source_type": "action",
+          "source_id": "revised_execution",
+          "target_type": "decision_step",
+          "target_id": "step_7_final_outcome",
+          "relation_type": "resolves",
+          "status": "CONFIRMED",
+          "confidence": 1.0,
+          "evidence_rationale": "Closed-loop rehearsal concluded with outcome status RECOVERED and 100.0% science retention."
+        }
+      ],
+      "evidence_status": "CONFIRMED"
+    }
+  ],
+  "timeline_events": [
+    {
+      "time_s": 0.0,
+      "type": "MOBILITY_DERATED",
+      "description": "Mobility reduced by factor 0.70 (added 1803s transit time)"
+    }
+  ],
+  "disclosures": [
+    "Simulated operational rehearsal instrument for multi-sol Mars planning. Not certified for real-world rover autonomy or crew flight operations.",
+    "Calculations are strictly deterministic based on USGS CTX 20m Jezero topography. Tested scenario recovery rates do NOT represent physical Martian operational success probabilities.",
+    "Preserves original baseline campaign immutability; rehearsals create isolated execution records.",
+    "Modeled traverses and recovery recommendations are mission-planning heuristics and must never be characterized as certified safe for astronauts."
+  ],
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+  "model_version": "2.0.0",
+  "assumptions_version": "1.0.0",
+  "coordinate_reference": "IAU Mars 2000 Planetocentric Sphere / ESRI:103885",
+  "campaign_version": 1,
+  "campaign_input_fingerprint": "",
+  "divergence_analysis": {
+    "diverged": true,
+    "t_diverge_s": 0.0,
+    "divergence_location": null,
+    "divergence_trigger_id": "dst_scen_mob_70_1",
+    "divergence_trigger_name": "mobility_derating",
+    "divergent_sorties": [],
+    "divergent_targets": [],
+    "divergence_milestones": [
+      {
+        "milestone_id": "m1_nominal_start",
+        "t_offset_s": 0.0,
+        "track": "baseline",
+        "description": "Mission Departure: Initial sorties dispatched along planned path.",
+        "delta_from_baseline": {
+          "duration_s": 0.0,
+          "science": 0.0,
+          "margin_s": 0.0
+        }
+      },
+      {
+        "milestone_id": "m2_point_of_divergence",
+        "t_offset_s": 0.0,
+        "track": "disturbed",
+        "description": "Point of Divergence at T+0s: Triggered by mobility_derating (Mobility derated to 0.70x nominal velocity).",
+        "delta_from_baseline": {
+          "trigger_id": "dst_scen_mob_70_1",
+          "type": "mobility_derating"
+        }
+      },
+      {
+        "milestone_id": "m3_unmitigated_consequence",
+        "t_offset_s": 6011.4,
+        "track": "disturbed",
+        "description": "Unmitigated Impact: Margin depleted to 22789s with 0 violations.",
+        "delta_from_baseline": {
+          "margin_delta_s": -1803.4,
+          "science_delta": 0.0,
+          "duration_delta_s": 1803.4
+        }
+      },
+      {
+        "milestone_id": "m4_adaptive_recovery",
+        "t_offset_s": 6011.4,
+        "track": "recovered",
+        "description": "Adaptive Recovery Track: Secured margin at 22789s, preserving 180.0 science.",
+        "delta_from_baseline": {
+          "margin_delta_s": -1803.4,
+          "science_delta": 0.0,
+          "duration_delta_s": 1803.4
+        }
+      }
+    ],
+    "summary": "Point of Divergence identified at T+0s triggered by mobility_derating. Divergence impacted 0 sortie(s) and 0 target(s). Closed-loop recovery retained 3/3 targets (180.0/180.0 science)."
+  }
+}

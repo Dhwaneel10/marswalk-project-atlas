@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/environmental-point-eval.schema.json",
+  "title": "Atlas Environmental Point Evaluation Schema",
+  "description": "Milestone 13L — Point-specific environmental state evaluation including illumination, thermal, dust, and wind.",
+  "type": "object",
+  "required": [
+    "sol",
+    "ltst_hours",
+    "row",
+    "col",
+    "elevation_m",
+    "slope_deg",
+    "solar_elevation_deg",
+    "is_illuminated",
+    "air_temperature_c",
+    "ground_temperature_c",
+    "optical_depth_tau",
+    "pressure_pa",
+    "wind_speed_m_s",
+    "wind_gust_m_s",
+    "is_hazard_free"
+  ],
+  "properties": {
+    "sol": { "type": "integer" },
+    "ltst_hours": { "type": "number" },
+    "row": { "type": "number" },
+    "col": { "type": "number" },
+    "elevation_m": { "type": "number" },
+    "slope_deg": { "type": "number" },
+    "solar_elevation_deg": { "type": "number" },
+    "solar_azimuth_deg": { "type": "number" },
+    "is_illuminated": { "type": "boolean" },
+    "is_terrain_shadowed": { "type": "boolean" },
+    "direct_flux_w_m2": { "type": "number" },
+    "air_temperature_c": { "type": "number" },
+    "ground_temperature_c": { "type": "number" },
+    "optical_depth_tau": { "type": "number" },
+    "pressure_pa": { "type": "number" },
+    "wind_speed_m_s": { "type": "number" },
+    "wind_gust_m_s": { "type": "number" },
+    "is_hazard_free": { "type": "boolean" },
+    "hazards": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

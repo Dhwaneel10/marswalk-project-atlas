@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/counterfactual-scenario.schema.json",
+  "title": "Counterfactual Scenario Result Contract",
+  "description": "Evaluation of injected operational disturbances on an isolated campaign branch.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "scenario_type",
+    "category",
+    "branch_id",
+    "target_sol",
+    "affected_subsystems",
+    "narrative",
+    "is_initially_feasible",
+    "recovery_alternatives",
+    "reproducibility_token"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_:-]{3,64}$"
+    },
+    "scenario_type": {
+      "type": "string",
+      "enum": [
+        "R1_RELAY_OUTAGE",
+        "R2_RESTRICTED_CONNECTIVITY",
+        "E1_ENERGY_SHORTFALL",
+        "E2_INCREASED_MOBILITY_EFFORT",
+        "S1_INSTRUMENT_UNAVAILABLE",
+        "S2_NEW_SCIENCE_TARGET",
+        "D1_STORAGE_RESTRICTION",
+        "D2_TRANSFER_WINDOW_LOST",
+        "M1_ROUTE_OBSTRUCTION",
+        "M2_ROUTE_PREFERENCE_DISTURBANCE",
+        "O1_ACTIVITY_DELAY",
+        "O2_MULTIPLE_DISTURBANCES"
+      ]
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "COMMUNICATIONS",
+        "ENERGY",
+        "SCIENCE",
+        "DATA",
+        "MOBILITY",
+        "OPERATIONS"
+      ]
+    },
+    "branch_id": {
+      "type": "string"
+    },
+    "campaign_id": {
+      "type": "string"
+    },
+    "target_sol": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "affected_subsystems": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "narrative": {
+      "type": "string"
+    },
+    "pre_state": {
+      "type": "object"
+    },
+    "post_state": {
+      "type": "object"
+    },
+    "assurance_report": {
+      "type": "object"
+    },
+    "is_initially_feasible": {
+      "type": "boolean"
+    },
+    "recovery_alternatives": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "recommended_alternative_id": {
+      "type": ["string", "null"]
+    },
+    "recommended_alternative_narrative": {
+      "type": "string"
+    },
+    "execution_duration_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "reproducibility_token": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": true
+}

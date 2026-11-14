@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk RelayNet Evaluation Schema",
+  "description": "JSON Schema for MarsWalk 2.0 / Project Atlas RelayNet communications visibility and topology evaluation",
+  "type": "object",
+  "required": ["schema_version", "nodes", "edges", "rover_status", "active_path", "hop_count", "connected_relays_count", "isolated_nodes", "provenance"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["node_id", "node_type", "rc", "elevation_m", "antenna_top_elevation_m", "can_reach_base"],
+        "properties": {
+          "node_id": { "type": "string" },
+          "node_type": { "type": "string", "enum": ["base_station", "robotic_rover", "crew_eva", "scout_rover", "candidate_relay", "active_relay"] },
+          "rc": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "elevation_m": { "type": "number" },
+          "antenna_top_elevation_m": { "type": "number" },
+          "can_reach_base": { "type": "boolean" },
+          "min_hops_to_base": { "type": ["integer", "null"] },
+          "is_active": { "type": "boolean" }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "target", "status", "distance_m", "min_clearance_m"],
+        "properties": {
+          "source": { "type": "string" },
+          "target": { "type": "string" },
+          "status": { "type": "string", "enum": ["VISIBLE", "BLOCKED", "OUT_OF_RANGE", "BLOCKED_AND_OUT_OF_RANGE", "UNKNOWN", "INVALID_INPUT"] },
+          "distance_m": { "type": "number", "minimum": 0.0 },
+          "min_clearance_m": { "type": "number" },
+          "obstruction_rc": {
+            "type": ["array", "null"],
+            "items": { "type": "number" },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "rover_status": {
+      "type": "string",
+      "enum": ["CONNECTED_DIRECT", "CONNECTED_RELAYED", "SIMULATED_GEOMETRIC_CONNECTIVITY_GAP", "NOT_EVALUATED"]
+    },
+    "active_path": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "hop_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "connected_relays_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "isolated_nodes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "bridge_edges": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "type": "string" },
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "algebraic_connectivity": {
+      "type": "number"
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["source_dataset", "coordinate_reference_system", "model_disclaimer"],
+      "properties": {
+        "source_dataset": { "type": "string" },
+        "coordinate_reference_system": { "type": "string" },
+        "model_disclaimer": { "type": "string" }
+      }
+    }
+  }
+}

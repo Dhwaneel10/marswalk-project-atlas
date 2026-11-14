@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-schedule.schema.json",
+  "title": "Fleet Multi-Sol Schedule Contract",
+  "description": "Defines synchronized multi-sol exploration timelines distributing activities across rover lanes.",
+  "type": "object",
+  "required": [
+    "fleet_id",
+    "total_sols",
+    "sols",
+    "total_activities",
+    "campaign_duration_h"
+  ],
+  "properties": {
+    "fleet_id": { "type": "string" },
+    "total_sols": { "type": "integer", "minimum": 1 },
+    "sols": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sol_index", "rover_activities"],
+        "properties": {
+          "sol_index": { "type": "integer", "minimum": 1 },
+          "sol_start_met_s": { "type": "number" },
+          "sol_end_met_s": { "type": "number" },
+          "total_sol_energy_wh": { "type": "number" },
+          "total_sol_distance_m": { "type": "number" },
+          "targets_investigated": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "rover_activities": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["activity_id", "rover_id", "activity_type", "start_met_s", "end_met_s"],
+                "properties": {
+                  "activity_id": { "type": "string" },
+                  "rover_id": { "type": "string" },
+                  "sol_index": { "type": "integer" },
+                  "activity_type": { "type": "string" },
+                  "name": { "type": "string" },
+                  "start_met_s": { "type": "number" },
+                  "end_met_s": { "type": "number" },
+                  "duration_s": { "type": "number" },
+                  "target_id": { "type": ["string", "null"] },
+                  "energy_cost_wh": { "type": "number" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "total_activities": { "type": "integer", "minimum": 0 },
+    "campaign_duration_h": { "type": "number", "minimum": 0.0 },
+    "total_fleet_energy_wh": { "type": "number", "minimum": 0.0 },
+    "total_fleet_distance_m": { "type": "number", "minimum": 0.0 },
+    "total_science_targets": { "type": "integer", "minimum": 0 }
+  },
+  "additionalProperties": true
+}

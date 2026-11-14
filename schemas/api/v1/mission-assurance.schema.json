@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-assurance.schema.json",
+  "title": "Mission Assurance Evaluation Report",
+  "description": "Comprehensive evidence-based verification and constraint auditing report for Mars multi-sol campaigns.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "campaign_id",
+    "version",
+    "overall_verdict",
+    "evaluated_at_utc",
+    "input_fingerprint",
+    "rule_results",
+    "violations",
+    "summary_counts",
+    "provenance_notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "evaluation_id": {
+      "type": "string"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_:-]{3,128}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "evaluated_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "snapshot_id": {
+      "type": ["string", "null"]
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "evaluated_at_utc": {
+      "type": "string"
+    },
+    "overall_verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "UNKNOWN", "NOT_APPLICABLE"]
+    },
+    "input_fingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "category_summaries": {
+      "type": "object"
+    },
+    "summary_counts": {
+      "type": "object",
+      "required": ["total_rules", "pass_count", "fail_count", "unknown_count", "not_applicable_count"],
+      "properties": {
+        "total_rules": { "type": "integer", "minimum": 0 },
+        "pass_count": { "type": "integer", "minimum": 0 },
+        "fail_count": { "type": "integer", "minimum": 0 },
+        "unknown_count": { "type": "integer", "minimum": 0 },
+        "not_applicable_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "rule_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rule_id",
+          "name",
+          "category",
+          "verdict",
+          "severity",
+          "message",
+          "evidence_classification"
+        ],
+        "properties": {
+          "rule_id": { "type": "string" },
+          "name": { "type": "string" },
+          "category": { "type": "string" },
+          "verdict": {
+            "type": "string",
+            "enum": ["PASS", "FAIL", "UNKNOWN", "NOT_APPLICABLE"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["INFO", "LOW", "MEDIUM", "HIGH", "CRITICAL"]
+          },
+          "message": { "type": "string" },
+          "evidence_refs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "evidence_classification": {
+            "type": "string",
+            "enum": ["CONFIRMED", "DERIVED", "UNRESOLVED", "CONFLICTING", "MISSING"]
+          },
+          "details": { "type": "object" }
+        }
+      }
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule_id", "category", "severity", "message"],
+        "properties": {
+          "rule_id": { "type": "string" },
+          "category": { "type": "string" },
+          "severity": { "type": "string" },
+          "message": { "type": "string" },
+          "details": { "type": "object" }
+        }
+      }
+    },
+    "state_inconsistencies": {
+      "type": "array"
+    },
+    "unknown_conditions": {
+      "type": "array"
+    },
+    "provenance_notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reproducibility_metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

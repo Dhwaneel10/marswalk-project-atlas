@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/campaign-design-space.schema.json",
+  "title": "MarsWalk Campaign Design Space & Pareto Optimization Contract",
+  "description": "Schema validating bounded campaign design space exploration, candidate evaluations, multi-objective Pareto frontier classification, and grounded trade-off recommendations for multi-sol Mars exploration campaigns.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "design_space_id",
+    "campaign_id",
+    "campaign_version",
+    "created_at_utc",
+    "search_bounds",
+    "search_completeness",
+    "pareto_candidates",
+    "dominated_candidates",
+    "infeasible_candidates",
+    "recommendations",
+    "limitations_disclaimer"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "design_space_id": {
+      "type": "string",
+      "pattern": "^ds_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "campaign_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "created_at_utc": {
+      "type": "string"
+    },
+    "search_bounds": {
+      "type": "object",
+      "required": ["max_candidates", "max_planner_calls"],
+      "properties": {
+        "max_candidates": { "type": "integer", "minimum": 1, "maximum": 50 },
+        "max_planner_calls": { "type": "integer", "minimum": 1, "maximum": 100 }
+      }
+    },
+    "search_completeness": {
+      "type": "object",
+      "required": [
+        "candidates_considered",
+        "candidates_deduplicated",
+        "candidates_evaluated",
+        "candidates_rejected",
+        "is_exhaustive",
+        "limit_reached",
+        "unexplored_scope_notes"
+      ],
+      "properties": {
+        "candidates_considered": { "type": "integer", "minimum": 0 },
+        "candidates_deduplicated": { "type": "integer", "minimum": 0 },
+        "candidates_evaluated": { "type": "integer", "minimum": 0 },
+        "candidates_rejected": { "type": "integer", "minimum": 0 },
+        "is_exhaustive": { "type": "boolean" },
+        "limit_reached": { "type": "boolean" },
+        "unexplored_scope_notes": { "type": "string" }
+      }
+    },
+    "pareto_candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/CandidateEvaluation" }
+    },
+    "dominated_candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/CandidateEvaluation" }
+    },
+    "infeasible_candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/CandidateEvaluation" }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "recommendation_id",
+          "candidate_id",
+          "headline",
+          "tradeoff_summary",
+          "selection_rationale"
+        ],
+        "properties": {
+          "recommendation_id": { "type": "string" },
+          "candidate_id": { "type": "string" },
+          "headline": { "type": "string" },
+          "tradeoff_summary": { "type": "string" },
+          "selection_rationale": { "type": "string" }
+        }
+      }
+    },
+    "limitations_disclaimer": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "CandidateEvaluation": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "fingerprint",
+        "configuration",
+        "status",
+        "objectives",
+        "dominance_status",
+        "dominated_by",
+        "tradeoff_explanation"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "pattern": "^cand_[a-zA-Z0-9_-]{3,64}$"
+        },
+        "fingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "configuration": {
+          "type": "object"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["FEASIBLE", "INFEASIBLE", "ERROR"]
+        },
+        "objectives": {
+          "type": "object",
+          "required": [
+            "science_coverage_pct",
+            "total_duration_s",
+            "total_distance_m",
+            "unallocated_priority",
+            "temporal_conflicts_count",
+            "sortie_count"
+          ],
+          "properties": {
+            "science_coverage_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+            "total_duration_s": { "type": "number", "minimum": 0.0 },
+            "total_distance_m": { "type": "number", "minimum": 0.0 },
+            "unallocated_priority": { "type": "number", "minimum": 0.0 },
+            "temporal_conflicts_count": { "type": "integer", "minimum": 0 },
+            "sortie_count": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "dominance_status": {
+          "type": "string",
+          "enum": ["PARETO_EFFICIENT", "DOMINATED", "INFEASIBLE", "INCOMPARABLE"]
+        },
+        "dominated_by": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tradeoff_explanation": {
+          "type": "string"
+        },
+        "infeasibility_reasons": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

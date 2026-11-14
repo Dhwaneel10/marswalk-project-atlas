@@ -1,0 +1,1793 @@
+{
+  "schema_version": "1.0.0",
+  "experiment_id": "exp_contingency_motor_therma_5f9e97",
+  "name": "Contingency: Motor Thermal Protection Test",
+  "description": "Interactive contingency simulation: Timeline Expanded: Invariant Path Maintained (+24 min).",
+  "created_at": "2026-10-18T16:36:09.080598+00:00",
+  "mission_id": null,
+  "status": "success",
+  "lifecycle_state": "historical_result",
+  "baseline_fingerprint": "bbce603ccfc4c8ba882dbf4ba1fa50f4688e08f0d007136ae26df841f2d3c049",
+  "mission_snapshot": {
+    "schema_version": "1.0.0",
+    "input_fingerprint": "bbce603ccfc4c8ba882dbf4ba1fa50f4688e08f0d007136ae26df841f2d3c049",
+    "mission_id": "mission_bbce603c",
+    "canonical_mission": {
+      "start": {
+        "row": 117,
+        "col": 157
+      },
+      "goal": {
+        "row": 66,
+        "col": 128
+      },
+      "stops": [],
+      "profile": "conservative",
+      "vehicle_mode": "crew_eva",
+      "speed_multiplier": 1,
+      "optimize_stops": false,
+      "max_distance_m": null
+    },
+    "ordered_points": [
+      [
+        117,
+        157
+      ],
+      [
+        66,
+        128
+      ]
+    ],
+    "ordered_stop_ids": [],
+    "terrain_dataset": {
+      "dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+      "version": "1.0",
+      "grid_cell_size_m": 20,
+      "dimensions": {
+        "height": 250,
+        "width": 250
+      },
+      "elevation_bounds_m": {
+        "min_m": -2623.84,
+        "max_m": -2445.02
+      }
+    },
+    "model_version": "2.0.0",
+    "assumptions_version": "1.0.0"
+  },
+  "baseline_route": {
+    "schema_version": "1.0.0",
+    "input_fingerprint": "bbce603ccfc4c8ba882dbf4ba1fa50f4688e08f0d007136ae26df841f2d3c049",
+    "status": "success",
+    "is_reachable": true,
+    "is_budget_feasible": true,
+    "profile": "conservative",
+    "vehicle_mode": "crew_eva",
+    "speed_multiplier": 1,
+    "path_rc": [
+      [
+        117,
+        157
+      ],
+      [
+        116,
+        156
+      ],
+      [
+        115,
+        155
+      ],
+      [
+        114,
+        154
+      ],
+      [
+        113,
+        153
+      ],
+      [
+        112,
+        152
+      ],
+      [
+        111,
+        151
+      ],
+      [
+        110,
+        150
+      ],
+      [
+        109,
+        149
+      ],
+      [
+        108,
+        148
+      ],
+      [
+        107,
+        147
+      ],
+      [
+        106,
+        147
+      ],
+      [
+        105,
+        147
+      ],
+      [
+        104,
+        147
+      ],
+      [
+        103,
+        147
+      ],
+      [
+        102,
+        146
+      ],
+      [
+        101,
+        145
+      ],
+      [
+        100,
+        144
+      ],
+      [
+        99,
+        143
+      ],
+      [
+        98,
+        142
+      ],
+      [
+        97,
+        141
+      ],
+      [
+        96,
+        140
+      ],
+      [
+        95,
+        139
+      ],
+      [
+        94,
+        138
+      ],
+      [
+        93,
+        137
+      ],
+      [
+        92,
+        137
+      ],
+      [
+        91,
+        137
+      ],
+      [
+        90,
+        137
+      ],
+      [
+        89,
+        137
+      ],
+      [
+        88,
+        137
+      ],
+      [
+        87,
+        137
+      ],
+      [
+        86,
+        137
+      ],
+      [
+        85,
+        137
+      ],
+      [
+        84,
+        137
+      ],
+      [
+        83,
+        137
+      ],
+      [
+        82,
+        137
+      ],
+      [
+        81,
+        137
+      ],
+      [
+        80,
+        137
+      ],
+      [
+        79,
+        137
+      ],
+      [
+        78,
+        137
+      ],
+      [
+        77,
+        136
+      ],
+      [
+        76,
+        135
+      ],
+      [
+        75,
+        134
+      ],
+      [
+        74,
+        134
+      ],
+      [
+        73,
+        133
+      ],
+      [
+        72,
+        132
+      ],
+      [
+        71,
+        131
+      ],
+      [
+        70,
+        131
+      ],
+      [
+        69,
+        131
+      ],
+      [
+        68,
+        130
+      ],
+      [
+        67,
+        129
+      ],
+      [
+        66,
+        128
+      ]
+    ],
+    "coordinates_3d": [
+      [
+        77.450809,
+        18.444685,
+        -2567.19
+      ],
+      [
+        77.450471,
+        18.445023,
+        -2565.67
+      ],
+      [
+        77.450134,
+        18.44536,
+        -2564.48
+      ],
+      [
+        77.449796,
+        18.445698,
+        -2564.28
+      ],
+      [
+        77.449459,
+        18.446035,
+        -2564.91
+      ],
+      [
+        77.449122,
+        18.446372,
+        -2566.16
+      ],
+      [
+        77.448784,
+        18.44671,
+        -2567.68
+      ],
+      [
+        77.448447,
+        18.447047,
+        -2569.01
+      ],
+      [
+        77.448109,
+        18.447385,
+        -2569.88
+      ],
+      [
+        77.447772,
+        18.447722,
+        -2570.23
+      ],
+      [
+        77.447434,
+        18.448059,
+        -2570.34
+      ],
+      [
+        77.447434,
+        18.448397,
+        -2570.55
+      ],
+      [
+        77.447434,
+        18.448734,
+        -2570.75
+      ],
+      [
+        77.447434,
+        18.449072,
+        -2570.82
+      ],
+      [
+        77.447434,
+        18.449409,
+        -2570.76
+      ],
+      [
+        77.447097,
+        18.449746,
+        -2570.72
+      ],
+      [
+        77.44676,
+        18.450084,
+        -2570.34
+      ],
+      [
+        77.446422,
+        18.450421,
+        -2570.07
+      ],
+      [
+        77.446085,
+        18.450759,
+        -2569.84
+      ],
+      [
+        77.445747,
+        18.451096,
+        -2569.62
+      ],
+      [
+        77.44541,
+        18.451434,
+        -2569.25
+      ],
+      [
+        77.445073,
+        18.451771,
+        -2568.69
+      ],
+      [
+        77.444735,
+        18.452108,
+        -2567.91
+      ],
+      [
+        77.444398,
+        18.452446,
+        -2567.1
+      ],
+      [
+        77.44406,
+        18.452783,
+        -2566.33
+      ],
+      [
+        77.44406,
+        18.453121,
+        -2566.03
+      ],
+      [
+        77.44406,
+        18.453458,
+        -2565.78
+      ],
+      [
+        77.44406,
+        18.453795,
+        -2565.64
+      ],
+      [
+        77.44406,
+        18.454133,
+        -2565.49
+      ],
+      [
+        77.44406,
+        18.45447,
+        -2565.21
+      ],
+      [
+        77.44406,
+        18.454808,
+        -2564.58
+      ],
+      [
+        77.44406,
+        18.455145,
+        -2563.78
+      ],
+      [
+        77.44406,
+        18.455482,
+        -2563.02
+      ],
+      [
+        77.44406,
+        18.45582,
+        -2562.06
+      ],
+      [
+        77.44406,
+        18.456157,
+        -2561.04
+      ],
+      [
+        77.44406,
+        18.456495,
+        -2559.97
+      ],
+      [
+        77.44406,
+        18.456832,
+        -2559
+      ],
+      [
+        77.44406,
+        18.45717,
+        -2558.22
+      ],
+      [
+        77.44406,
+        18.457507,
+        -2558.04
+      ],
+      [
+        77.44406,
+        18.457844,
+        -2558.24
+      ],
+      [
+        77.443723,
+        18.458182,
+        -2558.33
+      ],
+      [
+        77.443386,
+        18.458519,
+        -2558.85
+      ],
+      [
+        77.443048,
+        18.458857,
+        -2559.53
+      ],
+      [
+        77.443048,
+        18.459194,
+        -2559.67
+      ],
+      [
+        77.442711,
+        18.459531,
+        -2559.11
+      ],
+      [
+        77.442373,
+        18.459869,
+        -2558.2
+      ],
+      [
+        77.442036,
+        18.460206,
+        -2557.67
+      ],
+      [
+        77.442036,
+        18.460544,
+        -2558.38
+      ],
+      [
+        77.442036,
+        18.460881,
+        -2559.28
+      ],
+      [
+        77.441698,
+        18.461218,
+        -2559.88
+      ],
+      [
+        77.441361,
+        18.461556,
+        -2560.8
+      ],
+      [
+        77.441024,
+        18.461893,
+        -2561.6
+      ]
+    ],
+    "route_metrics": {
+      "ground_distance_m": 1239.46,
+      "terrain_cost_flat_m": 1439.92,
+      "active_traverse_time_s": 2591.9,
+      "travel_time_range_s": {
+        "min_s": 2073.5,
+        "max_s": 3455.8
+      },
+      "total_mission_time_s": 2591.9,
+      "cumulative_climb_m": 17.69,
+      "max_slope_deg": 3.12,
+      "science_score": 0
+    },
+    "timeline": {
+      "vehicle_mode": "crew_eva",
+      "total_traverse_time_s": 2591.9,
+      "total_dwell_time_s": 0,
+      "total_operational_delay_s": 0,
+      "total_mission_time_s": 2591.9,
+      "operational_limit_s": 28800,
+      "remaining_margin_s": 26208.1,
+      "is_within_limit": true,
+      "formatted_traverse_time": "43 min",
+      "formatted_dwell_time": "0s",
+      "formatted_mission_time": "43 min",
+      "formatted_remaining_margin": "7h 17m",
+      "events": [
+        {
+          "event_type": "start",
+          "label": "Mission Departure",
+          "target_id": null,
+          "leg_index": null,
+          "start_time_s": 0,
+          "end_time_s": 0,
+          "duration_s": 0,
+          "distance_m": 0,
+          "formatted_duration": "0s",
+          "formatted_cumulative_time": "00:00",
+          "notes": "Departing from (117, 157)"
+        },
+        {
+          "event_type": "traverse_leg",
+          "label": "Traverse Leg 1 -> Goal (66, 128)",
+          "target_id": null,
+          "leg_index": 1,
+          "start_time_s": 0,
+          "end_time_s": 2591.9,
+          "duration_s": 2591.9,
+          "distance_m": 1239.5,
+          "formatted_duration": "43 min",
+          "formatted_cumulative_time": "43 min",
+          "notes": "Distance: 1239m, Effort: 1440"
+        },
+        {
+          "event_type": "arrival",
+          "label": "Final Mission Arrival",
+          "target_id": null,
+          "leg_index": null,
+          "start_time_s": 2591.9,
+          "end_time_s": 2591.9,
+          "duration_s": 0,
+          "distance_m": 0,
+          "formatted_duration": "0s",
+          "formatted_cumulative_time": "43 min",
+          "notes": "Traverse complete at (66, 128)"
+        }
+      ]
+    },
+    "feasibility": {
+      "is_reachable": true,
+      "is_budget_feasible": true,
+      "remaining_margin_s": 26208.1,
+      "operational_limit_s": 28800
+    },
+    "warnings": [],
+    "distance_m": 1239.46,
+    "cost": 1439.92,
+    "travel_time_s": 2591.9,
+    "travel_time_min_s": 2073.5,
+    "travel_time_max_s": 3455.8,
+    "formatted_travel_time": "43 min (range: 35–58 min)",
+    "cumulative_climb_m": 17.69,
+    "max_slope_deg": 3.12,
+    "science_score": 0,
+    "visited_waypoint_ids": [],
+    "num_steps": 51,
+    "num_cells": 52,
+    "path": [
+      [
+        117,
+        157
+      ],
+      [
+        116,
+        156
+      ],
+      [
+        115,
+        155
+      ],
+      [
+        114,
+        154
+      ],
+      [
+        113,
+        153
+      ],
+      [
+        112,
+        152
+      ],
+      [
+        111,
+        151
+      ],
+      [
+        110,
+        150
+      ],
+      [
+        109,
+        149
+      ],
+      [
+        108,
+        148
+      ],
+      [
+        107,
+        147
+      ],
+      [
+        106,
+        147
+      ],
+      [
+        105,
+        147
+      ],
+      [
+        104,
+        147
+      ],
+      [
+        103,
+        147
+      ],
+      [
+        102,
+        146
+      ],
+      [
+        101,
+        145
+      ],
+      [
+        100,
+        144
+      ],
+      [
+        99,
+        143
+      ],
+      [
+        98,
+        142
+      ],
+      [
+        97,
+        141
+      ],
+      [
+        96,
+        140
+      ],
+      [
+        95,
+        139
+      ],
+      [
+        94,
+        138
+      ],
+      [
+        93,
+        137
+      ],
+      [
+        92,
+        137
+      ],
+      [
+        91,
+        137
+      ],
+      [
+        90,
+        137
+      ],
+      [
+        89,
+        137
+      ],
+      [
+        88,
+        137
+      ],
+      [
+        87,
+        137
+      ],
+      [
+        86,
+        137
+      ],
+      [
+        85,
+        137
+      ],
+      [
+        84,
+        137
+      ],
+      [
+        83,
+        137
+      ],
+      [
+        82,
+        137
+      ],
+      [
+        81,
+        137
+      ],
+      [
+        80,
+        137
+      ],
+      [
+        79,
+        137
+      ],
+      [
+        78,
+        137
+      ],
+      [
+        77,
+        136
+      ],
+      [
+        76,
+        135
+      ],
+      [
+        75,
+        134
+      ],
+      [
+        74,
+        134
+      ],
+      [
+        73,
+        133
+      ],
+      [
+        72,
+        132
+      ],
+      [
+        71,
+        131
+      ],
+      [
+        70,
+        131
+      ],
+      [
+        69,
+        131
+      ],
+      [
+        68,
+        130
+      ],
+      [
+        67,
+        129
+      ],
+      [
+        66,
+        128
+      ]
+    ],
+    "length_m": 1239.46,
+    "effort_m": 1439.92,
+    "duration_s": 2591.9,
+    "status_message": "Direct conservative least-cost route found.",
+    "execution_time_s": 0.0848,
+    "assumptions": {
+      "crew_eva_speed": {
+        "parameter": "Crew EVA Walk Speed",
+        "value": "2.0 km/h (range 1.5–2.5 km/h)",
+        "classification": "Engineering Analogue",
+        "citation": "Apollo Lunar Surface EVA Traverses (NASA SP-287 / Waligora et al. 1975)",
+        "disclosure": "Engineering analogue based on Apollo lunar surface traverses; NOT validated Mars astronaut performance in Martian gravity (0.38g) or pressurized suits.",
+        "is_physical_limit": false
+      },
+      "robotic_rover_speed": {
+        "parameter": "Robotic Rover Drive Rate",
+        "value": "0.035 m/s (~0.126 km/h, range 0.025–0.045 m/s)",
+        "classification": "Sourced Technical Value",
+        "citation": "Mars 2020 Perseverance / MSL Curiosity Surface Operations Telemetry (NASA/JPL-Caltech)",
+        "disclosure": "Empirical autonomous drive rates from Mars surface rover missions.",
+        "is_physical_limit": false
+      },
+      "crew_eva_duration_limit": {
+        "parameter": "Crew EVA Operational Limit",
+        "value": "8.0 hours (28,800 s)",
+        "classification": "Configurable Mission Constraint",
+        "citation": "NASA EVA Standard Baseline / ISS PLSS Life-Support Consumables Envelope",
+        "disclosure": "Configurable operational constraint based on terrestrial analog & ISS suit consumables; not a physical limit.",
+        "is_physical_limit": false
+      },
+      "robotic_rover_drive_window": {
+        "parameter": "Robotic Rover Single-Sol Drive Window",
+        "value": "4.0 hours (14,400 s)",
+        "classification": "Configurable Mission Constraint",
+        "citation": "Mars 2020 Tactical Planning Window Model (NASA/JPL)",
+        "disclosure": "Configurable planning window based on daily thermal, power, and DSN communications availability.",
+        "is_physical_limit": false
+      },
+      "science_dwell_duration": {
+        "parameter": "Science Observation Dwell Time",
+        "value": "15 min (900 s) per intermediate target",
+        "classification": "Configurable Operational Assumption",
+        "citation": "Field Science Operations Protocol",
+        "disclosure": "Standard tactical dwell duration for remote sensing, multispectral imaging, and contact instrument placement.",
+        "is_physical_limit": false
+      }
+    },
+    "start_rc": [
+      117,
+      157
+    ],
+    "goal_rc": [
+      66,
+      128
+    ],
+    "mission_snapshot": {
+      "schema_version": "1.0.0",
+      "input_fingerprint": "bbce603ccfc4c8ba882dbf4ba1fa50f4688e08f0d007136ae26df841f2d3c049",
+      "mission_id": "mission_bbce603c",
+      "canonical_mission": {
+        "start": {
+          "row": 117,
+          "col": 157
+        },
+        "goal": {
+          "row": 66,
+          "col": 128
+        },
+        "stops": [],
+        "profile": "conservative",
+        "vehicle_mode": "crew_eva",
+        "speed_multiplier": 1,
+        "optimize_stops": false,
+        "max_distance_m": null
+      },
+      "ordered_points": [
+        [
+          117,
+          157
+        ],
+        [
+          66,
+          128
+        ]
+      ],
+      "ordered_stop_ids": [],
+      "terrain_dataset": {
+        "dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+        "version": "1.0",
+        "grid_cell_size_m": 20,
+        "dimensions": {
+          "height": 250,
+          "width": 250
+        },
+        "elevation_bounds_m": {
+          "min_m": -2623.84,
+          "max_m": -2445.02
+        }
+      },
+      "model_version": "2.0.0",
+      "assumptions_version": "1.0.0"
+    }
+  },
+  "scenarios_evaluated": [
+    {
+      "scenario_id": "ev_1792341366510_1",
+      "name": "Motor Thermal Protection Test",
+      "is_reachable": true,
+      "is_budget_feasible": true,
+      "distance_m": 1239.46,
+      "cost": 1456.33,
+      "delta_distance_m": 0,
+      "delta_cost": 16.41,
+      "delta_travel_time_s": 1441,
+      "headline": "Timeline Expanded: Invariant Path Maintained (+24 min).",
+      "detail": "Simulated operational contingency (Motor Thermal Protection Test) left physical route geometry 100% unchanged (0 m detour). Travel time expanded from 43 min (range: 35–58 min) to 1h 7m (range: 54 min–1h 30m) due to configured velocity/hold factors. Preserved 100% of scientific objectives."
+    }
+  ],
+  "sensitivity_sweep": null,
+  "recovery_plan": {
+    "strategy": "Execute direct conservative return corridor to safely reach goal",
+    "action_label": "Direct Conservative Safe Return",
+    "is_recommended": false,
+    "margin_recovered_s": 0,
+    "formatted_margin_recovered": "0 min",
+    "recovered_route": {
+      "schema_version": "1.0.0",
+      "input_fingerprint": "bbce603ccfc4c8ba882dbf4ba1fa50f4688e08f0d007136ae26df841f2d3c049",
+      "status": "success",
+      "is_reachable": true,
+      "is_budget_feasible": true,
+      "profile": "conservative",
+      "vehicle_mode": "crew_eva",
+      "speed_multiplier": 0.65,
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          116,
+          156
+        ],
+        [
+          115,
+          155
+        ],
+        [
+          114,
+          154
+        ],
+        [
+          113,
+          153
+        ],
+        [
+          112,
+          152
+        ],
+        [
+          111,
+          151
+        ],
+        [
+          110,
+          150
+        ],
+        [
+          109,
+          149
+        ],
+        [
+          108,
+          148
+        ],
+        [
+          107,
+          147
+        ],
+        [
+          106,
+          147
+        ],
+        [
+          105,
+          147
+        ],
+        [
+          104,
+          147
+        ],
+        [
+          103,
+          147
+        ],
+        [
+          102,
+          146
+        ],
+        [
+          101,
+          145
+        ],
+        [
+          100,
+          144
+        ],
+        [
+          99,
+          143
+        ],
+        [
+          98,
+          142
+        ],
+        [
+          97,
+          141
+        ],
+        [
+          96,
+          140
+        ],
+        [
+          95,
+          139
+        ],
+        [
+          94,
+          138
+        ],
+        [
+          93,
+          137
+        ],
+        [
+          92,
+          137
+        ],
+        [
+          91,
+          137
+        ],
+        [
+          90,
+          137
+        ],
+        [
+          89,
+          137
+        ],
+        [
+          88,
+          137
+        ],
+        [
+          87,
+          137
+        ],
+        [
+          86,
+          137
+        ],
+        [
+          85,
+          137
+        ],
+        [
+          84,
+          137
+        ],
+        [
+          83,
+          137
+        ],
+        [
+          82,
+          137
+        ],
+        [
+          81,
+          137
+        ],
+        [
+          80,
+          137
+        ],
+        [
+          79,
+          137
+        ],
+        [
+          78,
+          137
+        ],
+        [
+          77,
+          136
+        ],
+        [
+          76,
+          135
+        ],
+        [
+          75,
+          134
+        ],
+        [
+          74,
+          134
+        ],
+        [
+          73,
+          133
+        ],
+        [
+          72,
+          132
+        ],
+        [
+          71,
+          131
+        ],
+        [
+          70,
+          131
+        ],
+        [
+          69,
+          131
+        ],
+        [
+          68,
+          130
+        ],
+        [
+          67,
+          129
+        ],
+        [
+          66,
+          128
+        ]
+      ],
+      "coordinates_3d": [
+        [
+          77.450809,
+          18.444685,
+          -2567.19
+        ],
+        [
+          77.450471,
+          18.445023,
+          -2565.67
+        ],
+        [
+          77.450134,
+          18.44536,
+          -2564.48
+        ],
+        [
+          77.449796,
+          18.445698,
+          -2564.28
+        ],
+        [
+          77.449459,
+          18.446035,
+          -2564.91
+        ],
+        [
+          77.449122,
+          18.446372,
+          -2566.16
+        ],
+        [
+          77.448784,
+          18.44671,
+          -2567.68
+        ],
+        [
+          77.448447,
+          18.447047,
+          -2569.01
+        ],
+        [
+          77.448109,
+          18.447385,
+          -2569.88
+        ],
+        [
+          77.447772,
+          18.447722,
+          -2570.23
+        ],
+        [
+          77.447434,
+          18.448059,
+          -2570.34
+        ],
+        [
+          77.447434,
+          18.448397,
+          -2570.55
+        ],
+        [
+          77.447434,
+          18.448734,
+          -2570.75
+        ],
+        [
+          77.447434,
+          18.449072,
+          -2570.82
+        ],
+        [
+          77.447434,
+          18.449409,
+          -2570.76
+        ],
+        [
+          77.447097,
+          18.449746,
+          -2570.72
+        ],
+        [
+          77.44676,
+          18.450084,
+          -2570.34
+        ],
+        [
+          77.446422,
+          18.450421,
+          -2570.07
+        ],
+        [
+          77.446085,
+          18.450759,
+          -2569.84
+        ],
+        [
+          77.445747,
+          18.451096,
+          -2569.62
+        ],
+        [
+          77.44541,
+          18.451434,
+          -2569.25
+        ],
+        [
+          77.445073,
+          18.451771,
+          -2568.69
+        ],
+        [
+          77.444735,
+          18.452108,
+          -2567.91
+        ],
+        [
+          77.444398,
+          18.452446,
+          -2567.1
+        ],
+        [
+          77.44406,
+          18.452783,
+          -2566.33
+        ],
+        [
+          77.44406,
+          18.453121,
+          -2566.03
+        ],
+        [
+          77.44406,
+          18.453458,
+          -2565.78
+        ],
+        [
+          77.44406,
+          18.453795,
+          -2565.64
+        ],
+        [
+          77.44406,
+          18.454133,
+          -2565.49
+        ],
+        [
+          77.44406,
+          18.45447,
+          -2565.21
+        ],
+        [
+          77.44406,
+          18.454808,
+          -2564.58
+        ],
+        [
+          77.44406,
+          18.455145,
+          -2563.78
+        ],
+        [
+          77.44406,
+          18.455482,
+          -2563.02
+        ],
+        [
+          77.44406,
+          18.45582,
+          -2562.06
+        ],
+        [
+          77.44406,
+          18.456157,
+          -2561.04
+        ],
+        [
+          77.44406,
+          18.456495,
+          -2559.97
+        ],
+        [
+          77.44406,
+          18.456832,
+          -2559
+        ],
+        [
+          77.44406,
+          18.45717,
+          -2558.22
+        ],
+        [
+          77.44406,
+          18.457507,
+          -2558.04
+        ],
+        [
+          77.44406,
+          18.457844,
+          -2558.24
+        ],
+        [
+          77.443723,
+          18.458182,
+          -2558.33
+        ],
+        [
+          77.443386,
+          18.458519,
+          -2558.85
+        ],
+        [
+          77.443048,
+          18.458857,
+          -2559.53
+        ],
+        [
+          77.443048,
+          18.459194,
+          -2559.67
+        ],
+        [
+          77.442711,
+          18.459531,
+          -2559.11
+        ],
+        [
+          77.442373,
+          18.459869,
+          -2558.2
+        ],
+        [
+          77.442036,
+          18.460206,
+          -2557.67
+        ],
+        [
+          77.442036,
+          18.460544,
+          -2558.38
+        ],
+        [
+          77.442036,
+          18.460881,
+          -2559.28
+        ],
+        [
+          77.441698,
+          18.461218,
+          -2559.88
+        ],
+        [
+          77.441361,
+          18.461556,
+          -2560.8
+        ],
+        [
+          77.441024,
+          18.461893,
+          -2561.6
+        ]
+      ],
+      "route_metrics": {
+        "ground_distance_m": 1239.46,
+        "terrain_cost_flat_m": 1456.33,
+        "active_traverse_time_s": 4032.9,
+        "travel_time_range_s": {
+          "min_s": 3226.3,
+          "max_s": 5377.2
+        },
+        "total_mission_time_s": 4032.9,
+        "cumulative_climb_m": 17.69,
+        "max_slope_deg": 3.12,
+        "science_score": 0
+      },
+      "timeline": {
+        "vehicle_mode": "crew_eva",
+        "total_traverse_time_s": 4032.9,
+        "total_dwell_time_s": 0,
+        "total_operational_delay_s": 0,
+        "total_mission_time_s": 4032.9,
+        "operational_limit_s": 28800,
+        "remaining_margin_s": 24767.1,
+        "is_within_limit": true,
+        "formatted_traverse_time": "1h 7m",
+        "formatted_dwell_time": "0s",
+        "formatted_mission_time": "1h 7m",
+        "formatted_remaining_margin": "6h 53m",
+        "events": [
+          {
+            "event_type": "start",
+            "label": "Mission Departure",
+            "target_id": null,
+            "leg_index": null,
+            "start_time_s": 0,
+            "end_time_s": 0,
+            "duration_s": 0,
+            "distance_m": 0,
+            "formatted_duration": "0s",
+            "formatted_cumulative_time": "00:00",
+            "notes": "Departing from (117, 157)"
+          },
+          {
+            "event_type": "traverse_leg",
+            "label": "Traverse Leg 1 -> Goal (66, 128)",
+            "target_id": null,
+            "leg_index": 1,
+            "start_time_s": 0,
+            "end_time_s": 4032.9,
+            "duration_s": 4032.9,
+            "distance_m": 1239.5,
+            "formatted_duration": "1h 7m",
+            "formatted_cumulative_time": "1h 7m",
+            "notes": "Distance: 1239m, Effort: 1456"
+          },
+          {
+            "event_type": "arrival",
+            "label": "Final Mission Arrival",
+            "target_id": null,
+            "leg_index": null,
+            "start_time_s": 4032.9,
+            "end_time_s": 4032.9,
+            "duration_s": 0,
+            "distance_m": 0,
+            "formatted_duration": "0s",
+            "formatted_cumulative_time": "1h 7m",
+            "notes": "Traverse complete at (66, 128)"
+          }
+        ]
+      },
+      "feasibility": {
+        "is_reachable": true,
+        "is_budget_feasible": true,
+        "remaining_margin_s": 24767.1,
+        "operational_limit_s": 28800
+      },
+      "warnings": [],
+      "distance_m": 1239.46,
+      "cost": 1456.33,
+      "travel_time_s": 4032.9,
+      "travel_time_min_s": 3226.3,
+      "travel_time_max_s": 5377.2,
+      "formatted_travel_time": "1h 7m (range: 54 min–1h 30m)",
+      "cumulative_climb_m": 17.69,
+      "max_slope_deg": 3.12,
+      "science_score": 0,
+      "visited_waypoint_ids": [],
+      "num_steps": 51,
+      "num_cells": 52,
+      "path": [
+        [
+          117,
+          157
+        ],
+        [
+          116,
+          156
+        ],
+        [
+          115,
+          155
+        ],
+        [
+          114,
+          154
+        ],
+        [
+          113,
+          153
+        ],
+        [
+          112,
+          152
+        ],
+        [
+          111,
+          151
+        ],
+        [
+          110,
+          150
+        ],
+        [
+          109,
+          149
+        ],
+        [
+          108,
+          148
+        ],
+        [
+          107,
+          147
+        ],
+        [
+          106,
+          147
+        ],
+        [
+          105,
+          147
+        ],
+        [
+          104,
+          147
+        ],
+        [
+          103,
+          147
+        ],
+        [
+          102,
+          146
+        ],
+        [
+          101,
+          145
+        ],
+        [
+          100,
+          144
+        ],
+        [
+          99,
+          143
+        ],
+        [
+          98,
+          142
+        ],
+        [
+          97,
+          141
+        ],
+        [
+          96,
+          140
+        ],
+        [
+          95,
+          139
+        ],
+        [
+          94,
+          138
+        ],
+        [
+          93,
+          137
+        ],
+        [
+          92,
+          137
+        ],
+        [
+          91,
+          137
+        ],
+        [
+          90,
+          137
+        ],
+        [
+          89,
+          137
+        ],
+        [
+          88,
+          137
+        ],
+        [
+          87,
+          137
+        ],
+        [
+          86,
+          137
+        ],
+        [
+          85,
+          137
+        ],
+        [
+          84,
+          137
+        ],
+        [
+          83,
+          137
+        ],
+        [
+          82,
+          137
+        ],
+        [
+          81,
+          137
+        ],
+        [
+          80,
+          137
+        ],
+        [
+          79,
+          137
+        ],
+        [
+          78,
+          137
+        ],
+        [
+          77,
+          136
+        ],
+        [
+          76,
+          135
+        ],
+        [
+          75,
+          134
+        ],
+        [
+          74,
+          134
+        ],
+        [
+          73,
+          133
+        ],
+        [
+          72,
+          132
+        ],
+        [
+          71,
+          131
+        ],
+        [
+          70,
+          131
+        ],
+        [
+          69,
+          131
+        ],
+        [
+          68,
+          130
+        ],
+        [
+          67,
+          129
+        ],
+        [
+          66,
+          128
+        ]
+      ],
+      "length_m": 1239.46,
+      "effort_m": 1456.33,
+      "duration_s": 4032.9,
+      "status_message": "Direct conservative least-cost route found.",
+      "execution_time_s": 0.092,
+      "assumptions": {
+        "crew_eva_speed": {
+          "parameter": "Crew EVA Walk Speed",
+          "value": "2.0 km/h (range 1.5–2.5 km/h)",
+          "classification": "Engineering Analogue",
+          "citation": "Apollo Lunar Surface EVA Traverses (NASA SP-287 / Waligora et al. 1975)",
+          "disclosure": "Engineering analogue based on Apollo lunar surface traverses; NOT validated Mars astronaut performance in Martian gravity (0.38g) or pressurized suits.",
+          "is_physical_limit": false
+        },
+        "robotic_rover_speed": {
+          "parameter": "Robotic Rover Drive Rate",
+          "value": "0.035 m/s (~0.126 km/h, range 0.025–0.045 m/s)",
+          "classification": "Sourced Technical Value",
+          "citation": "Mars 2020 Perseverance / MSL Curiosity Surface Operations Telemetry (NASA/JPL-Caltech)",
+          "disclosure": "Empirical autonomous drive rates from Mars surface rover missions.",
+          "is_physical_limit": false
+        },
+        "crew_eva_duration_limit": {
+          "parameter": "Crew EVA Operational Limit",
+          "value": "8.0 hours (28,800 s)",
+          "classification": "Configurable Mission Constraint",
+          "citation": "NASA EVA Standard Baseline / ISS PLSS Life-Support Consumables Envelope",
+          "disclosure": "Configurable operational constraint based on terrestrial analog & ISS suit consumables; not a physical limit.",
+          "is_physical_limit": false
+        },
+        "robotic_rover_drive_window": {
+          "parameter": "Robotic Rover Single-Sol Drive Window",
+          "value": "4.0 hours (14,400 s)",
+          "classification": "Configurable Mission Constraint",
+          "citation": "Mars 2020 Tactical Planning Window Model (NASA/JPL)",
+          "disclosure": "Configurable planning window based on daily thermal, power, and DSN communications availability.",
+          "is_physical_limit": false
+        },
+        "science_dwell_duration": {
+          "parameter": "Science Observation Dwell Time",
+          "value": "15 min (900 s) per intermediate target",
+          "classification": "Configurable Operational Assumption",
+          "citation": "Field Science Operations Protocol",
+          "disclosure": "Standard tactical dwell duration for remote sensing, multispectral imaging, and contact instrument placement.",
+          "is_physical_limit": false
+        }
+      }
+    }
+  },
+  "replayed_from_experiment_id": null,
+  "reproducibility_notes": "Custom contingency simulation recorded on 2026-10-18T16:36:09.049Z.",
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "model_version": "2.0.0",
+  "assumptions_version": "1.0.0"
+}

@@ -1,0 +1,36 @@
+{
+  "release_designation": "ATLAS-RESEARCH-RELEASE-2.0",
+  "milestone": "13AG",
+  "parent_milestone": "13AF",
+  "generated_timestamp": "2026-11-07T12:28:50Z",
+  "git_state": {
+    "branch": "main",
+    "has_commits": false,
+    "commit_hash": null,
+    "tag": null,
+    "uncommitted_working_tree": true,
+    "note": "Repository operates on uncommitted research working tree. Exact file contents are cryptographically verified via SOURCE_MANIFEST.sha256 rather than git commit object."
+  },
+  "runtime_environment": {
+    "os": "Windows 11 Home Single Language",
+    "os_version": "10.0.26300",
+    "os_architecture": "64-bit AMD64",
+    "python_version": "3.12.4",
+    "python_build": "tags/v3.12.4:8e8a4ba, Jun  6 2024, 19:30:16",
+    "compiler": "MSC v.1940 64 bit (AMD64)",
+    "virtual_environment": ".venv"
+  },
+  "python_dependencies": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pytest": "9.1.1",
+    "math": "standard-library",
+    "json": "standard-library",
+    "dataclasses": "standard-library",
+    "pathlib": "standard-library"
+  },
+  "benchmark_dependency_requirements": {
+    "standalone_benchmarks": "Zero third-party dependencies. Runs on pure Python 3.10+ standard library.",
+    "full_system_regression": "Requires numpy, scipy, pytest (see requirements.txt)."
+  }
+}

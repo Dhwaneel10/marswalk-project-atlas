@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "design_space_id": "ds_ae8e7368a99a",
+  "campaign_id": "cmp_hardening_base",
+  "campaign_version": 1,
+  "created_at_utc": "2026-11-07T06:15:55.465343+00:00",
+  "search_bounds": {
+    "max_candidates": 2,
+    "max_planner_calls": 2
+  },
+  "search_completeness": {
+    "candidates_considered": 2,
+    "candidates_deduplicated": 0,
+    "candidates_evaluated": 2,
+    "candidates_rejected": 0,
+    "is_exhaustive": false,
+    "limit_reached": true,
+    "unexplored_scope_notes": "Evaluation budget reached 2 candidates. Unexplored combinations: 25."
+  },
+  "pareto_candidates": [
+    {
+      "candidate_id": "cand_cp_01",
+      "fingerprint": "eeca4b44f4148ebc71c3290f4890fc48236d4a83784ab2ea7b8f891f6f7cc92d",
+      "configuration": {
+        "planning_profile": "science_priority",
+        "max_duration_per_sortie_s": 28800.0,
+        "max_sols": 2,
+        "is_baseline": true
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 3598.8,
+        "total_distance_m": 1058.3,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 1
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 1.0h duration, and 1.06km distance across 1 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_02",
+      "fingerprint": "bf00d6056f24f68895ed15195a9a851493358cbbd02bd2c847663fb09876575e",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 2,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 3598.8,
+        "total_distance_m": 1058.3,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 1
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 1.0h duration, and 1.06km distance across 1 sorties. Not dominated by any alternative."
+    }
+  ],
+  "dominated_candidates": [],
+  "infeasible_candidates": [],
+  "recommendations": [
+    {
+      "recommendation_id": "rec_ds_a048b8",
+      "candidate_id": "cand_cp_01",
+      "headline": "Maximal Science Yield (100.0% Coverage)",
+      "tradeoff_summary": "Achieves highest objective coverage of 100.0% across 1 sorties (1058m traverse) over a modeled total duration of 1.0h.",
+      "selection_rationale": "Recommended when primary mission priority is exhaustive scientific return."
+    }
+  ],
+  "limitations_disclaimer": "The Campaign Design Space Explorer is a deterministic multi-objective planning tool for simulated Mars exploration evaluation. It does NOT guarantee global mathematical optimality, employ probabilistic forecasting, or represent certified flight operations software. All candidate trade-offs are grounded in simulated route planning."
+}

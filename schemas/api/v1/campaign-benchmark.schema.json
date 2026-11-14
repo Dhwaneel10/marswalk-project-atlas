@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/campaign-benchmark.schema.json",
+  "title": "MarsWalk Campaign Benchmark Suite Result",
+  "description": "Standardized schema for MarsWalk 2.0 campaign benchmark suite execution results, scenario invariant audits, and reproducibility verification.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "suite_id",
+    "timestamp_utc",
+    "total_scenarios",
+    "passed_scenarios",
+    "failed_scenarios",
+    "total_candidates_evaluated",
+    "execution_time_s",
+    "scenarios",
+    "system_environment",
+    "reproducibility_verified",
+    "limitations_disclaimer"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "suite_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,64}$"
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "total_scenarios": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "passed_scenarios": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "failed_scenarios": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "total_candidates_evaluated": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "execution_time_s": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "scenario_id",
+          "name",
+          "category",
+          "status",
+          "duration_ms",
+          "candidates_evaluated",
+          "feasible_candidates",
+          "infeasible_candidates",
+          "pareto_candidates",
+          "dominated_candidates",
+          "invariants_verified",
+          "discrepancies_or_warnings",
+          "outputs_summary"
+        ],
+        "properties": {
+          "scenario_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["PASSED", "FAILED"]
+          },
+          "duration_ms": {
+            "type": "number",
+            "minimum": 0.0
+          },
+          "candidates_evaluated": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "feasible_candidates": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "infeasible_candidates": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pareto_candidates": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "dominated_candidates": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "invariants_verified": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "discrepancies_or_warnings": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "outputs_summary": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "system_environment": {
+      "type": "object",
+      "required": [
+        "os",
+        "python_version",
+        "terrain_dataset"
+      ],
+      "properties": {
+        "os": { "type": "string" },
+        "python_version": { "type": "string" },
+        "terrain_dataset": { "type": "string" },
+        "terrain_sha256": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "reproducibility_verified": {
+      "type": "boolean"
+    },
+    "limitations_disclaimer": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

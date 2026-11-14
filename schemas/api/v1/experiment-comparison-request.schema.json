@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/experiment-comparison-request.schema.json",
+  "title": "MarsWalk Experiment Comparison Request",
+  "description": "Payload requesting side-by-side scientific comparison between two saved experiment records.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "experiment_id_a",
+    "experiment_id_b"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "experiment_id_a": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,64}$",
+      "description": "ID of baseline or first reference experiment."
+    },
+    "experiment_id_b": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,64}$",
+      "description": "ID of comparison or secondary experiment."
+    }
+  },
+  "additionalProperties": false
+}

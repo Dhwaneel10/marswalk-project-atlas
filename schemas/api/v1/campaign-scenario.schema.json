@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.spaceapps.org/schemas/api/v1/campaign-scenario.schema.json",
+  "title": "CampaignScenarioRecord",
+  "description": "Schema for deterministic what-if campaign simulation scenarios, parameter adjustments, and comparative metrics.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "campaign_id",
+    "source_version",
+    "name",
+    "description",
+    "scenario_type",
+    "modifications",
+    "created_at_utc",
+    "status",
+    "is_feasible",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^scen_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "source_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 512
+    },
+    "scenario_type": {
+      "type": "string",
+      "enum": [
+        "mobility_change",
+        "target_loss",
+        "corridor_closure",
+        "operational_delay",
+        "time_constraint",
+        "objective_priority_change",
+        "combined",
+        "unsupported"
+      ]
+    },
+    "modifications": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "type": "string" },
+          "speed_factor": { "type": "number", "minimum": 0.1, "maximum": 1.5 },
+          "max_slope_deg": { "type": "number", "minimum": 5.0, "maximum": 30.0 },
+          "target_id": { "type": "string" },
+          "reason": { "type": "string" },
+          "center_row": { "type": "integer", "minimum": 0 },
+          "center_col": { "type": "integer", "minimum": 0 },
+          "radius_m": { "type": "number", "minimum": 10.0, "maximum": 500.0 },
+          "delay_s": { "type": "number", "minimum": 0.0, "maximum": 14400.0 },
+          "max_duration_per_sortie_s": { "type": "number", "minimum": 900.0, "maximum": 28800.0 },
+          "max_sols": { "type": "integer", "minimum": 1, "maximum": 10 },
+          "objective_weights": {
+            "type": "object",
+            "additionalProperties": { "type": "number", "minimum": 0.0, "maximum": 3.0 }
+          }
+        }
+      }
+    },
+    "planning_profile": {
+      "type": ["string", "null"],
+      "enum": ["science_priority", "time_constrained", "conservative", null]
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "COMPLETED", "INFEASIBLE", "UNSUPPORTED", "FAILED"]
+    },
+    "is_feasible": {
+      "type": "boolean"
+    },
+    "failure_reason": {
+      "type": ["string", "null"]
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "comparison": {
+      "type": ["object", "null"],
+      "properties": {
+        "delta_sols": { "type": "integer" },
+        "delta_sorties": { "type": "integer" },
+        "delta_distance_m": { "type": "number" },
+        "delta_duration_s": { "type": "number" },
+        "delta_science_score": { "type": "number" },
+        "targets_scheduled_delta": { "type": "integer" },
+        "baseline_targets_scheduled": { "type": "integer" },
+        "scenario_targets_scheduled": { "type": "integer" },
+        "lost_target_ids": { "type": "array", "items": { "type": "string" } },
+        "gained_target_ids": { "type": "array", "items": { "type": "string" } },
+        "deferred_target_ids": { "type": "array", "items": { "type": "string" } },
+        "blocked_target_ids": { "type": "array", "items": { "type": "string" } },
+        "causal_attribution": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "feasibility_status": { "type": "string" }
+      }
+    },
+    "simulated_campaign": {
+      "type": ["object", "null"]
+    },
+    "provenance": {
+      "type": "string",
+      "const": "DETERMINISTIC_WHAT_IF_SIMULATION"
+    },
+    "limitations_disclaimer": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

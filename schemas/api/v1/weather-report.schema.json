@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/weather-report.schema.json",
+  "title": "MarsWalk Weather Report & Environmental Intelligence",
+  "description": "Milestone 10D — Mars Environmental Intelligence & Atmospheric In-Situ / Climatology Report Schema.",
+  "type": "object",
+  "required": [
+    "status",
+    "schema_version",
+    "site_id",
+    "site_name",
+    "coordinates",
+    "data_type",
+    "freshness_status",
+    "last_checked_utc",
+    "measurements",
+    "sensor_quality_flags",
+    "source_metadata",
+    "disclosures"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "error"]
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "site_id": {
+      "type": "string"
+    },
+    "site_name": {
+      "type": "string"
+    },
+    "coordinates": {
+      "type": "object",
+      "required": ["lat_deg", "lon_deg"],
+      "properties": {
+        "lat_deg": { "type": "number" },
+        "lon_deg": { "type": "number" }
+      }
+    },
+    "data_type": {
+      "type": "string",
+      "enum": ["IN_SITU_OBSERVATION", "CLIMATOLOGICAL_MODEL", "HISTORICAL_MISSION_ARCHIVE"]
+    },
+    "freshness_status": {
+      "type": "string",
+      "enum": ["LATEST_AVAILABLE", "CURRENT", "DELAYED", "STALE", "HISTORICAL", "CACHED_FALLBACK", "UNAVAILABLE"]
+    },
+    "observation_sol": {
+      "type": ["integer", "null"]
+    },
+    "observation_time_utc": {
+      "type": ["string", "null"]
+    },
+    "local_mean_solar_time": {
+      "type": ["string", "null"]
+    },
+    "solar_longitude_ls_deg": {
+      "type": ["number", "null"]
+    },
+    "last_checked_utc": {
+      "type": "string"
+    },
+    "cache_age_seconds": {
+      "type": ["number", "null"],
+      "minimum": 0
+    },
+    "measurements": {
+      "type": "object",
+      "properties": {
+        "atmospheric_pressure_pa": { "type": ["number", "null"] },
+        "atmospheric_pressure_uncertainty_pa": { "type": ["number", "null"] },
+        "air_temperature_k": { "type": ["number", "null"] },
+        "air_temperature_c": { "type": ["number", "null"] },
+        "ground_temperature_k": { "type": ["number", "null"] },
+        "ground_temperature_c": { "type": ["number", "null"] },
+        "relative_humidity_pct": { "type": ["number", "null"] },
+        "wind_speed_m_s": { "type": ["number", "null"] },
+        "wind_direction_deg": { "type": ["number", "null"] },
+        "optical_depth_tau": { "type": ["number", "null"] },
+        "uv_irradiance_w_m2": { "type": ["number", "null"] }
+      }
+    },
+    "sensor_quality_flags": {
+      "type": "object"
+    },
+    "source_metadata": {
+      "type": "object",
+      "required": ["instrument", "platform", "archive_citation", "archive_url"],
+      "properties": {
+        "instrument": { "type": "string" },
+        "platform": { "type": "string" },
+        "archive_citation": { "type": "string" },
+        "archive_url": { "type": "string" },
+        "product_id": { "type": ["string", "null"] },
+        "data_release": { "type": ["string", "null"] }
+      }
+    },
+    "climatological_context": {
+      "type": ["object", "null"]
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "disclosures": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+study_id,angstrom_exponent_alpha,wavelength_nm,reference_wavelength_nm,tau_880nm,tau_spectral,zenith_transmission_pct,zenith_attenuation_db,notes
+Fernandez-Rodriguez-2024,-0.082,1550,880,0.50,0.5236,59.24,2.274,Atlas 13AF baseline; Pancam derived extrapolation
+Fernandez-Rodriguez-Min,-0.160,1550,880,0.50,0.5476,57.83,2.378,Strongest NIR dust absorption scenario
+Fernandez-Rodriguez-Max,-0.036,1550,880,0.50,0.5103,60.03,2.216,Weakest NIR dust absorption scenario
+Colburn-1989,-0.047,1550,880,0.50,0.5134,59.85,2.230,Viking Lander historical comparison
+Terrestrial-Aerosol,+0.350,1550,880,0.50,0.4095,66.40,1.778,UNPHYSICAL for Mars; terrestrial urban/continental aerosol

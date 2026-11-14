@@ -1,0 +1,375 @@
+{
+  "schema_version": "1.0.0",
+  "coordination_id": "coord_032e6a225ce8",
+  "campaign_id": "cmp_sim_test",
+  "version": 1,
+  "created_at_utc": "2026-11-04T18:59:09.001654+00:00",
+  "units": [
+    {
+      "unit_id": "unit_perseverance",
+      "name": "Perseverance Rover Analogue",
+      "unit_type": "robotic_rover",
+      "mobility_profile": {
+        "speed_multiplier": 1.0,
+        "max_slope_deg": 15.0,
+        "vehicle_mode": "robotic_rover"
+      },
+      "availability_window": {
+        "start_sol": 1,
+        "end_sol": 3
+      },
+      "max_duration_per_sortie_s": 14400.0,
+      "starting_location_rc": [
+        117,
+        157
+      ],
+      "status": "AVAILABLE",
+      "capabilities": [
+        "SURFACE_TRAVERSE",
+        "REGOLITH_SAMPLING",
+        "HIGH_RESOLUTION_IMAGING",
+        "HAZARD_AVOIDANCE"
+      ],
+      "assigned_target_ids": [
+        "tgt_octavia_w0",
+        "tgt_enchanted_w3",
+        "tgt_hawksbill_w1",
+        "tgt_skinner_w2"
+      ],
+      "assigned_sortie_ids": [
+        "sort_unit_perseverance_sol01_aa0609",
+        "sort_unit_perseverance_sol02_795cc6",
+        "sort_unit_perseverance_sol03_9841e5"
+      ]
+    },
+    {
+      "unit_id": "unit_crew_eva_1",
+      "name": "Crew EVA Team Alpha",
+      "unit_type": "crew_eva",
+      "mobility_profile": {
+        "speed_multiplier": 1.0,
+        "max_slope_deg": 25.0,
+        "vehicle_mode": "crew_eva"
+      },
+      "availability_window": {
+        "start_sol": 1,
+        "end_sol": 3
+      },
+      "max_duration_per_sortie_s": 28800.0,
+      "starting_location_rc": [
+        117,
+        157
+      ],
+      "status": "AVAILABLE",
+      "capabilities": [
+        "SURFACE_TRAVERSE",
+        "FIELD_GEOLOGY_MAPPING",
+        "EXPEDITED_CLIMBING",
+        "HAZARD_AVOIDANCE"
+      ],
+      "assigned_target_ids": [],
+      "assigned_sortie_ids": []
+    }
+  ],
+  "allocation_strategy": "priority_first",
+  "target_allocations": [
+    {
+      "target_id": "tgt_octavia_w0",
+      "status": "ASSIGNED",
+      "assigned_unit_id": "unit_perseverance",
+      "assigned_sol_index": 1,
+      "assigned_sortie_id": "sort_unit_perseverance_sol01_aa0609",
+      "reason": "Priority-first allocation to Perseverance Rover Analogue on Sol 1."
+    },
+    {
+      "target_id": "tgt_enchanted_w3",
+      "status": "ASSIGNED",
+      "assigned_unit_id": "unit_perseverance",
+      "assigned_sol_index": 1,
+      "assigned_sortie_id": "sort_unit_perseverance_sol01_aa0609",
+      "reason": "Priority-first allocation to Perseverance Rover Analogue on Sol 1."
+    },
+    {
+      "target_id": "tgt_hawksbill_w1",
+      "status": "ASSIGNED",
+      "assigned_unit_id": "unit_perseverance",
+      "assigned_sol_index": 2,
+      "assigned_sortie_id": "sort_unit_perseverance_sol02_795cc6",
+      "reason": "Priority-first allocation to Perseverance Rover Analogue on Sol 2."
+    },
+    {
+      "target_id": "tgt_skinner_w2",
+      "status": "ASSIGNED",
+      "assigned_unit_id": "unit_perseverance",
+      "assigned_sol_index": 3,
+      "assigned_sortie_id": "sort_unit_perseverance_sol03_9841e5",
+      "reason": "Priority-first allocation to Perseverance Rover Analogue on Sol 3."
+    }
+  ],
+  "strategy_comparison": [
+    {
+      "strategy": "priority_first",
+      "total_sols": 3,
+      "total_distance_m": 536.2,
+      "total_duration_s": 20433.5,
+      "total_science_score": 330.0,
+      "targets_scheduled": 4,
+      "targets_deferred": 0,
+      "is_feasible": true,
+      "workload_imbalance_s": 20433.5,
+      "unit_durations_s": {
+        "unit_perseverance": 20433.5,
+        "unit_crew_eva_1": 0.0
+      }
+    },
+    {
+      "strategy": "balanced_workload",
+      "total_sols": 3,
+      "total_distance_m": 536.2,
+      "total_duration_s": 11933.3,
+      "total_science_score": 330.0,
+      "targets_scheduled": 4,
+      "targets_deferred": 0,
+      "is_feasible": true,
+      "workload_imbalance_s": 7190.3,
+      "unit_durations_s": {
+        "unit_perseverance": 9561.8,
+        "unit_crew_eva_1": 2371.5
+      }
+    },
+    {
+      "strategy": "capability_first",
+      "total_sols": 3,
+      "total_distance_m": 536.2,
+      "total_duration_s": 20433.5,
+      "total_science_score": 330.0,
+      "targets_scheduled": 4,
+      "targets_deferred": 0,
+      "is_feasible": true,
+      "workload_imbalance_s": 20433.5,
+      "unit_durations_s": {
+        "unit_perseverance": 20433.5,
+        "unit_crew_eva_1": 0.0
+      }
+    }
+  ],
+  "sorties": [
+    {
+      "sortie_id": "sort_unit_perseverance_sol01_aa0609",
+      "sol_index": 1,
+      "name": "Sol 1 \u2014 Perseverance Rover Analogue",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "tgt_octavia_w0",
+        "tgt_enchanted_w3"
+      ],
+      "target_names": [
+        "Octavia E. Butler Landing",
+        "Enchanted Lake"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          119,
+          158
+        ],
+        [
+          120,
+          159
+        ],
+        [
+          121,
+          160
+        ],
+        [
+          122,
+          161
+        ],
+        [
+          121,
+          160
+        ],
+        [
+          120,
+          159
+        ],
+        [
+          119,
+          158
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 260.5,
+      "travel_time_s": 8061.8,
+      "dwell_time_s": 1500.0,
+      "total_duration_s": 9561.8,
+      "remaining_margin_s": 4838.2,
+      "science_score": 170.0,
+      "terrain_cost": 282.2,
+      "max_slope_deg": 2.8,
+      "cumulative_climb_m": 0.0,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "unit_id": "unit_perseverance",
+      "legs_summary": [],
+      "timeline_events": []
+    },
+    {
+      "sortie_id": "sort_unit_perseverance_sol02_795cc6",
+      "sol_index": 2,
+      "name": "Sol 2 \u2014 Perseverance Rover Analogue",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "tgt_hawksbill_w1"
+      ],
+      "target_names": [
+        "Hawksbill Gap"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          119,
+          159
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 110.3,
+      "travel_time_s": 3683.7,
+      "dwell_time_s": 900.0,
+      "total_duration_s": 4583.7,
+      "remaining_margin_s": 9816.3,
+      "science_score": 85.0,
+      "terrain_cost": 128.9,
+      "max_slope_deg": 2.8,
+      "cumulative_climb_m": 0.0,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "unit_id": "unit_perseverance",
+      "legs_summary": [],
+      "timeline_events": []
+    },
+    {
+      "sortie_id": "sort_unit_perseverance_sol03_9841e5",
+      "sol_index": 3,
+      "name": "Sol 3 \u2014 Perseverance Rover Analogue",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "tgt_skinner_w2"
+      ],
+      "target_names": [
+        "Skinner Ridge"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          119,
+          159
+        ],
+        [
+          120,
+          160
+        ],
+        [
+          119,
+          159
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 165.4,
+      "travel_time_s": 5388.0,
+      "dwell_time_s": 900.0,
+      "total_duration_s": 6288.0,
+      "remaining_margin_s": 8112.0,
+      "science_score": 75.0,
+      "terrain_cost": 188.6,
+      "max_slope_deg": 2.8,
+      "cumulative_climb_m": 0.0,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "unit_id": "unit_perseverance",
+      "legs_summary": [],
+      "timeline_events": []
+    }
+  ],
+  "handoffs": [],
+  "summary": {
+    "total_units": 2,
+    "total_sols": 3,
+    "total_sorties": 3,
+    "total_distance_m": 536.2,
+    "total_duration_s": 20433.5,
+    "total_science_score": 330.0,
+    "targets_scheduled": 4,
+    "targets_unscheduled": 0,
+    "is_feasible": true,
+    "decision_rationales": [
+      "Sol 1: Allocated 2 high-priority targets to Perseverance Rover Analogue (Duration: 2h 39m).",
+      "Sol 2: Allocated 1 high-priority targets to Perseverance Rover Analogue (Duration: 1h 16m).",
+      "Sol 3: Allocated 1 high-priority targets to Perseverance Rover Analogue (Duration: 1h 45m)."
+    ]
+  },
+  "limitations_disclaimer": "Calculated multi-unit coordination schedules, capability matching, and task handoffs are deterministic mission-planning heuristics derived from remote-sensing products. They do NOT represent certified autonomous robotic control, physical inter-vehicle resource transfer, or astronaut flight envelopes."
+}

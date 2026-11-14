@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-continue-response.schema.json",
+  "title": "MarsWalk Mission Continuation Response",
+  "description": "Milestone 10B — Mid-Sortie Emergency Injection, Mission State Handoff & Live Adaptive Replanning Response.",
+  "type": "object",
+  "required": [
+    "status",
+    "schema_version",
+    "continuation_id",
+    "source_mission_id",
+    "interruption_time_s",
+    "rover_state",
+    "event_summary",
+    "nominal_remaining",
+    "disrupted_remaining",
+    "adaptive_continuation",
+    "recommendation",
+    "recommendation_title",
+    "recommendation_rationale",
+    "continuation_playback",
+    "disclosures"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "const": "success"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "continuation_id": {
+      "type": "string"
+    },
+    "source_mission_id": {
+      "type": ["string", "null"]
+    },
+    "interruption_time_s": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "rover_state": {
+      "type": "object",
+      "required": [
+        "rover_rc",
+        "elevation_m",
+        "elapsed_distance_m",
+        "remaining_budget_s",
+        "completed_stop_ids",
+        "unvisited_stop_ids"
+      ],
+      "properties": {
+        "rover_rc": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "rover_float_rc": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "elevation_m": { "type": "number" },
+        "slope_deg": { "type": "number" },
+        "is_stationary": { "type": "boolean" },
+        "active_event_type": { "type": ["string", "null"] },
+        "active_target_id": { "type": ["string", "null"] },
+        "elapsed_distance_m": { "type": "number" },
+        "original_budget_s": { "type": "number" },
+        "remaining_budget_s": { "type": "number" },
+        "completed_stop_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "unvisited_stop_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "event_summary": {
+      "type": "object",
+      "required": ["event_type", "label"],
+      "properties": {
+        "event_type": { "type": "string" },
+        "label": { "type": "string" },
+        "center_rc": {
+          "type": ["array", "null"],
+          "items": { "type": "integer" }
+        },
+        "radius_m": { "type": ["number", "null"] },
+        "speed_multiplier": { "type": ["number", "null"] },
+        "operational_delay_s": { "type": ["number", "null"] },
+        "unavailable_target_id": { "type": ["string", "null"] },
+        "blocked_cells_count": { "type": ["integer", "null"] }
+      }
+    },
+    "nominal_remaining": {
+      "type": "object",
+      "required": [
+        "is_reachable",
+        "is_within_limit",
+        "distance_m",
+        "total_time_s",
+        "stop_count"
+      ],
+      "properties": {
+        "is_reachable": { "type": "boolean" },
+        "is_within_limit": { "type": "boolean" },
+        "distance_m": { "type": "number" },
+        "total_time_s": { "type": "number" },
+        "traverse_time_s": { "type": "number" },
+        "dwell_time_s": { "type": "number" },
+        "margin_s": { "type": "number" },
+        "stop_count": { "type": "integer" },
+        "stop_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "path_rc": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "disrupted_remaining": {
+      "type": "object",
+      "required": [
+        "is_reachable",
+        "is_within_limit",
+        "distance_m",
+        "total_time_s",
+        "blocked_cell_encounters"
+      ],
+      "properties": {
+        "is_reachable": { "type": "boolean" },
+        "is_within_limit": { "type": "boolean" },
+        "distance_m": { "type": "number" },
+        "total_time_s": { "type": "number" },
+        "traverse_time_s": { "type": "number" },
+        "dwell_time_s": { "type": "number" },
+        "margin_s": { "type": "number" },
+        "blocked_cell_encounters": { "type": "integer" },
+        "stop_count": { "type": "integer" },
+        "stop_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "path_rc": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "adaptive_continuation": {
+      "type": "object",
+      "required": [
+        "is_reachable",
+        "is_within_limit",
+        "distance_m",
+        "total_time_s",
+        "visited_stop_ids",
+        "science_score"
+      ],
+      "properties": {
+        "is_reachable": { "type": "boolean" },
+        "is_within_limit": { "type": "boolean" },
+        "distance_m": { "type": "number" },
+        "total_time_s": { "type": "number" },
+        "traverse_time_s": { "type": "number" },
+        "dwell_time_s": { "type": "number" },
+        "margin_s": { "type": "number" },
+        "science_score": { "type": "number" },
+        "visited_stop_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "dropped_stop_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "path_rc": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "recommendation": {
+      "type": "string"
+    },
+    "recommendation_title": {
+      "type": "string"
+    },
+    "recommendation_rationale": {
+      "type": "string"
+    },
+    "science_recovery": {
+      "type": "object"
+    },
+    "historical_prefix": {
+      "type": "object",
+      "properties": {
+        "elapsed_time_s": { "type": "number" },
+        "elapsed_distance_m": { "type": "number" },
+        "completed_stop_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "path_rc": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "continuation_playback": {
+      "type": "object"
+    },
+    "disclosures": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "execution_time_ms": {
+      "type": "number"
+    }
+  }
+}

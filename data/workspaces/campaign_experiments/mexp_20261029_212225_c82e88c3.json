@@ -1,0 +1,220 @@
+{
+  "schema_version": "2.0.0",
+  "experiment_id": "mexp_20261029_212225_c82e88c3",
+  "campaign_id": "cmp_test_12h_001",
+  "campaign_version": 1,
+  "campaign_fingerprint": "4450b833b91b6c96261eb43925ab28255596991905a70a310de213020fb90ef8",
+  "title": "Orchestrated Experiment: 12H Test Campaign (operational_delays)",
+  "description": "Multi-scenario resilience study combining Robustness Lab 'operational_delays' and Rehearsal Director 'balanced' recovery policy.",
+  "created_at_utc": "2026-10-29T21:22:25.393579+00:00",
+  "status": "COMPLETED",
+  "config": {
+    "campaign_id": "cmp_test_12h_001",
+    "campaign_version": 1,
+    "suite_type": "operational_delays",
+    "scenario_selection_strategy": "degraded_or_breach",
+    "rehearsal_policy": "balanced",
+    "min_margin_threshold_s": 1800.0,
+    "max_scenarios": 4,
+    "max_rehearsals": 2,
+    "custom_scenarios": null,
+    "explicit_rehearsal_scenario_ids": null,
+    "title": null,
+    "description": null
+  },
+  "robustness_experiment_id": "rob_exp_a6df59f185e1",
+  "scenarios": [
+    {
+      "scenario_id": "scen_delay_900s",
+      "name": "Operational Delay +15m System Check",
+      "description": "Injects 15 minutes of unplanned operational hold into sortie execution.",
+      "disruption_type": "operational_delay",
+      "trigger_time_s": 0.0,
+      "parameters": {
+        "type": "operational_delay",
+        "delay_s": 900.0
+      },
+      "status": "EVALUATED_ROBUSTNESS",
+      "evidence_completeness": "ROBUSTNESS_ONLY",
+      "robustness_case": {
+        "is_feasible": true,
+        "duration_delta_s": 900.0246816330318,
+        "remaining_margin_s": 23692.0,
+        "science_score_delta": 0.0
+      },
+      "rehearsal_id": null,
+      "rehearsal_outcome_status": null,
+      "three_track_summary": null,
+      "causal_links_count": 0,
+      "divergence_summary": null
+    },
+    {
+      "scenario_id": "scen_delay_1800s",
+      "name": "Operational Delay +30m Comms Re-acquisition",
+      "description": "Injects 30 minutes of unplanned operational hold into sortie execution.",
+      "disruption_type": "operational_delay",
+      "trigger_time_s": 0.0,
+      "parameters": {
+        "type": "operational_delay",
+        "delay_s": 1800.0
+      },
+      "status": "EVALUATED_ROBUSTNESS",
+      "evidence_completeness": "ROBUSTNESS_ONLY",
+      "robustness_case": {
+        "is_feasible": true,
+        "duration_delta_s": 1800.0246816330318,
+        "remaining_margin_s": 22792.0,
+        "science_score_delta": 0.0
+      },
+      "rehearsal_id": null,
+      "rehearsal_outcome_status": null,
+      "three_track_summary": null,
+      "causal_links_count": 0,
+      "divergence_summary": null
+    },
+    {
+      "scenario_id": "scen_delay_3600s",
+      "name": "Operational Delay +60m Dust Hold",
+      "description": "Injects 60 minutes of unplanned operational hold into sortie execution.",
+      "disruption_type": "operational_delay",
+      "trigger_time_s": 0.0,
+      "parameters": {
+        "type": "operational_delay",
+        "delay_s": 3600.0
+      },
+      "status": "EVALUATED_ROBUSTNESS",
+      "evidence_completeness": "ROBUSTNESS_ONLY",
+      "robustness_case": {
+        "is_feasible": true,
+        "duration_delta_s": 3600.024681633032,
+        "remaining_margin_s": 20992.0,
+        "science_score_delta": 0.0
+      },
+      "rehearsal_id": null,
+      "rehearsal_outcome_status": null,
+      "three_track_summary": null,
+      "causal_links_count": 0,
+      "divergence_summary": null
+    }
+  ],
+  "cross_scenario_matrix": {
+    "headers": [
+      "Scenario ID",
+      "Scenario Name",
+      "Disruption Type",
+      "Trigger (s)",
+      "Robustness Status",
+      "Is Feasible",
+      "Rehearsal Executed",
+      "Rehearsal ID",
+      "Outcome Status",
+      "Baseline Science",
+      "Disturbed Science",
+      "Recovered Science",
+      "Science Preserved (%)",
+      "Delay Incurred (s)",
+      "Margin Delta (s)",
+      "Distance Delta (m)",
+      "Targets Retained",
+      "Targets Dropped",
+      "Selected Strategy"
+    ],
+    "rows": [
+      {
+        "scenario_id": "scen_delay_900s",
+        "scenario_name": "Operational Delay +15m System Check",
+        "disruption_type": "operational_delay",
+        "trigger_time_s": 0.0,
+        "robustness_status": "FEASIBLE",
+        "is_feasible": true,
+        "rehearsal_executed": false,
+        "rehearsal_id": null,
+        "outcome_status": "FEASIBLE",
+        "baseline_science": 180.0,
+        "disturbed_science": 180.0,
+        "recovered_science": 180.0,
+        "science_preservation_pct": 100.0,
+        "delay_incurred_s": 900.0246816330318,
+        "margin_delta_s": -900.0,
+        "distance_delta_m": 0.0,
+        "targets_retained": 3,
+        "targets_dropped": 0,
+        "selected_strategy": "STATIC_REPLAN"
+      },
+      {
+        "scenario_id": "scen_delay_1800s",
+        "scenario_name": "Operational Delay +30m Comms Re-acquisition",
+        "disruption_type": "operational_delay",
+        "trigger_time_s": 0.0,
+        "robustness_status": "FEASIBLE",
+        "is_feasible": true,
+        "rehearsal_executed": false,
+        "rehearsal_id": null,
+        "outcome_status": "FEASIBLE",
+        "baseline_science": 180.0,
+        "disturbed_science": 180.0,
+        "recovered_science": 180.0,
+        "science_preservation_pct": 100.0,
+        "delay_incurred_s": 1800.0246816330318,
+        "margin_delta_s": -1800.0,
+        "distance_delta_m": 0.0,
+        "targets_retained": 3,
+        "targets_dropped": 0,
+        "selected_strategy": "STATIC_REPLAN"
+      },
+      {
+        "scenario_id": "scen_delay_3600s",
+        "scenario_name": "Operational Delay +60m Dust Hold",
+        "disruption_type": "operational_delay",
+        "trigger_time_s": 0.0,
+        "robustness_status": "FEASIBLE",
+        "is_feasible": true,
+        "rehearsal_executed": false,
+        "rehearsal_id": null,
+        "outcome_status": "FEASIBLE",
+        "baseline_science": 180.0,
+        "disturbed_science": 180.0,
+        "recovered_science": 180.0,
+        "science_preservation_pct": 100.0,
+        "delay_incurred_s": 3600.024681633032,
+        "margin_delta_s": -3600.0,
+        "distance_delta_m": 0.0,
+        "targets_retained": 3,
+        "targets_dropped": 0,
+        "selected_strategy": "STATIC_REPLAN"
+      }
+    ],
+    "summary_narrative": "Evaluated 3 stress scenarios across baseline campaign 'cmp_test_12h_001'. Robustness sweep demonstrated 3/3 feasible cases. Orchestrated 0 dynamic closed-loop rehearsals under policy 'balanced'. Mean science yield preservation was 100.0% with an average induced delay of 2100s. No physical astronaut flight safety guarantees are implied."
+  },
+  "summary_metrics": {
+    "total_scenarios_evaluated": 3,
+    "robustness_feasible_count": 3,
+    "rehearsals_executed_count": 0,
+    "recovered_count": 0,
+    "unmitigated_aborts_count": 0,
+    "mean_science_preservation_pct": 100.0,
+    "mean_delay_incurred_s": 2100.0,
+    "execution_duration_ms": 108.5
+  },
+  "provenance": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e",
+    "coordinate_reference": "ESRI:103885",
+    "model_version": "MarsWalk-2.0.0-Atlas",
+    "assumptions_version": "2026.1",
+    "units": {
+      "distance": "meters (m)",
+      "duration": "seconds (s)",
+      "velocity": "meters per second (m/s)",
+      "elevation": "meters (m)",
+      "slope": "degrees (°)",
+      "science_score": "dimensionless priority points"
+    }
+  },
+  "truth_disclosures": [
+    "Tested scenario frequencies (e.g., 80% feasible) measure robustness across modeled disruptions only and MUST NEVER be presented as physical Martian operational success probabilities.",
+    "Modeled traverses and recovery recommendations are planning heuristics and MUST NEVER be characterized as flight-certified or safe for astronauts.",
+    "All calculations are strictly deterministic based on USGS CTX 20m Jezero Crater Digital Terrain Model (DTM) mosaic, IAU 2000 Mars Sphere datum (R = 3,396,190m), CRS ESRI:103885.",
+    "Environmental data is sourced from NASA PDS4 MEDA archives (Sol 890 tranche). All units adhere to standard SI: distance in meters (m), time in seconds (s), elevation in meters (m), science yield in dimensionless priority points."
+  ]
+}

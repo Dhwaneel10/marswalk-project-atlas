@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-resilience.schema.json",
+  "title": "AtlasMissionResilienceContract",
+  "description": "Milestone 13R Planetary Mission Resilience, Failure Propagation, and Recovery API Contract.",
+  "type": "object",
+  "required": ["status", "system_health_index", "active_faults", "diagnoses", "timestamp_sol_s"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["NOMINAL", "DEGRADED", "CRITICAL", "CATASTROPHIC_CONTAINED"]
+    },
+    "system_health_index": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "timestamp_sol_s": {
+      "type": "number"
+    },
+    "active_faults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["instance_id", "record", "state", "current_intensity"],
+        "properties": {
+          "instance_id": { "type": "string" },
+          "state": { "type": "string" },
+          "current_intensity": { "type": "number" }
+        }
+      }
+    },
+    "diagnoses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fault_id", "fault_name", "confidence", "status", "severity"],
+        "properties": {
+          "fault_id": { "type": "string" },
+          "fault_name": { "type": "string" },
+          "confidence": { "type": "number" },
+          "status": { "type": "string" },
+          "severity": { "type": "string" }
+        }
+      }
+    },
+    "recovery_metrics_12d": {
+      "type": "object",
+      "properties": {
+        "science_objectives_completed": { "type": "integer" },
+        "science_objectives_preserved_deferred": { "type": "integer" },
+        "science_objectives_abandoned": { "type": "integer" },
+        "energy_remaining_wh": { "type": "number" },
+        "data_retained_mb": { "type": "number" },
+        "data_lost_mb": { "type": "number" },
+        "mission_duration_extension_s": { "type": "number" },
+        "time_to_recover_s": { "type": "number" },
+        "unresolved_failures_count": { "type": "integer" },
+        "remaining_operational_constraints": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "resource_violations_count": { "type": "integer" },
+        "final_mission_state_validity": { "type": "boolean" },
+        "state_validity_explanation": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "cmp_ops_test01",
+  "name": "Test Jezero Campaign",
+  "version": 1,
+  "lifecycle_state": "REQUIRES_REPLANNING",
+  "current_sol": 2,
+  "simulated_elapsed_s": 88775.2,
+  "rover_position_rc": [
+    120,
+    150
+  ],
+  "cumulative_distance_m": 350.0,
+  "active_sortie_id": null,
+  "completed_sortie_ids": [],
+  "pending_sortie_ids": [
+    "sortie_sol_01"
+  ],
+  "energy_state": {
+    "battery_capacity_wh": 4800.0,
+    "current_energy_wh": 4717.0,
+    "consumed_energy_wh": 83.0,
+    "reserve_margin_pct": 97.9,
+    "minimum_reserve_pct": 20.0,
+    "feasibility": "FEASIBLE_WITHIN_CONFIGURED_BUDGET"
+  },
+  "data_state": {
+    "storage_capacity_mb": 16384.0,
+    "used_storage_mb": 25.0,
+    "total_data_generated_mb": 25.0,
+    "total_data_transferred_mb": 0.0,
+    "backlog_mb": 25.0,
+    "transfer_queue_count": 1,
+    "storage_pressure_state": "STORAGE_AVAILABLE"
+  },
+  "science_state": {
+    "completed_target_ids": [
+      "tgt_octavia"
+    ],
+    "pending_target_ids": [
+      "tgt_delta_front",
+      "tgt_crater_rim",
+      "tgt_neretva_fan"
+    ],
+    "deferred_target_ids": [],
+    "total_science_utility": 100.0,
+    "completed_observations_count": 1
+  },
+  "comms_state": {
+    "active_relay_ids": [],
+    "relay_locations": [],
+    "simulated_connectivity_pct": 85.0,
+    "historical_gaps_count": 0
+  },
+  "sol_schedules": {},
+  "active_plan": {},
+  "historical_plans": [],
+  "events_log": [
+    {
+      "schema_version": "1.0.0",
+      "event_id": "evt_ops_1b30c1948c5b",
+      "campaign_id": "cmp_ops_test01",
+      "sol_index": 1,
+      "event_type": "CAMPAIGN_INITIALIZED",
+      "timestamp_iso": "2026-11-04T13:27:23.602753+00:00",
+      "mission_elapsed_s": 0.0,
+      "sequence_number": 1,
+      "payload": {
+        "campaign_id": "cmp_ops_test01",
+        "name": "Test Jezero Campaign",
+        "total_sols": 1,
+        "total_targets": 4,
+        "initial_energy_wh": 4800.0,
+        "storage_capacity_mb": 16384.0
+      },
+      "event_fingerprint": "dce169aacd6135fa39149bb90d165a42ca29b968a2126e828a44fa8a571b98e8"
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "evt_ops_92444f666264",
+      "campaign_id": "cmp_ops_test01",
+      "sol_index": 1,
+      "event_type": "TRAVERSE_COMPLETED",
+      "timestamp_iso": "2026-11-04T13:27:33.274964+00:00",
+      "mission_elapsed_s": 0.0,
+      "sequence_number": 2,
+      "payload": {
+        "distance_m": 350.0,
+        "energy_consumed_wh": 85.0,
+        "end_position_rc": [
+          120,
+          150
+        ]
+      },
+      "event_fingerprint": "59b414b63a36602b1099033b31da59d865183174b37d1d6e33390e41598324da"
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "evt_ops_7ea4fc333ef6",
+      "campaign_id": "cmp_ops_test01",
+      "sol_index": 1,
+      "event_type": "OBSERVATION_COMPLETED",
+      "timestamp_iso": "2026-11-04T13:27:33.278488+00:00",
+      "mission_elapsed_s": 0.0,
+      "sequence_number": 3,
+      "payload": {
+        "target_id": "tgt_octavia",
+        "science_utility": 100.0,
+        "data_generated_mb": 25.0,
+        "energy_consumed_wh": 18.0
+      },
+      "event_fingerprint": "bddd67708f0309fc670b8ab4ec6ac10c5fe8db186643e128eba2bf3854e91a58"
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "evt_ops_5b448564e914",
+      "campaign_id": "cmp_ops_test01",
+      "sol_index": 1,
+      "event_type": "CAMPAIGN_SOL_COMPLETED",
+      "timestamp_iso": "2026-11-04T13:27:33.283539+00:00",
+      "mission_elapsed_s": 0.0,
+      "sequence_number": 4,
+      "payload": {
+        "sol_index": 1,
+        "end_energy_wh": 4697.0,
+        "end_storage_mb": 25.0,
+        "completed_targets": [
+          "tgt_octavia"
+        ],
+        "recharge_applied_wh": 20.0
+      },
+      "event_fingerprint": "89ebaadfd9c98b173504f9a2b2f6dd4b6896c5b71f270be548a244c117a5c79a"
+    }
+  ],
+  "pending_alternatives": [
+    {
+      "alternative_id": "alt_data_triage_transfer",
+      "strategy_name": "Tactical Data Triage & Base Downlink",
+      "description": "Inserts dedicated high-elevation RF transfer halts to drain flash buffer and relieve storage pressure.",
+      "schedules": [],
+      "delta_science": -5.0,
+      "delta_energy_wh": 45.0,
+      "delta_storage_mb": -60.0,
+      "delta_distance_m": 120.0,
+      "explanation": "Adds 120m traverse to Kodiak Mesa crest, transferring 60 MB of backlogged data products.",
+      "feasibility": "FEASIBLE_WITHIN_CONFIGURED_BUDGET",
+      "recommendation_score": 84.0
+    },
+    {
+      "alternative_id": "alt_optical_substitution",
+      "strategy_name": "Remote Optical Sensing Substitution",
+      "description": "Substitutes high-power turret contact tools with Mastcam-Z multi-spectral panoramic imaging.",
+      "schedules": [],
+      "delta_science": -12.0,
+      "delta_energy_wh": -180.0,
+      "delta_storage_mb": 20.0,
+      "delta_distance_m": 0.0,
+      "explanation": "Eliminates 85W coring drill and 48W Raman spectrometer dwell, reducing payload energy by 180 Wh.",
+      "feasibility": "FEASIBLE_WITHIN_CONFIGURED_BUDGET",
+      "recommendation_score": 82.5
+    }
+  ],
+  "reproducibility_manifest": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "model_version": "13H-Atlas-Campaign-Director",
+    "software_version": "2.0.0",
+    "state_fingerprint": "f9e1f61d5aa6abdeb299e573c6d3f21e41c3193a2394131216afba2d99e1ee44"
+  }
+}

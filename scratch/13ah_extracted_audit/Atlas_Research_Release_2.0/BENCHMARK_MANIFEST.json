@@ -1,0 +1,82 @@
+{
+  "manifest_version": "2.0.0",
+  "milestone": "13AG",
+  "release_designation": "ATLAS-RESEARCH-RELEASE-2.0",
+  "benchmarks": [
+    {
+      "filename": "benchmark_optical_dust.py",
+      "sha256": "3f99f09dd05fff32959fc85bb071a6af228e99927a8be1fec6dee0a13b2eddec",
+      "description": "Optical Dust Extinction & Angstrom Scaling",
+      "primary_reference": "Fernandez-Rodriguez et al. (2024)",
+      "test_inputs": "alpha=-0.082, tau_880=0.5, lambda=1550nm",
+      "expected_outputs": {
+        "zenith_attenuation_db": 2.274,
+        "tolerance_db": 0.01
+      }
+    },
+    {
+      "filename": "benchmark_rf_dust.py",
+      "sha256": "d3a7db894de5ccaa2bbbe9673f19034bebd9fb2abf543d23de3fc071dd7597a0",
+      "description": "RF Dust-Storm Attenuation & Rayleigh Volume Integral",
+      "primary_reference": "Goldhirsh (2000), Ho & Golshan (2000)",
+      "test_inputs": "freq=32 GHz, eps_r=2.8-j0.042, vis=0.1km",
+      "expected_outputs": {
+        "storm_attenuation_db": 1.384,
+        "tolerance_db": 0.005
+      }
+    },
+    {
+      "filename": "benchmark_receiver_noise.py",
+      "sha256": "c22922cc4a077e314c74c37bc9f6ea1a5d5b0d576011ac0f0eedf338bb9807f5",
+      "description": "System Noise Temperature & Reference Plane Invariance",
+      "primary_reference": "Nyquist-Johnson, Fixsen (2009)",
+      "test_inputs": "t_ant=120K, t_rx=85K, l_feed=1.8dB",
+      "expected_outputs": {
+        "plane_a_vs_b_delta_db": 0.0,
+        "tolerance_db": 1e-12
+      }
+    },
+    {
+      "filename": "benchmark_antenna_patterns.py",
+      "sha256": "a8de60799f81697b3e69230bd2926341da3244e3b3e002a05044e31413817ec8",
+      "description": "Antenna Radiation Patterns & Near-Field Boundaries",
+      "primary_reference": "Silver (1949), ITU-R S.580",
+      "test_inputs": "D=3.0m, freq=32 GHz, u=5.1356",
+      "expected_outputs": {
+        "airy_first_sidelobe_db": 17.57,
+        "tolerance_db": 0.01
+      }
+    },
+    {
+      "filename": "benchmark_link_budget_scenarios.py",
+      "sha256": "8981ad5fa3d8946d5ed8423d58442286a16e8af313ebd16a359258bb9562d40c",
+      "description": "End-to-End Multi-Frequency Link Budget Scenarios",
+      "primary_reference": "NASA JPL DSN Handbook, ECSS Standards",
+      "test_inputs": "Ka high-rate, UHF proximity, emergency beacon failure",
+      "expected_outputs": {
+        "all_scenarios_verified": true
+      }
+    },
+    {
+      "filename": "run_all_benchmarks.py",
+      "sha256": "4597054b662cbe8d29980ff8b1202dc237da747bf5d7ac41f35d2047a96bdb48",
+      "description": "Flagship Benchmark Test Suite Runner",
+      "primary_reference": "Internal Research Harness",
+      "test_inputs": "Runs all 4 benchmarks sequentially",
+      "expected_outputs": {
+        "all_passed": true
+      }
+    },
+    {
+      "filename": "test_clean_environment_reproducibility.py",
+      "sha256": "8f19c5c3b4d94d8fffdd9479edf105f71ea856775958e05da4fcb430af1bda9a",
+      "description": "Clean Environment Reproducibility Verification",
+      "primary_reference": "Zero-dependency invariant verification",
+      "test_inputs": "Standard library only check, mathematical invariants",
+      "expected_outputs": {
+        "all_passed": true,
+        "tests_count": 6
+      }
+    }
+  ]
+}

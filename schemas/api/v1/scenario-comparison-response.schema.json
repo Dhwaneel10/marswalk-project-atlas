@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/scenario-comparison-response.schema.json",
+  "title": "MarsWalk Scenario Comparison Response",
+  "description": "Structured comparison results evaluating multiple disruption scenarios against one identical baseline mission fingerprint.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "baseline_fingerprint",
+    "scenario_results",
+    "overall_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "comparison_id": {
+      "type": "string"
+    },
+    "baseline_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16,64}$",
+      "description": "Deterministic input fingerprint of the common baseline mission against which all scenarios were evaluated."
+    },
+    "baseline": {
+      "type": "object",
+      "description": "Canonical route result of the nominal baseline plan."
+    },
+    "scenario_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "scenario_id",
+          "scenario_name",
+          "baseline_fingerprint",
+          "is_scenario_reachable",
+          "metrics_delta"
+        ],
+        "properties": {
+          "scenario_id": { "type": "string" },
+          "scenario_name": { "type": "string" },
+          "disruption_type": { "type": "string" },
+          "description": { "type": "string" },
+          "baseline_fingerprint": {
+            "type": "string",
+            "description": "Must match the root baseline_fingerprint to prove common mission origin."
+          },
+          "scenario": { "type": "object" },
+          "scenario_route": { "type": "object" },
+          "is_scenario_reachable": { "type": "boolean" },
+          "is_scenario_budget_feasible": { "type": "boolean" },
+          "metrics_delta": {
+            "type": "object",
+            "required": ["delta_distance_m", "pct_distance_change", "delta_travel_time_s"],
+            "properties": {
+              "delta_distance_m": {
+                "type": ["number", "null"],
+                "description": "Scenario distance minus baseline distance in metres (null if unreachable)."
+              },
+              "pct_distance_change": {
+                "type": ["number", "null"],
+                "description": "Percentage detour increase over baseline. Null when baseline is 0 or unreachable."
+              },
+              "delta_cost": {
+                "type": ["number", "null"],
+                "description": "Scenario effort minus baseline effort in flat-m."
+              },
+              "pct_cost_change": {
+                "type": ["number", "null"],
+                "description": "Percentage effort increase. Null when baseline is 0."
+              },
+              "delta_travel_time_s": {
+                "type": "number",
+                "description": "Scenario transit time minus baseline transit time in seconds."
+              },
+              "formatted_delta_travel_time": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "total_mission_time_s": { "type": "number" },
+          "formatted_total_mission_time": { "type": "string" },
+          "regret_ledger": {
+            "type": "object",
+            "properties": {
+              "retention_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+              "retained_target_ids": { "type": "array", "items": { "type": "string" } },
+              "disabled_by_scenario_ids": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "recovery_plan": {
+            "type": ["object", "null"],
+            "properties": {
+              "strategy": { "type": "string" },
+              "action_label": { "type": "string" },
+              "margin_recovered_s": { "type": "number" },
+              "formatted_margin_recovered": { "type": "string" },
+              "recovered_route": { "type": "object" }
+            }
+          },
+          "impact_classification": {
+            "type": "string",
+            "enum": ["no_impact", "minor_detour", "major_detour", "mission_delay", "science_degraded", "route_blocked", "compound_failure"]
+          },
+          "warnings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": ["all_feasible", "partially_blocked", "all_blocked", "calculation_failed"]
+    },
+    "assumptions": { "type": "object" },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "disclaimer": { "type": "string" },
+    "baseline_route": { "type": "object" },
+    "scenarios": { "type": "array" },
+    "total_scenarios_evaluated": { "type": "integer" }
+  },
+  "additionalProperties": true
+}

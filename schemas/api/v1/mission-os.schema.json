@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-os.schema.json",
+  "title": "AtlasPlanetaryMissionOSContract",
+  "description": "Milestone 13T Unified Planetary Operations, End-to-End Mission Orchestration, Digital Twin Integration & Autonomous Campaign Execution API Contract.",
+  "type": "object",
+  "required": [
+    "mission_id",
+    "status",
+    "current_sol",
+    "state_hash",
+    "phases",
+    "assets",
+    "investigations",
+    "observations",
+    "command_buffer",
+    "resource_ledgers",
+    "mandatory_scientific_disclosure"
+  ],
+  "properties": {
+    "mission_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "INITIALIZING", "EXECUTING", "PAUSED", "CONTINGENCY_HOLD", "RECOVERY", "COMPLETED", "ABORTED"]
+    },
+    "current_sol": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "current_sol_time": {
+      "type": "string"
+    },
+    "met_seconds": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "solar_longitude_ls": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 360.0
+    },
+    "state_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["phase_id", "phase_type", "title", "start_sol", "end_sol", "tasks"],
+        "properties": {
+          "phase_id": { "type": "string" },
+          "phase_type": { "type": "string" },
+          "title": { "type": "string" },
+          "start_sol": { "type": "integer" },
+          "end_sol": { "type": "integer" },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["task_id", "title", "assigned_asset_ids", "state"],
+              "properties": {
+                "task_id": { "type": "string" },
+                "title": { "type": "string" },
+                "assigned_asset_ids": { "type": "array", "items": { "type": "string" } },
+                "state": { "type": "string" },
+                "completion_pct": { "type": "number" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["asset_id", "name", "asset_type", "health", "location", "battery_charge_pct"],
+        "properties": {
+          "asset_id": { "type": "string" },
+          "name": { "type": "string" },
+          "asset_type": { "type": "string" },
+          "health": { "type": "string" },
+          "location": {
+            "type": "object",
+            "required": ["lat", "lon", "elevation_m"],
+            "properties": {
+              "lat": { "type": "number" },
+              "lon": { "type": "number" },
+              "elevation_m": { "type": "number" }
+            }
+          },
+          "battery_charge_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 }
+        }
+      }
+    },
+    "investigations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["hypothesis_id", "target_feature", "statement", "prior_probability", "posterior_probability"],
+        "properties": {
+          "hypothesis_id": { "type": "string" },
+          "target_feature": { "type": "string" },
+          "statement": { "type": "string" },
+          "prior_probability": { "type": "number" },
+          "posterior_probability": { "type": "number" }
+        }
+      }
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["observation_id", "source_asset_id", "sol", "instrument_type", "provenance_hash"],
+        "properties": {
+          "observation_id": { "type": "string" },
+          "source_asset_id": { "type": "string" },
+          "sol": { "type": "integer" },
+          "instrument_type": { "type": "string" },
+          "provenance_hash": { "type": "string" }
+        }
+      }
+    },
+    "command_buffer": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["command_id", "target_asset_id", "command_action", "state"],
+        "properties": {
+          "command_id": { "type": "string" },
+          "target_asset_id": { "type": "string" },
+          "command_action": { "type": "string" },
+          "state": { "type": "string" }
+        }
+      }
+    },
+    "resource_ledgers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sol", "power_generated_kwe", "power_consumed_kwe", "battery_soc_pct", "mass_conservation_discrepancy_kg"],
+        "properties": {
+          "sol": { "type": "integer" },
+          "power_generated_kwe": { "type": "number" },
+          "power_consumed_kwe": { "type": "number" },
+          "battery_soc_pct": { "type": "number" },
+          "mass_conservation_discrepancy_kg": { "type": "number" }
+        }
+      }
+    },
+    "mandatory_scientific_disclosure": {
+      "type": "string"
+    }
+  }
+}

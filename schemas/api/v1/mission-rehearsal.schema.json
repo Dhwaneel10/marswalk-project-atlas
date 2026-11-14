@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-rehearsal.schema.json",
+  "title": "MarsWalk Mission Rehearsal Record",
+  "description": "Validated output of a closed-loop mission rehearsal comparing nominal baseline, disturbed unmitigated, and adaptive recovery tracks with causal decision traces.",
+  "type": "object",
+  "required": [
+    "rehearsal_id",
+    "campaign_id",
+    "title",
+    "status",
+    "outcome_status",
+    "created_at",
+    "computation_fingerprint",
+    "execution_duration_ms",
+    "recovery_policy",
+    "disturbances",
+    "baseline_metrics",
+    "disturbed_metrics",
+    "recovered_metrics",
+    "comparison",
+    "recovery_candidates",
+    "causal_ledger",
+    "disclosures"
+  ],
+  "properties": {
+    "rehearsal_id": {
+      "type": "string",
+      "pattern": "^reh_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "title": { "type": "string" },
+    "status": { "type": "string" },
+    "outcome_status": {
+      "type": "string",
+      "enum": ["NOMINAL", "RECOVERED", "RECOVERED_WITH_DEGRADATION", "NO_FEASIBLE_RECOVERY", "DISTURBANCE_REJECTED"]
+    },
+    "created_at": { "type": "string" },
+    "computation_fingerprint": { "type": "string" },
+    "execution_duration_ms": { "type": "number", "minimum": 0 },
+    "recovery_policy": {
+      "type": "object",
+      "required": ["policy_type"],
+      "properties": {
+        "policy_type": { "type": "string" },
+        "min_margin_threshold_s": { "type": "number" },
+        "max_acceptable_delay_s": { "type": "number" }
+      }
+    },
+    "disturbances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["disturbance_id", "disturbance_type", "trigger_time_s", "parameters"],
+        "properties": {
+          "disturbance_id": { "type": "string" },
+          "disturbance_type": { "type": "string" },
+          "trigger_time_s": { "type": "number" },
+          "parameters": { "type": "object" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "baseline_metrics": {
+      "type": "object",
+      "required": [
+        "track_name",
+        "total_duration_s",
+        "total_distance_m",
+        "science_score",
+        "targets_completed",
+        "targets_attempted",
+        "completed_target_ids",
+        "dropped_target_ids",
+        "min_margin_s",
+        "critical_events_count",
+        "violations"
+      ]
+    },
+    "disturbed_metrics": {
+      "type": "object",
+      "required": [
+        "track_name",
+        "total_duration_s",
+        "total_distance_m",
+        "science_score",
+        "targets_completed",
+        "targets_attempted",
+        "completed_target_ids",
+        "dropped_target_ids",
+        "min_margin_s",
+        "critical_events_count",
+        "violations"
+      ]
+    },
+    "recovered_metrics": {
+      "type": "object",
+      "required": [
+        "track_name",
+        "total_duration_s",
+        "total_distance_m",
+        "science_score",
+        "targets_completed",
+        "targets_attempted",
+        "completed_target_ids",
+        "dropped_target_ids",
+        "min_margin_s",
+        "critical_events_count",
+        "violations"
+      ]
+    },
+    "comparison": {
+      "type": "object",
+      "required": [
+        "science_preservation_pct",
+        "net_science_delta",
+        "delay_incurred_s",
+        "margin_delta_s",
+        "distance_delta_m",
+        "targets_retained_count",
+        "targets_dropped_count",
+        "recovery_efficiency_pct",
+        "executive_assessment"
+      ]
+    },
+    "recovery_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "strategy",
+          "title",
+          "is_feasible",
+          "projected_duration_s",
+          "projected_margin_s",
+          "projected_science_score",
+          "projected_targets_completed",
+          "selection_status",
+          "decision_rationale"
+        ]
+      }
+    },
+    "causal_ledger": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "step_index",
+          "step_type",
+          "simulated_time_s",
+          "title",
+          "description"
+        ],
+        "properties": {
+          "step_id": { "type": "string" },
+          "step_index": { "type": "integer" },
+          "step_type": { "type": "string" },
+          "preceding_step_id": { "type": ["string", "null"] },
+          "simulated_time_s": { "type": "number" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "details": { "type": "object" },
+          "active_unit_ids": { "type": "array", "items": { "type": "string" } },
+          "associated_target_ids": { "type": "array", "items": { "type": "string" } },
+          "causal_links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["link_id", "source_type", "source_id", "target_type", "target_id", "relation_type", "status"],
+              "properties": {
+                "link_id": { "type": "string" },
+                "source_type": { "type": "string" },
+                "source_id": { "type": "string" },
+                "target_type": { "type": "string" },
+                "target_id": { "type": "string" },
+                "relation_type": { "type": "string" },
+                "status": { "type": "string", "enum": ["CONFIRMED", "DERIVED", "MISSING", "CONFLICTING", "UNRESOLVED"] },
+                "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+                "evidence_rationale": { "type": "string" }
+              }
+            }
+          },
+          "evidence_status": { "type": "string" }
+        }
+      }
+    },
+    "timeline_events": {
+      "type": "array"
+    },
+    "disclosures": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "terrain_dataset_id": { "type": "string" },
+    "terrain_sha256": { "type": "string" },
+    "model_version": { "type": "string" },
+    "assumptions_version": { "type": "string" },
+    "coordinate_reference": { "type": "string" },
+    "campaign_version": { "type": "integer" },
+    "campaign_input_fingerprint": { "type": "string" },
+    "divergence_analysis": {
+      "type": "object",
+      "properties": {
+        "diverged": { "type": "boolean" },
+        "t_diverge_s": { "type": ["number", "null"] },
+        "divergence_location": { "type": ["object", "null"] },
+        "divergence_trigger_id": { "type": ["string", "null"] },
+        "divergence_trigger_name": { "type": ["string", "null"] },
+        "divergent_sorties": { "type": "array", "items": { "type": "string" } },
+        "divergent_targets": { "type": "array", "items": { "type": "string" } },
+        "divergence_milestones": { "type": "array" },
+        "summary": { "type": "string" }
+      }
+    }
+  }
+}

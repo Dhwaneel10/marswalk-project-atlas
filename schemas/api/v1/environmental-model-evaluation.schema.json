@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/environmental-model-evaluation.schema.json",
+  "title": "Atlas Environmental Model Evaluation Schema",
+  "description": "Milestone 13M — Empirical residual metrics, Pearson correlation, quantiles, and stratified breakdowns.",
+  "type": "object",
+  "required": ["model_name", "dataset_name", "evaluation_timestamp", "overall_metrics", "by_parameter"],
+  "properties": {
+    "model_name": { "type": "string" },
+    "dataset_name": { "type": "string" },
+    "evaluation_timestamp": { "type": "string" },
+    "overall_metrics": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/residual_stats" }
+    },
+    "by_parameter": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/residual_stats" }
+    },
+    "by_season_ls": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": { "$ref": "#/$defs/residual_stats" }
+      }
+    },
+    "by_diurnal_phase": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": { "$ref": "#/$defs/residual_stats" }
+      }
+    },
+    "train_metrics": {
+      "type": ["object", "null"],
+      "additionalProperties": { "$ref": "#/$defs/residual_stats" }
+    },
+    "held_out_metrics": {
+      "type": ["object", "null"],
+      "additionalProperties": { "$ref": "#/$defs/residual_stats" }
+    }
+  },
+  "$defs": {
+    "residual_stats": {
+      "type": "object",
+      "required": [
+        "parameter_name",
+        "unit",
+        "model_name",
+        "sample_count",
+        "mean_bias",
+        "mae",
+        "rmse",
+        "residual_std",
+        "pearson_r",
+        "r_squared",
+        "median_abs_error",
+        "p05_residual",
+        "p50_median_residual",
+        "p95_residual"
+      ],
+      "properties": {
+        "parameter_name": { "type": "string" },
+        "unit": { "type": "string" },
+        "model_name": { "type": "string" },
+        "sample_count": { "type": "integer", "minimum": 0 },
+        "mean_bias": { "type": "number" },
+        "mae": { "type": "number" },
+        "rmse": { "type": "number" },
+        "residual_std": { "type": "number" },
+        "pearson_r": { "type": "number" },
+        "r_squared": { "type": "number" },
+        "median_abs_error": { "type": "number" },
+        "min_residual": { "type": "number" },
+        "max_residual": { "type": "number" },
+        "p05_residual": { "type": "number" },
+        "p25_residual": { "type": "number" },
+        "p50_median_residual": { "type": "number" },
+        "p75_residual": { "type": "number" },
+        "p95_residual": { "type": "number" }
+      }
+    }
+  }
+}

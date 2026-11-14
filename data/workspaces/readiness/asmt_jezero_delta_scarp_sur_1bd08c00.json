@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0.0",
+  "assessment_id": "asmt_jezero_delta_scarp_sur_1bd08c00",
+  "generated_at_utc": "2026-10-25T20:38:10.802091+00:00",
+  "mission_id": "m_jezero_delta_scarp_surve_090607",
+  "mission_name": "Jezero Delta Scarp Survey",
+  "continuation_id": null,
+  "readiness_status": "BLOCKED",
+  "readiness_score": 25.0,
+  "summary": "BLOCKED: 1 critical planning constraint violation(s) identified (e.g. Unreachable Goal or Waypoint). Traversal cannot proceed as configured.",
+  "blocker_count": 1,
+  "warning_count": 0,
+  "info_count": 5,
+  "untested_count": 1,
+  "reproducibility_manifest": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "model_version": "2.0.0",
+    "software_version": "10F",
+    "input_fingerprint": "5ef1b5ba040fee7255d85d66ddfd6717cc33842a0fd6bd7ecb48cc68498ca81f",
+    "assumptions_version": "1.0.0"
+  },
+  "categories_summary": {
+    "feasibility": {
+      "status": "BLOCKED",
+      "route_exists": false,
+      "is_within_budget": null,
+      "total_distance_m": null,
+      "total_duration_s": null,
+      "budget_s": 28800.0,
+      "margin_s": null
+    },
+    "environmental": {
+      "status": "PASSED",
+      "site_id": "jezero_crater",
+      "site_name": "Jezero Crater (Perseverance MEDA)",
+      "data_type": "IN_SITU_OBSERVATION",
+      "freshness_status": "LATEST_AVAILABLE",
+      "is_site_compatible": true,
+      "observation_sol": 1619
+    },
+    "robustness": {
+      "status": "CONDITIONAL",
+      "tested_scenarios_count": 0,
+      "untested_scenarios_count": 6,
+      "breakpoint_count": 0,
+      "evaluated_disruption_classes": []
+    },
+    "provenance": {
+      "status": "PASSED",
+      "is_recomputed": true,
+      "ledger_present": false,
+      "events_count": 0
+    }
+  },
+  "findings": [
+    {
+      "finding_code": "FEAS_UNREACHABLE_DESTINATION",
+      "category": "feasibility",
+      "severity": "blocker",
+      "title": "Unreachable Goal or Waypoint",
+      "description": "A* path planner failed to find an unobstructed, slope-compliant trajectory between endpoints.",
+      "is_blocking": true,
+      "evidence_references": {
+        "start": [
+          117,
+          157
+        ],
+        "goal": [
+          194,
+          131
+        ]
+      },
+      "recommended_action": "Inspect slope heatmaps for terrain bottlenecks or ease profile slope threshold."
+    },
+    {
+      "finding_code": "ENV_IN_SITU_VERIFIED",
+      "category": "environmental",
+      "severity": "info",
+      "title": "In-Situ Surface Observations (Jezero Crater (Perseverance MEDA))",
+      "description": "Atmospheric parameters are genuine in-situ measurements downlinked from NASA PDS archives (Sol 1619).",
+      "is_blocking": false,
+      "evidence_references": {
+        "site_id": "jezero_crater",
+        "sol": 1619,
+        "data_type": "IN_SITU_OBSERVATION"
+      },
+      "recommended_action": "Verify latest PDS archive release for updated sol batches."
+    },
+    {
+      "finding_code": "ENV_INCOMPLETE_SENSOR_TELEMETRY",
+      "category": "environmental",
+      "severity": "info",
+      "title": "Optional Sensor Telemetry Missing",
+      "description": "Sensors for wind_speed_m_s, wind_direction_deg, uv_irradiance_w_m2 returned null/missing in archival logs (preserved without zero-filling).",
+      "is_blocking": false,
+      "evidence_references": {
+        "missing_sensors": [
+          "wind_speed_m_s",
+          "wind_direction_deg",
+          "uv_irradiance_w_m2"
+        ]
+      },
+      "recommended_action": "Safe to proceed; non-critical telemetry omitted."
+    },
+    {
+      "finding_code": "ROB_UNTESTED_SCENARIOS",
+      "category": "robustness",
+      "severity": "untested",
+      "title": "Robustness Sensitivity Untested (6 classes)",
+      "description": "Mission has not undergone deterministic disruption evaluation (corridor rockfall, sand dune impedance, motor derating).",
+      "is_blocking": false,
+      "evidence_references": {
+        "supported_classes": [
+          "corridor_closure",
+          "mobility_multiplier",
+          "operational_budget",
+          "target_loss",
+          "terrain_cost",
+          "compound"
+        ]
+      },
+      "recommended_action": "Run Gauntlet stress-testing in the Robustness Lab prior to operational commitment."
+    },
+    {
+      "finding_code": "PROV_NO_LEDGER_LOGS",
+      "category": "provenance",
+      "severity": "info",
+      "title": "Pre-Sortie Plan (No Ledger History)",
+      "description": "Mission has not commenced active simulation playback; black box event ledger is clear.",
+      "is_blocking": false,
+      "evidence_references": {
+        "mission_id": "m_jezero_delta_scarp_surve_090607"
+      },
+      "recommended_action": "Nominal for unexecuted mission plans."
+    },
+    {
+      "finding_code": "PROV_RECOMPUTED_METRICS",
+      "category": "provenance",
+      "severity": "info",
+      "title": "Route Metrics Recomputed on Demand",
+      "description": "Trajectory metrics were freshly evaluated from digital terrain model rather than read from pre-stored cache.",
+      "is_blocking": false,
+      "evidence_references": {
+        "is_recomputed": true
+      },
+      "recommended_action": "Save mission experiment run bundle for immutable reference."
+    },
+    {
+      "finding_code": "PROV_FINGERPRINT_VERIFIED",
+      "category": "provenance",
+      "severity": "info",
+      "title": "Deterministic Fingerprint Bound",
+      "description": "Mission definition includes SHA-256 input fingerprint bound to canonical coordinates.",
+      "is_blocking": false,
+      "evidence_references": {
+        "input_fingerprint": "5ef1b5ba040fee72..."
+      },
+      "recommended_action": "Preserve fingerprint for automated verification."
+    }
+  ],
+  "limitations_and_disclaimers": [
+    "DISCLAIMER: MarsWalk modeled routes, traverse costs, readiness findings, and environmental evaluations are for simulation, mission design trade studies, and planning rehearsal only. They are NOT certified operationally safe for crewed surface exploration or flight authorization without formal real-time mission operations review.",
+    "Readiness findings are calculated from analytical terrain heuristics and discrete NASA PDS telemetry.",
+    "Untested robustness dimensions represent lack of sensitivity simulation and must not be inferred as safe.",
+    "Environmental observations reflect past archival downlink tranches and do not constitute real-time weather forecasting."
+  ]
+}

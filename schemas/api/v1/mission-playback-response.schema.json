@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa/schemas/api/v1/mission-playback-response.schema.json",
+  "title": "MissionPlaybackResponse",
+  "description": "MarsWalk 2.0 Milestone 9Z — Time-Parameterized Mission Trajectory Playback and Synchronized Event Telemetry Contract.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "mission_variant",
+    "vehicle_mode",
+    "total_duration_s",
+    "total_distance_m",
+    "total_traverse_time_s",
+    "total_dwell_time_s",
+    "total_operational_delay_s",
+    "remaining_margin_s",
+    "is_within_limit",
+    "is_reachable",
+    "events",
+    "samples",
+    "telemetry_summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "mission_id": {
+      "type": ["string", "null"]
+    },
+    "mission_variant": {
+      "type": "string",
+      "enum": ["nominal", "disrupted", "adaptive"]
+    },
+    "vehicle_mode": {
+      "type": "string",
+      "enum": ["crew_eva", "robotic_rover"]
+    },
+    "total_duration_s": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "total_distance_m": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "total_traverse_time_s": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "total_dwell_time_s": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "total_operational_delay_s": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "remaining_margin_s": {
+      "type": "number"
+    },
+    "is_within_limit": {
+      "type": "boolean"
+    },
+    "is_reachable": {
+      "type": "boolean"
+    },
+    "formatted_total_duration": {
+      "type": "string"
+    },
+    "formatted_total_distance": {
+      "type": "string"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "event_index",
+          "event_id",
+          "event_type",
+          "label",
+          "start_time_s",
+          "end_time_s",
+          "duration_s",
+          "distance_m",
+          "cumulative_distance_start_m",
+          "cumulative_distance_end_m",
+          "start_rc",
+          "end_rc",
+          "start_elevation_m",
+          "end_elevation_m"
+        ],
+        "properties": {
+          "event_index": { "type": "integer", "minimum": 0 },
+          "event_id": { "type": "string" },
+          "event_type": {
+            "type": "string",
+            "enum": ["start", "traverse_leg", "science_dwell", "scenario_delay", "arrival"]
+          },
+          "label": { "type": "string" },
+          "target_id": { "type": ["string", "null"] },
+          "leg_index": { "type": ["integer", "null"] },
+          "start_time_s": { "type": "number", "minimum": 0.0 },
+          "end_time_s": { "type": "number", "minimum": 0.0 },
+          "duration_s": { "type": "number", "minimum": 0.0 },
+          "distance_m": { "type": "number", "minimum": 0.0 },
+          "cumulative_distance_start_m": { "type": "number", "minimum": 0.0 },
+          "cumulative_distance_end_m": { "type": "number", "minimum": 0.0 },
+          "start_rc": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "end_rc": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "start_elevation_m": { "type": "number" },
+          "end_elevation_m": { "type": "number" },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sample_index",
+          "time_s",
+          "rc",
+          "elevation_m",
+          "slope_deg",
+          "cumulative_distance_m",
+          "speed_m_s",
+          "active_event_index",
+          "event_type",
+          "is_stationary"
+        ],
+        "properties": {
+          "sample_index": { "type": "integer", "minimum": 0 },
+          "time_s": { "type": "number", "minimum": 0.0 },
+          "rc": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "elevation_m": { "type": "number" },
+          "slope_deg": { "type": "number", "minimum": 0.0 },
+          "cumulative_distance_m": { "type": "number", "minimum": 0.0 },
+          "speed_m_s": { "type": "number", "minimum": 0.0 },
+          "active_event_index": { "type": "integer", "minimum": 0 },
+          "event_type": { "type": "string" },
+          "target_id": { "type": ["string", "null"] },
+          "is_stationary": { "type": "boolean" },
+          "leg_index": { "type": ["integer", "null"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "waypoints": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "telemetry_summary": {
+      "type": "object",
+      "required": [
+        "min_elevation_m",
+        "max_elevation_m",
+        "elevation_delta_m",
+        "max_slope_deg",
+        "avg_speed_m_s",
+        "sample_count",
+        "event_count"
+      ],
+      "properties": {
+        "min_elevation_m": { "type": "number" },
+        "max_elevation_m": { "type": "number" },
+        "elevation_delta_m": { "type": "number" },
+        "max_slope_deg": { "type": "number" },
+        "avg_speed_m_s": { "type": "number" },
+        "avg_speed_kmh": { "type": "number" },
+        "sample_count": { "type": "integer", "minimum": 0 },
+        "event_count": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "interpolated_state": {
+      "type": "object",
+      "properties": {
+        "time_s": { "type": "number" },
+        "rc": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "elevation_m": { "type": "number" },
+        "slope_deg": { "type": "number" },
+        "cumulative_distance_m": { "type": "number" },
+        "speed_m_s": { "type": "number" },
+        "is_stationary": { "type": "boolean" },
+        "active_event_index": { "type": "integer" },
+        "event_type": { "type": "string" },
+        "target_id": { "type": ["string", "null"] },
+        "leg_index": { "type": ["integer", "null"] },
+        "progress_ratio": { "type": "number" },
+        "active_event": { "type": ["object", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

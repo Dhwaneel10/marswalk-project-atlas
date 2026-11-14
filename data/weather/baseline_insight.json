@@ -1,0 +1,57 @@
+{
+  "status": "success",
+  "schema_version": "1.0.0",
+  "site_id": "elysium_planitia",
+  "site_name": "Elysium Planitia (InSight APSS - Historical)",
+  "coordinates": {
+    "lat_deg": 4.5024,
+    "lon_deg": 135.6234
+  },
+  "data_type": "HISTORICAL_MISSION_ARCHIVE",
+  "freshness_status": "HISTORICAL",
+  "observation_sol": 1440,
+  "observation_time_utc": "2022-12-15T08:20:00.000Z",
+  "local_mean_solar_time": "01440M07:30:15.000",
+  "solar_longitude_ls_deg": 357.20,
+  "last_checked_utc": "2026-10-22T14:30:00.000Z",
+  "cache_age_seconds": 0.0,
+  "measurements": {
+    "atmospheric_pressure_pa": 718.50,
+    "atmospheric_pressure_uncertainty_pa": 0.80,
+    "air_temperature_k": 218.15,
+    "air_temperature_c": -55.00,
+    "ground_temperature_k": null,
+    "ground_temperature_c": null,
+    "relative_humidity_pct": null,
+    "wind_speed_m_s": 5.10,
+    "wind_direction_deg": 115.0,
+    "optical_depth_tau": 0.55,
+    "uv_irradiance_w_m2": null
+  },
+  "sensor_quality_flags": {
+    "pressure_sensor": "HISTORICAL ARCHIVE (APSS Barometer)",
+    "wind_sensor": "HISTORICAL ARCHIVE (TWINS Wind Sensor)",
+    "mission_status": "MISSION CONCLUDED (Final telemetry Sol 1440, Dec 2022)"
+  },
+  "source_metadata": {
+    "instrument": "Auxiliary Payload Sensor Suite (APSS) / TWINS",
+    "platform": "NASA InSight Mars Lander",
+    "archive_citation": "Banfield et al., The Atmosphere of Mars as Observed by InSight, Nature Geoscience 13, 190–198 (2020).",
+    "archive_url": "https://mars.nasa.gov/insight/weather/",
+    "product_id": "urn:nasa:pds:insight_apss_bundle:sol_01440",
+    "data_release": "PDS InSight Final Archive Release"
+  },
+  "climatological_context": {
+    "model_name": "Mars Climate Database v6.1",
+    "model_pressure_pa": 722.0,
+    "model_air_temp_c": -52.0,
+    "model_variance_note": "InSight station was located in flat equatorial plains of Elysium Planitia; historical baseline provides seasonal calibration."
+  },
+  "warnings": [
+    "HISTORICAL ARCHIVE: InSight mission concluded in December 2022; no active telemetry exists."
+  ],
+  "disclosures": [
+    "Observation is strictly historical and preserves final archived InSight telemetry.",
+    "Do NOT treat this historical record as active surface conditions."
+  ]
+}

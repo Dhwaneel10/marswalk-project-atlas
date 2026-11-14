@@ -1,0 +1,62 @@
+{
+  "status": "success",
+  "schema_version": "1.0.0",
+  "site_id": "jezero_crater",
+  "site_name": "Jezero Crater (Perseverance MEDA)",
+  "coordinates": {
+    "lat_deg": 18.4447,
+    "lon_deg": 77.4508
+  },
+  "data_type": "IN_SITU_OBSERVATION",
+  "freshness_status": "LATEST_AVAILABLE",
+  "observation_sol": 1619,
+  "observation_time_utc": "2025-09-09T04:56:36.700Z",
+  "local_mean_solar_time": "01619M00:00:06.331",
+  "solar_longitude_ls_deg": 137.13,
+  "last_checked_utc": "2026-10-22T14:30:00.000Z",
+  "cache_age_seconds": 0.0,
+  "measurements": {
+    "atmospheric_pressure_pa": 589.69,
+    "atmospheric_pressure_uncertainty_pa": 0.12,
+    "air_temperature_k": 211.45,
+    "air_temperature_c": -61.70,
+    "ground_temperature_k": 213.20,
+    "ground_temperature_c": -59.95,
+    "relative_humidity_pct": 5.63,
+    "wind_speed_m_s": null,
+    "wind_direction_deg": null,
+    "optical_depth_tau": 0.35,
+    "uv_irradiance_w_m2": null
+  },
+  "sensor_quality_flags": {
+    "pressure_sensor": "NOMINAL (PS transducer 1)",
+    "air_temperature_sensor": "NOMINAL (MEDA ATS mast height 1.45m)",
+    "ground_temperature_sensor": "NOMINAL (MEDA TIRS infrared thermopile)",
+    "humidity_sensor": "NOMINAL (MEDA RHS)",
+    "wind_sensor": "OFFLINE / RESTRICTED (MEDA WS wind boom sensors suffered degradation from grit during surface operations; flagged as null rather than estimated)",
+    "optical_depth": "CALIBRATED (MEDA RDS dust aerosol tau)"
+  },
+  "source_metadata": {
+    "instrument": "Mars 2020 MEDA (Mars Environmental Dynamics Analyzer)",
+    "platform": "NASA Mars 2020 Perseverance Rover",
+    "archive_citation": "Rodriguez-Manfredi et al., Mars 2020 MEDA PDS4 Bundle, NASA Planetary Data System Atmospheres Node.",
+    "archive_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/PERSEVERANCE/meda.html",
+    "product_id": "urn:nasa:pds:mars2020_meda:data_derived_env:we__1619___________der_ps__________________p",
+    "data_release": "PDS Release 10 (Tranche 2025-Q3)",
+    "retrieval_status": "latest_retrieved_pds_tranche",
+    "observation_archive_distinction": "Latest parsed observation in the retrieved PDS4 index tranche; distinct from unarchived real-time Mars operations."
+  },
+  "climatological_context": {
+    "model_name": "Mars Climate Database v6.1",
+    "model_pressure_pa": 595.2,
+    "model_air_temp_c": -63.5,
+    "model_variance_note": "In-situ pressure within 1.0% of MCD GCM climatology; diurnal thermal amplitude consistent with Jezero basin topography."
+  },
+  "warnings": [],
+  "disclosures": [
+    "Observation is derived from authentic NASA PDS4 MEDA archival records for Jezero Crater.",
+    "Data reflects the latest formally verified PDS archival release tranche; planetary telemetry delivery lags real time by mission release schedule.",
+    "Distinction: Latest parsed observation from the current PDS release index (Sol 1619); distinct from real-time unarchived telemetry.",
+    "Wind sensor readings are omitted (null) due to in-situ sensor degradation flags, avoiding synthetic fabrication."
+  ]
+}

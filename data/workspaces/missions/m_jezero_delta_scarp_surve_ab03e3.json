@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "mission_id": "m_jezero_delta_scarp_surve_ab03e3",
+  "name": "Jezero Delta Scarp Survey",
+  "description": "",
+  "created_at": "2026-10-18T07:35:48.231057+00:00",
+  "updated_at": "2026-10-18T07:35:48.231057+00:00",
+  "input_fingerprint": "7275d45ab7fca42bcf6f6cd8ac6507ff6b7c21993f1a0464d72c7db6a372f718",
+  "canonical_mission": {
+    "start": {
+      "row": 117,
+      "col": 157,
+      "name": "Octavia Landing"
+    },
+    "goal": {
+      "row": 194,
+      "col": 131,
+      "name": "Kodiak Butte"
+    },
+    "stops": [
+      {
+        "row": 100,
+        "col": 120,
+        "id": "three_forks",
+        "name": "Three Forks",
+        "priority_score": 50,
+        "dwell_time_s": 900
+      }
+    ],
+    "profile": "conservative",
+    "vehicle_mode": "crew_eva",
+    "speed_multiplier": 1.0,
+    "optimize_stops": false,
+    "mission_constraints": {}
+  },
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "model_version": "2.0.0",
+  "assumptions_version": "1.0.0",
+  "tags": [
+    "jezero"
+  ]
+}

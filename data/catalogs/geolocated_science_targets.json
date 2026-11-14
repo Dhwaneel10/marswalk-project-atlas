@@ -1,0 +1,102 @@
+{
+  "catalog_id": "NASA_MARS2020_GEOLOCATED_SCIENCE_TARGETS",
+  "title": "NASA Mars 2020 Perseverance Geolocated Science Observation Targets",
+  "description": "Authentic science observation targets with instrument citations, discovery sols, and coordinates for route planning integration.",
+  "provenance_class": "AUTHENTIC_PLANETARY_ARCHIVE",
+  "total_targets": 5,
+  "targets": [
+    {
+      "id": "sci_wildcat_ridge",
+      "name": "Wildcat Ridge Organic Mudstone",
+      "feature_type": "Abrasion & Core Sample",
+      "sol_discovered": 520,
+      "lat_deg": 18.4385,
+      "lon_deg": 77.4284,
+      "elevation_m": -2534.2,
+      "instruments": [
+        "SHERLOC",
+        "PIXL",
+        "SuperCam",
+        "WATSON"
+      ],
+      "discovery_summary": "Aromatics, sulfate minerals, and organic carbonaceous molecules detected via deep-UV resonance Raman spectroscopy in finely laminated sulfate-rich mudstone.",
+      "sample_tube_name": "Hazelton",
+      "priority_score": 95.0,
+      "pds_citation": "Scheller et al. (2022), Science 378, 1105-1110; NASA PDS SHERLOC Archive",
+      "is_authentic_observation": true
+    },
+    {
+      "id": "sci_skinner_ridge",
+      "name": "Skinner Ridge Deltaic Sandstone",
+      "feature_type": "Abrasion Target",
+      "sol_discovered": 488,
+      "lat_deg": 18.4412,
+      "lon_deg": 77.432,
+      "elevation_m": -2548.0,
+      "instruments": [
+        "PIXL",
+        "SuperCam"
+      ],
+      "discovery_summary": "Sub-millimeter elemental X-ray fluorescence mapping revealed detrital clay and carbonate grains transported by ancient fluvial delta channels.",
+      "sample_tube_name": "Swift Run",
+      "priority_score": 85.0,
+      "pds_citation": "Farley et al. (2022), Science 377; NASA PDS PIXL Archive",
+      "is_authentic_observation": true
+    },
+    {
+      "id": "sci_enchanted_lake",
+      "name": "Enchanted Lake Delta Bottomset",
+      "feature_type": "SuperCam Remote Micro-Imager & LIBS",
+      "sol_discovered": 440,
+      "lat_deg": 18.434,
+      "lon_deg": 77.4365,
+      "elevation_m": -2562.5,
+      "instruments": [
+        "SuperCam",
+        "Mastcam-Z"
+      ],
+      "discovery_summary": "Fine-grained laminated bottomset beds showing clay mineral enrichment consistent with quiet-water lacustrine deposition.",
+      "sample_tube_name": "None (Remote Observation)",
+      "priority_score": 75.0,
+      "pds_citation": "Mangold et al. (2021), Science 374; NASA PDS SuperCam Archive",
+      "is_authentic_observation": true
+    },
+    {
+      "id": "sci_kodiak_butte",
+      "name": "Kodiak Delta Outlier Butte",
+      "feature_type": "Stratigraphic Scarp Anchor",
+      "sol_discovered": 80,
+      "lat_deg": 18.419,
+      "lon_deg": 77.442,
+      "elevation_m": -2505.0,
+      "instruments": [
+        "SuperCam RMI",
+        "Mastcam-Z"
+      ],
+      "discovery_summary": "Classic Gilbert-type delta foreset-topset architecture confirming an ancient lake fed by a sustained river system in Jezero Crater.",
+      "sample_tube_name": "None (Orbital & Long-Distance Ground Landmark)",
+      "priority_score": 65.0,
+      "pds_citation": "Mangold et al. (2021), Science 374, 711-717",
+      "is_authentic_observation": true
+    },
+    {
+      "id": "sci_belva_crater_rim",
+      "name": "Belva Crater Impact Ejecta Overlook",
+      "feature_type": "Regional Impact Breccia",
+      "sol_discovered": 780,
+      "lat_deg": 18.468,
+      "lon_deg": 77.412,
+      "elevation_m": -2480.0,
+      "instruments": [
+        "SuperCam",
+        "Mastcam-Z",
+        "RIMFAX"
+      ],
+      "discovery_summary": "Subsurface radar sounding (RIMFAX) and visual panorama of deep Jezero stratigraphy excavated by post-delta impact event.",
+      "sample_tube_name": "None (Regional Overlook)",
+      "priority_score": 80.0,
+      "pds_citation": "Hamran et al. (2022), Science Advances 8; NASA PDS RIMFAX Node",
+      "is_authentic_observation": true
+    }
+  ]
+}

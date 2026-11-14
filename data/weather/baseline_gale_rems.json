@@ -1,0 +1,57 @@
+{
+  "status": "success",
+  "schema_version": "1.0.0",
+  "site_id": "gale_crater",
+  "site_name": "Gale Crater (Curiosity REMS)",
+  "coordinates": {
+    "lat_deg": -4.5895,
+    "lon_deg": 137.4417
+  },
+  "data_type": "IN_SITU_OBSERVATION",
+  "freshness_status": "LATEST_AVAILABLE",
+  "observation_sol": 3720,
+  "observation_time_utc": "2023-01-23T18:42:00.000Z",
+  "local_mean_solar_time": "03720M12:15:30.000",
+  "solar_longitude_ls_deg": 348.60,
+  "last_checked_utc": "2026-10-22T14:30:00.000Z",
+  "cache_age_seconds": 0.0,
+  "measurements": {
+    "atmospheric_pressure_pa": 842.10,
+    "atmospheric_pressure_uncertainty_pa": 1.50,
+    "air_temperature_k": 208.15,
+    "air_temperature_c": -65.00,
+    "ground_temperature_k": 223.15,
+    "ground_temperature_c": -50.00,
+    "relative_humidity_pct": 3.80,
+    "wind_speed_m_s": 4.20,
+    "wind_direction_deg": 285.0,
+    "optical_depth_tau": 0.42,
+    "uv_irradiance_w_m2": 28.50
+  },
+  "sensor_quality_flags": {
+    "pressure_sensor": "NOMINAL",
+    "air_temperature_sensor": "NOMINAL (REMS Boom 1/2)",
+    "ground_temperature_sensor": "NOMINAL (REMS GTS thermopile)",
+    "wind_sensor": "NOMINAL (Boom 1)",
+    "uv_sensor": "NOMINAL (REMS UV photodiode)"
+  },
+  "source_metadata": {
+    "instrument": "MSL REMS (Rover Environmental Monitoring Station)",
+    "platform": "NASA Mars Science Laboratory Curiosity Rover",
+    "archive_citation": "Gomez-Elvira et al., REMS: The Environmental Sensor Suite for the Mars Science Laboratory Rover, Space Sci Rev 170, 583–640 (2012).",
+    "archive_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/curiosity/rems.html",
+    "product_id": "urn:nasa:pds:msl_rems_bundle:data_calibrated:sol_03720",
+    "data_release": "PDS MSL Release 32"
+  },
+  "climatological_context": {
+    "model_name": "Mars Climate Database v6.1",
+    "model_pressure_pa": 838.0,
+    "model_air_temp_c": -62.0,
+    "model_variance_note": "Gale basin floor elevation (-4.5 km) supports higher baseline surface pressure than Jezero (-2.5 km)."
+  },
+  "warnings": [],
+  "disclosures": [
+    "Observation is localized strictly to Gale Crater (Curiosity Rover).",
+    "SITE ISOLATION ENFORCED: Gale Crater meteorological measurements are separated from Jezero Crater by ~3,700 km and must never be applied to Jezero sorties."
+  ]
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "event_id": "evt_live_fdefa315",
+    "source_mission_id": "test_api_93b949",
+    "continuation_id": null,
+    "event_type": "playback_checkpoint",
+    "mission_time_s": 60.0,
+    "playback_elapsed_s": 60.0,
+    "recorded_at_utc": "2026-10-29T01:36:49.820937+00:00",
+    "route_variant": "nominal",
+    "rover_rc": null,
+    "rover_float_rc": null,
+    "elevation_m": null,
+    "slope_deg": null,
+    "speed_m_s": null,
+    "payload": {
+      "checkpoint": "waypoint_1"
+    },
+    "provenance": {
+      "source": "live_test",
+      "is_recomputed": false
+    }
+  }
+]

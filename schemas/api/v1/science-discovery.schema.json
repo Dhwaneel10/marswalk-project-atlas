@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa/schemas/api/v1/science-discovery.schema.json",
+  "title": "ScienceDiscoveryReport",
+  "description": "JSON Schema Draft 2020-12 contract for the Atlas Autonomous Science Discovery Engine, hypotheses, evidence graph, active learning, and benchmarks.",
+  "type": "object",
+  "required": [
+    "campaign_id",
+    "timestamp_utc",
+    "hypotheses",
+    "evidence_graph_summary",
+    "active_learning_status",
+    "scientific_truth_disclosure",
+    "astronaut_safety_notice"
+  ],
+  "properties": {
+    "campaign_id": {
+      "type": "string"
+    },
+    "timestamp_utc": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "hypothesis_id",
+          "title",
+          "status",
+          "scientific_question"
+        ],
+        "properties": {
+          "hypothesis_id": { "type": "string" },
+          "title": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PROPOSED",
+              "ACTIVE",
+              "UNDER_INVESTIGATION",
+              "SUPPORTED_BY_EVIDENCE",
+              "WEAKENED_BY_EVIDENCE",
+              "REJECTED",
+              "INCONCLUSIVE",
+              "SUPERSEDED"
+            ]
+          },
+          "scientific_question": { "type": "string" },
+          "prior_probability": { "type": ["number", "null"] },
+          "posterior_probability": { "type": ["number", "null"] },
+          "supporting_evidence_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "contradicting_evidence_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "evidence_graph_summary": {
+      "type": "object",
+      "required": [
+        "total_nodes",
+        "total_edges",
+        "orphan_claims_count"
+      ],
+      "properties": {
+        "total_nodes": { "type": "integer", "minimum": 0 },
+        "total_edges": { "type": "integer", "minimum": 0 },
+        "orphan_claims_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "active_learning_status": {
+      "type": "object",
+      "required": [
+        "selected_strategy",
+        "shannon_entropy_bits",
+        "expected_information_gain_bits"
+      ],
+      "properties": {
+        "selected_strategy": { "type": "string" },
+        "shannon_entropy_bits": { "type": "number", "minimum": 0.0 },
+        "expected_information_gain_bits": { "type": "number", "minimum": 0.0 },
+        "candidate_actions_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "scientific_truth_disclosure": {
+      "type": "string"
+    },
+    "astronaut_safety_notice": {
+      "type": "string"
+    }
+  }
+}

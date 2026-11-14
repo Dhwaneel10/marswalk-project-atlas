@@ -1,0 +1,23 @@
+{
+  "observation_type": "SPECTRAL_SURVEY",
+  "provenance": "SIMULATED",
+  "is_simulated": true,
+  "quantitative_measurements": [
+    {
+      "parameter": "albedo",
+      "value": 0.22,
+      "unit": "dimensionless"
+    },
+    {
+      "parameter": "olivine_fraction",
+      "value": 15.0,
+      "unit": "%"
+    }
+  ],
+  "qualitative_notes": "Live HTTP test spectral survey completed successfully.",
+  "observation_id": "obs_4edf8630ce",
+  "campaign_id": "cmp_live_2bec17",
+  "target_id": "t_live_a",
+  "timestamp_utc": "2026-11-06T20:35:21.642318+00:00",
+  "schema_version": "1.0.0"
+}

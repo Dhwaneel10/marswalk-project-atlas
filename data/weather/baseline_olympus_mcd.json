@@ -1,0 +1,57 @@
+{
+  "status": "success",
+  "schema_version": "1.0.0",
+  "site_id": "olympus_mons",
+  "site_name": "Olympus Mons Summit (Mars Climate Database)",
+  "coordinates": {
+    "lat_deg": 18.65,
+    "lon_deg": 226.20
+  },
+  "data_type": "CLIMATOLOGICAL_MODEL",
+  "freshness_status": "CURRENT",
+  "observation_sol": null,
+  "observation_time_utc": null,
+  "local_mean_solar_time": "12:00:00 (Subsolar Climatology)",
+  "solar_longitude_ls_deg": 180.0,
+  "last_checked_utc": "2026-10-22T14:30:00.000Z",
+  "cache_age_seconds": 0.0,
+  "measurements": {
+    "atmospheric_pressure_pa": 72.40,
+    "atmospheric_pressure_uncertainty_pa": 5.0,
+    "air_temperature_k": 165.20,
+    "air_temperature_c": -107.95,
+    "ground_temperature_k": 188.40,
+    "ground_temperature_c": -84.75,
+    "relative_humidity_pct": 0.05,
+    "wind_speed_m_s": 12.80,
+    "wind_direction_deg": 140.0,
+    "optical_depth_tau": 0.15,
+    "uv_irradiance_w_m2": 142.0
+  },
+  "sensor_quality_flags": {
+    "model_fidelity": "SYNOPTIC GCM SIMULATION (LMD Mars Global Circulation Model v6.1)",
+    "elevation_datum": "21,229 m above IAU datum (caldera rim)",
+    "dust_scenario": "Standard climatological background scenario"
+  },
+  "source_metadata": {
+    "instrument": "Mars Climate Database (MCD v6.1)",
+    "platform": "Laboratoire de Météorologie Dynamique (LMD) / CNES / ESA",
+    "archive_citation": "Forget et al., Improved 3D Model of the Martian Atmosphere, J. Geophys. Res. 104, 24155–24176 (1999); Millour et al., MCD 6.1 Documentation (2022).",
+    "archive_url": "https://www-mars.lmd.jussieu.fr/mars/access.html",
+    "product_id": "mcd_v61_olympus_mons_caldera",
+    "data_release": "MCD 6.1 Standard Climatology"
+  },
+  "climatological_context": {
+    "model_name": "MCD v6.1 GCM",
+    "model_pressure_pa": 72.40,
+    "model_air_temp_c": -107.95,
+    "model_variance_note": "Extreme low pressure (72 Pa, ~0.72 mbar) reflects 21 km altitude; represents near-vacuum conditions compared to mean Martian surface datum (610 Pa)."
+  },
+  "warnings": [
+    "DATA IS MODELLED CLIMATOLOGY: No in-situ meteorological station exists on Olympus Mons summit."
+  ],
+  "disclosures": [
+    "Values represent numerically integrated GCM climatological means, NOT empirical in-situ observations.",
+    "Do NOT treat this output as a real-time weather forecast; values are climatological averages."
+  ]
+}

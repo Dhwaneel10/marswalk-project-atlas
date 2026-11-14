@@ -1,0 +1,8 @@
+{
+  "mission_id": "ATLAS-MARS-BASE-ALPHA-001",
+  "root_hash": "c34011dc536adcbb6562991b5440031919a5bb9dabb6fca1da4e11bd8981b53c",
+  "hash_chain_length": 61,
+  "cryptographic_replay_valid": true,
+  "phase_f_readiness_score": 92.0,
+  "timestamp_utc": "2026-11-06T00:00:00Z"
+}

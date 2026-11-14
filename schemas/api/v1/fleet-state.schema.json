@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-state.schema.json",
+  "title": "Fleet Operational State Contract",
+  "description": "Schema for live telemetry, resource ledgers, and consolidated status across all fleet exploration units.",
+  "type": "object",
+  "required": [
+    "fleet_id",
+    "version",
+    "fleet_status",
+    "kpis",
+    "rover_states",
+    "fingerprint"
+  ],
+  "properties": {
+    "fleet_id": { "type": "string" },
+    "version": { "type": "integer", "minimum": 1 },
+    "fleet_status": {
+      "type": "string",
+      "enum": [
+        "AVAILABLE", "PLANNED", "EXECUTING_SIMULATION", "PAUSED",
+        "RETURNING", "RESOURCE_CONSTRAINED", "UNAVAILABLE",
+        "REQUIRES_REPLANNING", "COMPLETED", "UNKNOWN"
+      ]
+    },
+    "kpis": {
+      "type": "object",
+      "required": ["active_rovers", "total_rovers", "min_rover_soc_pct", "fleet_connectivity_pct"],
+      "properties": {
+        "active_rovers": { "type": "integer", "minimum": 0 },
+        "total_rovers": { "type": "integer", "minimum": 1 },
+        "total_distance_m": { "type": "number", "minimum": 0.0 },
+        "total_distance_km": { "type": "number", "minimum": 0.0 },
+        "total_energy_consumed_wh": { "type": "number", "minimum": 0.0 },
+        "min_rover_soc_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+        "total_science_utility": { "type": "number", "minimum": 0.0 },
+        "targets_completed": { "type": "integer", "minimum": 0 },
+        "total_storage_used_mb": { "type": "number", "minimum": 0.0 },
+        "total_data_backlog_mb": { "type": "number", "minimum": 0.0 },
+        "fleet_connectivity_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+        "active_relays_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "rover_states": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["rover_id", "status", "current_location_rc", "battery_soc_pct", "current_energy_wh"],
+        "properties": {
+          "rover_id": { "type": "string" },
+          "status": { "type": "string" },
+          "current_location_rc": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "battery_soc_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+          "current_energy_wh": { "type": "number", "minimum": 0.0 },
+          "consumed_energy_wh": { "type": "number", "minimum": 0.0 },
+          "used_storage_mb": { "type": "number", "minimum": 0.0 },
+          "data_backlog_mb": { "type": "number", "minimum": 0.0 },
+          "connectivity_status": { "type": "string" }
+        }
+      }
+    },
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": true
+}

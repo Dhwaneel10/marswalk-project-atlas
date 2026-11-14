@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-science-report.schema.json",
+  "title": "MarsWalk Mission Science Report Data Contract",
+  "description": "Standardized reproducible science and engineering mission report combining nominal trajectory, terrain metrics, black-box sortie event ledgers, and verified Mars environmental intelligence.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "report_id",
+    "generated_at_utc",
+    "mission_id",
+    "mission_name",
+    "mission_status",
+    "reproducibility_manifest",
+    "plan_summary",
+    "mobility_metrics",
+    "stop_metrics",
+    "sortie_ledger_summary",
+    "environmental_context",
+    "provenance_audit"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^rep_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "mission_id": {
+      "type": "string"
+    },
+    "mission_name": {
+      "type": "string"
+    },
+    "mission_description": {
+      "type": ["string", "null"]
+    },
+    "mission_status": {
+      "type": "string",
+      "enum": ["nominal", "disrupted", "continued", "completed", "incomplete", "infeasible"]
+    },
+    "reproducibility_manifest": {
+      "type": "object",
+      "required": [
+        "terrain_dataset_id",
+        "terrain_sha256",
+        "model_version",
+        "software_version"
+      ],
+      "properties": {
+        "terrain_dataset_id": { "type": "string" },
+        "terrain_sha256": { "type": "string" },
+        "model_version": { "type": "string" },
+        "software_version": { "type": "string" },
+        "input_fingerprint": { "type": ["string", "null"] },
+        "assumptions_version": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "plan_summary": {
+      "type": "object",
+      "required": [
+        "start",
+        "goal",
+        "waypoints_count",
+        "vehicle_mode",
+        "profile"
+      ],
+      "properties": {
+        "start": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "row": { "type": "integer" },
+            "col": { "type": "integer" },
+            "lat_deg": { "type": ["number", "null"] },
+            "lon_deg": { "type": ["number", "null"] },
+            "elevation_m": { "type": ["number", "null"] }
+          },
+          "required": ["row", "col"]
+        },
+        "goal": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "row": { "type": "integer" },
+            "col": { "type": "integer" },
+            "lat_deg": { "type": ["number", "null"] },
+            "lon_deg": { "type": ["number", "null"] },
+            "elevation_m": { "type": ["number", "null"] }
+          },
+          "required": ["row", "col"]
+        },
+        "waypoints_count": { "type": "integer", "minimum": 0 },
+        "vehicle_mode": { "type": "string" },
+        "profile": { "type": "string" },
+        "speed_multiplier": { "type": ["number", "null"] },
+        "optimize_stops": { "type": ["boolean", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "mobility_metrics": {
+      "type": "object",
+      "required": [
+        "total_distance_m",
+        "total_cost",
+        "total_duration_s"
+      ],
+      "properties": {
+        "total_distance_m": { "type": ["number", "null"] },
+        "total_cost": { "type": ["number", "null"] },
+        "total_duration_s": { "type": ["number", "null"] },
+        "traverse_duration_s": { "type": ["number", "null"] },
+        "total_dwell_s": { "type": ["number", "null"] },
+        "min_elevation_m": { "type": ["number", "null"] },
+        "max_elevation_m": { "type": ["number", "null"] },
+        "elevation_gain_m": { "type": ["number", "null"] },
+        "max_slope_deg": { "type": ["number", "null"] },
+        "mean_slope_deg": { "type": ["number", "null"] },
+        "is_computed": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "stop_metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stop_id", "name", "row", "col", "dwell_time_s", "status"],
+        "properties": {
+          "stop_id": { "type": "string" },
+          "name": { "type": "string" },
+          "row": { "type": "integer" },
+          "col": { "type": "integer" },
+          "dwell_time_s": { "type": "number" },
+          "status": {
+            "type": "string",
+            "enum": ["planned", "reached", "skipped", "in_progress", "unknown"]
+          },
+          "elevation_m": { "type": ["number", "null"] },
+          "arrival_time_s": { "type": ["number", "null"] },
+          "priority_score": { "type": ["number", "null"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sortie_ledger_summary": {
+      "type": "object",
+      "required": [
+        "total_events_recorded",
+        "ledger_present",
+        "has_contingencies",
+        "continuation_count",
+        "recent_events"
+      ],
+      "properties": {
+        "total_events_recorded": { "type": "integer", "minimum": 0 },
+        "ledger_present": { "type": "boolean" },
+        "has_contingencies": { "type": "boolean" },
+        "continuation_count": { "type": "integer", "minimum": 0 },
+        "recent_events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["event_id", "event_type", "mission_time_s", "route_variant"],
+            "properties": {
+              "event_id": { "type": "string" },
+              "event_type": { "type": "string" },
+              "mission_time_s": { "type": "number" },
+              "playback_elapsed_s": { "type": ["number", "null"] },
+              "route_variant": { "type": "string" },
+              "continuation_id": { "type": ["string", "null"] },
+              "details": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "environmental_context": {
+      "type": ["object", "null"],
+      "properties": {
+        "site_id": { "type": "string" },
+        "site_name": { "type": "string" },
+        "data_type": { "type": "string" },
+        "freshness_status": { "type": "string" },
+        "observation_sol": { "type": ["integer", "null"] },
+        "observation_time_utc": { "type": ["string", "null"] },
+        "atmospheric_pressure_pa": { "type": ["number", "null"] },
+        "air_temperature_c": { "type": ["number", "null"] },
+        "wind_speed_m_s": { "type": ["number", "null"] },
+        "optical_depth_tau": { "type": ["number", "null"] },
+        "provenance_institution": { "type": "string" },
+        "provenance_url": { "type": "string" },
+        "disclosures": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "provenance_audit": {
+      "type": "object",
+      "required": [
+        "is_modeled_estimate",
+        "recomputed_metrics",
+        "data_sources",
+        "disclaimers"
+      ],
+      "properties": {
+        "is_modeled_estimate": { "type": "boolean" },
+        "recomputed_metrics": { "type": "boolean" },
+        "data_sources": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "planned_vs_observed_notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "disclaimers": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

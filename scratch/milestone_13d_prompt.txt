@@ -1,0 +1,90 @@
+<USER_REQUEST>
+# MARSWALK 2.0 / PROJECT ATLAS
+# MILESTONE 13D — ATLAS MARS RELAYNET
+## Terrain-Aware Communication Visibility, Relay Network Optimization & Dynamic Mission Connectivity Digital Twin
+
+REPOSITORY: `E:\Python\NASA-Spaceapps\Marswalk`
+
+WORKING WINDOW: Up to 120 minutes of continuous autonomous execution.
+
+PRIMARY OBJECTIVE:
+
+Extend MarsWalk beyond terrain-aware navigation into terrain-aware mission connectivity planning.
+
+Build a computationally grounded system that evaluates geometric communication visibility between exploration units, base stations, and candidate relay locations using the existing Jezero terrain model.
+
+Connect the results to the existing campaign planner, Mission Theater, Digital Twin, Mission Robustness Lab, Rehearsal Director, and Causal Replay Studio.
+
+The intended result is an interactive Mars communications-network planning environment where an evaluator can see terrain-blocked visibility, identify potential communication gaps, explore relay placements, and observe network connectivity throughout a simulated mission.
+
+This is a new engineering capability, not a decorative map overlay.
+
+---
+
+# 0. NON-NEGOTIABLE EXECUTION CONTRACT
+
+Work autonomously throughout the available two-hour window.
+
+Do not stop after planning, creating documentation, implementing a single calculation, or obtaining the first passing tests.
+
+Use the continuous engineering cycle:
+
+Inspect → design → implement → independently verify → integrate → browser test → improve → report.
+
+Use the available Antigravity capabilities:
+
+- Read and activate relevant existing MarsWalk Skills.
+- Use parallel subagents for independent mathematical, algorithmic, and UI reviews.
+- Use the actual terminal for development and tests.
+- Use browser automation to exercise the live application.
+- Capture genuine screenshots and measurable outputs.
+- Preserve a running task checklist.
+
+The primary agent is responsible for all integration and final acceptance.
+
+Use separate r
+<truncated 19092 bytes>
+ic graph tests.
+- Do not modify source terrain or historical mission records.
+- Never delete operational campaigns, observations, events, experiments, caches or evidence.
+- Use isolated workspaces for tests.
+- Do not create Git commits, push, deploy or publish.
+- Do not overwrite user changes.
+- Preserve the existing Three.js renderer.
+- Do not leave unnecessary servers or test processes running.
+
+---
+
+# ACCEPTANCE CRITERIA
+
+Milestone 13D is accepted only if:
+
+1. A real terrain-based geometric LOS calculation works.
+2. Obstructed and unobstructed cases pass independent mathematical fixtures.
+3. Nodata or incomplete terrain produces an honest unknown state.
+4. The network graph uses valid LOS and range conditions.
+5. Connectivity and disconnected components are correctly identified.
+6. A bounded relay selection method produces a reproducible result.
+7. Mission-time connectivity derives from actual simulated unit positions.
+8. The 3D Theater renders network nodes and selected connections accurately.
+9. The browser workflow is actually exercised.
+10. The implementation passes relevant regression tests.
+11. All communication-model assumptions and limitations are clearly disclosed.
+
+If an acceptance requirement cannot be verified, report conditional acceptance rather than inventing success.
+
+# FINAL DIRECTIVE
+
+BEGIN MILESTONE 13D NOW.
+
+Make RelayNet a genuine computational extension of MarsWalk: terrain-based visibility, graph-based connectivity, relay site planning, and time-dependent mission network visualization.
+
+Use the available two-hour window productively. Implement, independently verify, integrate into the actual 3D Mission Theater, and demonstrate the results.
+
+Do not stop at a decorative network overlay.
+
+Make the underlying mathematical analysis work, make the visual system understandable, and document precisely what the model does and does not establish.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-31T02:33:57+05:30.
+</ADDITIONAL_METADATA>

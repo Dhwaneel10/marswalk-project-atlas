@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.spaceapps.org/schemas/api/v1/campaign-reprioritization.schema.json",
+  "title": "CampaignReprioritizationRecommendation",
+  "description": "Schema for observation-driven campaign intelligence recommendations and strategy comparisons.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "campaign_id",
+    "source_version",
+    "proposed_version",
+    "proposed_revision_id",
+    "created_at_utc",
+    "target_rationales",
+    "strategy_comparison",
+    "has_improvements",
+    "proposed_campaign"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "source_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "proposed_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "proposed_revision_id": {
+      "type": "string"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "objective_weights": {
+      "type": "object",
+      "additionalProperties": { "type": "number", "minimum": 0.0 }
+    },
+    "has_improvements": {
+      "type": "boolean"
+    },
+    "strategy_comparison": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "profile_name",
+          "total_sols",
+          "total_distance_m",
+          "total_duration_s",
+          "total_science_score",
+          "targets_scheduled",
+          "targets_completed",
+          "targets_deferred",
+          "is_feasible"
+        ],
+        "properties": {
+          "profile_name": { "type": "string" },
+          "total_sols": { "type": "integer", "minimum": 0 },
+          "total_distance_m": { "type": "number", "minimum": 0.0 },
+          "total_duration_s": { "type": "number", "minimum": 0.0 },
+          "total_science_score": { "type": "number", "minimum": 0.0 },
+          "targets_scheduled": { "type": "integer", "minimum": 0 },
+          "targets_completed": { "type": "integer", "minimum": 0 },
+          "targets_deferred": { "type": "integer", "minimum": 0 },
+          "is_feasible": { "type": "boolean" }
+        }
+      }
+    },
+    "target_rationales": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "target_id",
+          "target_name",
+          "status_change",
+          "reason"
+        ],
+        "properties": {
+          "target_id": { "type": "string" },
+          "target_name": { "type": "string" },
+          "original_sol": { "type": ["integer", "null"] },
+          "revised_sol": { "type": ["integer", "null"] },
+          "status_change": {
+            "type": "string",
+            "enum": [
+              "UNCHANGED",
+              "EXPEDITED",
+              "POSTPONED",
+              "UNBLOCKED",
+              "DEFERRED",
+              "REPEAT_ADDED",
+              "COMPLETED_PRESERVED"
+            ]
+          },
+          "reason": { "type": "string" },
+          "supporting_observation_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "proposed_campaign": {
+      "type": "object"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limitations_disclaimer": {
+      "type": "string"
+    }
+  }
+}

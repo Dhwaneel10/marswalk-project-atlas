@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/environmental-ingestion-manifest.schema.json",
+  "title": "Atlas Planetary Ingestion Manifest Schema",
+  "description": "Milestone 13M — Verification of ingested raw planetary datasets, SHA-256 digests, and provenance metadata.",
+  "type": "object",
+  "required": ["manifest_version", "generated_at_utc", "provenance_authority", "total_products", "products"],
+  "properties": {
+    "manifest_version": { "type": "string" },
+    "generated_at_utc": { "type": "string" },
+    "provenance_authority": { "type": "string" },
+    "total_products": { "type": "integer", "minimum": 0 },
+    "total_bytes": { "type": "integer", "minimum": 0 },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "product_id",
+          "relative_path",
+          "file_size_bytes",
+          "sha256_checksum",
+          "source_url",
+          "platform",
+          "instrument",
+          "processing_level",
+          "provenance_class",
+          "citation",
+          "verification_status"
+        ],
+        "properties": {
+          "product_id": { "type": "string" },
+          "relative_path": { "type": "string" },
+          "file_size_bytes": { "type": "integer", "minimum": 0 },
+          "sha256_checksum": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+          "last_modified_utc": { "type": "string" },
+          "source_url": { "type": "string" },
+          "platform": { "type": "string" },
+          "instrument": { "type": "string" },
+          "processing_level": { "type": "string" },
+          "provenance_class": { "type": "string" },
+          "citation": { "type": "string" },
+          "verification_status": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/route-result.schema.json",
+  "title": "MarsWalk Route Result",
+  "description": "Canonical representation of a computed traverse path, terrain metrics, operational timeline, and scientific feasibility.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "input_fingerprint",
+    "status",
+    "is_reachable",
+    "is_budget_feasible",
+    "path_rc",
+    "route_metrics"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "input_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16,64}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "unreachable", "invalid_input", "calculation_failed"]
+    },
+    "is_reachable": {
+      "type": "boolean"
+    },
+    "is_budget_feasible": {
+      "type": "boolean"
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["conservative", "balanced", "science_first"]
+    },
+    "vehicle_mode": {
+      "type": "string",
+      "enum": ["crew_eva", "robotic_rover"]
+    },
+    "speed_multiplier": {
+      "type": "number",
+      "exclusiveMinimum": 0.0
+    },
+    "path_rc": {
+      "type": "array",
+      "description": "Authentic connected grid cell coordinate pairs [[row, col], ...] computed by A*.",
+      "items": {
+        "type": "array",
+        "items": { "type": "integer", "minimum": 0 },
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "coordinates_3d": {
+      "type": "array",
+      "description": "Cartographic 3D coordinates [[lon_deg, lat_deg, elevation_m], ...] for 3D visualization.",
+      "items": {
+        "type": "array",
+        "items": { "type": "number" },
+        "minItems": 3,
+        "maxItems": 3
+      }
+    },
+    "route_metrics": {
+      "type": "object",
+      "required": [
+        "ground_distance_m",
+        "terrain_cost_flat_m",
+        "active_traverse_time_s",
+        "total_mission_time_s",
+        "cumulative_climb_m",
+        "max_slope_deg",
+        "science_score"
+      ],
+      "properties": {
+        "ground_distance_m": {
+          "type": ["number", "null"],
+          "minimum": 0.0,
+          "description": "Actual physical route distance in metres across the CTX grid."
+        },
+        "terrain_cost_flat_m": {
+          "type": ["number", "null"],
+          "minimum": 0.0,
+          "description": "Terrain-adjusted effort in flat ground equivalent metres (flat-m)."
+        },
+        "active_traverse_time_s": {
+          "type": ["number", "null"],
+          "minimum": 0.0,
+          "description": "Transit movement time in seconds based on vehicle speed and slope impedance."
+        },
+        "travel_time_range_s": {
+          "type": "object",
+          "properties": {
+            "min_s": { "type": "number", "minimum": 0.0 },
+            "max_s": { "type": "number", "minimum": 0.0 }
+          },
+          "additionalProperties": false
+        },
+        "total_mission_time_s": {
+          "type": ["number", "null"],
+          "minimum": 0.0,
+          "description": "Combined elapsed duration: active traverse time + dwell time + operational delay."
+        },
+        "cumulative_climb_m": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "Sum of positive elevation changes along the path in metres."
+        },
+        "max_slope_deg": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 90.0,
+          "description": "Maximum slope angle encountered along the path in degrees."
+        },
+        "science_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "Cumulative science priority score acquired across visited targets."
+        },
+        "num_cells": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of grid cells forming the connected path."
+        },
+        "num_steps": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of discrete cardinal and diagonal transitions in the route."
+        }
+      },
+      "additionalProperties": false
+    },
+    "timeline": {
+      "type": ["object", "null"],
+      "description": "Structured operational mission schedule events and margin evaluation."
+    },
+    "science_objectives": {
+      "type": "object",
+      "properties": {
+        "visited_ids": { "type": "array", "items": { "type": "string" } },
+        "retained_ids": { "type": "array", "items": { "type": "string" } },
+        "omitted_ids": { "type": "array", "items": { "type": "string" } },
+        "retention_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 }
+      },
+      "additionalProperties": false
+    },
+    "feasibility": {
+      "type": "object",
+      "properties": {
+        "is_reachable": { "type": "boolean" },
+        "is_budget_feasible": { "type": "boolean" },
+        "remaining_margin_s": { "type": "number" },
+        "operational_limit_s": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "assumptions": {
+      "type": "object",
+      "description": "Audit mapping of engineering analogues, sourced technical values, and operational limits."
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Non-fatal advisories, approximation disclosures, or data coverage notices."
+    },
+    "distance_m": { "type": ["number", "null"] },
+    "cost": { "type": ["number", "null"] },
+    "travel_time_s": { "type": ["number", "null"] },
+    "travel_time_min_s": { "type": ["number", "null"] },
+    "travel_time_max_s": { "type": ["number", "null"] },
+    "formatted_travel_time": { "type": "string" },
+    "cumulative_climb_m": { "type": "number" },
+    "max_slope_deg": { "type": "number" },
+    "science_score": { "type": "number" },
+    "visited_waypoint_ids": { "type": "array", "items": { "type": "string" } },
+    "num_steps": { "type": "integer" },
+    "num_cells": { "type": "integer" },
+    "status_message": { "type": "string" },
+    "execution_time_s": { "type": "number" },
+    "optimization": { "type": ["object", "null"] }
+  },
+  "additionalProperties": true
+}

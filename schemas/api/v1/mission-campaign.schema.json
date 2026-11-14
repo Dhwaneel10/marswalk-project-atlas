@@ -1,0 +1,388 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-campaign.schema.json",
+  "title": "MarsWalk Mission Campaign Data Contract",
+  "description": "Persistent, versioned definition of a multi-sol planetary exploration campaign containing multiple sorties, target dependency DAGs, resource-aware scheduling, and disruption history.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "campaign_id",
+    "name",
+    "version",
+    "created_at_utc",
+    "updated_at_utc",
+    "region_id",
+    "terrain_dataset_id",
+    "reproducibility_manifest",
+    "config",
+    "targets",
+    "sorties",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$",
+      "description": "Unique, URL-safe identifier for the campaign record."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "Human-readable designation of the mission campaign."
+    },
+    "description": {
+      "type": ["string", "null"],
+      "maxLength": 4000
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonically increasing version counter for plan revisions."
+    },
+    "revision_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,64}$"
+    },
+    "parent_campaign_id": {
+      "type": ["string", "null"],
+      "description": "Identifier of parent campaign version if generated from a replan or branching."
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "region_id": {
+      "type": "string",
+      "description": "Planetary region identifier (e.g. 'jezero_crater')."
+    },
+    "terrain_dataset_id": {
+      "type": "string",
+      "description": "Authoritative DTM identifier (e.g. 'USGS_CTX_DTM_JEZERO_20M')."
+    },
+    "reproducibility_manifest": {
+      "type": "object",
+      "required": ["terrain_dataset_id", "terrain_sha256", "model_version", "software_version"],
+      "properties": {
+        "terrain_dataset_id": { "type": "string" },
+        "terrain_sha256": { "type": "string" },
+        "model_version": { "type": "string" },
+        "software_version": { "type": "string" },
+        "input_fingerprint": { "type": ["string", "null"] },
+        "assumptions_version": { "type": ["string", "null"] }
+      }
+    },
+    "config": {
+      "type": "object",
+      "required": [
+        "planning_profile",
+        "vehicle_mode",
+        "max_duration_per_sortie_s",
+        "base_start_rc",
+        "return_to_base_each_sol"
+      ],
+      "properties": {
+        "planning_profile": {
+          "type": "string",
+          "enum": ["science_priority", "time_constrained", "conservative"]
+        },
+        "vehicle_mode": {
+          "type": "string",
+          "enum": ["crew_eva", "robotic_rover"]
+        },
+        "speed_multiplier": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 5.0,
+          "default": 1.0
+        },
+        "max_duration_per_sortie_s": {
+          "type": "number",
+          "minimum": 600.0,
+          "maximum": 86400.0
+        },
+        "max_sols": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "maximum": 30
+        },
+        "max_total_duration_s": {
+          "type": ["number", "null"],
+          "minimum": 600.0
+        },
+        "base_start_rc": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "base_end_rc": {
+          "type": ["array", "null"],
+          "items": { "type": "integer" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "return_to_base_each_sol": {
+          "type": "boolean"
+        },
+        "dwell_time_per_stop_s": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 900.0
+        },
+        "objective_weights": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        }
+      }
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "row", "col", "priority_score", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "row": { "type": "integer", "minimum": 0 },
+          "col": { "type": "integer", "minimum": 0 },
+          "lat_deg": { "type": ["number", "null"] },
+          "lon_deg": { "type": ["number", "null"] },
+          "elevation_m": { "type": ["number", "null"] },
+          "priority_score": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+          "priority_label": { "type": "string", "enum": ["user_defined", "default"] },
+          "dwell_time_s": { "type": "number", "minimum": 0.0 },
+          "prerequisites": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "geological_context": { "type": ["string", "null"] },
+          "crism_signature": { "type": ["string", "null"] },
+          "provenance": { "type": ["string", "null"] },
+          "status": {
+            "type": "string",
+            "enum": [
+              "UNSCHEDULED",
+              "SCHEDULED",
+              "VISITING",
+              "COMPLETED",
+              "BLOCKED",
+              "DEFERRED",
+              "UNREACHABLE",
+              "REJECTED_PREREQUISITE_FAILED",
+              "REJECTED_BUDGET_EXCEEDED"
+            ]
+          },
+          "assigned_sortie_id": { "type": ["string", "null"] },
+          "assigned_sol_index": { "type": ["integer", "null"] },
+          "unscheduled_reason": { "type": ["string", "null"] },
+          "science_objective": { "type": ["string", "null"] },
+          "objective_classification": {
+            "type": ["string", "null"],
+            "enum": [
+              "SUPPORTS_OBJECTIVE",
+              "DOES_NOT_SUPPORT_OBJECTIVE",
+              "INCONCLUSIVE",
+              "NOT_ASSESSED",
+              null
+            ]
+          },
+          "linked_observation_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "repeat_observation_requested": { "type": "boolean" },
+          "assigned_unit_id": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "sorties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sortie_id",
+          "sol_index",
+          "name",
+          "start_rc",
+          "goal_rc",
+          "target_ids",
+          "path_rc",
+          "distance_m",
+          "travel_time_s",
+          "dwell_time_s",
+          "total_duration_s",
+          "is_feasible",
+          "status"
+        ],
+        "properties": {
+          "sortie_id": { "type": "string" },
+          "unit_id": { "type": ["string", "null"] },
+          "sol_index": { "type": "integer", "minimum": 1 },
+          "name": { "type": "string" },
+          "start_rc": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "goal_rc": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "target_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "target_names": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "path_rc": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { "type": "integer" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "distance_m": { "type": "number", "minimum": 0.0 },
+          "travel_time_s": { "type": "number", "minimum": 0.0 },
+          "dwell_time_s": { "type": "number", "minimum": 0.0 },
+          "total_duration_s": { "type": "number", "minimum": 0.0 },
+          "remaining_margin_s": { "type": "number" },
+          "science_score": { "type": "number", "minimum": 0.0 },
+          "terrain_cost": { "type": "number" },
+          "max_slope_deg": { "type": "number" },
+          "cumulative_climb_m": { "type": "number" },
+          "is_feasible": { "type": "boolean" },
+          "status": {
+            "type": "string",
+            "enum": ["PLANNED", "READY", "IN_PROGRESS", "COMPLETED", "DISRUPTED", "BLOCKED", "DEFERRED", "CANCELLED"]
+          },
+          "legs_summary": { "type": "array" },
+          "timeline_events": { "type": "array" }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "total_sols",
+        "total_sorties",
+        "total_distance_m",
+        "total_travel_time_s",
+        "total_dwell_time_s",
+        "total_duration_s",
+        "total_science_score",
+        "targets_total",
+        "targets_scheduled",
+        "targets_unscheduled",
+        "is_campaign_feasible",
+        "overall_status"
+      ],
+      "properties": {
+        "total_sols": { "type": "integer", "minimum": 0 },
+        "total_sorties": { "type": "integer", "minimum": 0 },
+        "total_distance_m": { "type": "number", "minimum": 0.0 },
+        "total_travel_time_s": { "type": "number", "minimum": 0.0 },
+        "total_dwell_time_s": { "type": "number", "minimum": 0.0 },
+        "total_duration_s": { "type": "number", "minimum": 0.0 },
+        "total_science_score": { "type": "number", "minimum": 0.0 },
+        "targets_total": { "type": "integer", "minimum": 0 },
+        "targets_scheduled": { "type": "integer", "minimum": 0 },
+        "targets_unscheduled": { "type": "integer", "minimum": 0 },
+        "targets_completed": { "type": "integer", "minimum": 0, "default": 0 },
+        "is_campaign_feasible": { "type": "boolean" },
+        "overall_status": {
+          "type": "string",
+          "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "INFEASIBLE", "IN_PROGRESS", "COMPLETED"]
+        },
+        "bottlenecks_and_notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "disruption": {
+      "type": ["object", "null"],
+      "properties": {
+        "disruption_type": { "type": "string" },
+        "affected_sorties": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "description": { "type": "string" }
+      }
+    },
+    "revision_comparison": {
+      "type": ["object", "null"],
+      "properties": {
+        "delta_distance_m": { "type": "number" },
+        "delta_duration_s": { "type": "number" },
+        "delta_science_score": { "type": "number" },
+        "newly_unscheduled_targets": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "resequenced_sorties": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "progress": {
+      "type": ["object", "null"],
+      "properties": {
+        "active_sol_index": { "type": "integer", "minimum": 1 },
+        "completed_sortie_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "completed_target_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "blocked_target_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "observation_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "completion_percentage": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 100.0
+        }
+      }
+    },
+    "observations_summary": {
+      "type": ["object", "null"],
+      "properties": {
+        "total_observations": { "type": "integer", "minimum": 0 },
+        "simulated_count": { "type": "integer", "minimum": 0 },
+        "imported_count": { "type": "integer", "minimum": 0 },
+        "observations_by_type": { "type": "object" }
+      }
+    },
+    "intelligence_recommendation": {
+      "type": ["object", "null"]
+    },
+    "coordination": {
+      "type": ["object", "null"]
+    }
+  }
+}

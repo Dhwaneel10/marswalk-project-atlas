@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0.0",
+  "design_space_id": "ds_d659adda6b9f",
+  "campaign_id": "cmp_ds_test_001",
+  "campaign_version": 1,
+  "created_at_utc": "2026-10-30T22:05:08.742526+00:00",
+  "search_bounds": {
+    "max_candidates": 3,
+    "max_planner_calls": 3
+  },
+  "search_completeness": {
+    "candidates_considered": 3,
+    "candidates_deduplicated": 0,
+    "candidates_evaluated": 3,
+    "candidates_rejected": 0,
+    "is_exhaustive": false,
+    "limit_reached": true,
+    "unexplored_scope_notes": "Evaluation budget reached 3 candidates. Unexplored combinations: 24."
+  },
+  "pareto_candidates": [
+    {
+      "candidate_id": "cand_cp_01",
+      "fingerprint": "41495feccda74d9a4ff7e7e74a6a7ccda32e969d9dfbb38813eed08f70035cf9",
+      "configuration": {
+        "planning_profile": "science_priority",
+        "max_duration_per_sortie_s": 28800.0,
+        "max_sols": 3,
+        "is_baseline": true
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_02",
+      "fingerprint": "bf00d6056f24f68895ed15195a9a851493358cbbd02bd2c847663fb09876575e",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 2,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 71.2,
+        "total_duration_s": 1732.1,
+        "total_distance_m": 110.3,
+        "unallocated_priority": 75.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 2
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 71.2% science coverage, 0.5h duration, and 0.11km distance across 2 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_03",
+      "fingerprint": "efe92aa9f51a2cc455dd539be2cc5e2c8a40b0be8294cfb68164778d5dfb421c",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 3,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    }
+  ],
+  "dominated_candidates": [],
+  "infeasible_candidates": [],
+  "recommendations": [
+    {
+      "recommendation_id": "rec_ds_8054d3",
+      "candidate_id": "cand_cp_01",
+      "headline": "Maximal Science Yield (100.0% Coverage)",
+      "tradeoff_summary": "Achieves highest objective coverage of 100.0% across 3 sorties (276m traverse) over a modeled total duration of 0.8h.",
+      "selection_rationale": "Recommended when primary mission priority is exhaustive scientific return."
+    },
+    {
+      "recommendation_id": "rec_ds_ce080a",
+      "candidate_id": "cand_cp_02",
+      "headline": "Expedited Campaign Duration (0.5h Total)",
+      "tradeoff_summary": "Saves 0.3h of surface operational time relative to maximal science, while retaining 71.2% science coverage (-28.8% reduction in coverage).",
+      "selection_rationale": "Recommended when crew fatigue, dust storm approach, or life support margins require minimal surface exposure."
+    }
+  ],
+  "limitations_disclaimer": "The Campaign Design Space Explorer is a deterministic multi-objective planning tool for simulated Mars exploration evaluation. It does NOT guarantee global mathematical optimality, employ probabilistic forecasting, or represent certified flight operations software. All candidate trade-offs are grounded in simulated route planning."
+}

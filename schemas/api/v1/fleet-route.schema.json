@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-route.schema.json",
+  "title": "Fleet Coordinated Routes Contract",
+  "description": "Defines per-rover traverse routes, 3D coordinates, spatiotemporal occupancy intervals, and detected conflicts.",
+  "type": "object",
+  "required": [
+    "routes",
+    "conflicts",
+    "summary"
+  ],
+  "properties": {
+    "routes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["rover_id", "route_id", "path_rc", "total_distance_m", "total_time_s"],
+        "properties": {
+          "rover_id": { "type": "string" },
+          "route_id": { "type": "string" },
+          "ordered_stops": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "path_rc": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { "type": "integer" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "path_xyz": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 3,
+              "maxItems": 3
+            }
+          },
+          "total_distance_m": { "type": "number", "minimum": 0.0 },
+          "traverse_time_s": { "type": "number", "minimum": 0.0 },
+          "dwell_time_s": { "type": "number", "minimum": 0.0 },
+          "total_time_s": { "type": "number", "minimum": 0.0 },
+          "conflicts_count": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["conflict_id", "rover_id_a", "rover_id_b", "status"],
+        "properties": {
+          "conflict_id": { "type": "string" },
+          "rover_id_a": { "type": "string" },
+          "rover_id_b": { "type": "string" },
+          "location_rc": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "separation_distance_m": { "type": "number" },
+          "status": { "type": "string" },
+          "resolution_strategy": { "type": ["string", "null"] },
+          "delay_applied_s": { "type": "number" },
+          "diagnostic_note": { "type": "string" }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "total_distance_m": { "type": "number" },
+        "total_time_s": { "type": "number" },
+        "conflicts_detected": { "type": "integer" },
+        "conflicts_resolved": { "type": "integer" }
+      }
+    }
+  },
+  "additionalProperties": true
+}

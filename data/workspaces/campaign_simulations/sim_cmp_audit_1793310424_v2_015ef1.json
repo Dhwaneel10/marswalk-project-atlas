@@ -1,0 +1,622 @@
+{
+  "schema_version": "1.0.0",
+  "simulation_id": "sim_cmp_audit_1793310424_v2_015ef1",
+  "campaign_id": "cmp_audit_1793310424_v2",
+  "campaign_version": 2,
+  "coordination_id": "coord_91fb5b9a03a5",
+  "parent_simulation_id": null,
+  "status": "IDLE",
+  "current_time_s": 0.0,
+  "current_sol": 1,
+  "total_duration_s": 8799.2,
+  "time_scale": 1.0,
+  "created_at_utc": "2026-10-29T21:47:06.611469+00:00",
+  "updated_at_utc": "2026-10-29T21:47:06.611469+00:00",
+  "units": [
+    {
+      "unit_id": "unit_perseverance",
+      "name": "Perseverance Rover Analogue",
+      "unit_type": "robotic_rover",
+      "status": "AVAILABLE",
+      "current_activity": "IDLE",
+      "current_target_id": null,
+      "current_sortie_id": null,
+      "position": {
+        "row": 117,
+        "col": 157,
+        "lon": 4590873.250853,
+        "lat": 1093303.140188,
+        "elevation_m": -2567.2,
+        "slope_deg": 2.8,
+        "is_simulated_position": true
+      },
+      "total_distance_m": 0.0,
+      "total_active_time_s": 0.0,
+      "energy_consumed_kwh": 0.0
+    },
+    {
+      "unit_id": "unit_crew_eva_1",
+      "name": "Crew EVA Team Alpha",
+      "unit_type": "crew_eva",
+      "status": "AVAILABLE",
+      "current_activity": "IDLE",
+      "current_target_id": null,
+      "current_sortie_id": null,
+      "position": {
+        "row": 117,
+        "col": 157,
+        "lon": 4590873.250853,
+        "lat": 1093303.140188,
+        "elevation_m": -2567.2,
+        "slope_deg": 2.8,
+        "is_simulated_position": true
+      },
+      "total_distance_m": 0.0,
+      "total_active_time_s": 0.0,
+      "energy_consumed_kwh": 0.0
+    }
+  ],
+  "timeline_intervals": [
+    {
+      "interval_id": "iv_trans_unit_crew_eva_1_sort_unit_crew_eva_1_sol01_583b69",
+      "unit_id": "unit_crew_eva_1",
+      "activity_type": "TRANSIT",
+      "start_time_s": 0.0,
+      "end_time_s": 6849.2,
+      "duration_s": 6849.2,
+      "sol_index": 1,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_crew_eva_1_sol01_583b69",
+      "target_id": null,
+      "target_name": null,
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          116,
+          158
+        ],
+        [
+          115,
+          159
+        ],
+        [
+          114,
+          160
+        ],
+        [
+          113,
+          161
+        ],
+        [
+          112,
+          162
+        ],
+        [
+          111,
+          163
+        ],
+        [
+          110,
+          164
+        ],
+        [
+          109,
+          165
+        ],
+        [
+          108,
+          166
+        ],
+        [
+          107,
+          167
+        ],
+        [
+          106,
+          168
+        ],
+        [
+          105,
+          169
+        ],
+        [
+          104,
+          170
+        ],
+        [
+          103,
+          171
+        ],
+        [
+          102,
+          172
+        ],
+        [
+          101,
+          173
+        ],
+        [
+          100,
+          174
+        ],
+        [
+          99,
+          175
+        ],
+        [
+          98,
+          176
+        ],
+        [
+          97,
+          177
+        ],
+        [
+          97,
+          178
+        ],
+        [
+          96,
+          179
+        ],
+        [
+          95,
+          180
+        ],
+        [
+          96,
+          179
+        ],
+        [
+          97,
+          178
+        ],
+        [
+          98,
+          177
+        ],
+        [
+          99,
+          176
+        ],
+        [
+          100,
+          175
+        ],
+        [
+          101,
+          174
+        ],
+        [
+          102,
+          173
+        ],
+        [
+          103,
+          172
+        ],
+        [
+          104,
+          171
+        ],
+        [
+          105,
+          170
+        ],
+        [
+          106,
+          169
+        ],
+        [
+          107,
+          168
+        ],
+        [
+          108,
+          167
+        ],
+        [
+          109,
+          166
+        ],
+        [
+          110,
+          165
+        ],
+        [
+          111,
+          164
+        ],
+        [
+          112,
+          163
+        ],
+        [
+          113,
+          162
+        ],
+        [
+          114,
+          161
+        ],
+        [
+          115,
+          160
+        ],
+        [
+          116,
+          159
+        ],
+        [
+          117,
+          158
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          119,
+          156
+        ],
+        [
+          120,
+          155
+        ],
+        [
+          121,
+          154
+        ],
+        [
+          122,
+          153
+        ],
+        [
+          123,
+          152
+        ],
+        [
+          124,
+          151
+        ],
+        [
+          125,
+          150
+        ],
+        [
+          125,
+          149
+        ],
+        [
+          126,
+          148
+        ],
+        [
+          127,
+          147
+        ],
+        [
+          128,
+          146
+        ],
+        [
+          128,
+          145
+        ],
+        [
+          128,
+          144
+        ],
+        [
+          128,
+          143
+        ],
+        [
+          128,
+          142
+        ],
+        [
+          129,
+          141
+        ],
+        [
+          130,
+          140
+        ],
+        [
+          131,
+          139
+        ],
+        [
+          132,
+          138
+        ],
+        [
+          133,
+          137
+        ],
+        [
+          134,
+          136
+        ],
+        [
+          135,
+          135
+        ],
+        [
+          136,
+          134
+        ],
+        [
+          137,
+          133
+        ],
+        [
+          138,
+          132
+        ],
+        [
+          139,
+          131
+        ],
+        [
+          140,
+          130
+        ],
+        [
+          141,
+          129
+        ],
+        [
+          142,
+          128
+        ],
+        [
+          143,
+          127
+        ],
+        [
+          144,
+          126
+        ],
+        [
+          145,
+          125
+        ],
+        [
+          146,
+          124
+        ],
+        [
+          147,
+          123
+        ],
+        [
+          148,
+          122
+        ],
+        [
+          149,
+          121
+        ],
+        [
+          150,
+          120
+        ],
+        [
+          149,
+          121
+        ],
+        [
+          148,
+          122
+        ],
+        [
+          147,
+          123
+        ],
+        [
+          146,
+          124
+        ],
+        [
+          145,
+          125
+        ],
+        [
+          144,
+          126
+        ],
+        [
+          143,
+          127
+        ],
+        [
+          142,
+          128
+        ],
+        [
+          141,
+          129
+        ],
+        [
+          140,
+          130
+        ],
+        [
+          139,
+          131
+        ],
+        [
+          138,
+          132
+        ],
+        [
+          137,
+          133
+        ],
+        [
+          136,
+          134
+        ],
+        [
+          135,
+          135
+        ],
+        [
+          134,
+          136
+        ],
+        [
+          133,
+          137
+        ],
+        [
+          132,
+          138
+        ],
+        [
+          131,
+          139
+        ],
+        [
+          130,
+          140
+        ],
+        [
+          129,
+          141
+        ],
+        [
+          128,
+          142
+        ],
+        [
+          128,
+          143
+        ],
+        [
+          128,
+          144
+        ],
+        [
+          128,
+          145
+        ],
+        [
+          127,
+          146
+        ],
+        [
+          126,
+          147
+        ],
+        [
+          125,
+          148
+        ],
+        [
+          124,
+          149
+        ],
+        [
+          123,
+          150
+        ],
+        [
+          122,
+          151
+        ],
+        [
+          122,
+          152
+        ],
+        [
+          121,
+          153
+        ],
+        [
+          120,
+          154
+        ],
+        [
+          119,
+          155
+        ],
+        [
+          118,
+          156
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 3222.2
+    },
+    {
+      "interval_id": "iv_dwell_unit_crew_eva_1_sort_unit_crew_eva_1_sol01_583b69_tgt_crater_rim",
+      "unit_id": "unit_crew_eva_1",
+      "activity_type": "DWELL",
+      "start_time_s": 6849.2,
+      "end_time_s": 7824.2,
+      "duration_s": 975.0,
+      "sol_index": 1,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_crew_eva_1_sol01_583b69",
+      "target_id": "tgt_crater_rim",
+      "target_name": "Belva Crater Rim Exposure",
+      "path_rc": [],
+      "distance_m": 0.0
+    },
+    {
+      "interval_id": "iv_dwell_unit_crew_eva_1_sort_unit_crew_eva_1_sol01_583b69_tgt_neretva_fan",
+      "unit_id": "unit_crew_eva_1",
+      "activity_type": "DWELL",
+      "start_time_s": 7824.2,
+      "end_time_s": 8799.2,
+      "duration_s": 975.0,
+      "sol_index": 1,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_crew_eva_1_sol01_583b69",
+      "target_id": "tgt_neretva_fan",
+      "target_name": "Neretva Fan Sediments",
+      "path_rc": [],
+      "distance_m": 0.0
+    }
+  ],
+  "events": [
+    {
+      "event_id": "evt_sim_start_sim_cmp_",
+      "event_type": "SIMULATION_START",
+      "simulated_time_s": 0.0,
+      "sol_index": 1,
+      "unit_id": null,
+      "target_id": null,
+      "sortie_id": null,
+      "title": "Campaign Digital Twin Initialized",
+      "description": "Simulation initialized for campaign 'Audit Promoted Science Optimized Campaign v2' with 2 units and 3 tasks.",
+      "is_simulated": true,
+      "details": {
+        "units": [
+          "unit_perseverance",
+          "unit_crew_eva_1"
+        ],
+        "campaign_id": "cmp_audit_1793310424_v2"
+      }
+    }
+  ],
+  "conflicts": [],
+  "statistics": {
+    "total_intervals": 3,
+    "total_events": 1,
+    "completed_targets": 0,
+    "remaining_targets": 4,
+    "conflicts_count": 0,
+    "progress_pct": 0.0
+  },
+  "limitations_disclaimer": "The Campaign Digital Twin is a deterministic simulation model for Mars mission planning and rehearsal. It does NOT represent a live telemetry feed, real-time autonomous robotic control, or flight-certified operations software. All positions are simulated route derivations and physical sample/power transfers between vehicles are unsupported."
+}

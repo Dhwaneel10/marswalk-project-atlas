@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk Science Mission Evaluation Schema",
+  "description": "JSON Schema for MarsWalk 2.0 / Project Atlas Milestone 13G Coupled Science Mission Evaluation and Multi-Objective Co-Design",
+  "type": "object",
+  "required": [
+    "configuration_id",
+    "traverse",
+    "relays",
+    "metrics",
+    "timeline_summary",
+    "timeline_gap_intervals",
+    "is_pareto_optimal",
+    "constraint_violations",
+    "recommendation_tier"
+  ],
+  "properties": {
+    "configuration_id": { "type": "string" },
+    "traverse": { "type": "object" },
+    "relays": { "type": "object" },
+    "metrics": {
+      "type": "object",
+      "required": ["physical_metrics", "resource_metrics", "science_metrics", "scalar_utility_score"],
+      "properties": {
+        "physical_metrics": { "type": "object" },
+        "resource_metrics": { "type": "object" },
+        "science_metrics": {
+          "type": "object",
+          "required": [
+            "science_points_total",
+            "data_generated_bytes",
+            "data_transferred_bytes",
+            "data_backlog_bytes",
+            "storage_peak_bytes",
+            "storage_pressure_state"
+          ]
+        },
+        "normalized_vector": { "type": "object" },
+        "scalar_utility_score": { "type": "number" }
+      }
+    },
+    "timeline_summary": { "type": "object" },
+    "timeline_gap_intervals": { "type": "array" },
+    "is_pareto_optimal": { "type": "boolean" },
+    "constraint_violations": { "type": "array", "items": { "type": "string" } },
+    "recommendation_tier": { "type": "string" },
+    "resource_ledger": { "type": ["object", "null"] },
+    "science_plan": { "type": ["object", "null"] },
+    "data_ledger": { "type": ["object", "null"] }
+  },
+  "additionalProperties": false
+}

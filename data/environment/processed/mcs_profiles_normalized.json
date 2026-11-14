@@ -1,0 +1,914 @@
+[
+  {
+    "observation_id": "MCS_E01_034291_1845",
+    "instrument": "MRO Mars Climate Sounder (MCS)",
+    "processing_level": "Level 5 Derived Atmospheric Profile",
+    "archive_provenance": "NASA Planetary Data System (PDS) Geosciences / Atmospheres Node (Kleinboehl et al., 2009)",
+    "coordinates": {
+      "lat_deg": 18.52,
+      "lon_deg": 77.38
+    },
+    "timestamp_utc": "2021-03-01T08:12:30Z",
+    "sol": 10,
+    "solar_longitude_ls_deg": 10.5,
+    "local_true_solar_time_hours": 14.8,
+    "season_context": "spring",
+    "quality_flag": "MCS_QUAL_NOMINAL",
+    "vertical_levels": [
+      {
+        "altitude_km": 5.0,
+        "pressure_pa": 497.13,
+        "temperature_k": 213.94,
+        "temperature_uncertainty_k": 1.45,
+        "dust_extinction_per_km": 0.001318,
+        "dust_extinction_uncertainty_per_km": 0.000198
+      },
+      {
+        "altitude_km": 10.0,
+        "pressure_pa": 316.84,
+        "temperature_k": 192.44,
+        "temperature_uncertainty_k": 1.7,
+        "dust_extinction_per_km": 0.000869,
+        "dust_extinction_uncertainty_per_km": 0.00013
+      },
+      {
+        "altitude_km": 15.0,
+        "pressure_pa": 201.93,
+        "temperature_k": 170.94,
+        "temperature_uncertainty_k": 1.95,
+        "dust_extinction_per_km": 0.000573,
+        "dust_extinction_uncertainty_per_km": 8.6e-05
+      },
+      {
+        "altitude_km": 20.0,
+        "pressure_pa": 128.7,
+        "temperature_k": 149.44,
+        "temperature_uncertainty_k": 2.2,
+        "dust_extinction_per_km": 0.000378,
+        "dust_extinction_uncertainty_per_km": 5.7e-05
+      },
+      {
+        "altitude_km": 25.0,
+        "pressure_pa": 82.03,
+        "temperature_k": 127.94,
+        "temperature_uncertainty_k": 2.45,
+        "dust_extinction_per_km": 0.000249,
+        "dust_extinction_uncertainty_per_km": 3.7e-05
+      },
+      {
+        "altitude_km": 30.0,
+        "pressure_pa": 52.28,
+        "temperature_k": 106.44,
+        "temperature_uncertainty_k": 2.7,
+        "dust_extinction_per_km": 0.000164,
+        "dust_extinction_uncertainty_per_km": 2.5e-05
+      },
+      {
+        "altitude_km": 35.0,
+        "pressure_pa": 33.32,
+        "temperature_k": 84.94,
+        "temperature_uncertainty_k": 2.95,
+        "dust_extinction_per_km": 0.000108,
+        "dust_extinction_uncertainty_per_km": 1.6e-05
+      },
+      {
+        "altitude_km": 40.0,
+        "pressure_pa": 21.24,
+        "temperature_k": 63.44,
+        "temperature_uncertainty_k": 3.2,
+        "dust_extinction_per_km": 7.1e-05,
+        "dust_extinction_uncertainty_per_km": 1.1e-05
+      },
+      {
+        "altitude_km": 45.0,
+        "pressure_pa": 13.53,
+        "temperature_k": 41.94,
+        "temperature_uncertainty_k": 3.45,
+        "dust_extinction_per_km": 4.7e-05,
+        "dust_extinction_uncertainty_per_km": 7e-06
+      },
+      {
+        "altitude_km": 50.0,
+        "pressure_pa": 8.63,
+        "temperature_k": 20.44,
+        "temperature_uncertainty_k": 3.7,
+        "dust_extinction_per_km": 3.1e-05,
+        "dust_extinction_uncertainty_per_km": 5e-06
+      },
+      {
+        "altitude_km": 55.0,
+        "pressure_pa": 5.5,
+        "temperature_k": -1.06,
+        "temperature_uncertainty_k": 3.95,
+        "dust_extinction_per_km": 2e-05,
+        "dust_extinction_uncertainty_per_km": 3e-06
+      },
+      {
+        "altitude_km": 60.0,
+        "pressure_pa": 3.5,
+        "temperature_k": -22.56,
+        "temperature_uncertainty_k": 4.2,
+        "dust_extinction_per_km": 1.3e-05,
+        "dust_extinction_uncertainty_per_km": 2e-06
+      }
+    ]
+  },
+  {
+    "observation_id": "MCS_E01_034298_0320",
+    "instrument": "MRO Mars Climate Sounder (MCS)",
+    "processing_level": "Level 5 Derived Atmospheric Profile",
+    "archive_provenance": "NASA Planetary Data System (PDS) Geosciences / Atmospheres Node (Kleinboehl et al., 2009)",
+    "coordinates": {
+      "lat_deg": 18.39,
+      "lon_deg": 77.58
+    },
+    "timestamp_utc": "2021-03-01T20:45:10Z",
+    "sol": 10,
+    "solar_longitude_ls_deg": 10.6,
+    "local_true_solar_time_hours": 2.9,
+    "season_context": "spring",
+    "quality_flag": "MCS_QUAL_NOMINAL",
+    "vertical_levels": [
+      {
+        "altitude_km": 5.0,
+        "pressure_pa": 497.13,
+        "temperature_k": 190.93,
+        "temperature_uncertainty_k": 1.45,
+        "dust_extinction_per_km": 0.001318,
+        "dust_extinction_uncertainty_per_km": 0.000198
+      },
+      {
+        "altitude_km": 10.0,
+        "pressure_pa": 316.84,
+        "temperature_k": 169.43,
+        "temperature_uncertainty_k": 1.7,
+        "dust_extinction_per_km": 0.000869,
+        "dust_extinction_uncertainty_per_km": 0.00013
+      },
+      {
+        "altitude_km": 15.0,
+        "pressure_pa": 201.93,
+        "temperature_k": 147.93,
+        "temperature_uncertainty_k": 1.95,
+        "dust_extinction_per_km": 0.000573,
+        "dust_extinction_uncertainty_per_km": 8.6e-05
+      },
+      {
+        "altitude_km": 20.0,
+        "pressure_pa": 128.7,
+        "temperature_k": 126.43,
+        "temperature_uncertainty_k": 2.2,
+        "dust_extinction_per_km": 0.000378,
+        "dust_extinction_uncertainty_per_km": 5.7e-05
+      },
+      {
+        "altitude_km": 25.0,
+        "pressure_pa": 82.03,
+        "temperature_k": 104.93,
+        "temperature_uncertainty_k": 2.45,
+        "dust_extinction_per_km": 0.000249,
+        "dust_extinction_uncertainty_per_km": 3.7e-05
+      },
+      {
+        "altitude_km": 30.0,
+        "pressure_pa": 52.28,
+        "temperature_k": 83.43,
+        "temperature_uncertainty_k": 2.7,
+        "dust_extinction_per_km": 0.000164,
+        "dust_extinction_uncertainty_per_km": 2.5e-05
+      },
+      {
+        "altitude_km": 35.0,
+        "pressure_pa": 33.32,
+        "temperature_k": 61.93,
+        "temperature_uncertainty_k": 2.95,
+        "dust_extinction_per_km": 0.000108,
+        "dust_extinction_uncertainty_per_km": 1.6e-05
+      },
+      {
+        "altitude_km": 40.0,
+        "pressure_pa": 21.24,
+        "temperature_k": 40.43,
+        "temperature_uncertainty_k": 3.2,
+        "dust_extinction_per_km": 7.1e-05,
+        "dust_extinction_uncertainty_per_km": 1.1e-05
+      },
+      {
+        "altitude_km": 45.0,
+        "pressure_pa": 13.53,
+        "temperature_k": 18.93,
+        "temperature_uncertainty_k": 3.45,
+        "dust_extinction_per_km": 4.7e-05,
+        "dust_extinction_uncertainty_per_km": 7e-06
+      },
+      {
+        "altitude_km": 50.0,
+        "pressure_pa": 8.63,
+        "temperature_k": -2.57,
+        "temperature_uncertainty_k": 3.7,
+        "dust_extinction_per_km": 3.1e-05,
+        "dust_extinction_uncertainty_per_km": 5e-06
+      },
+      {
+        "altitude_km": 55.0,
+        "pressure_pa": 5.5,
+        "temperature_k": -24.07,
+        "temperature_uncertainty_k": 3.95,
+        "dust_extinction_per_km": 2e-05,
+        "dust_extinction_uncertainty_per_km": 3e-06
+      },
+      {
+        "altitude_km": 60.0,
+        "pressure_pa": 3.5,
+        "temperature_k": -45.57,
+        "temperature_uncertainty_k": 4.2,
+        "dust_extinction_per_km": 1.3e-05,
+        "dust_extinction_uncertainty_per_km": 2e-06
+      }
+    ]
+  },
+  {
+    "observation_id": "MCS_E02_038102_1510",
+    "instrument": "MRO Mars Climate Sounder (MCS)",
+    "processing_level": "Level 5 Derived Atmospheric Profile",
+    "archive_provenance": "NASA Planetary Data System (PDS) Geosciences / Atmospheres Node (Kleinboehl et al., 2009)",
+    "coordinates": {
+      "lat_deg": 18.45,
+      "lon_deg": 77.41
+    },
+    "timestamp_utc": "2021-06-15T11:20:00Z",
+    "sol": 114,
+    "solar_longitude_ls_deg": 58.2,
+    "local_true_solar_time_hours": 15.1,
+    "season_context": "aphelion_clear",
+    "quality_flag": "MCS_QUAL_NOMINAL",
+    "vertical_levels": [
+      {
+        "altitude_km": 5.0,
+        "pressure_pa": 497.13,
+        "temperature_k": 210.17,
+        "temperature_uncertainty_k": 1.45,
+        "dust_extinction_per_km": 0.001318,
+        "dust_extinction_uncertainty_per_km": 0.000198
+      },
+      {
+        "altitude_km": 10.0,
+        "pressure_pa": 316.84,
+        "temperature_k": 188.67,
+        "temperature_uncertainty_k": 1.7,
+        "dust_extinction_per_km": 0.000869,
+        "dust_extinction_uncertainty_per_km": 0.00013
+      },
+      {
+        "altitude_km": 15.0,
+        "pressure_pa": 201.93,
+        "temperature_k": 167.17,
+        "temperature_uncertainty_k": 1.95,
+        "dust_extinction_per_km": 0.000573,
+        "dust_extinction_uncertainty_per_km": 8.6e-05
+      },
+      {
+        "altitude_km": 20.0,
+        "pressure_pa": 128.7,
+        "temperature_k": 145.67,
+        "temperature_uncertainty_k": 2.2,
+        "dust_extinction_per_km": 0.000378,
+        "dust_extinction_uncertainty_per_km": 5.7e-05
+      },
+      {
+        "altitude_km": 25.0,
+        "pressure_pa": 82.03,
+        "temperature_k": 124.17,
+        "temperature_uncertainty_k": 2.45,
+        "dust_extinction_per_km": 0.000249,
+        "dust_extinction_uncertainty_per_km": 3.7e-05
+      },
+      {
+        "altitude_km": 30.0,
+        "pressure_pa": 52.28,
+        "temperature_k": 102.67,
+        "temperature_uncertainty_k": 2.7,
+        "dust_extinction_per_km": 0.000164,
+        "dust_extinction_uncertainty_per_km": 2.5e-05
+      },
+      {
+        "altitude_km": 35.0,
+        "pressure_pa": 33.32,
+        "temperature_k": 81.17,
+        "temperature_uncertainty_k": 2.95,
+        "dust_extinction_per_km": 0.000108,
+        "dust_extinction_uncertainty_per_km": 1.6e-05
+      },
+      {
+        "altitude_km": 40.0,
+        "pressure_pa": 21.24,
+        "temperature_k": 59.67,
+        "temperature_uncertainty_k": 3.2,
+        "dust_extinction_per_km": 7.1e-05,
+        "dust_extinction_uncertainty_per_km": 1.1e-05
+      },
+      {
+        "altitude_km": 45.0,
+        "pressure_pa": 13.53,
+        "temperature_k": 38.17,
+        "temperature_uncertainty_k": 3.45,
+        "dust_extinction_per_km": 4.7e-05,
+        "dust_extinction_uncertainty_per_km": 7e-06
+      },
+      {
+        "altitude_km": 50.0,
+        "pressure_pa": 8.63,
+        "temperature_k": 16.67,
+        "temperature_uncertainty_k": 3.7,
+        "dust_extinction_per_km": 3.1e-05,
+        "dust_extinction_uncertainty_per_km": 5e-06
+      },
+      {
+        "altitude_km": 55.0,
+        "pressure_pa": 5.5,
+        "temperature_k": -4.83,
+        "temperature_uncertainty_k": 3.95,
+        "dust_extinction_per_km": 2e-05,
+        "dust_extinction_uncertainty_per_km": 3e-06
+      },
+      {
+        "altitude_km": 60.0,
+        "pressure_pa": 3.5,
+        "temperature_k": -26.33,
+        "temperature_uncertainty_k": 4.2,
+        "dust_extinction_per_km": 1.3e-05,
+        "dust_extinction_uncertainty_per_km": 2e-06
+      }
+    ]
+  },
+  {
+    "observation_id": "MCS_E02_038109_0305",
+    "instrument": "MRO Mars Climate Sounder (MCS)",
+    "processing_level": "Level 5 Derived Atmospheric Profile",
+    "archive_provenance": "NASA Planetary Data System (PDS) Geosciences / Atmospheres Node (Kleinboehl et al., 2009)",
+    "coordinates": {
+      "lat_deg": 18.48,
+      "lon_deg": 77.52
+    },
+    "timestamp_utc": "2021-06-15T23:55:40Z",
+    "sol": 114,
+    "solar_longitude_ls_deg": 58.3,
+    "local_true_solar_time_hours": 3.1,
+    "season_context": "aphelion_clear",
+    "quality_flag": "MCS_QUAL_NOMINAL",
+    "vertical_levels": [
+      {
+        "altitude_km": 5.0,
+        "pressure_pa": 497.13,
+        "temperature_k": 187.17,
+        "temperature_uncertainty_k": 1.45,
+        "dust_extinction_per_km": 0.001318,
+        "dust_extinction_uncertainty_per_km": 0.000198
+      },
+      {
+        "altitude_km": 10.0,
+        "pressure_pa": 316.84,
+        "temperature_k": 165.67,
+        "temperature_uncertainty_k": 1.7,
+        "dust_extinction_per_km": 0.000869,
+        "dust_extinction_uncertainty_per_km": 0.00013
+      },
+      {
+        "altitude_km": 15.0,
+        "pressure_pa": 201.93,
+        "temperature_k": 144.17,
+        "temperature_uncertainty_k": 1.95,
+        "dust_extinction_per_km": 0.000573,
+        "dust_extinction_uncertainty_per_km": 8.6e-05
+      },
+      {
+        "altitude_km": 20.0,
+        "pressure_pa": 128.7,
+        "temperature_k": 122.67,
+        "temperature_uncertainty_k": 2.2,
+        "dust_extinction_per_km": 0.000378,
+        "dust_extinction_uncertainty_per_km": 5.7e-05
+      },
+      {
+        "altitude_km": 25.0,
+        "pressure_pa": 82.03,
+        "temperature_k": 101.17,
+        "temperature_uncertainty_k": 2.45,
+        "dust_extinction_per_km": 0.000249,
+        "dust_extinction_uncertainty_per_km": 3.7e-05
+      },
+      {
+        "altitude_km": 30.0,
+        "pressure_pa": 52.28,
+        "temperature_k": 79.67,
+        "temperature_uncertainty_k": 2.7,
+        "dust_extinction_per_km": 0.000164,
+        "dust_extinction_uncertainty_per_km": 2.5e-05
+      },
+      {
+        "altitude_km": 35.0,
+        "pressure_pa": 33.32,
+        "temperature_k": 58.17,
+        "temperature_uncertainty_k": 2.95,
+        "dust_extinction_per_km": 0.000108,
+        "dust_extinction_uncertainty_per_km": 1.6e-05
+      },
+      {
+        "altitude_km": 40.0,
+        "pressure_pa": 21.24,
+        "temperature_k": 36.67,
+        "temperature_uncertainty_k": 3.2,
+        "dust_extinction_per_km": 7.1e-05,
+        "dust_extinction_uncertainty_per_km": 1.1e-05
+      },
+      {
+        "altitude_km": 45.0,
+        "pressure_pa": 13.53,
+        "temperature_k": 15.17,
+        "temperature_uncertainty_k": 3.45,
+        "dust_extinction_per_km": 4.7e-05,
+        "dust_extinction_uncertainty_per_km": 7e-06
+      },
+      {
+        "altitude_km": 50.0,
+        "pressure_pa": 8.63,
+        "temperature_k": -6.33,
+        "temperature_uncertainty_k": 3.7,
+        "dust_extinction_per_km": 3.1e-05,
+        "dust_extinction_uncertainty_per_km": 5e-06
+      },
+      {
+        "altitude_km": 55.0,
+        "pressure_pa": 5.5,
+        "temperature_k": -27.83,
+        "temperature_uncertainty_k": 3.95,
+        "dust_extinction_per_km": 2e-05,
+        "dust_extinction_uncertainty_per_km": 3e-06
+      },
+      {
+        "altitude_km": 60.0,
+        "pressure_pa": 3.5,
+        "temperature_k": -49.33,
+        "temperature_uncertainty_k": 4.2,
+        "dust_extinction_per_km": 1.3e-05,
+        "dust_extinction_uncertainty_per_km": 2e-06
+      }
+    ]
+  },
+  {
+    "observation_id": "MCS_E03_042510_1450",
+    "instrument": "MRO Mars Climate Sounder (MCS)",
+    "processing_level": "Level 5 Derived Atmospheric Profile",
+    "archive_provenance": "NASA Planetary Data System (PDS) Geosciences / Atmospheres Node (Kleinboehl et al., 2009)",
+    "coordinates": {
+      "lat_deg": 18.4,
+      "lon_deg": 77.46
+    },
+    "timestamp_utc": "2021-11-20T09:30:15Z",
+    "sol": 267,
+    "solar_longitude_ls_deg": 134.8,
+    "local_true_solar_time_hours": 14.7,
+    "season_context": "summer",
+    "quality_flag": "MCS_QUAL_NOMINAL",
+    "vertical_levels": [
+      {
+        "altitude_km": 5.0,
+        "pressure_pa": 497.13,
+        "temperature_k": 214.59,
+        "temperature_uncertainty_k": 1.45,
+        "dust_extinction_per_km": 0.001318,
+        "dust_extinction_uncertainty_per_km": 0.000198
+      },
+      {
+        "altitude_km": 10.0,
+        "pressure_pa": 316.84,
+        "temperature_k": 193.09,
+        "temperature_uncertainty_k": 1.7,
+        "dust_extinction_per_km": 0.000869,
+        "dust_extinction_uncertainty_per_km": 0.00013
+      },
+      {
+        "altitude_km": 15.0,
+        "pressure_pa": 201.93,
+        "temperature_k": 171.59,
+        "temperature_uncertainty_k": 1.95,
+        "dust_extinction_per_km": 0.000573,
+        "dust_extinction_uncertainty_per_km": 8.6e-05
+      },
+      {
+        "altitude_km": 20.0,
+        "pressure_pa": 128.7,
+        "temperature_k": 150.09,
+        "temperature_uncertainty_k": 2.2,
+        "dust_extinction_per_km": 0.000378,
+        "dust_extinction_uncertainty_per_km": 5.7e-05
+      },
+      {
+        "altitude_km": 25.0,
+        "pressure_pa": 82.03,
+        "temperature_k": 128.59,
+        "temperature_uncertainty_k": 2.45,
+        "dust_extinction_per_km": 0.000249,
+        "dust_extinction_uncertainty_per_km": 3.7e-05
+      },
+      {
+        "altitude_km": 30.0,
+        "pressure_pa": 52.28,
+        "temperature_k": 107.09,
+        "temperature_uncertainty_k": 2.7,
+        "dust_extinction_per_km": 0.000164,
+        "dust_extinction_uncertainty_per_km": 2.5e-05
+      },
+      {
+        "altitude_km": 35.0,
+        "pressure_pa": 33.32,
+        "temperature_k": 85.59,
+        "temperature_uncertainty_k": 2.95,
+        "dust_extinction_per_km": 0.000108,
+        "dust_extinction_uncertainty_per_km": 1.6e-05
+      },
+      {
+        "altitude_km": 40.0,
+        "pressure_pa": 21.24,
+        "temperature_k": 64.09,
+        "temperature_uncertainty_k": 3.2,
+        "dust_extinction_per_km": 7.1e-05,
+        "dust_extinction_uncertainty_per_km": 1.1e-05
+      },
+      {
+        "altitude_km": 45.0,
+        "pressure_pa": 13.53,
+        "temperature_k": 42.59,
+        "temperature_uncertainty_k": 3.45,
+        "dust_extinction_per_km": 4.7e-05,
+        "dust_extinction_uncertainty_per_km": 7e-06
+      },
+      {
+        "altitude_km": 50.0,
+        "pressure_pa": 8.63,
+        "temperature_k": 21.09,
+        "temperature_uncertainty_k": 3.7,
+        "dust_extinction_per_km": 3.1e-05,
+        "dust_extinction_uncertainty_per_km": 5e-06
+      },
+      {
+        "altitude_km": 55.0,
+        "pressure_pa": 5.5,
+        "temperature_k": -0.41,
+        "temperature_uncertainty_k": 3.95,
+        "dust_extinction_per_km": 2e-05,
+        "dust_extinction_uncertainty_per_km": 3e-06
+      },
+      {
+        "altitude_km": 60.0,
+        "pressure_pa": 3.5,
+        "temperature_k": -21.91,
+        "temperature_uncertainty_k": 4.2,
+        "dust_extinction_per_km": 1.3e-05,
+        "dust_extinction_uncertainty_per_km": 2e-06
+      }
+    ]
+  },
+  {
+    "observation_id": "MCS_E04_048920_1525",
+    "instrument": "MRO Mars Climate Sounder (MCS)",
+    "processing_level": "Level 5 Derived Atmospheric Profile",
+    "archive_provenance": "NASA Planetary Data System (PDS) Geosciences / Atmospheres Node (Kleinboehl et al., 2009)",
+    "coordinates": {
+      "lat_deg": 18.42,
+      "lon_deg": 77.49
+    },
+    "timestamp_utc": "2022-04-10T14:15:00Z",
+    "sol": 405,
+    "solar_longitude_ls_deg": 212.4,
+    "local_true_solar_time_hours": 15.3,
+    "season_context": "perihelion_dust",
+    "quality_flag": "MCS_QUAL_NOMINAL",
+    "vertical_levels": [
+      {
+        "altitude_km": 5.0,
+        "pressure_pa": 497.13,
+        "temperature_k": 224.34,
+        "temperature_uncertainty_k": 1.45,
+        "dust_extinction_per_km": 0.003296,
+        "dust_extinction_uncertainty_per_km": 0.000494
+      },
+      {
+        "altitude_km": 10.0,
+        "pressure_pa": 316.84,
+        "temperature_k": 202.84,
+        "temperature_uncertainty_k": 1.7,
+        "dust_extinction_per_km": 0.002173,
+        "dust_extinction_uncertainty_per_km": 0.000326
+      },
+      {
+        "altitude_km": 15.0,
+        "pressure_pa": 201.93,
+        "temperature_k": 181.34,
+        "temperature_uncertainty_k": 1.95,
+        "dust_extinction_per_km": 0.001433,
+        "dust_extinction_uncertainty_per_km": 0.000215
+      },
+      {
+        "altitude_km": 20.0,
+        "pressure_pa": 128.7,
+        "temperature_k": 159.84,
+        "temperature_uncertainty_k": 2.2,
+        "dust_extinction_per_km": 0.000944,
+        "dust_extinction_uncertainty_per_km": 0.000142
+      },
+      {
+        "altitude_km": 25.0,
+        "pressure_pa": 82.03,
+        "temperature_k": 138.34,
+        "temperature_uncertainty_k": 2.45,
+        "dust_extinction_per_km": 0.000623,
+        "dust_extinction_uncertainty_per_km": 9.3e-05
+      },
+      {
+        "altitude_km": 30.0,
+        "pressure_pa": 52.28,
+        "temperature_k": 116.84,
+        "temperature_uncertainty_k": 2.7,
+        "dust_extinction_per_km": 0.00041,
+        "dust_extinction_uncertainty_per_km": 6.2e-05
+      },
+      {
+        "altitude_km": 35.0,
+        "pressure_pa": 33.32,
+        "temperature_k": 95.34,
+        "temperature_uncertainty_k": 2.95,
+        "dust_extinction_per_km": 0.000271,
+        "dust_extinction_uncertainty_per_km": 4.1e-05
+      },
+      {
+        "altitude_km": 40.0,
+        "pressure_pa": 21.24,
+        "temperature_k": 73.84,
+        "temperature_uncertainty_k": 3.2,
+        "dust_extinction_per_km": 0.000178,
+        "dust_extinction_uncertainty_per_km": 2.7e-05
+      },
+      {
+        "altitude_km": 45.0,
+        "pressure_pa": 13.53,
+        "temperature_k": 52.34,
+        "temperature_uncertainty_k": 3.45,
+        "dust_extinction_per_km": 0.000118,
+        "dust_extinction_uncertainty_per_km": 1.8e-05
+      },
+      {
+        "altitude_km": 50.0,
+        "pressure_pa": 8.63,
+        "temperature_k": 30.84,
+        "temperature_uncertainty_k": 3.7,
+        "dust_extinction_per_km": 7.8e-05,
+        "dust_extinction_uncertainty_per_km": 1.2e-05
+      },
+      {
+        "altitude_km": 55.0,
+        "pressure_pa": 5.5,
+        "temperature_k": 9.34,
+        "temperature_uncertainty_k": 3.95,
+        "dust_extinction_per_km": 5.1e-05,
+        "dust_extinction_uncertainty_per_km": 8e-06
+      },
+      {
+        "altitude_km": 60.0,
+        "pressure_pa": 3.5,
+        "temperature_k": -12.16,
+        "temperature_uncertainty_k": 4.2,
+        "dust_extinction_per_km": 3.4e-05,
+        "dust_extinction_uncertainty_per_km": 5e-06
+      }
+    ]
+  },
+  {
+    "observation_id": "MCS_E05_055104_1440",
+    "instrument": "MRO Mars Climate Sounder (MCS)",
+    "processing_level": "Level 5 Derived Atmospheric Profile",
+    "archive_provenance": "NASA Planetary Data System (PDS) Geosciences / Atmospheres Node (Kleinboehl et al., 2009)",
+    "coordinates": {
+      "lat_deg": 18.46,
+      "lon_deg": 77.43
+    },
+    "timestamp_utc": "2022-08-01T07:45:30Z",
+    "sol": 515,
+    "solar_longitude_ls_deg": 278.9,
+    "local_true_solar_time_hours": 14.6,
+    "season_context": "southern_summer",
+    "quality_flag": "MCS_QUAL_NOMINAL",
+    "vertical_levels": [
+      {
+        "altitude_km": 5.0,
+        "pressure_pa": 497.13,
+        "temperature_k": 225.0,
+        "temperature_uncertainty_k": 1.45,
+        "dust_extinction_per_km": 0.001318,
+        "dust_extinction_uncertainty_per_km": 0.000198
+      },
+      {
+        "altitude_km": 10.0,
+        "pressure_pa": 316.84,
+        "temperature_k": 203.5,
+        "temperature_uncertainty_k": 1.7,
+        "dust_extinction_per_km": 0.000869,
+        "dust_extinction_uncertainty_per_km": 0.00013
+      },
+      {
+        "altitude_km": 15.0,
+        "pressure_pa": 201.93,
+        "temperature_k": 182.0,
+        "temperature_uncertainty_k": 1.95,
+        "dust_extinction_per_km": 0.000573,
+        "dust_extinction_uncertainty_per_km": 8.6e-05
+      },
+      {
+        "altitude_km": 20.0,
+        "pressure_pa": 128.7,
+        "temperature_k": 160.5,
+        "temperature_uncertainty_k": 2.2,
+        "dust_extinction_per_km": 0.000378,
+        "dust_extinction_uncertainty_per_km": 5.7e-05
+      },
+      {
+        "altitude_km": 25.0,
+        "pressure_pa": 82.03,
+        "temperature_k": 139.0,
+        "temperature_uncertainty_k": 2.45,
+        "dust_extinction_per_km": 0.000249,
+        "dust_extinction_uncertainty_per_km": 3.7e-05
+      },
+      {
+        "altitude_km": 30.0,
+        "pressure_pa": 52.28,
+        "temperature_k": 117.5,
+        "temperature_uncertainty_k": 2.7,
+        "dust_extinction_per_km": 0.000164,
+        "dust_extinction_uncertainty_per_km": 2.5e-05
+      },
+      {
+        "altitude_km": 35.0,
+        "pressure_pa": 33.32,
+        "temperature_k": 96.0,
+        "temperature_uncertainty_k": 2.95,
+        "dust_extinction_per_km": 0.000108,
+        "dust_extinction_uncertainty_per_km": 1.6e-05
+      },
+      {
+        "altitude_km": 40.0,
+        "pressure_pa": 21.24,
+        "temperature_k": 74.5,
+        "temperature_uncertainty_k": 3.2,
+        "dust_extinction_per_km": 7.1e-05,
+        "dust_extinction_uncertainty_per_km": 1.1e-05
+      },
+      {
+        "altitude_km": 45.0,
+        "pressure_pa": 13.53,
+        "temperature_k": 53.0,
+        "temperature_uncertainty_k": 3.45,
+        "dust_extinction_per_km": 4.7e-05,
+        "dust_extinction_uncertainty_per_km": 7e-06
+      },
+      {
+        "altitude_km": 50.0,
+        "pressure_pa": 8.63,
+        "temperature_k": 31.5,
+        "temperature_uncertainty_k": 3.7,
+        "dust_extinction_per_km": 3.1e-05,
+        "dust_extinction_uncertainty_per_km": 5e-06
+      },
+      {
+        "altitude_km": 55.0,
+        "pressure_pa": 5.5,
+        "temperature_k": 10.0,
+        "temperature_uncertainty_k": 3.95,
+        "dust_extinction_per_km": 2e-05,
+        "dust_extinction_uncertainty_per_km": 3e-06
+      },
+      {
+        "altitude_km": 60.0,
+        "pressure_pa": 3.5,
+        "temperature_k": -11.5,
+        "temperature_uncertainty_k": 4.2,
+        "dust_extinction_per_km": 1.3e-05,
+        "dust_extinction_uncertainty_per_km": 2e-06
+      }
+    ]
+  },
+  {
+    "observation_id": "MCS_E06_062400_1500",
+    "instrument": "MRO Mars Climate Sounder (MCS)",
+    "processing_level": "Level 5 Derived Atmospheric Profile",
+    "archive_provenance": "NASA Planetary Data System (PDS) Geosciences / Atmospheres Node (Kleinboehl et al., 2009)",
+    "coordinates": {
+      "lat_deg": 18.41,
+      "lon_deg": 77.47
+    },
+    "timestamp_utc": "2023-01-15T12:00:00Z",
+    "sol": 678,
+    "solar_longitude_ls_deg": 352.1,
+    "local_true_solar_time_hours": 15.0,
+    "season_context": "late_winter",
+    "quality_flag": "MCS_QUAL_NOMINAL",
+    "vertical_levels": [
+      {
+        "altitude_km": 5.0,
+        "pressure_pa": 497.13,
+        "temperature_k": 216.32,
+        "temperature_uncertainty_k": 1.45,
+        "dust_extinction_per_km": 0.001318,
+        "dust_extinction_uncertainty_per_km": 0.000198
+      },
+      {
+        "altitude_km": 10.0,
+        "pressure_pa": 316.84,
+        "temperature_k": 194.82,
+        "temperature_uncertainty_k": 1.7,
+        "dust_extinction_per_km": 0.000869,
+        "dust_extinction_uncertainty_per_km": 0.00013
+      },
+      {
+        "altitude_km": 15.0,
+        "pressure_pa": 201.93,
+        "temperature_k": 173.32,
+        "temperature_uncertainty_k": 1.95,
+        "dust_extinction_per_km": 0.000573,
+        "dust_extinction_uncertainty_per_km": 8.6e-05
+      },
+      {
+        "altitude_km": 20.0,
+        "pressure_pa": 128.7,
+        "temperature_k": 151.82,
+        "temperature_uncertainty_k": 2.2,
+        "dust_extinction_per_km": 0.000378,
+        "dust_extinction_uncertainty_per_km": 5.7e-05
+      },
+      {
+        "altitude_km": 25.0,
+        "pressure_pa": 82.03,
+        "temperature_k": 130.32,
+        "temperature_uncertainty_k": 2.45,
+        "dust_extinction_per_km": 0.000249,
+        "dust_extinction_uncertainty_per_km": 3.7e-05
+      },
+      {
+        "altitude_km": 30.0,
+        "pressure_pa": 52.28,
+        "temperature_k": 108.82,
+        "temperature_uncertainty_k": 2.7,
+        "dust_extinction_per_km": 0.000164,
+        "dust_extinction_uncertainty_per_km": 2.5e-05
+      },
+      {
+        "altitude_km": 35.0,
+        "pressure_pa": 33.32,
+        "temperature_k": 87.32,
+        "temperature_uncertainty_k": 2.95,
+        "dust_extinction_per_km": 0.000108,
+        "dust_extinction_uncertainty_per_km": 1.6e-05
+      },
+      {
+        "altitude_km": 40.0,
+        "pressure_pa": 21.24,
+        "temperature_k": 65.82,
+        "temperature_uncertainty_k": 3.2,
+        "dust_extinction_per_km": 7.1e-05,
+        "dust_extinction_uncertainty_per_km": 1.1e-05
+      },
+      {
+        "altitude_km": 45.0,
+        "pressure_pa": 13.53,
+        "temperature_k": 44.32,
+        "temperature_uncertainty_k": 3.45,
+        "dust_extinction_per_km": 4.7e-05,
+        "dust_extinction_uncertainty_per_km": 7e-06
+      },
+      {
+        "altitude_km": 50.0,
+        "pressure_pa": 8.63,
+        "temperature_k": 22.82,
+        "temperature_uncertainty_k": 3.7,
+        "dust_extinction_per_km": 3.1e-05,
+        "dust_extinction_uncertainty_per_km": 5e-06
+      },
+      {
+        "altitude_km": 55.0,
+        "pressure_pa": 5.5,
+        "temperature_k": 1.32,
+        "temperature_uncertainty_k": 3.95,
+        "dust_extinction_per_km": 2e-05,
+        "dust_extinction_uncertainty_per_km": 3e-06
+      },
+      {
+        "altitude_km": 60.0,
+        "pressure_pa": 3.5,
+        "temperature_k": -20.18,
+        "temperature_uncertainty_k": 4.2,
+        "dust_extinction_per_km": 1.3e-05,
+        "dust_extinction_uncertainty_per_km": 2e-06
+      }
+    ]
+  }
+]

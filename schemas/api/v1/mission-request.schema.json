@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-request.schema.json",
+  "title": "MarsWalk Mission Request",
+  "description": "Canonical specification for an interactive or automated Mars surface traverse mission planning request.",
+  "type": "object",
+  "required": ["start", "goal"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "1.0.0",
+      "description": "Semantic version of the MarsWalk API request schema."
+    },
+    "mission_id": {
+      "type": "string",
+      "description": "Optional unique or human-readable mission identifier."
+    },
+    "start": {
+      "type": "object",
+      "description": "Mission departure point on the digital elevation grid.",
+      "required": ["row", "col"],
+      "properties": {
+        "row": { "type": "integer", "minimum": 0, "description": "Raster grid row coordinate." },
+        "col": { "type": "integer", "minimum": 0, "description": "Raster grid column coordinate." },
+        "name": { "type": "string", "description": "Optional descriptive landmark name." },
+        "id": { "type": "string", "description": "Optional stable target identifier." },
+        "lon_deg": { "type": "number", "minimum": -180.0, "maximum": 360.0 },
+        "lat_deg": { "type": "number", "minimum": -90.0, "maximum": 90.0 }
+      },
+      "additionalProperties": false
+    },
+    "goal": {
+      "type": "object",
+      "description": "Mission destination landmark on the digital elevation grid.",
+      "required": ["row", "col"],
+      "properties": {
+        "row": { "type": "integer", "minimum": 0, "description": "Raster grid row coordinate." },
+        "col": { "type": "integer", "minimum": 0, "description": "Raster grid column coordinate." },
+        "name": { "type": "string", "description": "Optional descriptive landmark name." },
+        "id": { "type": "string", "description": "Optional stable target identifier." },
+        "lon_deg": { "type": "number", "minimum": -180.0, "maximum": 360.0 },
+        "lat_deg": { "type": "number", "minimum": -90.0, "maximum": 90.0 }
+      },
+      "additionalProperties": false
+    },
+    "stops": {
+      "type": "array",
+      "description": "Ordered or unordered list of intermediate science targets to visit.",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": ["row", "col"],
+        "properties": {
+          "id": { "type": "string", "description": "Unique identifier for this science waypoint." },
+          "name": { "type": "string", "description": "Display name of the waypoint." },
+          "row": { "type": "integer", "minimum": 0, "description": "Raster grid row coordinate." },
+          "col": { "type": "integer", "minimum": 0, "description": "Raster grid column coordinate." },
+          "priority_score": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 100.0,
+            "default": 50.0,
+            "description": "User-defined or heuristic scientific value (0-100). Not an official NASA science ranking."
+          },
+          "dwell_time_s": {
+            "type": "number",
+            "minimum": 0.0,
+            "description": "Target-specific dwell duration in seconds for science operations."
+          },
+          "lon_deg": { "type": "number", "minimum": -180.0, "maximum": 360.0 },
+          "lat_deg": { "type": "number", "minimum": -90.0, "maximum": 90.0 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["conservative", "balanced", "science_first"],
+      "default": "conservative",
+      "description": "Routing objective profile: conservative (least effort), balanced (Pareto trade-off), science_first (maximal samples)."
+    },
+    "vehicle_mode": {
+      "type": "string",
+      "enum": ["crew_eva", "robotic_rover"],
+      "default": "crew_eva",
+      "description": "Mobility operational model: crew_eva (Apollo walk analogue, 8h envelope) or robotic_rover (0.035 m/s, 4h sol window)."
+    },
+    "mission_constraints": {
+      "type": "object",
+      "description": "Operational budget limitations and pacing assumptions.",
+      "properties": {
+        "max_distance_m": {
+          "type": ["number", "null"],
+          "exclusiveMinimum": 0.0,
+          "description": "Hard limit on total path distance in metres."
+        },
+        "max_duration_s": {
+          "type": ["number", "null"],
+          "exclusiveMinimum": 0.0,
+          "description": "Hard ceiling on total mission elapsed time in seconds."
+        },
+        "dwell_time_per_stop_s": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 900.0,
+          "description": "Default science dwell time per intermediate target in seconds (default 15 min)."
+        },
+        "speed_multiplier": {
+          "type": "number",
+          "exclusiveMinimum": 0.0,
+          "default": 1.0,
+          "description": "Scale factor on nominal velocity (e.g. 0.5 for degraded mobility)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "route_options": {
+      "type": "object",
+      "description": "Heuristic and algorithmic search options.",
+      "properties": {
+        "optimize_stops": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, calculates the optimal visitation sequence using exact TSP (k<=7) or 2-Opt (k>7)."
+        },
+        "science_appetite_gamma": {
+          "type": "number",
+          "exclusiveMinimum": 0.0,
+          "default": 1.0,
+          "description": "Weight exponent for science priority rewards in balanced/science_first profiles."
+        }
+      },
+      "additionalProperties": false
+    },
+    "science_objectives": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional list of target science objective IDs required for the mission."
+    }
+  },
+  "additionalProperties": true
+}

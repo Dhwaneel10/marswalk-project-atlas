@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk Campaign Progress Event Record",
+  "description": "Schema for progress events occurring during simulated multi-sol campaign execution, linked to Sortie Black Box incident logging and dynamic replanning.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "event_id",
+    "campaign_id",
+    "sol_index",
+    "event_type",
+    "timestamp_utc",
+    "idempotency_key"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^cpe_[a-zA-Z0-9_-]{3,64}$",
+      "description": "Unique identifier for campaign progress event with 'cpe_' prefix."
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$",
+      "description": "Associated campaign identifier."
+    },
+    "sol_index": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Sol index when event occurred."
+    },
+    "sortie_id": {
+      "type": ["string", "null"],
+      "description": "Active sortie identifier."
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "SORTIE_STARTED",
+        "SORTIE_COMPLETED",
+        "TARGET_VISITED",
+        "TARGET_OBSERVED",
+        "TARGET_BLOCKED",
+        "ANOMALY_RECORDED",
+        "SCHEDULE_ADAPTED"
+      ],
+      "description": "Lifecycle transition or operational progress event classification."
+    },
+    "target_id": {
+      "type": ["string", "null"],
+      "description": "Target ID involved in event if applicable."
+    },
+    "observation_id": {
+      "type": ["string", "null"],
+      "description": "Observation ID registered during this event if applicable."
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp."
+    },
+    "details": {
+      "type": "object",
+      "description": "Structured operational details or reason codes."
+    },
+    "idempotency_key": {
+      "type": "string",
+      "description": "Unique cryptographic or chronological key to prevent duplicate event ingestion."
+    },
+    "black_box_event_id": {
+      "type": ["string", "null"],
+      "description": "Linked Sortie Black Box event ID in data/workspaces/events/."
+    }
+  },
+  "additionalProperties": false
+}

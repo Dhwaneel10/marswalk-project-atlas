@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/campaign-operations.schema.json",
+  "title": "MarsWalk Campaign Operations State Contract",
+  "description": "Persistent, versioned definition of multi-sol campaign operations state, resource carryover, event ledger, and adaptive replanning lineage.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "campaign_id",
+    "name",
+    "version",
+    "lifecycle_state",
+    "current_sol",
+    "simulated_elapsed_s",
+    "rover_position_rc",
+    "energy_state",
+    "data_state",
+    "science_state",
+    "comms_state",
+    "reproducibility_manifest"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$",
+      "description": "Unique, URL-safe identifier for the campaign record."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "Human-readable designation of the campaign operations record."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonically increasing version counter for plan revisions."
+    },
+    "lifecycle_state": {
+      "type": "string",
+      "enum": [
+        "PLANNED",
+        "READY_FOR_REVIEW",
+        "APPROVED_FOR_SIMULATION",
+        "EXECUTING_SIMULATION",
+        "PAUSED",
+        "REQUIRES_REPLANNING",
+        "COMPLETED",
+        "FAILED_CONSTRAINTS"
+      ]
+    },
+    "current_sol": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "simulated_elapsed_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "rover_position_rc": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "cumulative_distance_m": {
+      "type": "number",
+      "minimum": 0
+    },
+    "active_sortie_id": {
+      "type": ["string", "null"]
+    },
+    "completed_sortie_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "pending_sortie_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "energy_state": {
+      "type": "object",
+      "required": [
+        "battery_capacity_wh",
+        "current_energy_wh",
+        "consumed_energy_wh",
+        "reserve_margin_pct",
+        "minimum_reserve_pct",
+        "feasibility"
+      ],
+      "properties": {
+        "battery_capacity_wh": { "type": "number", "minimum": 0 },
+        "current_energy_wh": { "type": "number", "minimum": 0 },
+        "consumed_energy_wh": { "type": "number", "minimum": 0 },
+        "reserve_margin_pct": { "type": "number" },
+        "minimum_reserve_pct": { "type": "number", "minimum": 0 },
+        "feasibility": { "type": "string" }
+      }
+    },
+    "data_state": {
+      "type": "object",
+      "required": [
+        "storage_capacity_mb",
+        "used_storage_mb",
+        "total_data_generated_mb",
+        "total_data_transferred_mb",
+        "backlog_mb",
+        "transfer_queue_count",
+        "storage_pressure_state"
+      ],
+      "properties": {
+        "storage_capacity_mb": { "type": "number", "minimum": 0 },
+        "used_storage_mb": { "type": "number", "minimum": 0 },
+        "total_data_generated_mb": { "type": "number", "minimum": 0 },
+        "total_data_transferred_mb": { "type": "number", "minimum": 0 },
+        "backlog_mb": { "type": "number", "minimum": 0 },
+        "transfer_queue_count": { "type": "integer", "minimum": 0 },
+        "storage_pressure_state": { "type": "string" }
+      }
+    },
+    "science_state": {
+      "type": "object",
+      "required": [
+        "completed_target_ids",
+        "pending_target_ids",
+        "deferred_target_ids",
+        "total_science_utility",
+        "completed_observations_count"
+      ],
+      "properties": {
+        "completed_target_ids": { "type": "array", "items": { "type": "string" } },
+        "pending_target_ids": { "type": "array", "items": { "type": "string" } },
+        "deferred_target_ids": { "type": "array", "items": { "type": "string" } },
+        "total_science_utility": { "type": "number", "minimum": 0 },
+        "completed_observations_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "comms_state": {
+      "type": "object",
+      "required": [
+        "active_relay_ids",
+        "relay_locations",
+        "simulated_connectivity_pct",
+        "historical_gaps_count"
+      ],
+      "properties": {
+        "active_relay_ids": { "type": "array", "items": { "type": "string" } },
+        "relay_locations": { "type": "array", "items": { "type": "object" } },
+        "simulated_connectivity_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "historical_gaps_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "active_plan": {
+      "type": "object"
+    },
+    "historical_plans": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "events_log": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "reproducibility_manifest": {
+      "type": "object",
+      "required": [
+        "terrain_dataset_id",
+        "terrain_sha256",
+        "model_version",
+        "software_version"
+      ],
+      "properties": {
+        "terrain_dataset_id": { "type": "string" },
+        "terrain_sha256": { "type": "string" },
+        "model_version": { "type": "string" },
+        "software_version": { "type": "string" },
+        "state_fingerprint": { "type": "string" }
+      }
+    }
+  }
+}

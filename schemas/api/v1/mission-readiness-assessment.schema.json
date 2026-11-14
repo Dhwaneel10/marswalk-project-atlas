@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-readiness-assessment.schema.json",
+  "title": "MarsWalk Mission Readiness & Decision Gate Assessment",
+  "description": "Deterministic planning-assurance assessment consolidating mission feasibility, environmental data freshness, robustness coverage, and scientific provenance.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "assessment_id",
+    "generated_at_utc",
+    "mission_id",
+    "mission_name",
+    "readiness_status",
+    "summary",
+    "blocker_count",
+    "warning_count",
+    "info_count",
+    "untested_count",
+    "reproducibility_manifest",
+    "categories_summary",
+    "findings",
+    "limitations_and_disclaimers"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "assessment_id": {
+      "type": "string",
+      "pattern": "^asmt_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "mission_id": {
+      "type": "string"
+    },
+    "mission_name": {
+      "type": "string"
+    },
+    "continuation_id": {
+      "type": ["string", "null"]
+    },
+    "readiness_status": {
+      "type": "string",
+      "enum": ["READY_FOR_REVIEW", "CONDITIONAL", "INCOMPLETE", "BLOCKED"]
+    },
+    "readiness_score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "summary": {
+      "type": "string"
+    },
+    "blocker_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "warning_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "info_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "untested_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "reproducibility_manifest": {
+      "type": "object",
+      "required": [
+        "terrain_dataset_id",
+        "terrain_sha256",
+        "model_version",
+        "software_version"
+      ],
+      "properties": {
+        "terrain_dataset_id": { "type": "string" },
+        "terrain_sha256": { "type": "string" },
+        "model_version": { "type": "string" },
+        "software_version": { "type": "string" },
+        "input_fingerprint": { "type": ["string", "null"] },
+        "assumptions_version": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "categories_summary": {
+      "type": "object",
+      "required": [
+        "feasibility",
+        "environmental",
+        "robustness",
+        "provenance"
+      ],
+      "properties": {
+        "feasibility": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string" },
+            "route_exists": { "type": "boolean" },
+            "is_within_budget": { "type": ["boolean", "null"] },
+            "total_distance_m": { "type": ["number", "null"] },
+            "total_duration_s": { "type": ["number", "null"] },
+            "budget_s": { "type": ["number", "null"] },
+            "margin_s": { "type": ["number", "null"] }
+          },
+          "required": ["status", "route_exists"]
+        },
+        "environmental": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string" },
+            "site_id": { "type": "string" },
+            "site_name": { "type": "string" },
+            "data_type": { "type": "string" },
+            "freshness_status": { "type": "string" },
+            "is_site_compatible": { "type": "boolean" },
+            "observation_sol": { "type": ["integer", "null"] }
+          },
+          "required": ["status", "site_id", "data_type", "is_site_compatible"]
+        },
+        "robustness": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string" },
+            "tested_scenarios_count": { "type": "integer" },
+            "untested_scenarios_count": { "type": "integer" },
+            "breakpoint_count": { "type": "integer" },
+            "evaluated_disruption_classes": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "required": ["status", "tested_scenarios_count", "untested_scenarios_count"]
+        },
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string" },
+            "is_recomputed": { "type": "boolean" },
+            "ledger_present": { "type": "boolean" },
+            "events_count": { "type": "integer" }
+          },
+          "required": ["status", "is_recomputed", "ledger_present"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "finding_code",
+          "category",
+          "severity",
+          "title",
+          "description",
+          "is_blocking",
+          "evidence_references",
+          "recommended_action"
+        ],
+        "properties": {
+          "finding_code": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]{3,48}$"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["feasibility", "environmental", "robustness", "provenance"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["blocker", "warning", "info", "untested"]
+          },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "is_blocking": { "type": "boolean" },
+          "evidence_references": { "type": "object" },
+          "recommended_action": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "limitations_and_disclaimers": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

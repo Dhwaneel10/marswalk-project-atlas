@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0.0",
+  "coordination_id": "coord_49e2fdd5bbc8",
+  "campaign_id": "cmp_bm_multi_07",
+  "version": 1,
+  "created_at_utc": "2026-10-29T13:21:31.353299+00:00",
+  "units": [
+    {
+      "unit_id": "unit_perseverance",
+      "name": "Perseverance Rover Analogue",
+      "unit_type": "robotic_rover",
+      "mobility_profile": {
+        "speed_multiplier": 1.0,
+        "max_slope_deg": 15.0,
+        "vehicle_mode": "robotic_rover"
+      },
+      "availability_window": {
+        "start_sol": 1,
+        "end_sol": 2
+      },
+      "max_duration_per_sortie_s": 14400.0,
+      "starting_location_rc": [
+        117,
+        157
+      ],
+      "status": "AVAILABLE",
+      "capabilities": [
+        "SURFACE_TRAVERSE",
+        "REGOLITH_SAMPLING",
+        "HIGH_RESOLUTION_IMAGING",
+        "HAZARD_AVOIDANCE"
+      ],
+      "assigned_target_ids": [
+        "tgt_w0",
+        "tgt_w1",
+        "tgt_w2"
+      ],
+      "assigned_sortie_ids": [
+        "sort_unit_perseverance_sol01_fa0565"
+      ]
+    },
+    {
+      "unit_id": "unit_crew_eva_1",
+      "name": "Crew EVA Team Alpha",
+      "unit_type": "crew_eva",
+      "mobility_profile": {
+        "speed_multiplier": 1.0,
+        "max_slope_deg": 25.0,
+        "vehicle_mode": "crew_eva"
+      },
+      "availability_window": {
+        "start_sol": 1,
+        "end_sol": 2
+      },
+      "max_duration_per_sortie_s": 28800.0,
+      "starting_location_rc": [
+        117,
+        157
+      ],
+      "status": "AVAILABLE",
+      "capabilities": [
+        "SURFACE_TRAVERSE",
+        "FIELD_GEOLOGY_MAPPING",
+        "EXPEDITED_CLIMBING",
+        "HAZARD_AVOIDANCE"
+      ],
+      "assigned_target_ids": [],
+      "assigned_sortie_ids": []
+    }
+  ],
+  "allocation_strategy": "priority_first",
+  "target_allocations": [
+    {
+      "target_id": "tgt_w0",
+      "status": "ASSIGNED",
+      "assigned_unit_id": "unit_perseverance",
+      "assigned_sol_index": 1,
+      "assigned_sortie_id": "sort_unit_perseverance_sol01_fa0565",
+      "reason": "Priority-first allocation to Perseverance Rover Analogue on Sol 1."
+    },
+    {
+      "target_id": "tgt_w1",
+      "status": "ASSIGNED",
+      "assigned_unit_id": "unit_perseverance",
+      "assigned_sol_index": 1,
+      "assigned_sortie_id": "sort_unit_perseverance_sol01_fa0565",
+      "reason": "Priority-first allocation to Perseverance Rover Analogue on Sol 1."
+    },
+    {
+      "target_id": "tgt_w2",
+      "status": "ASSIGNED",
+      "assigned_unit_id": "unit_perseverance",
+      "assigned_sol_index": 1,
+      "assigned_sortie_id": "sort_unit_perseverance_sol01_fa0565",
+      "reason": "Priority-first allocation to Perseverance Rover Analogue on Sol 1."
+    }
+  ],
+  "strategy_comparison": [
+    {
+      "strategy": "priority_first",
+      "total_sols": 1,
+      "total_distance_m": 165.4,
+      "total_duration_s": 7788.0,
+      "total_science_score": 150.0,
+      "targets_scheduled": 3,
+      "targets_deferred": 0,
+      "is_feasible": true,
+      "workload_imbalance_s": 7788.0,
+      "unit_durations_s": {
+        "unit_perseverance": 7788.0,
+        "unit_crew_eva_1": 0.0
+      }
+    },
+    {
+      "strategy": "balanced_workload",
+      "total_sols": 1,
+      "total_distance_m": 275.7,
+      "total_duration_s": 6423.2,
+      "total_science_score": 150.0,
+      "targets_scheduled": 3,
+      "targets_deferred": 0,
+      "is_feasible": true,
+      "workload_imbalance_s": 3944.3,
+      "unit_durations_s": {
+        "unit_perseverance": 5183.7,
+        "unit_crew_eva_1": 1239.4
+      }
+    },
+    {
+      "strategy": "capability_first",
+      "total_sols": 1,
+      "total_distance_m": 165.4,
+      "total_duration_s": 7788.0,
+      "total_science_score": 150.0,
+      "targets_scheduled": 3,
+      "targets_deferred": 0,
+      "is_feasible": true,
+      "workload_imbalance_s": 6588.0,
+      "unit_durations_s": {
+        "unit_perseverance": 7188.0,
+        "unit_crew_eva_1": 600.0
+      }
+    }
+  ],
+  "sorties": [
+    {
+      "sortie_id": "sort_unit_perseverance_sol01_fa0565",
+      "sol_index": 1,
+      "name": "Sol 1 \u2014 Perseverance Rover Analogue",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "tgt_w0",
+        "tgt_w1",
+        "tgt_w2"
+      ],
+      "target_names": [
+        "Octavia E. Butler Landing",
+        "Hawksbill Gap",
+        "Skinner Ridge"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          119,
+          159
+        ],
+        [
+          120,
+          160
+        ],
+        [
+          119,
+          159
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 165.4,
+      "travel_time_s": 5388.0,
+      "dwell_time_s": 2400.0,
+      "total_duration_s": 7788.0,
+      "remaining_margin_s": 6612.0,
+      "science_score": 150.0,
+      "terrain_cost": 188.6,
+      "max_slope_deg": 2.8,
+      "cumulative_climb_m": 0.0,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "unit_id": "unit_perseverance",
+      "legs_summary": [],
+      "timeline_events": []
+    }
+  ],
+  "handoffs": [],
+  "summary": {
+    "total_units": 2,
+    "total_sols": 1,
+    "total_sorties": 1,
+    "total_distance_m": 165.4,
+    "total_duration_s": 7788.0,
+    "total_science_score": 150.0,
+    "targets_scheduled": 3,
+    "targets_unscheduled": 0,
+    "is_feasible": true,
+    "decision_rationales": [
+      "Sol 1: Allocated 3 high-priority targets to Perseverance Rover Analogue (Duration: 2h 10m)."
+    ]
+  },
+  "limitations_disclaimer": "Calculated multi-unit coordination schedules, capability matching, and task handoffs are deterministic mission-planning heuristics derived from remote-sensing products. They do NOT represent certified autonomous robotic control, physical inter-vehicle resource transfer, or astronaut flight envelopes."
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-assurance.schema.json",
+  "title": "Fleet Mission Assurance Evaluation Contract",
+  "description": "Defines multi-rover fleet-scale invariant verification across unit integrity, task allocation, deconfliction, and resource accounting.",
+  "type": "object",
+  "required": [
+    "fleet_id",
+    "master_verdict",
+    "evaluated_at_utc",
+    "rules",
+    "summary",
+    "root_digest"
+  ],
+  "properties": {
+    "fleet_id": { "type": "string" },
+    "master_verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "WARN", "NOT_APPLICABLE"]
+    },
+    "evaluated_at_utc": { "type": "string" },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule_id", "name", "category", "severity", "verdict", "evidence"],
+        "properties": {
+          "rule_id": { "type": "string" },
+          "name": { "type": "string" },
+          "category": { "type": "string" },
+          "severity": { "type": "string", "enum": ["CRITICAL", "WARNING", "INFO"] },
+          "verdict": { "type": "string", "enum": ["PASS", "FAIL", "WARN", "NOT_APPLICABLE"] },
+          "evidence": { "type": "string" },
+          "measured": { "type": "string" },
+          "details": { "type": ["object", "string", "null"] }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total_rules", "passed_rules", "failed_rules"],
+      "properties": {
+        "total_rules": { "type": "integer" },
+        "passed_rules": { "type": "integer" },
+        "failed_rules": { "type": "integer" },
+        "warning_rules": { "type": "integer" }
+      }
+    },
+    "root_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "design_space_id": "ds_23eb8fd0fb24",
+  "campaign_id": "cmp_ds_test_001",
+  "campaign_version": 1,
+  "created_at_utc": "2026-10-29T12:56:26.562701+00:00",
+  "search_bounds": {
+    "max_candidates": 3,
+    "max_planner_calls": 3
+  },
+  "search_completeness": {
+    "candidates_considered": 3,
+    "candidates_deduplicated": 0,
+    "candidates_evaluated": 3,
+    "candidates_rejected": 3,
+    "is_exhaustive": false,
+    "limit_reached": true,
+    "unexplored_scope_notes": "Evaluation budget reached 3 candidates. Unexplored combinations: 24."
+  },
+  "pareto_candidates": [],
+  "dominated_candidates": [],
+  "infeasible_candidates": [
+    {
+      "candidate_id": "cand_cp_01",
+      "fingerprint": "41495feccda74d9a4ff7e7e74a6a7ccda32e969d9dfbb38813eed08f70035cf9",
+      "configuration": {
+        "planning_profile": "science_priority",
+        "max_duration_per_sortie_s": 28800.0,
+        "max_sols": 3,
+        "is_baseline": true
+      },
+      "status": "ERROR",
+      "objectives": {
+        "science_coverage_pct": 0.0,
+        "total_duration_s": 0.0,
+        "total_distance_m": 0.0,
+        "unallocated_priority": 260.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 0
+      },
+      "dominance_status": "INFEASIBLE",
+      "dominated_by": [],
+      "tradeoff_explanation": "",
+      "infeasibility_reasons": [
+        "Planner execution exception: plan_mission_campaign() got an unexpected keyword argument 'transform'"
+      ]
+    },
+    {
+      "candidate_id": "cand_cp_02",
+      "fingerprint": "bf00d6056f24f68895ed15195a9a851493358cbbd02bd2c847663fb09876575e",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 2,
+        "is_baseline": false
+      },
+      "status": "ERROR",
+      "objectives": {
+        "science_coverage_pct": 0.0,
+        "total_duration_s": 0.0,
+        "total_distance_m": 0.0,
+        "unallocated_priority": 260.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 0
+      },
+      "dominance_status": "INFEASIBLE",
+      "dominated_by": [],
+      "tradeoff_explanation": "",
+      "infeasibility_reasons": [
+        "Planner execution exception: plan_mission_campaign() got an unexpected keyword argument 'transform'"
+      ]
+    },
+    {
+      "candidate_id": "cand_cp_03",
+      "fingerprint": "efe92aa9f51a2cc455dd539be2cc5e2c8a40b0be8294cfb68164778d5dfb421c",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 3,
+        "is_baseline": false
+      },
+      "status": "ERROR",
+      "objectives": {
+        "science_coverage_pct": 0.0,
+        "total_duration_s": 0.0,
+        "total_distance_m": 0.0,
+        "unallocated_priority": 260.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 0
+      },
+      "dominance_status": "INFEASIBLE",
+      "dominated_by": [],
+      "tradeoff_explanation": "",
+      "infeasibility_reasons": [
+        "Planner execution exception: plan_mission_campaign() got an unexpected keyword argument 'transform'"
+      ]
+    }
+  ],
+  "recommendations": [],
+  "limitations_disclaimer": "The Campaign Design Space Explorer is a deterministic multi-objective planning tool for simulated Mars exploration evaluation. It does NOT guarantee global mathematical optimality, employ probabilistic forecasting, or represent certified flight operations software. All candidate trade-offs are grounded in simulated route planning."
+}

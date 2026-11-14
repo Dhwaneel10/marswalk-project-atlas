@@ -1,0 +1,32 @@
+{
+  "optimal_parameters": {
+    "t_mean": 218.0,
+    "t_amp": 38.0,
+    "phase_shift": 0.0
+  },
+  "minimum_train_rmse_k": 20.826904054323638,
+  "parameter_sensitivity": {
+    "t_mean": {
+      "nominal": 218.0,
+      "delta": 10.0,
+      "rmse_plus_delta": 24.401,
+      "rmse_minus_delta": 21.728,
+      "sensitivity_dRMSE_per_unit": 0.1336
+    },
+    "t_amp": {
+      "nominal": 38.0,
+      "delta": 5.0,
+      "rmse_plus_delta": 20.687,
+      "rmse_minus_delta": 22.126,
+      "sensitivity_dRMSE_per_unit": -0.144
+    },
+    "phase_shift": {
+      "nominal": 0.0,
+      "delta": 0.5,
+      "rmse_plus_delta": 55.311,
+      "rmse_minus_delta": 20.738,
+      "sensitivity_dRMSE_per_unit": 34.573
+    }
+  },
+  "identifiability_verdict": "IDENTIFIABLE_LOCALLY_WELL_CONDITIONED"
+}

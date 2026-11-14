@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "design_space_id": "ds_bm_infeas_05",
+  "campaign_id": "cmp_bm_infeas_05",
+  "campaign_version": 1,
+  "created_at_utc": "2026-11-14T11:40:07.195038+00:00",
+  "search_bounds": {
+    "max_candidates": 10,
+    "max_planner_calls": 10
+  },
+  "search_completeness": {
+    "candidates_considered": 2,
+    "candidates_deduplicated": 0,
+    "candidates_evaluated": 2,
+    "candidates_rejected": 0,
+    "is_exhaustive": true,
+    "limit_reached": false,
+    "unexplored_scope_notes": ""
+  },
+  "pareto_candidates": [
+    {
+      "candidate_id": "cand_feas_ok",
+      "fingerprint": "7f2f422ed6326e2e98337ef66eed25c658ec029115796564d9415e7b4d4b1bdd",
+      "configuration": {
+        "planning_profile": "science_priority",
+        "max_duration_per_sortie_s": 28800.0,
+        "max_sols": 3
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 90.0,
+        "total_duration_s": 25000.0,
+        "total_distance_m": 12000.0,
+        "unallocated_priority": 15.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 2
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": ""
+    }
+  ],
+  "dominated_candidates": [],
+  "infeasible_candidates": [
+    {
+      "candidate_id": "cand_infeas_bad",
+      "fingerprint": "3a9c4368fb270bb5cd8e21601a469cf7c2a5906e5211b98180a3eb2cc5ddb31f",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 1200.0,
+        "max_sols": 1
+      },
+      "status": "INFEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 10000.0,
+        "total_distance_m": 5000.0,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 1
+      },
+      "dominance_status": "INFEASIBLE",
+      "dominated_by": [],
+      "tradeoff_explanation": "",
+      "infeasibility_reasons": [
+        "DURATION_LIMIT_EXCEEDED: Sortie duration 18000s exceeds envelope 1200s"
+      ]
+    }
+  ],
+  "recommendations": [],
+  "limitations_disclaimer": "Test disclaimer"
+}

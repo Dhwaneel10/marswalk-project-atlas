@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-intent-validation.schema.json",
+  "title": "Mission Intent Validation Report Contract",
+  "description": "Output schema for mission intent verification against physical constraints, remote sensing data, and fleet capabilities.",
+  "type": "object",
+  "required": [
+    "verdict",
+    "total_errors",
+    "total_warnings",
+    "total_infos",
+    "issues",
+    "evaluated_at_utc"
+  ],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["VALID", "VALID_WITH_WARNINGS", "INVALID", "UNDER_SPECIFIED"]
+    },
+    "total_errors": { "type": "integer", "minimum": 0 },
+    "total_warnings": { "type": "integer", "minimum": 0 },
+    "total_infos": { "type": "integer", "minimum": 0 },
+    "evaluated_at_utc": { "type": "string" },
+    "normalized_intent": { "type": ["object", "null"] },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["issue_code", "severity", "message", "affected_field", "suggested_resolution"],
+        "properties": {
+          "issue_code": { "type": "string" },
+          "severity": { "type": "string", "enum": ["ERROR", "WARNING", "INFO"] },
+          "message": { "type": "string" },
+          "affected_field": { "type": "string" },
+          "suggested_resolution": { "type": "string" },
+          "assumption_applied": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

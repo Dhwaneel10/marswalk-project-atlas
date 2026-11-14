@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-constraint-diagnosis.schema.json",
+  "title": "Mission Constraint Diagnosis Contract",
+  "description": "Explains failure modes, causal failure chains, and 1-click relaxation proposals for unsatisfiable mission designs.",
+  "type": "object",
+  "required": [
+    "intent_id",
+    "is_feasible",
+    "primary_failure_mode",
+    "failure_chain",
+    "relaxation_options",
+    "conflict_cores"
+  ],
+  "properties": {
+    "intent_id": { "type": "string" },
+    "is_feasible": { "type": "boolean" },
+    "primary_failure_mode": { "type": "string" },
+    "generated_at_utc": { "type": "string" },
+    "failure_chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["step_number", "category", "entity_id", "description"],
+        "properties": {
+          "step_number": { "type": "integer", "minimum": 1 },
+          "category": { "type": "string" },
+          "entity_id": { "type": "string" },
+          "description": { "type": "string" },
+          "is_root_cause": { "type": "boolean" }
+        }
+      }
+    },
+    "relaxation_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["option_id", "name", "parameter_path", "current_value", "recommended_value", "impact_summary", "confidence_score"],
+        "properties": {
+          "option_id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "parameter_path": { "type": "string" },
+          "current_value": {},
+          "recommended_value": {},
+          "impact_summary": { "type": "string" },
+          "confidence_score": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+        }
+      }
+    },
+    "conflict_cores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["core_id", "summary", "conflicting_constraint_ids", "root_cause_explanation"],
+        "properties": {
+          "core_id": { "type": "string" },
+          "summary": { "type": "string" },
+          "conflicting_constraint_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "root_cause_explanation": { "type": "string" },
+          "minimal_relaxation_suggestions": {
+            "type": "array",
+            "items": { "type": "object" }
+          }
+        }
+      }
+    }
+  }
+}

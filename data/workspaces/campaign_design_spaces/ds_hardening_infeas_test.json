@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "design_space_id": "ds_hardening_infeas_test",
+  "campaign_id": "cmp_hardening_base",
+  "campaign_version": 1,
+  "created_at_utc": "2026-10-29T12:00:00Z",
+  "search_bounds": {
+    "max_candidates": 2,
+    "max_planner_calls": 2
+  },
+  "search_completeness": {
+    "candidates_considered": 2,
+    "candidates_deduplicated": 0,
+    "candidates_evaluated": 2,
+    "candidates_rejected": 1,
+    "is_exhaustive": true,
+    "limit_reached": false,
+    "unexplored_scope_notes": "None"
+  },
+  "pareto_candidates": [],
+  "dominated_candidates": [],
+  "infeasible_candidates": [
+    {
+      "candidate_id": "cand_cp_infeas_01",
+      "fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "configuration": {
+        "max_duration_per_sortie_s": 100.0
+      },
+      "status": "INFEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 0.0,
+        "total_duration_s": 0.0,
+        "total_distance_m": 0.0,
+        "unallocated_priority": 100.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 0
+      },
+      "dominance_status": "INFEASIBLE",
+      "dominated_by": [],
+      "tradeoff_explanation": "Infeasible",
+      "infeasibility_reasons": [
+        "Duration limit insufficient for any sortie"
+      ]
+    }
+  ],
+  "recommendations": [],
+  "limitations_disclaimer": "The Campaign Design Space Explorer is a deterministic multi-objective planning tool for simulated Mars exploration evaluation. It does NOT guarantee global mathematical optimality, employ probabilistic forecasting, or represent certified flight operations software. All candidate trade-offs are grounded in simulated route planning."
+}

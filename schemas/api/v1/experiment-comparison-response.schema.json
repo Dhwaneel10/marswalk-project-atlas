@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/experiment-comparison-response.schema.json",
+  "title": "MarsWalk Experiment Comparison Response",
+  "description": "Comprehensive scientific trade-off comparison between two saved experiment records.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "is_compatible",
+    "incompatibility_reasons",
+    "experiment_a",
+    "experiment_b",
+    "trade_offs_summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "is_compatible": {
+      "type": "boolean",
+      "description": "True if both experiments share identical terrain datasets and model definitions."
+    },
+    "incompatibility_reasons": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Explanations of discrepancies if experiments are not directly comparable."
+    },
+    "experiment_a": {
+      "type": "object",
+      "required": ["experiment_id", "name"],
+      "properties": {
+        "experiment_id": { "type": "string" },
+        "name": { "type": "string" },
+        "status": { "type": "string" },
+        "baseline_fingerprint": { "type": "string" },
+        "distance_m": { "type": ["number", "null"] },
+        "active_traverse_time_s": { "type": ["number", "null"] },
+        "total_mission_time_s": { "type": ["number", "null"] },
+        "terrain_cost_flat_m": { "type": ["number", "null"] },
+        "science_score": { "type": ["number", "null"] },
+        "num_scenarios": { "type": "integer" }
+      }
+    },
+    "experiment_b": {
+      "type": "object",
+      "required": ["experiment_id", "name"],
+      "properties": {
+        "experiment_id": { "type": "string" },
+        "name": { "type": "string" },
+        "status": { "type": "string" },
+        "baseline_fingerprint": { "type": "string" },
+        "distance_m": { "type": ["number", "null"] },
+        "active_traverse_time_s": { "type": ["number", "null"] },
+        "total_mission_time_s": { "type": ["number", "null"] },
+        "terrain_cost_flat_m": { "type": ["number", "null"] },
+        "science_score": { "type": ["number", "null"] },
+        "num_scenarios": { "type": "integer" }
+      }
+    },
+    "deltas": {
+      "type": "object",
+      "properties": {
+        "distance_delta_m": { "type": ["number", "null"] },
+        "distance_pct_delta": { "type": ["number", "null"] },
+        "active_time_delta_s": { "type": ["number", "null"] },
+        "active_time_pct_delta": { "type": ["number", "null"] },
+        "total_mission_time_delta_s": { "type": ["number", "null"] },
+        "total_mission_time_pct_delta": { "type": ["number", "null"] },
+        "effort_delta_flat_m": { "type": ["number", "null"] },
+        "effort_pct_delta": { "type": ["number", "null"] },
+        "science_score_delta": { "type": ["number", "null"] }
+      }
+    },
+    "science_comparison": {
+      "type": "object",
+      "properties": {
+        "score_a": { "type": ["number", "null"] },
+        "score_b": { "type": ["number", "null"] },
+        "retained_targets": { "type": "array", "items": { "type": "string" } },
+        "lost_targets": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "scenario_differences": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Catalog of scenario parameter differences between the two runs."
+    },
+    "trade_offs_summary": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Multi-dimensional analysis notes clarifying that shorter distance does not automatically guarantee overall mission superiority."
+    }
+  },
+  "additionalProperties": false
+}

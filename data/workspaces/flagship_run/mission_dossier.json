@@ -1,0 +1,23 @@
+{
+  "mission_id": "ATLAS-MARS-BASE-ALPHA-001",
+  "objective_title": "Establish Autonomous Research Settlement in Jezero Crater",
+  "total_duration_sols": 61,
+  "total_distance_covered_m": 840.0,
+  "total_observations_acquired": 2,
+  "hypotheses_validated_count": 2,
+  "total_energy_generated_kwh": 201423.04,
+  "total_isru_o2_generated_kg": 0.0,
+  "total_isru_blocks_produced": 294,
+  "incidents_handled_count": 1,
+  "unplanned_loss_events_count": 0,
+  "phase_f_readiness_score": 100.0,
+  "cryptographic_replay_valid": true,
+  "root_hash": "f9d124cfac3738ddb403be883ba273c2c9bc4af96b75f71a6ca66a96cb65bd14",
+  "provenance_record": {
+    "dtm_dataset": "USGS_CTX_DTM_JEZERO_20M",
+    "dtm_hash": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "pds_atmosphere": "NASA_PDS_MEDA_ARCHIVE",
+    "crs": "ESRI:103885 (Equirectangular Mars Sphere)"
+  },
+  "mandatory_scientific_disclosure": "NASA Space Apps Scientific Integrity Notice: All modeled routes, life-support balances, and schedules represent remote-sensing heuristics and computational simulations. They do not certify physical operational safety for human astronauts."
+}

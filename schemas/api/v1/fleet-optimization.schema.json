@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-optimization.schema.json",
+  "title": "Fleet Multi-Objective Optimization Champions Contract",
+  "description": "Defines 6D Pareto fleet configuration champions exploring the multi-criteria design space.",
+  "type": "object",
+  "required": [
+    "champions",
+    "recommended_profile"
+  ],
+  "properties": {
+    "champions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["profile", "name", "allocations", "metrics", "is_pareto_optimal", "composite_score"],
+        "properties": {
+          "profile": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "allocations": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "metrics": {
+            "type": "object",
+            "required": ["science_utility_pts", "total_distance_m", "min_rover_soc_margin_pct", "avg_comms_reachability_pct"],
+            "properties": {
+              "science_utility_pts": { "type": "number" },
+              "total_distance_m": { "type": "number" },
+              "min_rover_soc_margin_pct": { "type": "number" },
+              "avg_comms_reachability_pct": { "type": "number" },
+              "total_storage_backlog_mb": { "type": "number" },
+              "campaign_duration_h": { "type": "number" }
+            }
+          },
+          "is_pareto_optimal": { "type": "boolean" },
+          "composite_score": { "type": "number" }
+        }
+      }
+    },
+    "recommended_profile": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

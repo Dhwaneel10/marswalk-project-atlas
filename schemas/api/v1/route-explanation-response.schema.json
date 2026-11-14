@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/route-explanation-response.schema.json",
+  "title": "MarsWalk Route Explanation Response",
+  "description": "Structured terrain intelligence, cost attribution breakdown, reconciliation ledger, and decision support evidence.",
+  "type": "object",
+  "required": [
+    "status",
+    "schema_version",
+    "computation_fingerprint",
+    "profile",
+    "vehicle_mode",
+    "speed_multiplier",
+    "total_distance_m",
+    "total_cost_m",
+    "total_time_s",
+    "cost_density_ratio",
+    "segments",
+    "highest_cost_segments",
+    "reconciliation_ledger",
+    "decision_rationale",
+    "disclosures"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "success" },
+    "schema_version": { "type": "string" },
+    "computation_fingerprint": { "type": "string" },
+    "profile": { "type": "string" },
+    "vehicle_mode": { "type": "string" },
+    "speed_multiplier": { "type": "number" },
+    "total_distance_m": { "type": "number" },
+    "total_cost_m": { "type": "number" },
+    "total_time_s": { "type": "number" },
+    "formatted_time": { "type": "string" },
+    "cost_density_ratio": { "type": "number" },
+    "max_slope_deg": { "type": "number" },
+    "mean_slope_deg": { "type": "number" },
+    "total_elevation_gain_m": { "type": "number" },
+    "total_elevation_loss_m": { "type": "number" },
+    "min_elevation_m": { "type": "number" },
+    "max_elevation_m": { "type": "number" },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "segment_index",
+          "start_step_index",
+          "end_step_index",
+          "start_rc",
+          "end_rc",
+          "num_steps",
+          "distance_m",
+          "cost_m",
+          "cost_fraction_pct",
+          "cost_density",
+          "dominant_cost_factor",
+          "terrain_difficulty_rating"
+        ],
+        "properties": {
+          "segment_index": { "type": "integer" },
+          "start_step_index": { "type": "integer" },
+          "end_step_index": { "type": "integer" },
+          "start_rc": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+          "end_rc": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+          "num_steps": { "type": "integer" },
+          "distance_m": { "type": "number" },
+          "cost_m": { "type": "number" },
+          "cost_fraction_pct": { "type": "number" },
+          "cost_density": { "type": "number" },
+          "elevation_start_m": { "type": "number" },
+          "elevation_end_m": { "type": "number" },
+          "elevation_change_m": { "type": "number" },
+          "elevation_gain_m": { "type": "number" },
+          "elevation_loss_m": { "type": "number" },
+          "min_elevation_m": { "type": "number" },
+          "max_elevation_m": { "type": "number" },
+          "max_slope_deg": { "type": "number" },
+          "mean_slope_deg": { "type": "number" },
+          "base_distance_cost_m": { "type": "number" },
+          "slope_cost_m": { "type": "number" },
+          "roughness_cost_m": { "type": "number" },
+          "uphill_cost_m": { "type": "number" },
+          "contingency_cost_m": { "type": "number" },
+          "dominant_cost_factor": { "type": "string" },
+          "terrain_difficulty_rating": { "type": "string" },
+          "leg_id": { "type": ["string", "null"] },
+          "explanation_narrative": { "type": "string" },
+          "subpath": { "type": "array", "items": { "type": "array", "items": { "type": "integer" } } }
+        }
+      }
+    },
+    "highest_cost_segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rank",
+          "segment_index",
+          "cost_m",
+          "cost_fraction_pct",
+          "cost_density",
+          "dominant_factor",
+          "start_rc",
+          "end_rc",
+          "operational_impact",
+          "mitigation_hint"
+        ],
+        "properties": {
+          "rank": { "type": "integer" },
+          "segment_index": { "type": "integer" },
+          "cost_m": { "type": "number" },
+          "cost_fraction_pct": { "type": "number" },
+          "cost_density": { "type": "number" },
+          "dominant_factor": { "type": "string" },
+          "start_rc": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+          "end_rc": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+          "operational_impact": { "type": "string" },
+          "mitigation_hint": { "type": "string" }
+        }
+      }
+    },
+    "reconciliation_ledger": {
+      "type": "object",
+      "required": [
+        "total_distance_m",
+        "sum_segment_distances_m",
+        "distance_delta_m",
+        "total_cost_m",
+        "sum_segment_costs_m",
+        "cost_delta_m",
+        "component_sums_m",
+        "sum_of_components_m",
+        "component_delta_m",
+        "is_reconciled"
+      ],
+      "properties": {
+        "total_distance_m": { "type": "number" },
+        "sum_segment_distances_m": { "type": "number" },
+        "distance_delta_m": { "type": "number" },
+        "total_cost_m": { "type": "number" },
+        "sum_segment_costs_m": { "type": "number" },
+        "cost_delta_m": { "type": "number" },
+        "component_sums_m": { "type": "object" },
+        "sum_of_components_m": { "type": "number" },
+        "component_delta_m": { "type": "number" },
+        "is_reconciled": { "type": "boolean" },
+        "reconciliation_tolerance_m": { "type": "number" },
+        "non_additive_properties": { "type": "object" }
+      }
+    },
+    "decision_rationale": {
+      "type": "object",
+      "required": ["objective_description", "hazards_avoided", "tradeoffs_accepted", "full_narrative"],
+      "properties": {
+        "objective_description": { "type": "string" },
+        "hazards_avoided": { "type": "array", "items": { "type": "string" } },
+        "tradeoffs_accepted": { "type": "array", "items": { "type": "string" } },
+        "full_narrative": { "type": "string" }
+      }
+    },
+    "comparison": {
+      "type": ["object", "null"]
+    },
+    "step_details": {
+      "type": ["array", "null"]
+    },
+    "disclosures": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

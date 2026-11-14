@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "mission_id": "m_jezero_delta_scarp_surve_281379",
+  "name": "Jezero Delta Scarp Survey",
+  "description": "",
+  "created_at": "2026-10-18T07:43:53.094059+00:00",
+  "updated_at": "2026-10-18T07:43:53.094059+00:00",
+  "input_fingerprint": "5ef1b5ba040fee7255d85d66ddfd6717cc33842a0fd6bd7ecb48cc68498ca81f",
+  "canonical_mission": {
+    "start": {
+      "row": 117,
+      "col": 157,
+      "name": "Octavia E. Butler Landing"
+    },
+    "goal": {
+      "row": 194,
+      "col": 131,
+      "name": "Kodiak Butte Outlier"
+    },
+    "stops": [
+      {
+        "row": 153,
+        "col": 123,
+        "id": "three_forks",
+        "name": "Three Forks Sample Depot",
+        "priority_score": 75,
+        "dwell_time_s": 900
+      },
+      {
+        "row": 130,
+        "col": 148,
+        "id": "artuby_ridge",
+        "name": "Artuby Ridge Scarp",
+        "priority_score": 65,
+        "dwell_time_s": 900
+      }
+    ],
+    "profile": "conservative",
+    "vehicle_mode": "crew_eva",
+    "speed_multiplier": 1,
+    "optimize_stops": false,
+    "mission_constraints": {}
+  },
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "model_version": "2.0.0",
+  "assumptions_version": "1.0.0",
+  "tags": [
+    "jezero",
+    "conservative",
+    "crew_eva"
+  ]
+}

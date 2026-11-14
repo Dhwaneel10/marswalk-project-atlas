@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/environmental-collocation.schema.json",
+  "title": "Atlas Environmental Collocation Schema",
+  "description": "Milestone 13M — Collocated observation-model pairs, spatial/temporal gates, and empirical residuals.",
+  "type": "object",
+  "required": ["total_pairs", "qualified_pairs", "model_target", "pairs"],
+  "properties": {
+    "total_pairs": { "type": "integer", "minimum": 0 },
+    "qualified_pairs": { "type": "integer", "minimum": 0 },
+    "model_target": { "type": "string" },
+    "pairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "pair_id",
+          "parameter_name",
+          "unit",
+          "sol",
+          "observation_id",
+          "observed_value",
+          "model_name",
+          "model_value",
+          "residual",
+          "spatial_separation_km",
+          "delta_ltst_hours",
+          "delta_ls_deg",
+          "gate_status",
+          "representativeness_class"
+        ],
+        "properties": {
+          "pair_id": { "type": "string" },
+          "parameter_name": { "type": "string" },
+          "unit": { "type": "string" },
+          "sol": { "type": "integer" },
+          "observation_id": { "type": "string" },
+          "observed_value": { "type": "number" },
+          "observed_uncertainty_1sigma": { "type": ["number", "null"] },
+          "model_name": { "type": "string" },
+          "model_value": { "type": "number" },
+          "residual": { "type": "number" },
+          "relative_error_pct": { "type": ["number", "null"] },
+          "spatial_separation_km": { "type": "number" },
+          "delta_ltst_hours": { "type": "number" },
+          "delta_ls_deg": { "type": "number" },
+          "gate_status": {
+            "type": "string",
+            "enum": [
+              "COLLOCATION_QUALIFIED",
+              "EXCEEDS_SPATIAL_TOLERANCE",
+              "EXCEEDS_TEMPORAL_TOLERANCE",
+              "EXCEEDS_SEASONAL_TOLERANCE",
+              "ALTITUDE_MISMATCH",
+              "SENSOR_FLAGGED_OR_NULL"
+            ]
+          },
+          "rejection_reason": { "type": ["string", "null"] },
+          "representativeness_class": { "type": "string" }
+        }
+      }
+    }
+  }
+}

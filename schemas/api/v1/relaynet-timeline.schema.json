@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk RelayNet Timeline Schema",
+  "description": "JSON Schema for dynamic mission connectivity timeline and gap coalescing",
+  "type": "object",
+  "required": ["schema_version", "fingerprint", "checkpoints", "gap_intervals", "summary", "provenance"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "fingerprint": { "type": "string" },
+    "checkpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["time_s", "rc", "elevation_m", "communication_state", "active_path", "hop_count"],
+        "properties": {
+          "time_s": { "type": "number" },
+          "rc": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+          "elevation_m": { "type": "number" },
+          "communication_state": {
+            "type": "string",
+            "enum": ["CONNECTED_DIRECT", "CONNECTED_RELAYED", "SIMULATED_GEOMETRIC_CONNECTIVITY_GAP"]
+          },
+          "active_path": { "type": "array", "items": { "type": "string" } },
+          "hop_count": { "type": "integer" },
+          "primary_link_distance_m": { "type": ["number", "null"] },
+          "min_path_clearance_m": { "type": ["number", "null"] },
+          "gap_reason": { "type": ["string", "null"], "enum": ["TERRAIN_BLOCKED", "OUT_OF_RANGE", null] },
+          "nearest_node_id": { "type": ["string", "null"] },
+          "nearest_node_distance_m": { "type": ["number", "null"] },
+          "obstruction_rc": { "type": ["array", "null"], "items": { "type": "number" } }
+        }
+      }
+    },
+    "gap_intervals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gap_id", "start_time_s", "end_time_s", "duration_s", "reason", "start_rc", "end_rc"],
+        "properties": {
+          "gap_id": { "type": "string" },
+          "start_time_s": { "type": "number" },
+          "end_time_s": { "type": "number" },
+          "duration_s": { "type": "number" },
+          "reason": { "type": "string", "enum": ["TERRAIN_BLOCKED", "OUT_OF_RANGE"] },
+          "start_rc": { "type": "array", "items": { "type": "number" } },
+          "end_rc": { "type": "array", "items": { "type": "number" } },
+          "nearest_node_id": { "type": ["string", "null"] },
+          "nearest_node_distance_m": { "type": ["number", "null"] },
+          "obstruction_rc": { "type": ["array", "null"], "items": { "type": "number" } }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "total_mission_time_s", "total_checkpoints", "connected_direct_checkpoints",
+        "connected_relayed_checkpoints", "gap_checkpoints", "total_gap_time_s",
+        "max_consecutive_gap_s", "connectivity_availability_pct", "gap_count"
+      ],
+      "properties": {
+        "total_mission_time_s": { "type": "number" },
+        "total_checkpoints": { "type": "integer" },
+        "connected_direct_checkpoints": { "type": "integer" },
+        "connected_relayed_checkpoints": { "type": "integer" },
+        "gap_checkpoints": { "type": "integer" },
+        "total_gap_time_s": { "type": "number" },
+        "max_consecutive_gap_s": { "type": "number" },
+        "connectivity_availability_pct": { "type": "number" },
+        "gap_count": { "type": "integer" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["dataset_id", "source_doi", "coordinate_reference_system", "model_disclosures"],
+      "properties": {
+        "dataset_id": { "type": "string" },
+        "source_doi": { "type": "string" },
+        "coordinate_reference_system": { "type": "string" },
+        "model_disclosures": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

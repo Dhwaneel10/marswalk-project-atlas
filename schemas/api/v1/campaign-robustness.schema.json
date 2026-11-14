@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/campaign-robustness.schema.json",
+  "title": "Campaign Robustness Evaluation Report Contract",
+  "description": "Multi-scenario stress testing, parameter feasibility envelopes, and sensitivity analysis report.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "campaign_id",
+    "version",
+    "evaluated_at_utc",
+    "total_scenarios_evaluated",
+    "initially_feasible_count",
+    "recovered_count",
+    "unrecoverable_count",
+    "robustness_score_pct",
+    "scenario_evaluations",
+    "feasibility_envelope",
+    "sensitivity_analysis",
+    "execution_duration_s",
+    "dossier_fingerprint"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_:-]{3,128}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "evaluated_at_utc": {
+      "type": "string"
+    },
+    "total_scenarios_evaluated": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "initially_feasible_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "recovered_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unrecoverable_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "robustness_score_pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "scenario_evaluations": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "feasibility_envelope": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "sensitivity_analysis": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "execution_duration_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "dossier_fingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": true
+}

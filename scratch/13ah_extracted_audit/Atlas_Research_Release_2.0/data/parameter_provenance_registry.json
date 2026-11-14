@@ -1,0 +1,103 @@
+{
+  "baseline_designation": "ATLAS-RESEARCH-BASELINE-2.0",
+  "milestone": "13AF",
+  "timestamp": "2026-11-07T11:46:00Z",
+  "provenance_registry": [
+    {
+      "parameter": "martian_equatorial_radius_km",
+      "value": 3389.5,
+      "units": "km",
+      "source": "NASA Mars Fact Sheet / IAU/IAG Working Group 2015",
+      "scientific_evidence_class": "EXPERIMENTAL_OBSERVED",
+      "notes": "Standard planetary ellipsoid reference radius"
+    },
+    {
+      "parameter": "surface_atmospheric_density_kg_m3",
+      "value": 0.020,
+      "units": "kg/m^3",
+      "source": "Viking Lander 1 & 2 / Mars-GRAM Reference",
+      "scientific_evidence_class": "EXPERIMENTAL_OBSERVED",
+      "notes": "Typical equatorial surface density at mean datum"
+    },
+    {
+      "parameter": "atmospheric_scale_height_km",
+      "value": 11.1,
+      "units": "km",
+      "source": "Viking, Mars Pathfinder, REMS / Seiff 1982",
+      "scientific_evidence_class": "EXPERIMENTAL_OBSERVED",
+      "notes": "Global average pressure/density scale height"
+    },
+    {
+      "parameter": "dust_scale_height_typical_km",
+      "value": 10.0,
+      "units": "km",
+      "source": "MER Pancam (Lemmon et al. 2004, 2014)",
+      "scientific_evidence_class": "EXPERIMENTAL_OBSERVED",
+      "notes": "Well-mixed lower troposphere dust vertical distribution"
+    },
+    {
+      "parameter": "dust_scale_height_aloft_stress_km",
+      "value": 19.2,
+      "units": "km",
+      "source": "MER Opportunity (Lemmon et al. 2014, Section 4.3)",
+      "scientific_evidence_class": "MODEL_ESTIMATE",
+      "notes": "Single-exponential fit artifact capturing detached aloft dust layer; stress case only"
+    },
+    {
+      "parameter": "dust_angstrom_exponent",
+      "value": -0.082,
+      "units": "dimensionless",
+      "source": "Fernandez-Rodriguez et al. (2024 / 2025 preprint arXiv:2504.16955)",
+      "scientific_evidence_class": "MODEL_ESTIMATE",
+      "notes": "Near-IR dust extinction slope derived from Pancam 440-880 nm; 1550 nm is an extrapolated value"
+    },
+    {
+      "parameter": "rf_dust_relative_permittivity_real",
+      "value": 2.80,
+      "units": "dimensionless",
+      "source": "Campbell & Ulrichs (1969); Olhoeft & Strangway (1975); Goldhirsh (2000)",
+      "scientific_evidence_class": "EXPERIMENTAL_OBSERVED",
+      "notes": "Measured on powdered terrestrial basalt / Apollo lunar regolith at zero moisture analog"
+    },
+    {
+      "parameter": "rf_dust_loss_tangent",
+      "value": 0.015,
+      "units": "dimensionless",
+      "source": "Goldhirsh (2000, Table 5-2)",
+      "scientific_evidence_class": "EXPERIMENTAL_OBSERVED",
+      "notes": "Loss tangent tan(delta) = eps_r_imag / eps_r_real = 0.042 / 2.80"
+    },
+    {
+      "parameter": "rf_dust_polarizability_factor_im_k",
+      "value": 0.005468,
+      "units": "dimensionless",
+      "source": "Analytical Rayleigh formulation: Im(-(eps_r - 1)/(eps_r + 2))",
+      "scientific_evidence_class": "THEORETICAL_DERIVED",
+      "notes": "Exact value: 3 * 0.042 / ((3.80)^2 + (0.042)^2) = 0.00546833"
+    },
+    {
+      "parameter": "dust_grain_density_kg_m3",
+      "value": 2500.0,
+      "units": "kg/m^3",
+      "source": "Goldhirsh (2000)",
+      "scientific_evidence_class": "MODEL_ESTIMATE",
+      "notes": "Solid density of basaltic mineral grain"
+    },
+    {
+      "parameter": "cosmic_microwave_background_k",
+      "value": 2.725,
+      "units": "K",
+      "source": "Fixsen (2009) COBE/FIRAS",
+      "scientific_evidence_class": "EXPERIMENTAL_OBSERVED",
+      "notes": "Thermodynamic CMB temperature; Rayleigh-Jeans equivalent brightness is 2.029 K at 32 GHz"
+    },
+    {
+      "parameter": "parabolic_aperture_efficiency",
+      "value": 0.55,
+      "units": "dimensionless",
+      "source": "NASA JPL DESCANSO Deep Space Communications Series",
+      "scientific_evidence_class": "EXPERIMENTAL_OBSERVED",
+      "notes": "Standard illumination and spillover efficiency for circular reflector antennas"
+    }
+  ]
+}

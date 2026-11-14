@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-snapshot.schema.json",
+  "title": "MarsWalk Mission Snapshot",
+  "description": "Deterministic, reproducible snapshot of all result-affecting input parameters, ordered coordinates, and dataset bounds.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "input_fingerprint",
+    "canonical_mission",
+    "ordered_points",
+    "terrain_dataset"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "input_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16,64}$",
+      "description": "Deterministic hex hash computed from canonical representation of all result-affecting inputs."
+    },
+    "mission_id": {
+      "type": "string",
+      "description": "Stable mission identifier associated with this snapshot."
+    },
+    "canonical_mission": {
+      "type": "object",
+      "description": "Normalized mission request containing start, goal, stops, profile, vehicle mode, and constraints."
+    },
+    "ordered_points": {
+      "type": "array",
+      "description": "Exact ordered sequence of (row, col) grid cells traversed: [Start, Stop_1, ..., Goal].",
+      "minItems": 2,
+      "items": {
+        "type": "array",
+        "items": { "type": "integer", "minimum": 0 },
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "ordered_stop_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Ordered list of intermediate stop IDs."
+    },
+    "terrain_dataset": {
+      "type": "object",
+      "required": ["dataset_id", "grid_cell_size_m", "dimensions"],
+      "properties": {
+        "dataset_id": { "type": "string", "description": "e.g., USGS_CTX_DTM_JEZERO_20M" },
+        "version": { "type": "string" },
+        "grid_cell_size_m": { "type": "number", "minimum": 0.1 },
+        "dimensions": {
+          "type": "object",
+          "required": ["height", "width"],
+          "properties": {
+            "height": { "type": "integer", "minimum": 1 },
+            "width": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "elevation_bounds_m": {
+          "type": "object",
+          "properties": {
+            "min_m": { "type": "number" },
+            "max_m": { "type": "number" }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "model_version": {
+      "type": "string",
+      "description": "Semantic version of the planning and simulation engine."
+    },
+    "assumptions_version": {
+      "type": "string",
+      "description": "Version identifier for the engineering assumptions ledger."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,88 @@
+{
+  "phase_01_compilation": {
+    "mission_id": "ATLAS-MARS-BASE-ALPHA-001",
+    "compiled_phases_count": 7,
+    "total_tasks_count": 15,
+    "status": "EXECUTING"
+  },
+  "phase_02_site_selection": {
+    "site_id": "SITE-JEZERO-DELTA-01",
+    "candidate_score": 94.2,
+    "max_slope_deg": 4.2,
+    "bearing_capacity_kpa": 185.0,
+    "current_sol": 5
+  },
+  "phase_03_power_architecture": {
+    "fission_reactor_rated_kwe": 120.0,
+    "battery_storage_kwh": 250.0,
+    "battery_soc_pct": 100.0,
+    "current_sol": 9
+  },
+  "phase_04_fleet_allocation": {
+    "assets_registered": 8,
+    "construction_bot_status": "NOMINAL",
+    "current_sol": 17
+  },
+  "phase_05_science_planning": {
+    "hypotheses_scheduled": 4,
+    "target_features": [
+      "Delta Scarp",
+      "S\u00e9\u00edtah Floor",
+      "Regional Regolith",
+      "Belva Crater Rim"
+    ],
+    "current_sol": 25
+  },
+  "phase_06_deployment": {
+    "habitat_pressurized_kpa": 101.3,
+    "habitat_temp_k": 294.15,
+    "current_sol": 37
+  },
+  "phase_07_autonomy_loop": {
+    "owlt_seconds": 852.3,
+    "owlt_minutes": 14.21,
+    "valid_cmd_state": "EXECUTED",
+    "stale_cmd_state": "REJECTED_STALE_HASH",
+    "stale_rejection_verified": true,
+    "current_sol": 41
+  },
+  "phase_08_discovery": {
+    "hypotheses_validated_count": 2,
+    "cumulative_information_gain_bits": 1.0734,
+    "delta_posterior": 0.9404,
+    "seitah_posterior": 0.878,
+    "current_sol": 47
+  },
+  "phase_09_resilience": {
+    "incident_id": "INCIDENT-SOL-48-DUST-STORM",
+    "diagnosis": "Regional atmospheric obscuration detected. Solar PV output degraded by > 70%.",
+    "recovery_strategy": "AUTONOMOUS_LOAD_SHED_TO_BASELOAD_REACTOR",
+    "load_sheds": [
+      "MICROWAVE_REGOLITH_SINTERING",
+      "ELECTROLYSIS_STANDBY"
+    ],
+    "habitat_core_temp_k": 294.15,
+    "resolved": true,
+    "current_sol": 51
+  },
+  "phase_10_construction": {
+    "sintered_blocks_count": 258,
+    "blast_berm_ready": true,
+    "current_sol": 55
+  },
+  "phase_11_reconciliation": {
+    "mass_conservation_discrepancy_kg": 0.0,
+    "final_water_reserve_kg": 3440.4,
+    "final_oxygen_reserve_kg": 1235.73,
+    "battery_soc_pct": 100.0,
+    "current_sol": 59
+  },
+  "phase_12_qualification": {
+    "mission_id": "ATLAS-MARS-BASE-ALPHA-001",
+    "total_duration_sols": 61,
+    "phase_f_readiness_score": 100.0,
+    "qualification_status": "PASSED",
+    "root_hash": "f9d124cfac3738ddb403be883ba273c2c9bc4af96b75f71a6ca66a96cb65bd14",
+    "cryptographic_replay_valid": true
+  }
+}

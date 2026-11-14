@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "event_id": "cpe_d17f61d3d2",
+  "campaign_id": "cmp_live_ad1472",
+  "sol_index": 1,
+  "sortie_id": null,
+  "event_type": "TARGET_OBSERVED",
+  "target_id": "t_live_a",
+  "observation_id": "obs_da7267b324",
+  "timestamp_utc": "2026-10-30T20:44:18.267372+00:00",
+  "details": {},
+  "idempotency_key": "cmp_live_ad1472_TARGET_OBSERVED_t_live_a_1_2026-10-30T20:44:18",
+  "black_box_event_id": null
+}

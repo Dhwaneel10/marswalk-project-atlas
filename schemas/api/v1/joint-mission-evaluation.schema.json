@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk Joint Mission Evaluation Schema",
+  "description": "JSON Schema for MarsWalk 2.0 / Project Atlas Milestone 13E Joint Mission Evaluation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "configuration_id",
+    "traverse",
+    "relays",
+    "metrics",
+    "timeline_summary",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "configuration_id": {
+      "type": "string"
+    },
+    "traverse": {
+      "type": "object",
+      "required": ["traverse_id", "label", "distance_m", "elevation_gain_m", "elevation_loss_m", "mean_slope_deg", "max_slope_deg", "terrain_effort_m"],
+      "properties": {
+        "traverse_id": { "type": "string" },
+        "label": { "type": "string" },
+        "strategy_description": { "type": "string" },
+        "path_rc": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "distance_m": { "type": "number" },
+        "elevation_gain_m": { "type": "number" },
+        "elevation_loss_m": { "type": "number" },
+        "mean_slope_deg": { "type": "number" },
+        "max_slope_deg": { "type": "number" },
+        "terrain_effort_m": { "type": "number" },
+        "estimated_duration_s": { "type": "number" },
+        "planner_profile": { "type": "string" },
+        "is_valid": { "type": "boolean" }
+      }
+    },
+    "relays": {
+      "type": "object",
+      "required": ["config_id", "relays_deployed", "relay_count", "is_connected_to_base"],
+      "properties": {
+        "config_id": { "type": "string" },
+        "relays_deployed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["node_id", "row", "col", "elevation_m", "antenna_height_m"],
+            "properties": {
+              "node_id": { "type": "string" },
+              "row": { "type": "integer" },
+              "col": { "type": "integer" },
+              "elevation_m": { "type": "number" },
+              "antenna_height_m": { "type": "number" }
+            }
+          }
+        },
+        "relay_count": { "type": "integer" },
+        "is_connected_to_base": { "type": "boolean" },
+        "algebraic_connectivity": { "type": "number" }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["physical_metrics", "normalized_vector", "scalar_utility_score"],
+      "properties": {
+        "physical_metrics": {
+          "type": "object",
+          "required": ["distance_m", "travel_time_s", "mean_slope_deg", "max_slope_deg", "connected_distance_m", "gap_distance_m", "availability_pct", "relay_count"],
+          "properties": {
+            "distance_m": { "type": "number" },
+            "travel_time_s": { "type": "number" },
+            "mean_slope_deg": { "type": "number" },
+            "max_slope_deg": { "type": "number" },
+            "elevation_gain_m": { "type": "number" },
+            "elevation_loss_m": { "type": "number" },
+            "terrain_effort_m": { "type": "number" },
+            "connected_distance_m": { "type": "number" },
+            "gap_distance_m": { "type": "number" },
+            "gap_duration_s": { "type": "number" },
+            "availability_pct": { "type": "number" },
+            "max_gap_duration_s": { "type": "number" },
+            "gap_count": { "type": "integer" },
+            "relay_count": { "type": "integer" },
+            "mean_hops": { "type": "number" },
+            "max_hops": { "type": "integer" },
+            "critical_bridges": { "type": "integer" }
+          }
+        },
+        "normalized_vector": { "type": "object" },
+        "scalar_utility_score": { "type": "number" }
+      }
+    },
+    "timeline_summary": { "type": "object" },
+    "timeline_gap_intervals": { "type": "array" },
+    "is_pareto_optimal": { "type": "boolean" },
+    "recommendation_tier": { "type": "string" },
+    "provenance": { "type": "object" }
+  }
+}

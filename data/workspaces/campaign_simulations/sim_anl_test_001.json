@@ -1,0 +1,504 @@
+{
+  "schema_version": "1.0.0",
+  "simulation_id": "sim_anl_test_001",
+  "campaign_id": "cmp_anl_test_001",
+  "campaign_version": 1,
+  "coordination_id": "coord_6adddb6baf21",
+  "parent_simulation_id": null,
+  "status": "COMPLETED",
+  "current_time_s": 183838.44,
+  "current_sol": 3,
+  "total_duration_s": 183838.44,
+  "time_scale": 1.0,
+  "created_at_utc": "2026-11-14T11:40:05.851574+00:00",
+  "updated_at_utc": "2026-11-14T11:40:05.851934+00:00",
+  "units": [
+    {
+      "unit_id": "unit_perseverance",
+      "name": "Perseverance Rover Analogue",
+      "unit_type": "robotic_rover",
+      "status": "BUSY",
+      "current_activity": "DWELL",
+      "current_target_id": "tgt_skinner_w2",
+      "current_sortie_id": "sort_unit_perseverance_sol03_fa7cea",
+      "position": {
+        "row": 117,
+        "col": 157,
+        "lon": null,
+        "lat": null,
+        "elevation_m": -2567.2,
+        "slope_deg": 2.8,
+        "is_simulated_position": true
+      },
+      "total_distance_m": 536.2,
+      "total_active_time_s": 20433.5,
+      "energy_consumed_kwh": 0.01
+    },
+    {
+      "unit_id": "unit_crew_eva_1",
+      "name": "Crew EVA Team Alpha",
+      "unit_type": "crew_eva",
+      "status": "AVAILABLE",
+      "current_activity": "IDLE",
+      "current_target_id": null,
+      "current_sortie_id": null,
+      "position": {
+        "row": 117,
+        "col": 157,
+        "lon": null,
+        "lat": null,
+        "elevation_m": -2567.2,
+        "slope_deg": 2.8,
+        "is_simulated_position": true
+      },
+      "total_distance_m": 0.0,
+      "total_active_time_s": 0.0,
+      "energy_consumed_kwh": 0.0
+    }
+  ],
+  "timeline_intervals": [
+    {
+      "interval_id": "iv_trans_unit_perseverance_sort_unit_perseverance_sol01_ce2178",
+      "unit_id": "unit_perseverance",
+      "activity_type": "TRANSIT",
+      "start_time_s": 0.0,
+      "end_time_s": 8061.82,
+      "duration_s": 8061.82,
+      "sol_index": 1,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_perseverance_sol01_ce2178",
+      "target_id": null,
+      "target_name": null,
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          119,
+          158
+        ],
+        [
+          120,
+          159
+        ],
+        [
+          121,
+          160
+        ],
+        [
+          122,
+          161
+        ],
+        [
+          121,
+          160
+        ],
+        [
+          120,
+          159
+        ],
+        [
+          119,
+          158
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 260.5
+    },
+    {
+      "interval_id": "iv_dwell_unit_perseverance_sort_unit_perseverance_sol01_ce2178_tgt_octavia_w0",
+      "unit_id": "unit_perseverance",
+      "activity_type": "DWELL",
+      "start_time_s": 8061.82,
+      "end_time_s": 8811.82,
+      "duration_s": 750.0,
+      "sol_index": 1,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_perseverance_sol01_ce2178",
+      "target_id": "tgt_octavia_w0",
+      "target_name": "Octavia E. Butler Landing",
+      "path_rc": [],
+      "distance_m": 0.0
+    },
+    {
+      "interval_id": "iv_dwell_unit_perseverance_sort_unit_perseverance_sol01_ce2178_tgt_enchanted_w3",
+      "unit_id": "unit_perseverance",
+      "activity_type": "DWELL",
+      "start_time_s": 8811.82,
+      "end_time_s": 9561.82,
+      "duration_s": 750.0,
+      "sol_index": 1,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_perseverance_sol01_ce2178",
+      "target_id": "tgt_enchanted_w3",
+      "target_name": "Enchanted Lake",
+      "path_rc": [],
+      "distance_m": 0.0
+    },
+    {
+      "interval_id": "iv_rest_unit_perseverance_sol2",
+      "unit_id": "unit_perseverance",
+      "activity_type": "REST",
+      "start_time_s": 85175.24,
+      "end_time_s": 88775.24,
+      "duration_s": 3600.0,
+      "sol_index": 1,
+      "status": "PLANNED",
+      "sortie_id": null,
+      "target_id": null,
+      "target_name": null,
+      "path_rc": [],
+      "distance_m": 0.0
+    },
+    {
+      "interval_id": "iv_trans_unit_perseverance_sort_unit_perseverance_sol02_b5cd42",
+      "unit_id": "unit_perseverance",
+      "activity_type": "TRANSIT",
+      "start_time_s": 88775.24,
+      "end_time_s": 92458.99,
+      "duration_s": 3683.74,
+      "sol_index": 2,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_perseverance_sol02_b5cd42",
+      "target_id": null,
+      "target_name": null,
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          119,
+          159
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 110.3
+    },
+    {
+      "interval_id": "iv_dwell_unit_perseverance_sort_unit_perseverance_sol02_b5cd42_tgt_hawksbill_w1",
+      "unit_id": "unit_perseverance",
+      "activity_type": "DWELL",
+      "start_time_s": 92458.99,
+      "end_time_s": 93358.99,
+      "duration_s": 900.0,
+      "sol_index": 2,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_perseverance_sol02_b5cd42",
+      "target_id": "tgt_hawksbill_w1",
+      "target_name": "Hawksbill Gap",
+      "path_rc": [],
+      "distance_m": 0.0
+    },
+    {
+      "interval_id": "iv_rest_unit_perseverance_sol3",
+      "unit_id": "unit_perseverance",
+      "activity_type": "REST",
+      "start_time_s": 173950.49,
+      "end_time_s": 177550.49,
+      "duration_s": 3600.0,
+      "sol_index": 2,
+      "status": "PLANNED",
+      "sortie_id": null,
+      "target_id": null,
+      "target_name": null,
+      "path_rc": [],
+      "distance_m": 0.0
+    },
+    {
+      "interval_id": "iv_trans_unit_perseverance_sort_unit_perseverance_sol03_fa7cea",
+      "unit_id": "unit_perseverance",
+      "activity_type": "TRANSIT",
+      "start_time_s": 177550.49,
+      "end_time_s": 182938.44,
+      "duration_s": 5387.96,
+      "sol_index": 3,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_perseverance_sol03_fa7cea",
+      "target_id": null,
+      "target_name": null,
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          119,
+          159
+        ],
+        [
+          120,
+          160
+        ],
+        [
+          119,
+          159
+        ],
+        [
+          118,
+          158
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 165.4
+    },
+    {
+      "interval_id": "iv_dwell_unit_perseverance_sort_unit_perseverance_sol03_fa7cea_tgt_skinner_w2",
+      "unit_id": "unit_perseverance",
+      "activity_type": "DWELL",
+      "start_time_s": 182938.44,
+      "end_time_s": 183838.44,
+      "duration_s": 900.0,
+      "sol_index": 3,
+      "status": "PLANNED",
+      "sortie_id": "sort_unit_perseverance_sol03_fa7cea",
+      "target_id": "tgt_skinner_w2",
+      "target_name": "Skinner Ridge",
+      "path_rc": [],
+      "distance_m": 0.0
+    }
+  ],
+  "events": [
+    {
+      "event_id": "evt_sim_start_sim_anl_",
+      "event_type": "SIMULATION_START",
+      "simulated_time_s": 0.0,
+      "sol_index": 1,
+      "unit_id": null,
+      "target_id": null,
+      "sortie_id": null,
+      "title": "Campaign Digital Twin Initialized",
+      "description": "Simulation initialized for campaign 'Jezero Analytics Test Campaign' with 2 units and 9 tasks.",
+      "is_simulated": true,
+      "details": {
+        "units": [
+          "unit_perseverance",
+          "unit_crew_eva_1"
+        ],
+        "campaign_id": "cmp_anl_test_001"
+      }
+    },
+    {
+      "event_id": "evt_start_iv_trans_unit_perseverance_sort_unit_perseverance_sol01_ce2178",
+      "event_type": "TRANSIT_START",
+      "simulated_time_s": 0.0,
+      "sol_index": 1,
+      "unit_id": "unit_perseverance",
+      "target_id": null,
+      "sortie_id": "sort_unit_perseverance_sol01_ce2178",
+      "title": "Traverse Leg Commenced (unit_perseverance)",
+      "description": "Unit 'unit_perseverance' departed on traverse leg (260.5 m).",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_end_iv_trans_unit_perseverance_sort_unit_perseverance_sol01_ce2178",
+      "event_type": "TRANSIT_COMPLETE",
+      "simulated_time_s": 8061.82,
+      "sol_index": 1,
+      "unit_id": "unit_perseverance",
+      "target_id": null,
+      "sortie_id": "sort_unit_perseverance_sol01_ce2178",
+      "title": "Traverse Leg Completed (unit_perseverance)",
+      "description": "Unit 'unit_perseverance' completed traverse (260.5 m).",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_dwell_start_iv_dwell_unit_perseverance_sort_unit_perseverance_sol01_ce2178_tgt_octavia_w0",
+      "event_type": "DWELL_START",
+      "simulated_time_s": 8061.82,
+      "sol_index": 1,
+      "unit_id": "unit_perseverance",
+      "target_id": "tgt_octavia_w0",
+      "sortie_id": "sort_unit_perseverance_sol01_ce2178",
+      "title": "Science Dwell Commenced (Octavia E. Butler Landing)",
+      "description": "Unit 'unit_perseverance' began science observation at target 'Octavia E. Butler Landing'.",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_dwell_end_iv_dwell_unit_perseverance_sort_unit_perseverance_sol01_ce2178_tgt_octavia_w0",
+      "event_type": "DWELL_COMPLETE",
+      "simulated_time_s": 8811.82,
+      "sol_index": 1,
+      "unit_id": "unit_perseverance",
+      "target_id": "tgt_octavia_w0",
+      "sortie_id": "sort_unit_perseverance_sol01_ce2178",
+      "title": "Science Target Completed (Octavia E. Butler Landing)",
+      "description": "Unit 'unit_perseverance' completed science sampling at target 'Octavia E. Butler Landing'.",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_dwell_start_iv_dwell_unit_perseverance_sort_unit_perseverance_sol01_ce2178_tgt_enchanted_w3",
+      "event_type": "DWELL_START",
+      "simulated_time_s": 8811.82,
+      "sol_index": 1,
+      "unit_id": "unit_perseverance",
+      "target_id": "tgt_enchanted_w3",
+      "sortie_id": "sort_unit_perseverance_sol01_ce2178",
+      "title": "Science Dwell Commenced (Enchanted Lake)",
+      "description": "Unit 'unit_perseverance' began science observation at target 'Enchanted Lake'.",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_dwell_end_iv_dwell_unit_perseverance_sort_unit_perseverance_sol01_ce2178_tgt_enchanted_w3",
+      "event_type": "DWELL_COMPLETE",
+      "simulated_time_s": 9561.82,
+      "sol_index": 1,
+      "unit_id": "unit_perseverance",
+      "target_id": "tgt_enchanted_w3",
+      "sortie_id": "sort_unit_perseverance_sol01_ce2178",
+      "title": "Science Target Completed (Enchanted Lake)",
+      "description": "Unit 'unit_perseverance' completed science sampling at target 'Enchanted Lake'.",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_start_iv_trans_unit_perseverance_sort_unit_perseverance_sol02_b5cd42",
+      "event_type": "TRANSIT_START",
+      "simulated_time_s": 88775.24,
+      "sol_index": 2,
+      "unit_id": "unit_perseverance",
+      "target_id": null,
+      "sortie_id": "sort_unit_perseverance_sol02_b5cd42",
+      "title": "Traverse Leg Commenced (unit_perseverance)",
+      "description": "Unit 'unit_perseverance' departed on traverse leg (110.3 m).",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_end_iv_trans_unit_perseverance_sort_unit_perseverance_sol02_b5cd42",
+      "event_type": "TRANSIT_COMPLETE",
+      "simulated_time_s": 92458.99,
+      "sol_index": 2,
+      "unit_id": "unit_perseverance",
+      "target_id": null,
+      "sortie_id": "sort_unit_perseverance_sol02_b5cd42",
+      "title": "Traverse Leg Completed (unit_perseverance)",
+      "description": "Unit 'unit_perseverance' completed traverse (110.3 m).",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_dwell_start_iv_dwell_unit_perseverance_sort_unit_perseverance_sol02_b5cd42_tgt_hawksbill_w1",
+      "event_type": "DWELL_START",
+      "simulated_time_s": 92458.99,
+      "sol_index": 2,
+      "unit_id": "unit_perseverance",
+      "target_id": "tgt_hawksbill_w1",
+      "sortie_id": "sort_unit_perseverance_sol02_b5cd42",
+      "title": "Science Dwell Commenced (Hawksbill Gap)",
+      "description": "Unit 'unit_perseverance' began science observation at target 'Hawksbill Gap'.",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_dwell_end_iv_dwell_unit_perseverance_sort_unit_perseverance_sol02_b5cd42_tgt_hawksbill_w1",
+      "event_type": "DWELL_COMPLETE",
+      "simulated_time_s": 93358.99,
+      "sol_index": 2,
+      "unit_id": "unit_perseverance",
+      "target_id": "tgt_hawksbill_w1",
+      "sortie_id": "sort_unit_perseverance_sol02_b5cd42",
+      "title": "Science Target Completed (Hawksbill Gap)",
+      "description": "Unit 'unit_perseverance' completed science sampling at target 'Hawksbill Gap'.",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_start_iv_trans_unit_perseverance_sort_unit_perseverance_sol03_fa7cea",
+      "event_type": "TRANSIT_START",
+      "simulated_time_s": 177550.49,
+      "sol_index": 3,
+      "unit_id": "unit_perseverance",
+      "target_id": null,
+      "sortie_id": "sort_unit_perseverance_sol03_fa7cea",
+      "title": "Traverse Leg Commenced (unit_perseverance)",
+      "description": "Unit 'unit_perseverance' departed on traverse leg (165.4 m).",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_end_iv_trans_unit_perseverance_sort_unit_perseverance_sol03_fa7cea",
+      "event_type": "TRANSIT_COMPLETE",
+      "simulated_time_s": 182938.44,
+      "sol_index": 3,
+      "unit_id": "unit_perseverance",
+      "target_id": null,
+      "sortie_id": "sort_unit_perseverance_sol03_fa7cea",
+      "title": "Traverse Leg Completed (unit_perseverance)",
+      "description": "Unit 'unit_perseverance' completed traverse (165.4 m).",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_dwell_start_iv_dwell_unit_perseverance_sort_unit_perseverance_sol03_fa7cea_tgt_skinner_w2",
+      "event_type": "DWELL_START",
+      "simulated_time_s": 182938.44,
+      "sol_index": 3,
+      "unit_id": "unit_perseverance",
+      "target_id": "tgt_skinner_w2",
+      "sortie_id": "sort_unit_perseverance_sol03_fa7cea",
+      "title": "Science Dwell Commenced (Skinner Ridge)",
+      "description": "Unit 'unit_perseverance' began science observation at target 'Skinner Ridge'.",
+      "is_simulated": true,
+      "details": {}
+    },
+    {
+      "event_id": "evt_dwell_end_iv_dwell_unit_perseverance_sort_unit_perseverance_sol03_fa7cea_tgt_skinner_w2",
+      "event_type": "DWELL_COMPLETE",
+      "simulated_time_s": 183838.44,
+      "sol_index": 3,
+      "unit_id": "unit_perseverance",
+      "target_id": "tgt_skinner_w2",
+      "sortie_id": "sort_unit_perseverance_sol03_fa7cea",
+      "title": "Science Target Completed (Skinner Ridge)",
+      "description": "Unit 'unit_perseverance' completed science sampling at target 'Skinner Ridge'.",
+      "is_simulated": true,
+      "details": {}
+    }
+  ],
+  "conflicts": [],
+  "statistics": {
+    "total_intervals": 9,
+    "total_events": 15,
+    "completed_targets": 4,
+    "remaining_targets": 0,
+    "conflicts_count": 0,
+    "progress_pct": 100.0
+  },
+  "limitations_disclaimer": "The Campaign Digital Twin is a deterministic simulation model for Mars mission planning and rehearsal. It does NOT represent a live telemetry feed, real-time autonomous robotic control, or flight-certified operations software. All positions are simulated route derivations and physical sample/power transfers between vehicles are unsupported."
+}

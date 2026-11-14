@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0.0",
+  "suite_id": "bench_suite_20261029_132003",
+  "timestamp_utc": "2026-10-29T13:20:03.304258+00:00",
+  "total_scenarios": 8,
+  "passed_scenarios": 8,
+  "failed_scenarios": 0,
+  "total_candidates_evaluated": 22,
+  "execution_time_s": 0.363,
+  "scenarios": [
+    {
+      "scenario_id": "BM-NORM-01",
+      "name": "Nominal Multi-Target Feasible Campaign",
+      "category": "Baseline Planning",
+      "status": "PASSED",
+      "duration_ms": 28.32,
+      "candidates_evaluated": 12,
+      "feasible_candidates": 12,
+      "infeasible_candidates": 0,
+      "pareto_candidates": 12,
+      "dominated_candidates": 0,
+      "invariants_verified": [
+        "all_candidates_feasible_in_nominal_envelope",
+        "pareto_frontier_non_empty",
+        "baseline_immutability_and_version_increment_verified"
+      ],
+      "discrepancies_or_warnings": [],
+      "outputs_summary": {
+        "campaign_id": "cmp_bm_norm_01",
+        "promoted_v2_id": "cmp_bm_norm_01_v2",
+        "pareto_count": 12
+      }
+    },
+    {
+      "scenario_id": "BM-DURC-02",
+      "name": "Duration-Constrained Campaign",
+      "category": "Boundary Conditions",
+      "status": "PASSED",
+      "duration_ms": 124.35,
+      "candidates_evaluated": 1,
+      "feasible_candidates": 1,
+      "infeasible_candidates": 0,
+      "pareto_candidates": 1,
+      "dominated_candidates": 0,
+      "invariants_verified": [
+        "sortie_duration_limits_strictly_respected",
+        "target_deferral_and_multi_sol_allocation_handled"
+      ],
+      "discrepancies_or_warnings": [],
+      "outputs_summary": {
+        "sorties_planned": 1,
+        "max_duration_limit_s": 18000.0,
+        "max_planned_sortie_s": 9112.4
+      }
+    },
+    {
+      "scenario_id": "BM-SCIP-03",
+      "name": "Science-Priority Prerequisite Chain",
+      "category": "DAG Dependencies",
+      "status": "PASSED",
+      "duration_ms": 5.88,
+      "candidates_evaluated": 1,
+      "feasible_candidates": 1,
+      "infeasible_candidates": 0,
+      "pareto_candidates": 1,
+      "dominated_candidates": 0,
+      "invariants_verified": [
+        "prerequisite_dag_strict_topological_ordering"
+      ],
+      "discrepancies_or_warnings": [],
+      "outputs_summary": {
+        "visited_order": [
+          "tgt_alpha",
+          "tgt_beta",
+          "tgt_gamma"
+        ]
+      }
+    },
+    {
+      "scenario_id": "BM-CONS-04",
+      "name": "Conservative High-Margin Campaign",
+      "category": "Mobility Profiles",
+      "status": "PASSED",
+      "duration_ms": 4.81,
+      "candidates_evaluated": 2,
+      "feasible_candidates": 2,
+      "infeasible_candidates": 0,
+      "pareto_candidates": 2,
+      "dominated_candidates": 0,
+      "invariants_verified": [
+        "conservative_safety_margin_penalties_verified"
+      ],
+      "discrepancies_or_warnings": [],
+      "outputs_summary": {
+        "conservative_duration_s": 1732.1,
+        "science_duration_s": 1732.1,
+        "safety_margin_delta_s": 0.0
+      }
+    },
+    {
+      "scenario_id": "BM-INFEAS-05",
+      "name": "Infeasible Candidate Partitioning & Rejection",
+      "category": "Safety Isolation",
+      "status": "PASSED",
+      "duration_ms": 19.03,
+      "candidates_evaluated": 2,
+      "feasible_candidates": 1,
+      "infeasible_candidates": 1,
+      "pareto_candidates": 1,
+      "dominated_candidates": 0,
+      "invariants_verified": [
+        "infeasible_cannot_dominate_feasible_invariant",
+        "infeasible_partitioning_verified",
+        "infeasible_candidate_promotion_hard_rejection"
+      ],
+      "discrepancies_or_warnings": [],
+      "outputs_summary": {
+        "infeasible_candidate_id": "cand_infeas_bad",
+        "rejection_verified": true
+      }
+    },
+    {
+      "scenario_id": "BM-PARETO-06",
+      "name": "Genuine Multi-Objective Pareto Trade-Offs",
+      "category": "Multi-Objective Optimization",
+      "status": "PASSED",
+      "duration_ms": 0.04,
+      "candidates_evaluated": 2,
+      "feasible_candidates": 2,
+      "infeasible_candidates": 0,
+      "pareto_candidates": 2,
+      "dominated_candidates": 0,
+      "invariants_verified": [
+        "genuine_tradeoff_mutual_non_dominance",
+        "frontier_preserves_both_tradeoff_candidates",
+        "multi_dimensional_objective_vectors_preserved_without_composite_distortion"
+      ],
+      "discrepancies_or_warnings": [],
+      "outputs_summary": {
+        "pareto_ids": [
+          "cand_sci_lead",
+          "cand_time_lead"
+        ]
+      }
+    },
+    {
+      "scenario_id": "BM-MULTI-07",
+      "name": "Multi-Unit Coordination & Temporal Execution",
+      "category": "Multi-Agent Coordination",
+      "status": "PASSED",
+      "duration_ms": 11.28,
+      "candidates_evaluated": 1,
+      "feasible_candidates": 1,
+      "infeasible_candidates": 0,
+      "pareto_candidates": 1,
+      "dominated_candidates": 0,
+      "invariants_verified": [
+        "multi_unit_fleet_task_allocation_verified",
+        "temporal_execution_timeline_reconstructed"
+      ],
+      "discrepancies_or_warnings": [],
+      "outputs_summary": {
+        "allocated_units": [
+          "unit_perseverance"
+        ],
+        "timeline_intervals": 4,
+        "simulation_events": 0
+      }
+    },
+    {
+      "scenario_id": "BM-INCOMP-08",
+      "name": "Incomplete & Inconclusive Evidence Integrity",
+      "category": "Scientific Integrity",
+      "status": "PASSED",
+      "duration_ms": 6.41,
+      "candidates_evaluated": 1,
+      "feasible_candidates": 1,
+      "infeasible_candidates": 0,
+      "pareto_candidates": 1,
+      "dominated_candidates": 0,
+      "invariants_verified": [
+        "mandatory_limitations_disclaimer_present",
+        "executive_summary_identity_verified"
+      ],
+      "discrepancies_or_warnings": [],
+      "outputs_summary": {
+        "analytics_id": "anl_f519b579b111",
+        "limitations_disclaimer_length": 466
+      }
+    }
+  ],
+  "system_environment": {
+    "os": "Windows 11",
+    "python_version": "3.12.4",
+    "terrain_dataset": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "host_machine": "AMD64"
+  },
+  "reproducibility_verified": true,
+  "limitations_disclaimer": "MarsWalk benchmark harness execution results are deterministic planning and model verification evaluations based on USGS CTX 20m DTM and simulated agent kinematics. They do not constitute operational aerospace mission flight software certification or live Martian telemetry."
+}

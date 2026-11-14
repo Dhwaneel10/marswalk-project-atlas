@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk Joint Mission Resource Evaluation Schema",
+  "description": "JSON Schema for MarsWalk 2.0 / Project Atlas Milestone 13F Coupled Mission Resource Ledger Evaluation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "ledger_id",
+    "sha256_fingerprint",
+    "vehicle_mode",
+    "feasibility_status",
+    "energy_summary_wh",
+    "soc_summary",
+    "time_summary",
+    "segments",
+    "activity_events",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "ledger_id": { "type": "string" },
+    "sha256_fingerprint": { "type": "string" },
+    "vehicle_mode": { "type": "string", "enum": ["robotic_rover", "crew_eva"] },
+    "feasibility_status": {
+      "type": "string",
+      "enum": [
+        "FEASIBLE_WITHIN_CONFIGURED_BUDGET",
+        "FEASIBLE_WITH_LOW_RESERVE",
+        "ENERGY_CONSTRAINT_VIOLATION",
+        "TIME_CONSTRAINT_VIOLATION",
+        "MULTIPLE_CONSTRAINT_VIOLATIONS",
+        "UNKNOWN_RESOURCE_FEASIBILITY",
+        "INVALID_CONFIGURATION"
+      ]
+    },
+    "energy_summary_wh": {
+      "type": "object",
+      "required": ["total_energy_wh", "drive_energy_wh", "idle_energy_wh", "comms_energy_wh", "science_energy_wh", "net_energy_wh"],
+      "properties": {
+        "total_energy_wh": { "type": "number" },
+        "drive_energy_wh": { "type": "number" },
+        "idle_energy_wh": { "type": "number" },
+        "comms_energy_wh": { "type": "number" },
+        "science_energy_wh": { "type": "number" },
+        "thermal_energy_wh": { "type": "number" },
+        "solar_energy_wh": { "type": "number" },
+        "net_energy_wh": { "type": "number" }
+      }
+    },
+    "soc_summary": {
+      "type": "object",
+      "required": ["initial_soc_pct", "final_soc_pct", "min_soc_pct", "margin_to_critical_pct"],
+      "properties": {
+        "initial_soc_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "final_soc_pct": { "type": "number" },
+        "min_soc_pct": { "type": "number" },
+        "min_soc_timestamp_s": { "type": "number" },
+        "min_soc_location_rc": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+        "margin_to_critical_pct": { "type": "number" }
+      }
+    },
+    "time_summary": {
+      "type": "object",
+      "required": ["total_mission_time_s", "operational_time_limit_s", "remaining_time_margin_s"],
+      "properties": {
+        "total_mission_time_s": { "type": "number" },
+        "operational_time_limit_s": { "type": "number" },
+        "remaining_time_margin_s": { "type": "number" }
+      }
+    },
+    "relay_resource_summaries": { "type": "object" },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["segment_index", "distance_m", "duration_s", "comm_state", "power_breakdown_w", "energy_breakdown_wh", "soc_start_pct", "soc_end_pct"]
+      }
+    },
+    "activity_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["event_id", "timestamp_s", "duration_s", "event_type", "rover_power_w", "rover_soc_pct"]
+      }
+    },
+    "constraint_violations": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "provenance": { "type": "object" }
+  }
+}

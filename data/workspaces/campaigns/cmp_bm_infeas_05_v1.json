@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "cmp_bm_infeas_05",
+  "name": "Infeasible Partition Test Campaign",
+  "description": "",
+  "version": 1,
+  "revision_id": "rev_01",
+  "parent_campaign_id": null,
+  "created_at_utc": "2026-11-14T11:40:07.192362+00:00",
+  "updated_at_utc": "2026-11-14T11:40:07.192362+00:00",
+  "region_id": "jezero_crater",
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "reproducibility_manifest": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "model_version": "2.0.0",
+    "software_version": "2.0.0",
+    "input_fingerprint": "58c301d2c7b66c3f0f3320cfb49a04ca6b52f368401417f478eb368112d5e61d",
+    "assumptions_version": "1.0.0"
+  },
+  "config": {
+    "planning_profile": "science_priority",
+    "vehicle_mode": "crew_eva",
+    "speed_multiplier": 1.0,
+    "max_duration_per_sortie_s": 28800.0,
+    "max_sols": 3,
+    "max_total_duration_s": null,
+    "base_start_rc": [
+      117,
+      157
+    ],
+    "base_end_rc": null,
+    "return_to_base_each_sol": true,
+    "dwell_time_per_stop_s": 900.0,
+    "objective_weights": {
+      "science": 1.0,
+      "time": 0.2,
+      "margin": 0.1
+    }
+  },
+  "targets": [
+    {
+      "id": "tgt_w0",
+      "name": "Octavia E. Butler Landing",
+      "row": 117,
+      "col": 157,
+      "lat_deg": 100.0,
+      "lon_deg": null,
+      "elevation_m": null,
+      "priority_score": 50.0,
+      "priority_label": "default",
+      "dwell_time_s": 600.0,
+      "prerequisites": [],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_01",
+      "assigned_sol_index": 1,
+      "assigned_unit_id": null,
+      "unscheduled_reason": null,
+      "science_objective": null,
+      "objective_classification": "NOT_ASSESSED",
+      "linked_observation_ids": [],
+      "repeat_observation_requested": false
+    }
+  ],
+  "sorties": [
+    {
+      "sortie_id": "sortie_sol_01",
+      "sol_index": 1,
+      "name": "Sol 1: Octavia E. Butler Landing",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "tgt_w0"
+      ],
+      "target_names": [
+        "Octavia E. Butler Landing"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 0.0,
+      "travel_time_s": 0.0,
+      "dwell_time_s": 600.0,
+      "total_duration_s": 600.0,
+      "remaining_margin_s": 28200.0,
+      "science_score": 50.0,
+      "terrain_cost": 0.0,
+      "max_slope_deg": 0.0,
+      "cumulative_climb_m": 0.0,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "unit_id": null,
+      "legs_summary": [
+        {
+          "leg_index": 1,
+          "start_rc": [
+            117,
+            157
+          ],
+          "goal_rc": [
+            117,
+            157
+          ],
+          "distance_m": 0.0,
+          "cost": 0.0,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 2,
+          "start_rc": [
+            117,
+            157
+          ],
+          "goal_rc": [
+            117,
+            157
+          ],
+          "distance_m": 0.0,
+          "cost": 0.0,
+          "is_reachable": true
+        }
+      ],
+      "timeline_events": []
+    }
+  ],
+  "summary": {
+    "total_sols": 1,
+    "total_sorties": 1,
+    "total_distance_m": 0.0,
+    "total_travel_time_s": 0.0,
+    "total_dwell_time_s": 600.0,
+    "total_duration_s": 600.0,
+    "total_science_score": 50.0,
+    "targets_total": 1,
+    "targets_scheduled": 1,
+    "targets_unscheduled": 0,
+    "targets_completed": 0,
+    "is_campaign_feasible": true,
+    "overall_status": "FEASIBLE",
+    "bottlenecks_and_notes": []
+  },
+  "disruption": null,
+  "revision_comparison": null,
+  "progress": null,
+  "observations_summary": null,
+  "intelligence_recommendation": null,
+  "coordination": null
+}

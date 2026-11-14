@@ -1,0 +1,283 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "cmp_live_m11c_5cecb4",
+  "name": "Live HTTP 11C Test",
+  "description": " [Reprioritized at Sol 1]",
+  "version": 2,
+  "revision_id": "rev_02_intelligence",
+  "parent_campaign_id": "cmp_live_m11c_5cecb4",
+  "created_at_utc": "2026-11-06T18:17:06.765331+00:00",
+  "updated_at_utc": "2026-11-06T18:17:06.805620+00:00",
+  "region_id": "jezero_crater",
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "reproducibility_manifest": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "model_version": "2.0.0",
+    "software_version": "2.0.0",
+    "input_fingerprint": "62b147780f99ebfe7e28f78ec978585e0e40988aa32a3f87effe36712bbd50e8",
+    "assumptions_version": "1.0.0"
+  },
+  "config": {
+    "planning_profile": "science_priority",
+    "vehicle_mode": "crew_eva",
+    "speed_multiplier": 1.0,
+    "max_duration_per_sortie_s": 7200.0,
+    "max_sols": 10,
+    "max_total_duration_s": null,
+    "base_start_rc": [
+      117,
+      157
+    ],
+    "base_end_rc": null,
+    "return_to_base_each_sol": true,
+    "dwell_time_per_stop_s": 900.0,
+    "objective_weights": {
+      "science": 1.0,
+      "time": 0.2,
+      "margin": 0.1
+    }
+  },
+  "targets": [
+    {
+      "id": "t_live_1",
+      "name": "Live Target 1",
+      "row": 120,
+      "col": 158,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": -2567.76,
+      "priority_score": 60.0,
+      "priority_label": "default",
+      "dwell_time_s": 900.0,
+      "prerequisites": [],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "USGS Jezero 20m",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_01",
+      "assigned_sol_index": 1,
+      "assigned_unit_id": null,
+      "unscheduled_reason": null,
+      "science_objective": null,
+      "objective_classification": "NOT_ASSESSED",
+      "linked_observation_ids": [],
+      "repeat_observation_requested": false
+    },
+    {
+      "id": "t_live_2",
+      "name": "Live Target 2",
+      "row": 125,
+      "col": 155,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": -2567.1,
+      "priority_score": 75.0,
+      "priority_label": "default",
+      "dwell_time_s": 900.0,
+      "prerequisites": [],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "USGS Jezero 20m",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_01",
+      "assigned_sol_index": 1,
+      "assigned_unit_id": null,
+      "unscheduled_reason": null,
+      "science_objective": null,
+      "objective_classification": "NOT_ASSESSED",
+      "linked_observation_ids": [],
+      "repeat_observation_requested": false
+    }
+  ],
+  "sorties": [
+    {
+      "sortie_id": "sortie_sol_01",
+      "sol_index": 1,
+      "name": "Sol 1: Live Target 2, Live Target 1...",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "t_live_2",
+        "t_live_1"
+      ],
+      "target_names": [
+        "Live Target 2",
+        "Live Target 1"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          119,
+          156
+        ],
+        [
+          120,
+          156
+        ],
+        [
+          121,
+          156
+        ],
+        [
+          122,
+          155
+        ],
+        [
+          123,
+          155
+        ],
+        [
+          124,
+          155
+        ],
+        [
+          125,
+          155
+        ],
+        [
+          124,
+          155
+        ],
+        [
+          123,
+          155
+        ],
+        [
+          122,
+          156
+        ],
+        [
+          121,
+          157
+        ],
+        [
+          120,
+          158
+        ],
+        [
+          119,
+          157
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 365.4,
+      "travel_time_s": 712.4,
+      "dwell_time_s": 1800.0,
+      "total_duration_s": 2512.4,
+      "remaining_margin_s": 4687.6,
+      "science_score": 135.0,
+      "terrain_cost": 395.8,
+      "max_slope_deg": 1.0,
+      "cumulative_climb_m": 1.5,
+      "is_feasible": true,
+      "status": "IN_PROGRESS",
+      "unit_id": null,
+      "legs_summary": [
+        {
+          "leg_index": 1,
+          "start_rc": [
+            117,
+            157
+          ],
+          "goal_rc": [
+            125,
+            155
+          ],
+          "distance_m": 175.1,
+          "cost": 188.3,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 2,
+          "start_rc": [
+            125,
+            155
+          ],
+          "goal_rc": [
+            120,
+            158
+          ],
+          "distance_m": 122.7,
+          "cost": 131.2,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 3,
+          "start_rc": [
+            120,
+            158
+          ],
+          "goal_rc": [
+            117,
+            157
+          ],
+          "distance_m": 67.6,
+          "cost": 76.3,
+          "is_reachable": true
+        }
+      ],
+      "timeline_events": []
+    }
+  ],
+  "summary": {
+    "total_sols": 1,
+    "total_sorties": 1,
+    "total_distance_m": 365.4,
+    "total_travel_time_s": 712.4,
+    "total_dwell_time_s": 1800.0,
+    "total_duration_s": 2512.4,
+    "total_science_score": 135.0,
+    "targets_total": 2,
+    "targets_scheduled": 2,
+    "targets_unscheduled": 0,
+    "targets_completed": 0,
+    "is_campaign_feasible": true,
+    "overall_status": "IN_PROGRESS",
+    "bottlenecks_and_notes": [
+      "Adaptive intelligence plan evaluated at Sol 1."
+    ]
+  },
+  "disruption": null,
+  "revision_comparison": {
+    "delta_distance_m": 0.0,
+    "delta_duration_s": 0.0,
+    "delta_science_score": 0.0,
+    "newly_unscheduled_targets": [],
+    "resequenced_sorties": [
+      "sortie_sol_01"
+    ],
+    "reprioritized_targets": []
+  },
+  "progress": {
+    "active_sol_index": 1,
+    "completed_sortie_ids": [],
+    "completed_target_ids": [],
+    "blocked_target_ids": [],
+    "observation_ids": [],
+    "completion_percentage": 0.0
+  },
+  "observations_summary": null,
+  "intelligence_recommendation": null,
+  "coordination": null
+}

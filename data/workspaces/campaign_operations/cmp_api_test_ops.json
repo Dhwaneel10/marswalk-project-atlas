@@ -1,0 +1,960 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "cmp_api_test",
+  "name": "API Test",
+  "version": 1,
+  "lifecycle_state": "READY_FOR_REVIEW",
+  "current_sol": 2,
+  "simulated_elapsed_s": 88775.2,
+  "rover_position_rc": [
+    117,
+    157
+  ],
+  "cumulative_distance_m": 0.0,
+  "active_sortie_id": null,
+  "completed_sortie_ids": [],
+  "pending_sortie_ids": [
+    "sortie_sol_01"
+  ],
+  "energy_state": {
+    "battery_capacity_wh": 4800.0,
+    "current_energy_wh": 4800.0,
+    "consumed_energy_wh": 0.0,
+    "reserve_margin_pct": 99.9,
+    "minimum_reserve_pct": 20.0,
+    "feasibility": "FEASIBLE_WITHIN_CONFIGURED_BUDGET"
+  },
+  "data_state": {
+    "storage_capacity_mb": 16384.0,
+    "used_storage_mb": 20.0,
+    "total_data_generated_mb": 20.0,
+    "total_data_transferred_mb": 0.0,
+    "backlog_mb": 20.0,
+    "transfer_queue_count": 1,
+    "storage_pressure_state": "STORAGE_AVAILABLE"
+  },
+  "science_state": {
+    "completed_target_ids": [
+      "tgt_octavia"
+    ],
+    "pending_target_ids": [
+      "tgt_delta_front",
+      "tgt_crater_rim",
+      "tgt_neretva_fan"
+    ],
+    "deferred_target_ids": [],
+    "total_science_utility": 100.0,
+    "completed_observations_count": 1
+  },
+  "comms_state": {
+    "active_relay_ids": [],
+    "relay_locations": [],
+    "simulated_connectivity_pct": 85.0,
+    "historical_gaps_count": 0
+  },
+  "sol_schedules": {
+    "1": {
+      "sol_index": 1,
+      "sortie_id": "sortie_sol_01",
+      "name": "Sol 1: Sol 1: Octavia Butler Base Cache, Kodiak Mesa Delta Front...",
+      "activities": [
+        {
+          "activity_id": "act_trav_dep_sol1",
+          "sol_index": 1,
+          "activity_type": "ROVER_TRAVERSE",
+          "name": "Traverse Leg (Sol 1 Outbound)",
+          "target_id": null,
+          "start_time_s": 0.0,
+          "duration_s": 1521.3,
+          "end_time_s": 1521.3,
+          "energy_cost_wh": 157.54,
+          "data_generated_mb": 0.0,
+          "data_transferred_mb": 0.0,
+          "status": "SCHEDULED",
+          "metadata": {}
+        },
+        {
+          "activity_id": "act_obs_tgt_octavia",
+          "sol_index": 1,
+          "activity_type": "SCIENCE_OBSERVATION",
+          "name": "Observation at Octavia Butler Base Cache",
+          "target_id": "tgt_octavia",
+          "start_time_s": 1521.3,
+          "duration_s": 900.0,
+          "end_time_s": 2421.3,
+          "energy_cost_wh": 4.35,
+          "data_generated_mb": 80.0,
+          "data_transferred_mb": 0.0,
+          "status": "SCHEDULED",
+          "metadata": {
+            "instrument_mode": "MASTCAM_Z_PANO",
+            "objective": "SURFACE_MORPHOLOGY"
+          }
+        },
+        {
+          "activity_id": "act_obs_tgt_delta_front",
+          "sol_index": 1,
+          "activity_type": "SCIENCE_OBSERVATION",
+          "name": "Observation at Kodiak Mesa Delta Front",
+          "target_id": "tgt_delta_front",
+          "start_time_s": 2421.3,
+          "duration_s": 1800.0,
+          "end_time_s": 4221.3,
+          "energy_cost_wh": 8.7,
+          "data_generated_mb": 80.0,
+          "data_transferred_mb": 0.0,
+          "status": "SCHEDULED",
+          "metadata": {
+            "instrument_mode": "MASTCAM_Z_PANO",
+            "objective": "GEOLOGICAL_CHARACTERIZATION"
+          }
+        },
+        {
+          "activity_id": "act_obs_tgt_neretva_fan",
+          "sol_index": 1,
+          "activity_type": "SCIENCE_OBSERVATION",
+          "name": "Observation at Neretva Fan Sediments",
+          "target_id": "tgt_neretva_fan",
+          "start_time_s": 4221.3,
+          "duration_s": 2400.0,
+          "end_time_s": 6621.3,
+          "energy_cost_wh": 28.0,
+          "data_generated_mb": 37.5,
+          "data_transferred_mb": 0.0,
+          "status": "SCHEDULED",
+          "metadata": {
+            "instrument_mode": "SUPERCAM_RAMAN",
+            "objective": "ASTROBIOLOGY_BIOSIGNATURE_SURVEY"
+          }
+        },
+        {
+          "activity_id": "act_obs_tgt_crater_rim",
+          "sol_index": 1,
+          "activity_type": "SCIENCE_OBSERVATION",
+          "name": "Observation at Belva Crater Rim Exposure",
+          "target_id": "tgt_crater_rim",
+          "start_time_s": 6621.3,
+          "duration_s": 1200.0,
+          "end_time_s": 7821.3,
+          "energy_cost_wh": 6.6,
+          "data_generated_mb": 12.0,
+          "data_transferred_mb": 0.0,
+          "status": "SCHEDULED",
+          "metadata": {
+            "instrument_mode": "MASTCAM_Z_STEREO",
+            "objective": "MINERALOGICAL_INVESTIGATION"
+          }
+        },
+        {
+          "activity_id": "act_trav_ret_sol1",
+          "sol_index": 1,
+          "activity_type": "ROVER_TRAVERSE",
+          "name": "Traverse Leg (Sol 1 Return)",
+          "target_id": null,
+          "start_time_s": 7821.3,
+          "duration_s": 1521.3,
+          "end_time_s": 9342.6,
+          "energy_cost_wh": 157.54,
+          "data_generated_mb": 0.0,
+          "data_transferred_mb": 0.0,
+          "status": "SCHEDULED",
+          "metadata": {}
+        },
+        {
+          "activity_id": "act_xfer_sol1",
+          "sol_index": 1,
+          "activity_type": "SIMULATED_DATA_TRANSFER",
+          "name": "Tactical Data Transfer (Sol 1)",
+          "target_id": null,
+          "start_time_s": 9342.6,
+          "duration_s": 600.0,
+          "end_time_s": 9942.6,
+          "energy_cost_wh": 15.0,
+          "data_generated_mb": 0.0,
+          "data_transferred_mb": 120.0,
+          "status": "SCHEDULED",
+          "metadata": {}
+        }
+      ],
+      "start_position_rc": [
+        117,
+        157
+      ],
+      "end_position_rc": [
+        117,
+        157
+      ],
+      "total_distance_m": 1548.3,
+      "travel_time_s": 3042.6,
+      "dwell_time_s": 6300.0,
+      "total_duration_s": 9942.6,
+      "energy_consumed_wh": 377.72,
+      "remaining_energy_wh": 4422.28,
+      "data_generated_mb": 209.5,
+      "data_transferred_mb": 120.0,
+      "target_ids": [
+        "tgt_octavia",
+        "tgt_delta_front",
+        "tgt_neretva_fan",
+        "tgt_crater_rim"
+      ],
+      "is_feasible": true,
+      "feasibility_reason": "Nominal plan"
+    }
+  },
+  "active_plan": {
+    "schema_version": "1.0.0",
+    "campaign_id": "cmp_api_test",
+    "name": "API Test",
+    "description": "",
+    "version": 1,
+    "revision_id": "rev_01",
+    "parent_campaign_id": null,
+    "created_at_utc": "2026-11-14T11:40:32.380740+00:00",
+    "updated_at_utc": "2026-11-14T11:40:32.380740+00:00",
+    "region_id": "jezero_crater",
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "reproducibility_manifest": {
+      "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+      "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+      "model_version": "2.0.0",
+      "software_version": "2.0.0",
+      "input_fingerprint": "c746833245a587a3e9689f5a550f932ef6cc677482b8f312b5316b81827c48c4",
+      "assumptions_version": "1.0.0"
+    },
+    "config": {
+      "planning_profile": "science_priority",
+      "vehicle_mode": "crew_eva",
+      "speed_multiplier": 1.0,
+      "max_duration_per_sortie_s": 28800.0,
+      "max_sols": null,
+      "max_total_duration_s": null,
+      "base_start_rc": [
+        117,
+        157
+      ],
+      "base_end_rc": null,
+      "return_to_base_each_sol": true,
+      "dwell_time_per_stop_s": 900.0,
+      "objective_weights": {
+        "science": 1.0,
+        "time": 0.2,
+        "margin": 0.1
+      }
+    },
+    "targets": [
+      {
+        "id": "tgt_octavia",
+        "name": "Octavia Butler Base Cache",
+        "row": 117,
+        "col": 157,
+        "lat_deg": null,
+        "lon_deg": null,
+        "elevation_m": null,
+        "priority_score": 100.0,
+        "priority_label": "default",
+        "dwell_time_s": 900.0,
+        "prerequisites": [],
+        "geological_context": "",
+        "crism_signature": "",
+        "provenance": "",
+        "status": "SCHEDULED",
+        "assigned_sortie_id": "sortie_sol_01",
+        "assigned_sol_index": 1,
+        "assigned_unit_id": null,
+        "unscheduled_reason": null,
+        "science_objective": "SURFACE_MORPHOLOGY",
+        "objective_classification": "NOT_ASSESSED",
+        "linked_observation_ids": [],
+        "repeat_observation_requested": false
+      },
+      {
+        "id": "tgt_delta_front",
+        "name": "Kodiak Mesa Delta Front",
+        "row": 122,
+        "col": 148,
+        "lat_deg": null,
+        "lon_deg": null,
+        "elevation_m": null,
+        "priority_score": 90.0,
+        "priority_label": "default",
+        "dwell_time_s": 1800.0,
+        "prerequisites": [],
+        "geological_context": "",
+        "crism_signature": "",
+        "provenance": "",
+        "status": "SCHEDULED",
+        "assigned_sortie_id": "sortie_sol_01",
+        "assigned_sol_index": 1,
+        "assigned_unit_id": null,
+        "unscheduled_reason": null,
+        "science_objective": "GEOLOGICAL_CHARACTERIZATION",
+        "objective_classification": "NOT_ASSESSED",
+        "linked_observation_ids": [],
+        "repeat_observation_requested": false
+      },
+      {
+        "id": "tgt_crater_rim",
+        "name": "Belva Crater Rim Exposure",
+        "row": 135,
+        "col": 160,
+        "lat_deg": null,
+        "lon_deg": null,
+        "elevation_m": null,
+        "priority_score": 75.0,
+        "priority_label": "default",
+        "dwell_time_s": 1200.0,
+        "prerequisites": [],
+        "geological_context": "",
+        "crism_signature": "",
+        "provenance": "",
+        "status": "SCHEDULED",
+        "assigned_sortie_id": "sortie_sol_01",
+        "assigned_sol_index": 1,
+        "assigned_unit_id": null,
+        "unscheduled_reason": null,
+        "science_objective": "MINERALOGICAL_INVESTIGATION",
+        "objective_classification": "NOT_ASSESSED",
+        "linked_observation_ids": [],
+        "repeat_observation_requested": false
+      },
+      {
+        "id": "tgt_neretva_fan",
+        "name": "Neretva Fan Sediments",
+        "row": 110,
+        "col": 140,
+        "lat_deg": null,
+        "lon_deg": null,
+        "elevation_m": null,
+        "priority_score": 85.0,
+        "priority_label": "default",
+        "dwell_time_s": 2400.0,
+        "prerequisites": [],
+        "geological_context": "",
+        "crism_signature": "",
+        "provenance": "",
+        "status": "SCHEDULED",
+        "assigned_sortie_id": "sortie_sol_01",
+        "assigned_sol_index": 1,
+        "assigned_unit_id": null,
+        "unscheduled_reason": null,
+        "science_objective": "ASTROBIOLOGY_BIOSIGNATURE_SURVEY",
+        "objective_classification": "NOT_ASSESSED",
+        "linked_observation_ids": [],
+        "repeat_observation_requested": false
+      }
+    ],
+    "sorties": [
+      {
+        "sortie_id": "sortie_sol_01",
+        "sol_index": 1,
+        "name": "Sol 1: Octavia Butler Base Cache, Kodiak Mesa Delta Front...",
+        "start_rc": [
+          117,
+          157
+        ],
+        "goal_rc": [
+          117,
+          157
+        ],
+        "target_ids": [
+          "tgt_octavia",
+          "tgt_delta_front",
+          "tgt_neretva_fan",
+          "tgt_crater_rim"
+        ],
+        "target_names": [
+          "Octavia Butler Base Cache",
+          "Kodiak Mesa Delta Front",
+          "Neretva Fan Sediments",
+          "Belva Crater Rim Exposure"
+        ],
+        "path_rc": [
+          [
+            117,
+            157
+          ],
+          [
+            118,
+            156
+          ],
+          [
+            119,
+            155
+          ],
+          [
+            120,
+            154
+          ],
+          [
+            121,
+            153
+          ],
+          [
+            121,
+            152
+          ],
+          [
+            121,
+            151
+          ],
+          [
+            121,
+            150
+          ],
+          [
+            121,
+            149
+          ],
+          [
+            122,
+            148
+          ],
+          [
+            121,
+            148
+          ],
+          [
+            120,
+            148
+          ],
+          [
+            119,
+            147
+          ],
+          [
+            118,
+            146
+          ],
+          [
+            117,
+            145
+          ],
+          [
+            116,
+            144
+          ],
+          [
+            115,
+            143
+          ],
+          [
+            114,
+            143
+          ],
+          [
+            113,
+            143
+          ],
+          [
+            112,
+            142
+          ],
+          [
+            111,
+            141
+          ],
+          [
+            110,
+            140
+          ],
+          [
+            111,
+            141
+          ],
+          [
+            112,
+            142
+          ],
+          [
+            113,
+            143
+          ],
+          [
+            114,
+            144
+          ],
+          [
+            115,
+            144
+          ],
+          [
+            116,
+            145
+          ],
+          [
+            117,
+            146
+          ],
+          [
+            118,
+            147
+          ],
+          [
+            119,
+            148
+          ],
+          [
+            120,
+            149
+          ],
+          [
+            121,
+            150
+          ],
+          [
+            122,
+            151
+          ],
+          [
+            123,
+            151
+          ],
+          [
+            124,
+            152
+          ],
+          [
+            125,
+            152
+          ],
+          [
+            126,
+            153
+          ],
+          [
+            127,
+            153
+          ],
+          [
+            128,
+            154
+          ],
+          [
+            129,
+            155
+          ],
+          [
+            130,
+            156
+          ],
+          [
+            131,
+            157
+          ],
+          [
+            132,
+            158
+          ],
+          [
+            133,
+            158
+          ],
+          [
+            134,
+            159
+          ],
+          [
+            135,
+            160
+          ],
+          [
+            134,
+            160
+          ],
+          [
+            133,
+            160
+          ],
+          [
+            132,
+            160
+          ],
+          [
+            131,
+            160
+          ],
+          [
+            130,
+            160
+          ],
+          [
+            129,
+            160
+          ],
+          [
+            128,
+            160
+          ],
+          [
+            127,
+            160
+          ],
+          [
+            126,
+            160
+          ],
+          [
+            125,
+            160
+          ],
+          [
+            124,
+            160
+          ],
+          [
+            123,
+            160
+          ],
+          [
+            122,
+            160
+          ],
+          [
+            121,
+            159
+          ],
+          [
+            120,
+            158
+          ],
+          [
+            119,
+            157
+          ],
+          [
+            118,
+            157
+          ],
+          [
+            117,
+            157
+          ]
+        ],
+        "distance_m": 1548.3,
+        "travel_time_s": 3042.6,
+        "dwell_time_s": 6300.0,
+        "total_duration_s": 9342.6,
+        "remaining_margin_s": 19457.4,
+        "science_score": 350.0,
+        "terrain_cost": 1690.3,
+        "max_slope_deg": 1.9,
+        "cumulative_climb_m": 8.9,
+        "is_feasible": true,
+        "status": "PLANNED",
+        "unit_id": null,
+        "legs_summary": [
+          {
+            "leg_index": 1,
+            "start_rc": [
+              117,
+              157
+            ],
+            "goal_rc": [
+              117,
+              157
+            ],
+            "distance_m": 0.0,
+            "cost": 0.0,
+            "is_reachable": true
+          },
+          {
+            "leg_index": 2,
+            "start_rc": [
+              117,
+              157
+            ],
+            "goal_rc": [
+              122,
+              148
+            ],
+            "distance_m": 213.7,
+            "cost": 233.1,
+            "is_reachable": true
+          },
+          {
+            "leg_index": 3,
+            "start_rc": [
+              122,
+              148
+            ],
+            "goal_rc": [
+              110,
+              140
+            ],
+            "distance_m": 300.5,
+            "cost": 332.8,
+            "is_reachable": true
+          },
+          {
+            "leg_index": 4,
+            "start_rc": [
+              110,
+              140
+            ],
+            "goal_rc": [
+              135,
+              160
+            ],
+            "distance_m": 651.4,
+            "cost": 703.2,
+            "is_reachable": true
+          },
+          {
+            "leg_index": 5,
+            "start_rc": [
+              135,
+              160
+            ],
+            "goal_rc": [
+              117,
+              157
+            ],
+            "distance_m": 382.7,
+            "cost": 421.2,
+            "is_reachable": true
+          }
+        ],
+        "timeline_events": []
+      }
+    ],
+    "summary": {
+      "total_sols": 1,
+      "total_sorties": 1,
+      "total_distance_m": 1548.3,
+      "total_travel_time_s": 3042.6,
+      "total_dwell_time_s": 6300.0,
+      "total_duration_s": 9342.6,
+      "total_science_score": 350.0,
+      "targets_total": 4,
+      "targets_scheduled": 4,
+      "targets_unscheduled": 0,
+      "targets_completed": 0,
+      "is_campaign_feasible": true,
+      "overall_status": "FEASIBLE",
+      "bottlenecks_and_notes": []
+    },
+    "disruption": null,
+    "revision_comparison": null,
+    "progress": null,
+    "observations_summary": null,
+    "intelligence_recommendation": null,
+    "coordination": null,
+    "sol_schedules": {
+      "1": {
+        "sol_index": 1,
+        "sortie_id": "sortie_sol_01",
+        "name": "Sol 1: Sol 1: Octavia Butler Base Cache, Kodiak Mesa Delta Front...",
+        "activities": [
+          {
+            "activity_id": "act_trav_dep_sol1",
+            "sol_index": 1,
+            "activity_type": "ROVER_TRAVERSE",
+            "name": "Traverse Leg (Sol 1 Outbound)",
+            "target_id": null,
+            "start_time_s": 0.0,
+            "duration_s": 1521.3,
+            "end_time_s": 1521.3,
+            "energy_cost_wh": 157.54,
+            "data_generated_mb": 0.0,
+            "data_transferred_mb": 0.0,
+            "status": "SCHEDULED",
+            "metadata": {}
+          },
+          {
+            "activity_id": "act_obs_tgt_octavia",
+            "sol_index": 1,
+            "activity_type": "SCIENCE_OBSERVATION",
+            "name": "Observation at Octavia Butler Base Cache",
+            "target_id": "tgt_octavia",
+            "start_time_s": 1521.3,
+            "duration_s": 900.0,
+            "end_time_s": 2421.3,
+            "energy_cost_wh": 4.35,
+            "data_generated_mb": 80.0,
+            "data_transferred_mb": 0.0,
+            "status": "SCHEDULED",
+            "metadata": {
+              "instrument_mode": "MASTCAM_Z_PANO",
+              "objective": "SURFACE_MORPHOLOGY"
+            }
+          },
+          {
+            "activity_id": "act_obs_tgt_delta_front",
+            "sol_index": 1,
+            "activity_type": "SCIENCE_OBSERVATION",
+            "name": "Observation at Kodiak Mesa Delta Front",
+            "target_id": "tgt_delta_front",
+            "start_time_s": 2421.3,
+            "duration_s": 1800.0,
+            "end_time_s": 4221.3,
+            "energy_cost_wh": 8.7,
+            "data_generated_mb": 80.0,
+            "data_transferred_mb": 0.0,
+            "status": "SCHEDULED",
+            "metadata": {
+              "instrument_mode": "MASTCAM_Z_PANO",
+              "objective": "GEOLOGICAL_CHARACTERIZATION"
+            }
+          },
+          {
+            "activity_id": "act_obs_tgt_neretva_fan",
+            "sol_index": 1,
+            "activity_type": "SCIENCE_OBSERVATION",
+            "name": "Observation at Neretva Fan Sediments",
+            "target_id": "tgt_neretva_fan",
+            "start_time_s": 4221.3,
+            "duration_s": 2400.0,
+            "end_time_s": 6621.3,
+            "energy_cost_wh": 28.0,
+            "data_generated_mb": 37.5,
+            "data_transferred_mb": 0.0,
+            "status": "SCHEDULED",
+            "metadata": {
+              "instrument_mode": "SUPERCAM_RAMAN",
+              "objective": "ASTROBIOLOGY_BIOSIGNATURE_SURVEY"
+            }
+          },
+          {
+            "activity_id": "act_obs_tgt_crater_rim",
+            "sol_index": 1,
+            "activity_type": "SCIENCE_OBSERVATION",
+            "name": "Observation at Belva Crater Rim Exposure",
+            "target_id": "tgt_crater_rim",
+            "start_time_s": 6621.3,
+            "duration_s": 1200.0,
+            "end_time_s": 7821.3,
+            "energy_cost_wh": 6.6,
+            "data_generated_mb": 12.0,
+            "data_transferred_mb": 0.0,
+            "status": "SCHEDULED",
+            "metadata": {
+              "instrument_mode": "MASTCAM_Z_STEREO",
+              "objective": "MINERALOGICAL_INVESTIGATION"
+            }
+          },
+          {
+            "activity_id": "act_trav_ret_sol1",
+            "sol_index": 1,
+            "activity_type": "ROVER_TRAVERSE",
+            "name": "Traverse Leg (Sol 1 Return)",
+            "target_id": null,
+            "start_time_s": 7821.3,
+            "duration_s": 1521.3,
+            "end_time_s": 9342.6,
+            "energy_cost_wh": 157.54,
+            "data_generated_mb": 0.0,
+            "data_transferred_mb": 0.0,
+            "status": "SCHEDULED",
+            "metadata": {}
+          },
+          {
+            "activity_id": "act_xfer_sol1",
+            "sol_index": 1,
+            "activity_type": "SIMULATED_DATA_TRANSFER",
+            "name": "Tactical Data Transfer (Sol 1)",
+            "target_id": null,
+            "start_time_s": 9342.6,
+            "duration_s": 600.0,
+            "end_time_s": 9942.6,
+            "energy_cost_wh": 15.0,
+            "data_generated_mb": 0.0,
+            "data_transferred_mb": 120.0,
+            "status": "SCHEDULED",
+            "metadata": {}
+          }
+        ],
+        "start_position_rc": [
+          117,
+          157
+        ],
+        "end_position_rc": [
+          117,
+          157
+        ],
+        "total_distance_m": 1548.3,
+        "travel_time_s": 3042.6,
+        "dwell_time_s": 6300.0,
+        "total_duration_s": 9942.6,
+        "energy_consumed_wh": 377.72,
+        "remaining_energy_wh": 4422.28,
+        "data_generated_mb": 209.5,
+        "data_transferred_mb": 120.0,
+        "target_ids": [
+          "tgt_octavia",
+          "tgt_delta_front",
+          "tgt_neretva_fan",
+          "tgt_crater_rim"
+        ],
+        "is_feasible": true,
+        "feasibility_reason": "Nominal plan"
+      }
+    }
+  },
+  "historical_plans": [],
+  "events_log": [
+    {
+      "schema_version": "1.0.0",
+      "event_id": "evt_ops_435bb867961c",
+      "campaign_id": "cmp_api_test",
+      "sol_index": 1,
+      "event_type": "CAMPAIGN_INITIALIZED",
+      "timestamp_iso": "2026-11-14T11:40:32.381092+00:00",
+      "mission_elapsed_s": 0.0,
+      "sequence_number": 1,
+      "payload": {
+        "campaign_id": "cmp_api_test",
+        "name": "API Test",
+        "total_sols": 1,
+        "total_targets": 4,
+        "initial_energy_wh": 4800.0,
+        "storage_capacity_mb": 16384.0
+      },
+      "event_fingerprint": "ef9f3a4e019e1b123ef127310efb0957becb07a803e61f000135cc81149b134e"
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "evt_ops_3187ed08000c",
+      "campaign_id": "cmp_api_test",
+      "sol_index": 1,
+      "event_type": "OBSERVATION_COMPLETED",
+      "timestamp_iso": "2026-11-14T11:40:32.383256+00:00",
+      "mission_elapsed_s": 0.0,
+      "sequence_number": 2,
+      "payload": {
+        "target_id": "tgt_octavia",
+        "science_utility": 100.0,
+        "data_generated_mb": 20.0
+      },
+      "event_fingerprint": "a2a833aa989d6f2dfa9f61bd7565aa997cdbdb24d85e14d248742275773a13ae"
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "evt_ops_1747e6ef7665",
+      "campaign_id": "cmp_api_test",
+      "sol_index": 1,
+      "event_type": "CAMPAIGN_SOL_COMPLETED",
+      "timestamp_iso": "2026-11-14T11:40:32.385546+00:00",
+      "mission_elapsed_s": 0.0,
+      "sequence_number": 3,
+      "payload": {
+        "sol_index": 1,
+        "end_energy_wh": 4795.0,
+        "end_storage_mb": 20.0,
+        "completed_targets": [
+          "tgt_octavia"
+        ],
+        "recharge_applied_wh": 10.0
+      },
+      "event_fingerprint": "d5481ad02cba024ed2ad80531b40e9ebf173f8fb41d55037dce94273121fb20b"
+    }
+  ],
+  "pending_alternatives": [],
+  "reproducibility_manifest": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "model_version": "13H-Atlas-Campaign-Director",
+    "software_version": "2.0.0",
+    "state_fingerprint": "d8f35302e1fa72ea5a7a638d249ed8567588b5209514aff83c1cb8022ca38f27"
+  }
+}

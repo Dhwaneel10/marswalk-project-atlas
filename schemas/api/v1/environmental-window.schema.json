@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/environmental-window.schema.json",
+  "title": "Atlas Environmental Mission Opportunity Window Schema",
+  "description": "Milestone 13L — Synthesized observation opportunity window with thermal and illumination clearance.",
+  "type": "object",
+  "required": [
+    "target_id",
+    "instrument_name",
+    "sol",
+    "start_ltst",
+    "end_ltst",
+    "duration_hours",
+    "is_valid",
+    "quality_score",
+    "mean_solar_elevation_deg",
+    "mean_direct_flux_w_m2",
+    "min_air_temperature_c",
+    "max_air_temperature_c",
+    "mean_optical_depth_tau",
+    "shadow_fraction",
+    "peak_wind_gust_m_s",
+    "violation_reasons"
+  ],
+  "properties": {
+    "target_id": { "type": "string" },
+    "instrument_name": { "type": "string" },
+    "sol": { "type": "integer" },
+    "start_ltst": { "type": "number" },
+    "end_ltst": { "type": "number" },
+    "duration_hours": { "type": "number" },
+    "is_valid": { "type": "boolean" },
+    "quality_score": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+    "mean_solar_elevation_deg": { "type": "number" },
+    "mean_direct_flux_w_m2": { "type": "number" },
+    "min_air_temperature_c": { "type": "number" },
+    "max_air_temperature_c": { "type": "number" },
+    "mean_optical_depth_tau": { "type": "number" },
+    "shadow_fraction": { "type": "number" },
+    "peak_wind_gust_m_s": { "type": "number" },
+    "violation_reasons": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

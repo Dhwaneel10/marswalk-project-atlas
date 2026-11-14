@@ -1,0 +1,366 @@
+{
+  "milestone": "13AF",
+  "benchmark_suite_status": "ALL_BENCHMARKS_PASSED",
+  "optical_dust": {
+    "benchmark_name": "Optical Dust Spectral Extinction",
+    "reference_wavelength_nm": 880.0,
+    "target_wavelength_nm": 1550.0,
+    "is_extrapolated_wavelength": true,
+    "flagship_configuration": "CONF-OPT-02 (alpha = -0.082)",
+    "expected_flagship_loss_db": 2.275,
+    "actual_flagship_loss_db": 2.275,
+    "delta_db": 0.0,
+    "status": "PASS",
+    "evaluated_configurations": [
+      {
+        "id": "CONF-OPT-01",
+        "name": "Lemmon et al. 2014 Upper Bound (Severe Dust)",
+        "alpha": -0.16,
+        "ratio_1550_880": 1.0948,
+        "evidence_class": "EMPIRICAL_IN_SITU_BOUND",
+        "source": "Lemmon et al. (2014) Icarus 251, 96-111",
+        "scenarios": {
+          "tau_0.5": {
+            "tau_1550": 0.5474,
+            "zenith_loss_db": 2.377,
+            "slant_10deg_loss_db": 12.567
+          },
+          "tau_1.5": {
+            "tau_1550": 1.6422,
+            "zenith_loss_db": 7.132,
+            "slant_10deg_loss_db": 37.701
+          },
+          "tau_3.0": {
+            "tau_1550": 3.2844,
+            "zenith_loss_db": 14.264,
+            "slant_10deg_loss_db": 75.401
+          }
+        }
+      },
+      {
+        "id": "CONF-OPT-02",
+        "name": "Fernandez-Rodriguez et al. 2024 (Atlas Reference)",
+        "alpha": -0.082,
+        "ratio_1550_880": 1.0475,
+        "evidence_class": "PUBLISHED_MODELING_EXTRAPOLATION",
+        "source": "Fernandez-Rodriguez et al. (2024) arXiv:2404.16955 / 2504.16955",
+        "scenarios": {
+          "tau_0.5": {
+            "tau_1550": 0.5238,
+            "zenith_loss_db": 2.275,
+            "slant_10deg_loss_db": 12.024
+          },
+          "tau_1.5": {
+            "tau_1550": 1.5713,
+            "zenith_loss_db": 6.824,
+            "slant_10deg_loss_db": 36.072
+          },
+          "tau_3.0": {
+            "tau_1550": 3.1425,
+            "zenith_loss_db": 13.648,
+            "slant_10deg_loss_db": 72.144
+          }
+        }
+      },
+      {
+        "id": "CONF-OPT-03",
+        "name": "Wolff et al. 2009 CRISM Mean",
+        "alpha": -0.047,
+        "ratio_1550_880": 1.027,
+        "evidence_class": "EMPIRICAL_RETRIEVAL_FIT",
+        "source": "Wolff et al. (2009) J. Geophys. Res. 114, E00D04",
+        "scenarios": {
+          "tau_0.5": {
+            "tau_1550": 0.5135,
+            "zenith_loss_db": 2.23,
+            "slant_10deg_loss_db": 11.788
+          },
+          "tau_1.5": {
+            "tau_1550": 1.5404,
+            "zenith_loss_db": 6.69,
+            "slant_10deg_loss_db": 35.364
+          },
+          "tau_3.0": {
+            "tau_1550": 3.0809,
+            "zenith_loss_db": 13.38,
+            "slant_10deg_loss_db": 70.729
+          }
+        }
+      },
+      {
+        "id": "CONF-OPT-04",
+        "name": "Lemmon et al. 2014 Lower Bound (Clear Haze)",
+        "alpha": -0.036,
+        "ratio_1550_880": 1.0206,
+        "evidence_class": "EMPIRICAL_IN_SITU_BOUND",
+        "source": "Lemmon et al. (2014) Icarus 251, 96-111",
+        "scenarios": {
+          "tau_0.5": {
+            "tau_1550": 0.5103,
+            "zenith_loss_db": 2.216,
+            "slant_10deg_loss_db": 11.715
+          },
+          "tau_1.5": {
+            "tau_1550": 1.5309,
+            "zenith_loss_db": 6.649,
+            "slant_10deg_loss_db": 35.145
+          },
+          "tau_3.0": {
+            "tau_1550": 3.0618,
+            "zenith_loss_db": 13.297,
+            "slant_10deg_loss_db": 70.29
+          }
+        }
+      },
+      {
+        "id": "CONF-OPT-05",
+        "name": "Terrestrial Fine Aerosol (13AD Discredited)",
+        "alpha": 0.35,
+        "ratio_1550_880": 0.8203,
+        "evidence_class": "DISCREDITED_TERRESTRIAL_ASSUMPTION",
+        "source": "Urban aerosol model; unphysical for coarse Mars dust",
+        "scenarios": {
+          "tau_0.5": {
+            "tau_1550": 0.4101,
+            "zenith_loss_db": 1.781,
+            "slant_10deg_loss_db": 9.415
+          },
+          "tau_1.5": {
+            "tau_1550": 1.2304,
+            "zenith_loss_db": 5.344,
+            "slant_10deg_loss_db": 28.246
+          },
+          "tau_3.0": {
+            "tau_1550": 2.4608,
+            "zenith_loss_db": 10.687,
+            "slant_10deg_loss_db": 56.493
+          }
+        }
+      }
+    ]
+  },
+  "rf_dust": {
+    "benchmark_name": "RF Microwave Dust Attenuation",
+    "dielectric_factor_derived": 0.005468,
+    "dielectric_factor_expected": 0.005468,
+    "model_a_vs_model_b_diff_pct": 0.0,
+    "size_parameters_ka_band": {
+      "r_0.5um": 0.000335,
+      "r_1.8um": 0.001207,
+      "r_5.0um": 0.003353,
+      "r_20.0um": 0.013413
+    },
+    "max_size_parameter_ka": 0.013413,
+    "rayleigh_validity_confirmed": true,
+    "typical_ka_zenith_loss_db": 0.762,
+    "severe_ka_zenith_loss_db": 4.345,
+    "severe_ka_slant_loss_db": 24.34,
+    "severe_uhf_zenith_loss_db": 0.059,
+    "delta_typical_ka_db": 0.0,
+    "status": "PASS",
+    "scenarios": [
+      {
+        "scenario": "Clear",
+        "tau_vis": 0.2,
+        "M_g_m3": 4e-05,
+        "UHF_zenith_db": 0.009,
+        "UHF_slant10_db": 0.05,
+        "S_BAND_zenith_db": 0.032,
+        "S_BAND_slant10_db": 0.18,
+        "X_BAND_zenith_db": 0.095,
+        "X_BAND_slant10_db": 0.53,
+        "KA_BAND_zenith_db": 0.332,
+        "KA_BAND_slant10_db": 1.86
+      },
+      {
+        "scenario": "Typical",
+        "tau_vis": 0.5,
+        "M_g_m3": 0.0001,
+        "UHF_zenith_db": 0.014,
+        "UHF_slant10_db": 0.08,
+        "S_BAND_zenith_db": 0.061,
+        "S_BAND_slant10_db": 0.34,
+        "X_BAND_zenith_db": 0.208,
+        "X_BAND_slant10_db": 1.17,
+        "KA_BAND_zenith_db": 0.762,
+        "KA_BAND_slant10_db": 4.27
+      },
+      {
+        "scenario": "Regional Storm",
+        "tau_vis": 1.5,
+        "M_g_m3": 0.0003,
+        "UHF_zenith_db": 0.032,
+        "UHF_slant10_db": 0.18,
+        "S_BAND_zenith_db": 0.16,
+        "S_BAND_slant10_db": 0.9,
+        "X_BAND_zenith_db": 0.584,
+        "X_BAND_slant10_db": 3.27,
+        "KA_BAND_zenith_db": 2.195,
+        "KA_BAND_slant10_db": 12.3
+      },
+      {
+        "scenario": "Severe Storm",
+        "tau_vis": 3.0,
+        "M_g_m3": 0.0006,
+        "UHF_zenith_db": 0.059,
+        "UHF_slant10_db": 0.33,
+        "S_BAND_zenith_db": 0.308,
+        "S_BAND_slant10_db": 1.72,
+        "X_BAND_zenith_db": 1.149,
+        "X_BAND_slant10_db": 6.44,
+        "KA_BAND_zenith_db": 4.345,
+        "KA_BAND_slant10_db": 24.34
+      },
+      {
+        "scenario": "Global Dust Event",
+        "tau_vis": 5.0,
+        "M_g_m3": 0.001,
+        "UHF_zenith_db": 0.095,
+        "UHF_slant10_db": 0.53,
+        "S_BAND_zenith_db": 0.505,
+        "S_BAND_slant10_db": 2.83,
+        "X_BAND_zenith_db": 1.901,
+        "X_BAND_slant10_db": 10.65,
+        "KA_BAND_zenith_db": 7.212,
+        "KA_BAND_slant10_db": 40.4
+      }
+    ]
+  },
+  "receiver_noise_and_cmb": {
+    "benchmark_name": "Receiver System Noise & CMB Brightness",
+    "t_cmb_thermodynamic_k": 2.725,
+    "rayleigh_jeans_departures": {
+      "UHF_401_5MHz": {
+        "freq_hz": 401500000.0,
+        "t_rj_k": 2.7154,
+        "delta_k": -0.0096,
+        "rel_err_pct": -0.35
+      },
+      "S_BAND_2_2GHz": {
+        "freq_hz": 2200000000.0,
+        "t_rj_k": 2.6725,
+        "delta_k": -0.0525,
+        "rel_err_pct": -1.92
+      },
+      "X_BAND_8_4GHz": {
+        "freq_hz": 8400000000.0,
+        "t_rj_k": 2.5284,
+        "delta_k": -0.1966,
+        "rel_err_pct": -7.21
+      },
+      "KA_BAND_32GHz": {
+        "freq_hz": 32000000000.0,
+        "t_rj_k": 2.0289,
+        "delta_k": -0.6961,
+        "rel_err_pct": -25.55
+      },
+      "OPTICAL_1550nm": {
+        "freq_hz": 193414489032258.06,
+        "t_rj_k": 0.0,
+        "delta_k": -2.725,
+        "rel_err_pct": -100.0
+      }
+    },
+    "ka_band_t_rj_k": 2.0289,
+    "ka_band_departure_k": -0.6961,
+    "geometry_beam_integration": [
+      {
+        "case": "GEO-01_Deep_Space_Dish",
+        "calculated_ta_k": 13.35,
+        "expected_ta_k": 13.35
+      },
+      {
+        "case": "GEO-02_Nadir_Orbiter_Dish",
+        "calculated_ta_k": 203.781,
+        "expected_ta_k": 203.78
+      },
+      {
+        "case": "GEO-03_Rover_Surface_Monopole",
+        "calculated_ta_k": 110.0,
+        "expected_ta_k": 110.0
+      },
+      {
+        "case": "GEO-04_Ground_Horizon_Grazing",
+        "calculated_ta_k": 114.0,
+        "expected_ta_k": 114.0
+      },
+      {
+        "case": "GEO-05_Ideal_Cold_Space_Probe",
+        "calculated_ta_k": 2.725,
+        "expected_ta_k": 2.725
+      }
+    ],
+    "reference_plane_invariance": {
+      "plane_a_t_sys_k": 492.7276,
+      "plane_b_t_sys_k": 348.8244,
+      "t_sys_ratio": 1.412538,
+      "l_feed": 1.412538,
+      "c_n0_plane_a_dbhz": 81.673098,
+      "c_n0_plane_b_dbhz": 81.673098,
+      "delta_db": 0.0,
+      "is_invariant": true
+    },
+    "status": "PASS"
+  },
+  "antenna_patterns": {
+    "benchmark_name": "Antenna Diffraction Patterns & Field Regions",
+    "first_sidelobe_level_db": 17.57,
+    "expected_first_sidelobe_db": 17.57,
+    "delta_sidelobe_db": 0.0,
+    "airy_pattern_points": [
+      {
+        "point": "Boresight Main Beam",
+        "u": 0.0,
+        "f_normalized": 1.0,
+        "loss_relative_db": -0.0
+      },
+      {
+        "point": "First Null (u = 3.831706)",
+        "u": 3.831706,
+        "f_normalized": 0.0,
+        "loss_relative_db": 100.0
+      },
+      {
+        "point": "First Sidelobe Peak (u = 5.135622)",
+        "u": 5.135622,
+        "f_normalized": 0.01749786,
+        "loss_relative_db": 17.57
+      },
+      {
+        "point": "Second Null (u = 7.015587)",
+        "u": 7.015587,
+        "f_normalized": 0.0,
+        "loss_relative_db": 100.0
+      },
+      {
+        "point": "Second Sidelobe Peak (u = 8.417244)",
+        "u": 8.417244,
+        "f_normalized": 0.004158,
+        "loss_relative_db": 23.81
+      }
+    ],
+    "small_monopole_fraunhofer": {
+      "diameter_m": 0.15,
+      "wavelength_m": 0.746681,
+      "carrier_freq_hz": 401500000.0,
+      "is_electrically_small": true,
+      "r_fraunhofer_m": 1.4934,
+      "governing_condition": "2_lambda",
+      "cond_2d2_lambda_m": 0.0603,
+      "cond_5d_m": 0.75,
+      "cond_2lambda_m": 1.4934
+    },
+    "large_dish_fraunhofer": {
+      "diameter_m": 1.0,
+      "wavelength_m": 0.009369,
+      "carrier_freq_hz": 32000000000.0,
+      "is_electrically_small": false,
+      "r_fraunhofer_m": 213.481,
+      "governing_condition": "2_D2_over_lambda",
+      "cond_2d2_lambda_m": 213.481,
+      "cond_5d_m": 5.0,
+      "cond_2lambda_m": 0.0187
+    },
+    "status": "PASS"
+  }
+}

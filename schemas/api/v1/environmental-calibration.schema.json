@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/environmental-calibration.schema.json",
+  "title": "Atlas Environmental Model Calibration Schema",
+  "description": "Milestone 13M — Bounded optimization parameters, baseline vs calibrated comparisons, and held-out validation.",
+  "type": "object",
+  "required": [
+    "calibration_id",
+    "target_parameter",
+    "calibration_method",
+    "parameters",
+    "train_sample_count",
+    "held_out_sample_count",
+    "train_before",
+    "train_after",
+    "held_out_before",
+    "held_out_after",
+    "train_rmse_reduction_pct",
+    "held_out_rmse_reduction_pct",
+    "overfitting_status",
+    "qualification_verdict"
+  ],
+  "properties": {
+    "calibration_id": { "type": "string" },
+    "target_parameter": { "type": "string" },
+    "calibration_method": { "type": "string" },
+    "parameters": {
+      "type": "object",
+      "required": ["parameter_category", "baseline_values", "calibrated_values", "parameter_bounds", "physical_units"],
+      "properties": {
+        "parameter_category": { "type": "string" },
+        "baseline_values": { "type": "object" },
+        "calibrated_values": { "type": "object" },
+        "parameter_bounds": { "type": "object" },
+        "physical_units": { "type": "object" }
+      }
+    },
+    "train_sample_count": { "type": "integer", "minimum": 0 },
+    "held_out_sample_count": { "type": "integer", "minimum": 0 },
+    "train_before": { "type": "object" },
+    "train_after": { "type": "object" },
+    "held_out_before": { "type": "object" },
+    "held_out_after": { "type": "object" },
+    "train_rmse_reduction_pct": { "type": "number" },
+    "held_out_rmse_reduction_pct": { "type": "number" },
+    "overfitting_status": { "type": "string", "enum": ["PASSED_NO_OVERFITTING", "FLAGGED_OVERFIT"] },
+    "qualification_verdict": { "type": "string" }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-allocation.schema.json",
+  "title": "Fleet Science Task Allocation Contract",
+  "description": "Defines multi-rover science task assignment results, instrument matching, and quantitative eligibility explanations.",
+  "type": "object",
+  "required": [
+    "allocation_plan",
+    "unassigned_targets",
+    "explanations",
+    "total_science_utility",
+    "method"
+  ],
+  "properties": {
+    "allocation_plan": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "unassigned_targets": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "explanations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["target_id", "selection_rationale"],
+        "properties": {
+          "target_id": { "type": "string" },
+          "assigned_rover_id": { "type": ["string", "null"] },
+          "supporting_instrument": { "type": ["string", "null"] },
+          "supporting_mode": { "type": ["string", "null"] },
+          "estimated_distance_m": { "type": "number", "minimum": 0.0 },
+          "estimated_energy_wh": { "type": "number", "minimum": 0.0 },
+          "estimated_data_mb": { "type": "number", "minimum": 0.0 },
+          "reserve_margin_pct": { "type": "number" },
+          "selection_rationale": { "type": "string" }
+        }
+      }
+    },
+    "total_science_utility": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "total_estimated_energy_wh": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "total_estimated_distance_m": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "method": {
+      "type": "string",
+      "enum": ["BOUNDED_PARETO_OPTIMIZATION", "GREEDY_BASELINE"]
+    }
+  },
+  "additionalProperties": true
+}

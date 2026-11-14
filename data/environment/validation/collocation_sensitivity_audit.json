@@ -1,0 +1,61 @@
+{
+  "Strict": {
+    "total_evaluated": 4573,
+    "qualified_pairs": 2548,
+    "qualification_rate_pct": 55.72,
+    "rejected_count": 2025,
+    "rejection_breakdown": {
+      "EXCEEDS_SPATIAL_TOLERANCE": 2025
+    },
+    "spatial_separation_stats_km": {
+      "mean": 1.449,
+      "min": 0.01,
+      "max": 2.5,
+      "p50": 1.52
+    },
+    "residual_stats": {
+      "mean": 17.154,
+      "min": -43.29,
+      "max": 54.69,
+      "p50": 25.08
+    }
+  },
+  "Nominal": {
+    "total_evaluated": 4573,
+    "qualified_pairs": 4573,
+    "qualification_rate_pct": 100.0,
+    "rejected_count": 0,
+    "rejection_breakdown": {},
+    "spatial_separation_stats_km": {
+      "mean": 2.252,
+      "min": 0.01,
+      "max": 3.96,
+      "p50": 2.3
+    },
+    "residual_stats": {
+      "mean": 16.408,
+      "min": -86.08,
+      "max": 54.69,
+      "p50": 24.96
+    }
+  },
+  "Permissive": {
+    "total_evaluated": 4573,
+    "qualified_pairs": 4573,
+    "qualification_rate_pct": 100.0,
+    "rejected_count": 0,
+    "rejection_breakdown": {},
+    "spatial_separation_stats_km": {
+      "mean": 2.252,
+      "min": 0.01,
+      "max": 3.96,
+      "p50": 2.3
+    },
+    "residual_stats": {
+      "mean": 16.408,
+      "min": -86.08,
+      "max": 54.69,
+      "p50": 24.96
+    }
+  }
+}

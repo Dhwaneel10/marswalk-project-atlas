@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-resources.schema.json",
+  "title": "Fleet Resources and Storage Contract",
+  "description": "Defines per-rover energy and flash memory audits enforcing strict zero energy pooling, plus consolidated fleet totals.",
+  "type": "object",
+  "required": [
+    "rover_audits",
+    "fleet_summary"
+  ],
+  "properties": {
+    "rover_audits": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["rover_id", "battery_capacity_wh", "current_energy_wh", "consumed_energy_wh", "battery_soc_pct", "is_feasible"],
+        "properties": {
+          "rover_id": { "type": "string" },
+          "battery_capacity_wh": { "type": "number" },
+          "current_energy_wh": { "type": "number" },
+          "consumed_energy_wh": { "type": "number" },
+          "battery_soc_pct": { "type": "number" },
+          "reserve_margin_pct": { "type": "number" },
+          "is_feasible": { "type": "boolean" },
+          "breakdown": {
+            "type": "object",
+            "properties": {
+              "drive_wh": { "type": "number" },
+              "base_avionics_wh": { "type": "number" },
+              "instruments_wh": { "type": "number" },
+              "communications_wh": { "type": "number" }
+            }
+          },
+          "storage": {
+            "type": "object",
+            "properties": {
+              "capacity_mb": { "type": "number" },
+              "used_mb": { "type": "number" },
+              "utilization_pct": { "type": "number" },
+              "pressure": { "type": "string" },
+              "backlog_mb": { "type": "number" },
+              "products_count": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "fleet_summary": {
+      "type": "object",
+      "required": ["total_battery_capacity_wh", "total_energy_consumed_wh", "min_rover_soc_pct", "constrained_rovers_count"],
+      "properties": {
+        "total_battery_capacity_wh": { "type": "number" },
+        "total_energy_consumed_wh": { "type": "number" },
+        "total_energy_remaining_wh": { "type": "number" },
+        "min_rover_soc_pct": { "type": "number" },
+        "total_used_storage_mb": { "type": "number" },
+        "total_data_backlog_mb": { "type": "number" },
+        "constrained_rovers_count": { "type": "integer" },
+        "fleet_resource_status": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": true
+}

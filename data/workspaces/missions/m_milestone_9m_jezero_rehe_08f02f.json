@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "mission_id": "m_milestone_9m_jezero_rehe_08f02f",
+  "name": "Milestone 9M Jezero Rehearsal",
+  "description": "",
+  "created_at": "2026-10-18T09:28:08.000062+00:00",
+  "updated_at": "2026-10-18T09:28:08.000062+00:00",
+  "input_fingerprint": "0a69ec97a3dabcf5c60f12ceafe9a685be72f00b6161f7c90f0c1df5c3189703",
+  "canonical_mission": {
+    "start": {
+      "row": 117,
+      "col": 157,
+      "name": "Octavia Landing (117, 157)"
+    },
+    "goal": {
+      "row": 66,
+      "col": 128,
+      "name": "Delta Rim Overlook (66, 128)"
+    },
+    "stops": [
+      {
+        "row": 153,
+        "col": 123,
+        "id": "three_forks",
+        "name": "Three Forks Sample Depot",
+        "priority_score": 75,
+        "dwell_time_s": 900
+      },
+      {
+        "row": 136,
+        "col": 91,
+        "id": "hawksbill_gap",
+        "name": "Hawksbill Gap Delta Ascent",
+        "priority_score": 95,
+        "dwell_time_s": 900
+      }
+    ],
+    "profile": "balanced",
+    "vehicle_mode": "crew_eva",
+    "speed_multiplier": 1,
+    "optimize_stops": false,
+    "mission_constraints": {}
+  },
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "model_version": "2.0.0",
+  "assumptions_version": "1.0.0",
+  "tags": [
+    "jezero",
+    "balanced",
+    "crew_eva"
+  ]
+}

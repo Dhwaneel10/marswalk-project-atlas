@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/environmental-scenario.schema.json",
+  "title": "Atlas Environmental Scenarios Schema",
+  "description": "Milestone 13L — Deterministic environmental perturbation scenario definitions.",
+  "type": "object",
+  "required": ["total_scenarios", "scenarios"],
+  "properties": {
+    "total_scenarios": { "type": "integer", "minimum": 1 },
+    "scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "scenario_code",
+          "title",
+          "description",
+          "solar_flux_factor",
+          "thermal_anomaly_c",
+          "wind_anomaly_m_s",
+          "affected_subsystems",
+          "scientific_disclaimer"
+        ],
+        "properties": {
+          "scenario_code": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "solar_flux_factor": { "type": "number" },
+          "thermal_anomaly_c": { "type": "number" },
+          "dust_tau_override": { "type": ["number", "null"] },
+          "wind_anomaly_m_s": { "type": "number" },
+          "shadow_sensitivity_boost": { "type": "number" },
+          "affected_subsystems": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "scientific_disclaimer": { "type": "string" }
+        }
+      }
+    }
+  }
+}

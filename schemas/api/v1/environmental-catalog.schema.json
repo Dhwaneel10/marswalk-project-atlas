@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/environmental-catalog.schema.json",
+  "title": "Atlas Environmental Data Catalog Schema",
+  "description": "Milestone 13L — Spatiotemporal environmental product catalog and provenance registry.",
+  "type": "object",
+  "required": ["total_products", "products"],
+  "properties": {
+    "total_products": { "type": "integer", "minimum": 0 },
+    "products": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "product_id",
+          "name",
+          "parameter_name",
+          "instrument_or_model",
+          "source_institution",
+          "native_resolution_m",
+          "units",
+          "provenance_class",
+          "scientific_disclaimer"
+        ],
+        "properties": {
+          "product_id": { "type": "string" },
+          "name": { "type": "string" },
+          "parameter_name": { "type": "string" },
+          "instrument_or_model": { "type": "string" },
+          "source_institution": { "type": "string" },
+          "native_resolution_m": { "type": "number" },
+          "temporal_coverage": { "type": "string" },
+          "units": { "type": "string" },
+          "provenance_class": {
+            "type": "string",
+            "enum": [
+              "DIRECT_OBSERVATION",
+              "REMOTE_SENSING_PRODUCT",
+              "MODEL_REANALYSIS",
+              "CLIMATOLOGY",
+              "DERIVED_GEOMETRIC_MODEL",
+              "CONFIGURED_SCENARIO",
+              "SYNTHETIC_DEMONSTRATION",
+              "UNKNOWN_PROVENANCE"
+            ]
+          },
+          "spatial_bounds_rc": {
+            "type": "array",
+            "items": { "type": "integer" }
+          },
+          "data_quality_flags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "checksum_sha256": { "type": ["string", "null"] },
+          "doi_or_url": { "type": ["string", "null"] },
+          "scientific_disclaimer": { "type": "string" }
+        }
+      }
+    }
+  }
+}

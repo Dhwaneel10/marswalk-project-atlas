@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/route-terrain-analysis.schema.json",
+  "title": "MarsWalk Route Terrain Analysis & Decision Workbench Schema",
+  "description": "JSON schema for deterministic terrain elevation profiling, cost decomposition, slope analysis, segment difficulty, and route comparison.",
+  "type": "object",
+  "required": [
+    "status",
+    "analysis"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["ok", "success"]
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "analysis": {
+      "type": "object",
+      "required": [
+        "analysis_id",
+        "profile",
+        "vehicle_mode",
+        "terrain_profile",
+        "difficulty_summary",
+        "slope_distribution",
+        "cost_decomposition",
+        "segments",
+        "key_bottlenecks",
+        "decision_explanations",
+        "limitations_disclaimer"
+      ],
+      "properties": {
+        "analysis_id": { "type": "string" },
+        "route_id": { "type": ["string", "null"] },
+        "timestamp_utc": { "type": "string" },
+        "profile": { "type": "string" },
+        "vehicle_mode": { "type": "string" },
+        "terrain_profile": {
+          "type": "object",
+          "required": [
+            "total_distance_m",
+            "sample_count",
+            "valid_sample_count",
+            "missing_sample_count",
+            "data_completeness_pct",
+            "total_elevation_gain_m",
+            "total_elevation_loss_m",
+            "samples",
+            "source_metadata"
+          ],
+          "properties": {
+            "total_distance_m": { "type": "number" },
+            "sample_count": { "type": "integer" },
+            "valid_sample_count": { "type": "integer" },
+            "missing_sample_count": { "type": "integer" },
+            "data_completeness_pct": { "type": "number" },
+            "min_elevation_m": { "type": ["number", "null"] },
+            "max_elevation_m": { "type": ["number", "null"] },
+            "elevation_span_m": { "type": ["number", "null"] },
+            "total_elevation_gain_m": { "type": "number" },
+            "total_elevation_loss_m": { "type": "number" },
+            "sampling_method": { "type": "string" },
+            "source_metadata": { "type": "object" },
+            "samples": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "sample_index",
+                  "row",
+                  "col",
+                  "cumulative_distance_m",
+                  "step_distance_m",
+                  "is_valid",
+                  "is_nodata"
+                ],
+                "properties": {
+                  "sample_index": { "type": "integer" },
+                  "row": { "type": "integer" },
+                  "col": { "type": "integer" },
+                  "lon_deg": { "type": ["number", "null"] },
+                  "lat_deg": { "type": ["number", "null"] },
+                  "cumulative_distance_m": { "type": "number" },
+                  "step_distance_m": { "type": "number" },
+                  "elevation_m": { "type": ["number", "null"] },
+                  "elevation_change_m": { "type": ["number", "null"] },
+                  "slope_deg": { "type": ["number", "null"] },
+                  "roughness_m": { "type": ["number", "null"] },
+                  "is_valid": { "type": "boolean" },
+                  "is_nodata": { "type": "boolean" },
+                  "step_cost_m": { "type": ["number", "null"] },
+                  "slope_penalty": { "type": ["number", "null"] },
+                  "roughness_penalty": { "type": ["number", "null"] },
+                  "uphill_penalty": { "type": ["number", "null"] }
+                }
+              }
+            }
+          }
+        },
+        "difficulty_summary": {
+          "type": "object",
+          "required": [
+            "total_distance_m",
+            "total_cost_m",
+            "elevation_gain_m",
+            "max_slope_deg",
+            "data_completeness_pct",
+            "overall_difficulty"
+          ],
+          "properties": {
+            "total_distance_m": { "type": "number" },
+            "total_cost_m": { "type": "number" },
+            "elevation_gain_m": { "type": "number" },
+            "elevation_loss_m": { "type": "number" },
+            "max_slope_deg": { "type": "number" },
+            "mean_slope_deg": { "type": "number" },
+            "steep_proportion_pct": { "type": "number" },
+            "data_completeness_pct": { "type": "number" },
+            "overall_difficulty": { "type": "string" }
+          }
+        },
+        "slope_distribution": {
+          "type": "object",
+          "required": [
+            "max_slope_deg",
+            "mean_slope_deg"
+          ]
+        },
+        "cost_decomposition": {
+          "type": "object",
+          "required": [
+            "total_cost_m",
+            "total_distance_m",
+            "base_distance_cost_m",
+            "slope_penalty_cost_m",
+            "roughness_penalty_cost_m",
+            "uphill_grade_cost_m",
+            "cost_density_ratio",
+            "is_strictly_reconciled"
+          ],
+          "properties": {
+            "total_cost_m": { "type": "number" },
+            "total_distance_m": { "type": "number" },
+            "base_distance_cost_m": { "type": "number" },
+            "slope_penalty_cost_m": { "type": "number" },
+            "roughness_penalty_cost_m": { "type": "number" },
+            "uphill_grade_cost_m": { "type": "number" },
+            "cost_density_ratio": { "type": "number" },
+            "is_strictly_reconciled": { "type": "boolean" },
+            "reconciliation_delta_m": { "type": "number" }
+          }
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "segment_index",
+              "distance_m",
+              "max_slope_deg",
+              "difficulty_rating"
+            ],
+            "properties": {
+              "segment_index": { "type": "integer" },
+              "start_index": { "type": "integer" },
+              "end_index": { "type": "integer" },
+              "start_rc": { "type": "array", "items": { "type": "integer" } },
+              "end_rc": { "type": "array", "items": { "type": "integer" } },
+              "distance_m": { "type": "number" },
+              "elevation_start_m": { "type": ["number", "null"] },
+              "elevation_end_m": { "type": ["number", "null"] },
+              "elevation_change_m": { "type": ["number", "null"] },
+              "elevation_gain_m": { "type": "number" },
+              "elevation_loss_m": { "type": "number" },
+              "max_slope_deg": { "type": "number" },
+              "mean_slope_deg": { "type": "number" },
+              "p50_slope_deg": { "type": "number" },
+              "p90_slope_deg": { "type": "number" },
+              "steep_distance_m": { "type": "number" },
+              "steep_fraction_pct": { "type": "number" },
+              "missing_data_fraction_pct": { "type": "number" },
+              "planner_cost_m": { "type": "number" },
+              "cost_density": { "type": "number" },
+              "dominant_penalty": { "type": "string" },
+              "difficulty_rating": { "type": "string" }
+            }
+          }
+        },
+        "key_bottlenecks": { "type": "array" },
+        "decision_explanations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "limitations_disclaimer": { "type": "string" }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "properties": {
+        "title_a": { "type": "string" },
+        "title_b": { "type": "string" },
+        "deltas": { "type": "object" },
+        "metrics_table": { "type": "object" },
+        "tradeoff_narratives": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

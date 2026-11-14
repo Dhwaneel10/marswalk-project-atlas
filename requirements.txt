@@ -1,0 +1,18 @@
+# MarsWalk 2.0 (Project Atlas) — Core Production Dependencies
+# Python 3.10+ required (Python 3.12 recommended)
+
+# Planetary Raster & Numerical Computation
+numpy>=2.0.0
+scipy>=1.14.0
+rasterio>=1.4.0
+affine>=2.4.0
+
+# API Data Contracts & Validation
+jsonschema>=4.20.0
+requests>=2.31.0
+
+# Browser Automation & Real-Time CDP Inspection
+websockets>=12.0
+
+# Automated Testing
+pytest>=8.0.0

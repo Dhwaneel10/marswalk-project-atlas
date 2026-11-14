@@ -1,0 +1,691 @@
+{
+  "schema_version": "1.0.0",
+  "coordination_id": "coord_db6c18ba734f",
+  "campaign_id": "cmp_audit_1793293367_v2",
+  "version": 2,
+  "created_at_utc": "2026-10-29T17:02:48.600624+00:00",
+  "units": [
+    {
+      "unit_id": "unit_perseverance",
+      "name": "Perseverance Rover Analogue",
+      "unit_type": "robotic_rover",
+      "mobility_profile": {
+        "speed_multiplier": 1.0,
+        "max_slope_deg": 15.0,
+        "vehicle_mode": "robotic_rover"
+      },
+      "availability_window": {
+        "start_sol": 1,
+        "end_sol": 3
+      },
+      "max_duration_per_sortie_s": 14400.0,
+      "starting_location_rc": [
+        117,
+        157
+      ],
+      "status": "AVAILABLE",
+      "capabilities": [
+        "SURFACE_TRAVERSE",
+        "REGOLITH_SAMPLING",
+        "HIGH_RESOLUTION_IMAGING",
+        "HAZARD_AVOIDANCE"
+      ],
+      "assigned_target_ids": [],
+      "assigned_sortie_ids": []
+    },
+    {
+      "unit_id": "unit_crew_eva_1",
+      "name": "Crew EVA Team Alpha",
+      "unit_type": "crew_eva",
+      "mobility_profile": {
+        "speed_multiplier": 1.0,
+        "max_slope_deg": 25.0,
+        "vehicle_mode": "crew_eva"
+      },
+      "availability_window": {
+        "start_sol": 1,
+        "end_sol": 3
+      },
+      "max_duration_per_sortie_s": 28800.0,
+      "starting_location_rc": [
+        117,
+        157
+      ],
+      "status": "AVAILABLE",
+      "capabilities": [
+        "SURFACE_TRAVERSE",
+        "FIELD_GEOLOGY_MAPPING",
+        "EXPEDITED_CLIMBING",
+        "HAZARD_AVOIDANCE"
+      ],
+      "assigned_target_ids": [
+        "tgt_crater_rim",
+        "tgt_neretva_fan"
+      ],
+      "assigned_sortie_ids": [
+        "sort_unit_crew_eva_1_sol01_a0aa91"
+      ]
+    }
+  ],
+  "allocation_strategy": "balanced_workload",
+  "target_allocations": [
+    {
+      "target_id": "tgt_crater_rim",
+      "status": "ASSIGNED",
+      "assigned_unit_id": "unit_crew_eva_1",
+      "assigned_sol_index": 1,
+      "assigned_sortie_id": "sort_unit_crew_eva_1_sol01_a0aa91",
+      "reason": "Balanced-workload allocation to Crew EVA Team Alpha on Sol 1."
+    },
+    {
+      "target_id": "tgt_neretva_fan",
+      "status": "ASSIGNED",
+      "assigned_unit_id": "unit_crew_eva_1",
+      "assigned_sol_index": 1,
+      "assigned_sortie_id": "sort_unit_crew_eva_1_sol01_a0aa91",
+      "reason": "Balanced-workload allocation to Crew EVA Team Alpha on Sol 1."
+    },
+    {
+      "target_id": "tgt_octavia",
+      "status": "DEFERRED",
+      "assigned_unit_id": null,
+      "assigned_sol_index": null,
+      "assigned_sortie_id": null,
+      "reason": "Sol budget (3 sols) exhausted before target tgt_octavia could be scheduled."
+    },
+    {
+      "target_id": "tgt_delta_front",
+      "status": "DEFERRED",
+      "assigned_unit_id": null,
+      "assigned_sol_index": null,
+      "assigned_sortie_id": null,
+      "reason": "Sol budget (3 sols) exhausted before target tgt_delta_front could be scheduled."
+    }
+  ],
+  "strategy_comparison": [
+    {
+      "strategy": "priority_first",
+      "total_sols": 1,
+      "total_distance_m": 1250.9,
+      "total_duration_s": 3347.4,
+      "total_science_score": 75.0,
+      "targets_scheduled": 1,
+      "targets_deferred": 3,
+      "is_feasible": true,
+      "workload_imbalance_s": 3347.4,
+      "unit_durations_s": {
+        "unit_perseverance": 0.0,
+        "unit_crew_eva_1": 3347.4
+      }
+    },
+    {
+      "strategy": "balanced_workload",
+      "total_sols": 1,
+      "total_distance_m": 3222.2,
+      "total_duration_s": 8799.2,
+      "total_science_score": 160.0,
+      "targets_scheduled": 2,
+      "targets_deferred": 2,
+      "is_feasible": true,
+      "workload_imbalance_s": 8799.2,
+      "unit_durations_s": {
+        "unit_perseverance": 0.0,
+        "unit_crew_eva_1": 8799.2
+      }
+    },
+    {
+      "strategy": "capability_first",
+      "total_sols": 1,
+      "total_distance_m": 1971.2,
+      "total_duration_s": 6056.6,
+      "total_science_score": 185.0,
+      "targets_scheduled": 2,
+      "targets_deferred": 2,
+      "is_feasible": true,
+      "workload_imbalance_s": 6056.6,
+      "unit_durations_s": {
+        "unit_perseverance": 0.0,
+        "unit_crew_eva_1": 6056.6
+      }
+    }
+  ],
+  "sorties": [
+    {
+      "sortie_id": "sort_unit_crew_eva_1_sol01_a0aa91",
+      "sol_index": 1,
+      "name": "Sol 1 \u2014 Crew EVA Team Alpha",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "tgt_crater_rim",
+        "tgt_neretva_fan"
+      ],
+      "target_names": [
+        "Belva Crater Rim Exposure",
+        "Neretva Fan Sediments"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          116,
+          158
+        ],
+        [
+          115,
+          159
+        ],
+        [
+          114,
+          160
+        ],
+        [
+          113,
+          161
+        ],
+        [
+          112,
+          162
+        ],
+        [
+          111,
+          163
+        ],
+        [
+          110,
+          164
+        ],
+        [
+          109,
+          165
+        ],
+        [
+          108,
+          166
+        ],
+        [
+          107,
+          167
+        ],
+        [
+          106,
+          168
+        ],
+        [
+          105,
+          169
+        ],
+        [
+          104,
+          170
+        ],
+        [
+          103,
+          171
+        ],
+        [
+          102,
+          172
+        ],
+        [
+          101,
+          173
+        ],
+        [
+          100,
+          174
+        ],
+        [
+          99,
+          175
+        ],
+        [
+          98,
+          176
+        ],
+        [
+          97,
+          177
+        ],
+        [
+          97,
+          178
+        ],
+        [
+          96,
+          179
+        ],
+        [
+          95,
+          180
+        ],
+        [
+          96,
+          179
+        ],
+        [
+          97,
+          178
+        ],
+        [
+          98,
+          177
+        ],
+        [
+          99,
+          176
+        ],
+        [
+          100,
+          175
+        ],
+        [
+          101,
+          174
+        ],
+        [
+          102,
+          173
+        ],
+        [
+          103,
+          172
+        ],
+        [
+          104,
+          171
+        ],
+        [
+          105,
+          170
+        ],
+        [
+          106,
+          169
+        ],
+        [
+          107,
+          168
+        ],
+        [
+          108,
+          167
+        ],
+        [
+          109,
+          166
+        ],
+        [
+          110,
+          165
+        ],
+        [
+          111,
+          164
+        ],
+        [
+          112,
+          163
+        ],
+        [
+          113,
+          162
+        ],
+        [
+          114,
+          161
+        ],
+        [
+          115,
+          160
+        ],
+        [
+          116,
+          159
+        ],
+        [
+          117,
+          158
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          119,
+          156
+        ],
+        [
+          120,
+          155
+        ],
+        [
+          121,
+          154
+        ],
+        [
+          122,
+          153
+        ],
+        [
+          123,
+          152
+        ],
+        [
+          124,
+          151
+        ],
+        [
+          125,
+          150
+        ],
+        [
+          125,
+          149
+        ],
+        [
+          126,
+          148
+        ],
+        [
+          127,
+          147
+        ],
+        [
+          128,
+          146
+        ],
+        [
+          128,
+          145
+        ],
+        [
+          128,
+          144
+        ],
+        [
+          128,
+          143
+        ],
+        [
+          128,
+          142
+        ],
+        [
+          129,
+          141
+        ],
+        [
+          130,
+          140
+        ],
+        [
+          131,
+          139
+        ],
+        [
+          132,
+          138
+        ],
+        [
+          133,
+          137
+        ],
+        [
+          134,
+          136
+        ],
+        [
+          135,
+          135
+        ],
+        [
+          136,
+          134
+        ],
+        [
+          137,
+          133
+        ],
+        [
+          138,
+          132
+        ],
+        [
+          139,
+          131
+        ],
+        [
+          140,
+          130
+        ],
+        [
+          141,
+          129
+        ],
+        [
+          142,
+          128
+        ],
+        [
+          143,
+          127
+        ],
+        [
+          144,
+          126
+        ],
+        [
+          145,
+          125
+        ],
+        [
+          146,
+          124
+        ],
+        [
+          147,
+          123
+        ],
+        [
+          148,
+          122
+        ],
+        [
+          149,
+          121
+        ],
+        [
+          150,
+          120
+        ],
+        [
+          149,
+          121
+        ],
+        [
+          148,
+          122
+        ],
+        [
+          147,
+          123
+        ],
+        [
+          146,
+          124
+        ],
+        [
+          145,
+          125
+        ],
+        [
+          144,
+          126
+        ],
+        [
+          143,
+          127
+        ],
+        [
+          142,
+          128
+        ],
+        [
+          141,
+          129
+        ],
+        [
+          140,
+          130
+        ],
+        [
+          139,
+          131
+        ],
+        [
+          138,
+          132
+        ],
+        [
+          137,
+          133
+        ],
+        [
+          136,
+          134
+        ],
+        [
+          135,
+          135
+        ],
+        [
+          134,
+          136
+        ],
+        [
+          133,
+          137
+        ],
+        [
+          132,
+          138
+        ],
+        [
+          131,
+          139
+        ],
+        [
+          130,
+          140
+        ],
+        [
+          129,
+          141
+        ],
+        [
+          128,
+          142
+        ],
+        [
+          128,
+          143
+        ],
+        [
+          128,
+          144
+        ],
+        [
+          128,
+          145
+        ],
+        [
+          127,
+          146
+        ],
+        [
+          126,
+          147
+        ],
+        [
+          125,
+          148
+        ],
+        [
+          124,
+          149
+        ],
+        [
+          123,
+          150
+        ],
+        [
+          122,
+          151
+        ],
+        [
+          122,
+          152
+        ],
+        [
+          121,
+          153
+        ],
+        [
+          120,
+          154
+        ],
+        [
+          119,
+          155
+        ],
+        [
+          118,
+          156
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 3222.2,
+      "travel_time_s": 6849.2,
+      "dwell_time_s": 1950.0,
+      "total_duration_s": 8799.2,
+      "remaining_margin_s": 20000.8,
+      "science_score": 160.0,
+      "terrain_cost": 3805.1,
+      "max_slope_deg": 4.0,
+      "cumulative_climb_m": 0.0,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "unit_id": "unit_crew_eva_1",
+      "legs_summary": [],
+      "timeline_events": []
+    }
+  ],
+  "handoffs": [],
+  "summary": {
+    "total_units": 2,
+    "total_sols": 1,
+    "total_sorties": 1,
+    "total_distance_m": 3222.2,
+    "total_duration_s": 8799.2,
+    "total_science_score": 160.0,
+    "targets_scheduled": 2,
+    "targets_unscheduled": 2,
+    "is_feasible": true,
+    "decision_rationales": [
+      "Sol 1: Balanced workload assigned to Crew EVA Team Alpha (Cumulative: 2h 27m)."
+    ]
+  },
+  "limitations_disclaimer": "Calculated multi-unit coordination schedules, capability matching, and task handoffs are deterministic mission-planning heuristics derived from remote-sensing products. They do NOT represent certified autonomous robotic control, physical inter-vehicle resource transfer, or astronaut flight envelopes."
+}

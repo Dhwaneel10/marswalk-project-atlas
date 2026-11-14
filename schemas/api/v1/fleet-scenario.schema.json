@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-scenario.schema.json",
+  "title": "Fleet Disturbance and Recovery Evaluation Contract",
+  "description": "Defines 3-way comparative metrics across Baseline, Disturbed, and Recovery candidate fleet states.",
+  "type": "object",
+  "required": [
+    "scenario_type",
+    "title",
+    "target_sol",
+    "narrative",
+    "baseline_metrics",
+    "disturbed_metrics",
+    "recovery_metrics",
+    "recovery_strategy",
+    "net_recovery_delta",
+    "reproducibility_token"
+  ],
+  "properties": {
+    "scenario_type": { "type": "string" },
+    "title": { "type": "string" },
+    "target_sol": { "type": "integer" },
+    "disturbed_rover_id": { "type": ["string", "null"] },
+    "narrative": { "type": "string" },
+    "baseline_metrics": { "type": "object" },
+    "disturbed_metrics": { "type": "object" },
+    "recovery_metrics": { "type": "object" },
+    "recovery_strategy": { "type": "string" },
+    "net_recovery_delta": { "type": "object" },
+    "recovery_reassignments": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "reproducibility_token": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{16}$"
+    }
+  },
+  "additionalProperties": true
+}

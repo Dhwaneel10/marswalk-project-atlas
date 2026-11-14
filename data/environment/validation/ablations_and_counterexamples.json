@@ -1,0 +1,336 @@
+{
+  "baseline_comparisons": {
+    "uncalibrated_baseline_rmse": 24.260358533279266,
+    "climatological_mean_rmse": 24.446488964449806,
+    "persistence_rmse": 20.526188489071444
+  },
+  "ablations": {
+    "full_calibrated_rmse": 25.19409774753644,
+    "no_phase_shift_rmse": 25.269406811658705,
+    "no_amplitude_calib_rmse": 24.555405950389215,
+    "no_mean_adjustment_rmse": 24.4208195620132
+  },
+  "counterexamples_count": 32,
+  "counterexamples": [
+    {
+      "sol": 29,
+      "observation_id": "MEDA_TIRS_SOL_0029",
+      "observed_k": 176.79,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 0.56,
+      "calibrated_error_k": 6.16,
+      "degradation_k": 5.6
+    },
+    {
+      "sol": 36,
+      "observation_id": "MEDA_TIRS_SOL_0036",
+      "observed_k": 175.04,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 1.19,
+      "calibrated_error_k": 7.91,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 37,
+      "observation_id": "MEDA_TIRS_SOL_0037",
+      "observed_k": 174.8,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 1.43,
+      "calibrated_error_k": 8.15,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 38,
+      "observation_id": "MEDA_TIRS_SOL_0038",
+      "observed_k": 174.56,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 1.67,
+      "calibrated_error_k": 8.39,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 39,
+      "observation_id": "MEDA_TIRS_SOL_0039",
+      "observed_k": 174.33,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 1.9,
+      "calibrated_error_k": 8.62,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 46,
+      "observation_id": "MEDA_TIRS_SOL_0046",
+      "observed_k": 172.66,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 3.57,
+      "calibrated_error_k": 10.29,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 47,
+      "observation_id": "MEDA_TIRS_SOL_0047",
+      "observed_k": 172.43,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 3.8,
+      "calibrated_error_k": 10.52,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 48,
+      "observation_id": "MEDA_TIRS_SOL_0048",
+      "observed_k": 172.21,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 4.02,
+      "calibrated_error_k": 10.74,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 49,
+      "observation_id": "MEDA_TIRS_SOL_0049",
+      "observed_k": 171.99,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 4.24,
+      "calibrated_error_k": 10.96,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 56,
+      "observation_id": "MEDA_TIRS_SOL_0056",
+      "observed_k": 170.41,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 5.82,
+      "calibrated_error_k": 12.54,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 57,
+      "observation_id": "MEDA_TIRS_SOL_0057",
+      "observed_k": 170.2,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 6.03,
+      "calibrated_error_k": 12.75,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 58,
+      "observation_id": "MEDA_TIRS_SOL_0058",
+      "observed_k": 169.99,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 6.24,
+      "calibrated_error_k": 12.96,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 59,
+      "observation_id": "MEDA_TIRS_SOL_0059",
+      "observed_k": 169.78,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 6.45,
+      "calibrated_error_k": 13.17,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 66,
+      "observation_id": "MEDA_TIRS_SOL_0066",
+      "observed_k": 168.33,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 7.9,
+      "calibrated_error_k": 14.62,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 67,
+      "observation_id": "MEDA_TIRS_SOL_0067",
+      "observed_k": 168.13,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 8.1,
+      "calibrated_error_k": 14.82,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 68,
+      "observation_id": "MEDA_TIRS_SOL_0068",
+      "observed_k": 167.94,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 8.29,
+      "calibrated_error_k": 15.01,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 69,
+      "observation_id": "MEDA_TIRS_SOL_0069",
+      "observed_k": 167.75,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 8.48,
+      "calibrated_error_k": 15.2,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 76,
+      "observation_id": "MEDA_TIRS_SOL_0076",
+      "observed_k": 166.46,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 9.77,
+      "calibrated_error_k": 16.49,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 77,
+      "observation_id": "MEDA_TIRS_SOL_0077",
+      "observed_k": 166.29,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 9.94,
+      "calibrated_error_k": 16.66,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 78,
+      "observation_id": "MEDA_TIRS_SOL_0078",
+      "observed_k": 166.12,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 10.11,
+      "calibrated_error_k": 16.83,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 79,
+      "observation_id": "MEDA_TIRS_SOL_0079",
+      "observed_k": 165.95,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 10.28,
+      "calibrated_error_k": 17.0,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 86,
+      "observation_id": "MEDA_TIRS_SOL_0086",
+      "observed_k": 164.82,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 11.41,
+      "calibrated_error_k": 18.13,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 87,
+      "observation_id": "MEDA_TIRS_SOL_0087",
+      "observed_k": 164.67,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 11.56,
+      "calibrated_error_k": 18.28,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 88,
+      "observation_id": "MEDA_TIRS_SOL_0088",
+      "observed_k": 164.52,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 11.71,
+      "calibrated_error_k": 18.43,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 89,
+      "observation_id": "MEDA_TIRS_SOL_0089",
+      "observed_k": 164.33,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 11.9,
+      "calibrated_error_k": 18.62,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 96,
+      "observation_id": "MEDA_TIRS_SOL_0096",
+      "observed_k": 163.44,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 12.79,
+      "calibrated_error_k": 19.51,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 99,
+      "observation_id": "MEDA_TIRS_SOL_0099",
+      "observed_k": 163.01,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 13.22,
+      "calibrated_error_k": 19.94,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 106,
+      "observation_id": "MEDA_TIRS_SOL_0106",
+      "observed_k": 162.26,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 13.97,
+      "calibrated_error_k": 20.69,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 107,
+      "observation_id": "MEDA_TIRS_SOL_0107",
+      "observed_k": 162.15,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 14.08,
+      "calibrated_error_k": 20.8,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 108,
+      "observation_id": "MEDA_TIRS_SOL_0108",
+      "observed_k": 162.06,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 14.17,
+      "calibrated_error_k": 20.89,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 109,
+      "observation_id": "MEDA_TIRS_SOL_0109",
+      "observed_k": 161.97,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 14.26,
+      "calibrated_error_k": 20.98,
+      "degradation_k": 6.73
+    },
+    {
+      "sol": 116,
+      "observation_id": "MEDA_TIRS_SOL_0116",
+      "observed_k": 161.42,
+      "baseline_pred_k": 176.23,
+      "calibrated_pred_k": 182.95,
+      "baseline_error_k": 14.81,
+      "calibrated_error_k": 21.53,
+      "degradation_k": 6.73
+    }
+  ]
+}

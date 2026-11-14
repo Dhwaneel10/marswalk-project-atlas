@@ -1,0 +1,4592 @@
+{
+  "tournament_summary": {
+    "tournament_id": "GRAND-PRIX-CHAMPIONSHIP-13X",
+    "rounds_executed_count": 8,
+    "total_simulations_executed": 1020,
+    "total_wall_clock_seconds": 0.65,
+    "round_reports": [
+      {
+        "round_number": 1,
+        "name": "Nominal Martian Operations",
+        "description": "Baseline Jezero exploration under standard conditions, mild terrain, and nominal telemetry.",
+        "scenarios_evaluated": 20,
+        "simulations_count": 120,
+        "round_wall_clock_sec": 0.05,
+        "strategy_scores": {
+          "STRAT-01-GREEDY": {
+            "science_mean": 11.311,
+            "energy_mean": 48.726,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 68.361,
+            "composite_cvar05": 50.052
+          },
+          "STRAT-02-MINCOST": {
+            "science_mean": 6.937,
+            "energy_mean": 19.109,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 58.236,
+            "composite_cvar05": 35.6
+          },
+          "STRAT-03-SCIENCE": {
+            "science_mean": 11.252,
+            "energy_mean": 77.943,
+            "feasibility_rate_pct": 85.0,
+            "composite_mean": 56.773,
+            "composite_cvar05": 5.085
+          },
+          "STRAT-04-RESSAFE": {
+            "science_mean": 5.106,
+            "energy_mean": 13.222,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 71.009,
+            "composite_cvar05": 56.1
+          },
+          "STRAT-05-PARETO": {
+            "science_mean": 6.453,
+            "energy_mean": 14.828,
+            "feasibility_rate_pct": 85.0,
+            "composite_mean": 58.615,
+            "composite_cvar05": 5.0
+          },
+          "STRAT-06-ATLAS": {
+            "science_mean": 9.556,
+            "energy_mean": 47.486,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 73.982,
+            "composite_cvar05": 61.288
+          }
+        }
+      },
+      {
+        "round_number": 2,
+        "name": "Resource Pressure",
+        "description": "Restricted energy budgets (<50 kWh), high solar dust attenuation, and constrained mission clocks.",
+        "scenarios_evaluated": 20,
+        "simulations_count": 120,
+        "round_wall_clock_sec": 0.02,
+        "strategy_scores": {
+          "STRAT-01-GREEDY": {
+            "science_mean": 9.869,
+            "energy_mean": 45.168,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 58.176,
+            "composite_cvar05": 45.227
+          },
+          "STRAT-02-MINCOST": {
+            "science_mean": 7.11,
+            "energy_mean": 19.7,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 55.64,
+            "composite_cvar05": 36.988
+          },
+          "STRAT-03-SCIENCE": {
+            "science_mean": 10.859,
+            "energy_mean": 71.146,
+            "feasibility_rate_pct": 85.0,
+            "composite_mean": 50.946,
+            "composite_cvar05": 5.0
+          },
+          "STRAT-04-RESSAFE": {
+            "science_mean": 5.379,
+            "energy_mean": 13.627,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 69.265,
+            "composite_cvar05": 57.491
+          },
+          "STRAT-05-PARETO": {
+            "science_mean": 6.666,
+            "energy_mean": 14.704,
+            "feasibility_rate_pct": 90.0,
+            "composite_mean": 57.576,
+            "composite_cvar05": 5.0
+          },
+          "STRAT-06-ATLAS": {
+            "science_mean": 9.814,
+            "energy_mean": 47.978,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 69.694,
+            "composite_cvar05": 58.344
+          }
+        }
+      },
+      {
+        "round_number": 3,
+        "name": "Scientific Uncertainty",
+        "description": "High-entropy competing geological hypotheses requiring aggressive active learning.",
+        "scenarios_evaluated": 20,
+        "simulations_count": 120,
+        "round_wall_clock_sec": 0.02,
+        "strategy_scores": {
+          "STRAT-01-GREEDY": {
+            "science_mean": 11.346,
+            "energy_mean": 50.052,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 67.432,
+            "composite_cvar05": 48.355
+          },
+          "STRAT-02-MINCOST": {
+            "science_mean": 7.239,
+            "energy_mean": 21.365,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 58.828,
+            "composite_cvar05": 44.668
+          },
+          "STRAT-03-SCIENCE": {
+            "science_mean": 12.02,
+            "energy_mean": 76.819,
+            "feasibility_rate_pct": 90.0,
+            "composite_mean": 60.35,
+            "composite_cvar05": 5.0
+          },
+          "STRAT-04-RESSAFE": {
+            "science_mean": 4.967,
+            "energy_mean": 14.58,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 70.533,
+            "composite_cvar05": 56.54
+          },
+          "STRAT-05-PARETO": {
+            "science_mean": 6.544,
+            "energy_mean": 16.063,
+            "feasibility_rate_pct": 90.0,
+            "composite_mean": 62.33,
+            "composite_cvar05": 5.0
+          },
+          "STRAT-06-ATLAS": {
+            "science_mean": 10.043,
+            "energy_mean": 50.792,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 74.939,
+            "composite_cvar05": 66.713
+          }
+        }
+      },
+      {
+        "round_number": 4,
+        "name": "Deep Space Communications",
+        "description": "Long One-Way Light Time (>18 min OWLT), intermittent relay passes, and delayed acknowledgments.",
+        "scenarios_evaluated": 20,
+        "simulations_count": 120,
+        "round_wall_clock_sec": 0.02,
+        "strategy_scores": {
+          "STRAT-01-GREEDY": {
+            "science_mean": 10.167,
+            "energy_mean": 42.963,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 68.841,
+            "composite_cvar05": 35.35
+          },
+          "STRAT-02-MINCOST": {
+            "science_mean": 6.615,
+            "energy_mean": 17.953,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 62.905,
+            "composite_cvar05": 37.1
+          },
+          "STRAT-03-SCIENCE": {
+            "science_mean": 12.511,
+            "energy_mean": 68.535,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 69.508,
+            "composite_cvar05": 48.008
+          },
+          "STRAT-04-RESSAFE": {
+            "science_mean": 5.15,
+            "energy_mean": 12.455,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 71.752,
+            "composite_cvar05": 57.6
+          },
+          "STRAT-05-PARETO": {
+            "science_mean": 7.239,
+            "energy_mean": 13.895,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 72.162,
+            "composite_cvar05": 55.669
+          },
+          "STRAT-06-ATLAS": {
+            "science_mean": 10.103,
+            "energy_mean": 46.805,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 76.746,
+            "composite_cvar05": 59.225
+          }
+        }
+      },
+      {
+        "round_number": 5,
+        "name": "Multi-Robot Cooperation",
+        "description": "Coordinated sorties requiring concurrent aerial rotorcraft scouting and ground rover drives.",
+        "scenarios_evaluated": 20,
+        "simulations_count": 120,
+        "round_wall_clock_sec": 0.02,
+        "strategy_scores": {
+          "STRAT-01-GREEDY": {
+            "science_mean": 10.041,
+            "energy_mean": 44.573,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 65.571,
+            "composite_cvar05": 50.843
+          },
+          "STRAT-02-MINCOST": {
+            "science_mean": 7.093,
+            "energy_mean": 19.671,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 59.93,
+            "composite_cvar05": 37.5
+          },
+          "STRAT-03-SCIENCE": {
+            "science_mean": 10.588,
+            "energy_mean": 70.557,
+            "feasibility_rate_pct": 90.0,
+            "composite_mean": 57.625,
+            "composite_cvar05": 5.764
+          },
+          "STRAT-04-RESSAFE": {
+            "science_mean": 5.452,
+            "energy_mean": 13.418,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 72.444,
+            "composite_cvar05": 58.0
+          },
+          "STRAT-05-PARETO": {
+            "science_mean": 6.251,
+            "energy_mean": 14.038,
+            "feasibility_rate_pct": 90.0,
+            "composite_mean": 64.128,
+            "composite_cvar05": 5.0
+          },
+          "STRAT-06-ATLAS": {
+            "science_mean": 9.72,
+            "energy_mean": 48.578,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 74.888,
+            "composite_cvar05": 65.742
+          }
+        }
+      },
+      {
+        "round_number": 6,
+        "name": "Failure Arena",
+        "description": "Cascading component failures: drive motor drag, spectrometer calibration drift, and dust events.",
+        "scenarios_evaluated": 20,
+        "simulations_count": 120,
+        "round_wall_clock_sec": 0.02,
+        "strategy_scores": {
+          "STRAT-01-GREEDY": {
+            "science_mean": 11.504,
+            "energy_mean": 49.792,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 70.637,
+            "composite_cvar05": 52.24
+          },
+          "STRAT-02-MINCOST": {
+            "science_mean": 6.551,
+            "energy_mean": 18.574,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 62.54,
+            "composite_cvar05": 36.0
+          },
+          "STRAT-03-SCIENCE": {
+            "science_mean": 12.515,
+            "energy_mean": 75.668,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 67.36,
+            "composite_cvar05": 45.17
+          },
+          "STRAT-04-RESSAFE": {
+            "science_mean": 4.64,
+            "energy_mean": 12.814,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 70.885,
+            "composite_cvar05": 56.559
+          },
+          "STRAT-05-PARETO": {
+            "science_mean": 7.064,
+            "energy_mean": 14.581,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 70.486,
+            "composite_cvar05": 51.323
+          },
+          "STRAT-06-ATLAS": {
+            "science_mean": 10.081,
+            "energy_mean": 48.926,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 77.723,
+            "composite_cvar05": 70.468
+          }
+        }
+      },
+      {
+        "round_number": 7,
+        "name": "Long-Duration Settlement",
+        "description": "60-Sol extended campaign balancing Kilopower reactors, regolith sintering, and long-range traversal.",
+        "scenarios_evaluated": 20,
+        "simulations_count": 120,
+        "round_wall_clock_sec": 0.02,
+        "strategy_scores": {
+          "STRAT-01-GREEDY": {
+            "science_mean": 11.362,
+            "energy_mean": 51.872,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 71.073,
+            "composite_cvar05": 48.243
+          },
+          "STRAT-02-MINCOST": {
+            "science_mean": 6.699,
+            "energy_mean": 21.745,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 62.691,
+            "composite_cvar05": 34.231
+          },
+          "STRAT-03-SCIENCE": {
+            "science_mean": 12.254,
+            "energy_mean": 79.841,
+            "feasibility_rate_pct": 95.0,
+            "composite_mean": 65.211,
+            "composite_cvar05": 5.0
+          },
+          "STRAT-04-RESSAFE": {
+            "science_mean": 4.912,
+            "energy_mean": 16.231,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 71.291,
+            "composite_cvar05": 54.741
+          },
+          "STRAT-05-PARETO": {
+            "science_mean": 6.721,
+            "energy_mean": 18.163,
+            "feasibility_rate_pct": 85.0,
+            "composite_mean": 61.409,
+            "composite_cvar05": 5.0
+          },
+          "STRAT-06-ATLAS": {
+            "science_mean": 10.107,
+            "energy_mean": 52.12,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 77.859,
+            "composite_cvar05": 67.38
+          }
+        }
+      },
+      {
+        "round_number": 8,
+        "name": "Held-Out Apocalypse",
+        "description": "Unseen combinations of extreme scarp slopes (>25 deg), regional dust storms, and compound outages.",
+        "scenarios_evaluated": 30,
+        "simulations_count": 180,
+        "round_wall_clock_sec": 0.03,
+        "strategy_scores": {
+          "STRAT-01-GREEDY": {
+            "science_mean": 11.31,
+            "energy_mean": 47.959,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 75.279,
+            "composite_cvar05": 53.117
+          },
+          "STRAT-02-MINCOST": {
+            "science_mean": 6.81,
+            "energy_mean": 19.497,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 65.845,
+            "composite_cvar05": 36.496
+          },
+          "STRAT-03-SCIENCE": {
+            "science_mean": 12.321,
+            "energy_mean": 76.077,
+            "feasibility_rate_pct": 96.7,
+            "composite_mean": 69.759,
+            "composite_cvar05": 28.46
+          },
+          "STRAT-04-RESSAFE": {
+            "science_mean": 5.357,
+            "energy_mean": 13.948,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 73.219,
+            "composite_cvar05": 57.072
+          },
+          "STRAT-05-PARETO": {
+            "science_mean": 7.512,
+            "energy_mean": 15.743,
+            "feasibility_rate_pct": 96.7,
+            "composite_mean": 71.601,
+            "composite_cvar05": 27.747
+          },
+          "STRAT-06-ATLAS": {
+            "science_mean": 10.599,
+            "energy_mean": 50.411,
+            "feasibility_rate_pct": 100.0,
+            "composite_mean": 79.851,
+            "composite_cvar05": 71.138
+          }
+        }
+      }
+    ],
+    "overall_strategy_standings": {
+      "STRAT-01-GREEDY": {
+        "strategy_id": "STRAT-01-GREEDY",
+        "total_runs": 170,
+        "feasible_runs_count": 170,
+        "infeasible_runs_count": 0,
+        "feasibility_rate_pct": 100.0,
+        "science": {
+          "mean": 10.89,
+          "median": 10.815,
+          "ci_95": [
+            10.417,
+            11.381
+          ],
+          "iqr": 4.613,
+          "worst_case": 0.0,
+          "cvar_05": 4.973
+        },
+        "energy_kwh": {
+          "mean": 47.657,
+          "median": 47.683,
+          "p95": 67.177
+        },
+        "distance_km": {
+          "mean": 2.785,
+          "median": 2.796
+        },
+        "containment_rate_mean": 0.428,
+        "planning_latency_ms": {
+          "mean": 0.063,
+          "median": 0.058,
+          "p95": 0.103
+        },
+        "composite_score": {
+          "mean": 68.59,
+          "median": 67.922,
+          "cvar_05": 46.421
+        }
+      },
+      "STRAT-02-MINCOST": {
+        "strategy_id": "STRAT-02-MINCOST",
+        "total_runs": 170,
+        "feasible_runs_count": 170,
+        "infeasible_runs_count": 0,
+        "feasibility_rate_pct": 100.0,
+        "science": {
+          "mean": 6.878,
+          "median": 7.545,
+          "ci_95": [
+            6.522,
+            7.197
+          ],
+          "iqr": 1.09,
+          "worst_case": 0.0,
+          "cvar_05": 0.0
+        },
+        "energy_kwh": {
+          "mean": 19.69,
+          "median": 18.494,
+          "p95": 28.803
+        },
+        "distance_km": {
+          "mean": 1.431,
+          "median": 1.415
+        },
+        "containment_rate_mean": 0.288,
+        "planning_latency_ms": {
+          "mean": 0.025,
+          "median": 0.026,
+          "p95": 0.033
+        },
+        "composite_score": {
+          "mean": 61.122,
+          "median": 57.848,
+          "cvar_05": 36.117
+        }
+      },
+      "STRAT-03-SCIENCE": {
+        "strategy_id": "STRAT-03-SCIENCE",
+        "total_runs": 170,
+        "feasible_runs_count": 158,
+        "infeasible_runs_count": 12,
+        "feasibility_rate_pct": 92.9,
+        "science": {
+          "mean": 11.821,
+          "median": 11.675,
+          "ci_95": [
+            11.298,
+            12.365
+          ],
+          "iqr": 5.245,
+          "worst_case": 2.556,
+          "cvar_05": 3.525
+        },
+        "energy_kwh": {
+          "mean": 74.662,
+          "median": 73.125,
+          "p95": 99.054
+        },
+        "distance_km": {
+          "mean": 2.742,
+          "median": 2.729
+        },
+        "containment_rate_mean": 0.428,
+        "planning_latency_ms": {
+          "mean": 0.029,
+          "median": 0.029,
+          "p95": 0.039
+        },
+        "composite_score": {
+          "mean": 62.637,
+          "median": 65.462,
+          "cvar_05": 5.053
+        }
+      },
+      "STRAT-04-RESSAFE": {
+        "strategy_id": "STRAT-04-RESSAFE",
+        "total_runs": 170,
+        "feasible_runs_count": 170,
+        "infeasible_runs_count": 0,
+        "feasibility_rate_pct": 100.0,
+        "science": {
+          "mean": 5.134,
+          "median": 5.6,
+          "ci_95": [
+            4.849,
+            5.4
+          ],
+          "iqr": 1.067,
+          "worst_case": 0.0,
+          "cvar_05": 0.0
+        },
+        "energy_kwh": {
+          "mean": 13.796,
+          "median": 12.43,
+          "p95": 21.941
+        },
+        "distance_km": {
+          "mean": 1.313,
+          "median": 1.352
+        },
+        "containment_rate_mean": 1.0,
+        "planning_latency_ms": {
+          "mean": 0.018,
+          "median": 0.018,
+          "p95": 0.021
+        },
+        "composite_score": {
+          "mean": 71.413,
+          "median": 72.349,
+          "cvar_05": 56.499
+        }
+      },
+      "STRAT-05-PARETO": {
+        "strategy_id": "STRAT-05-PARETO",
+        "total_runs": 170,
+        "feasible_runs_count": 157,
+        "infeasible_runs_count": 13,
+        "feasibility_rate_pct": 92.4,
+        "science": {
+          "mean": 6.848,
+          "median": 7.395,
+          "ci_95": [
+            6.581,
+            7.097
+          ],
+          "iqr": 1.572,
+          "worst_case": 1.857,
+          "cvar_05": 2.077
+        },
+        "energy_kwh": {
+          "mean": 15.281,
+          "median": 14.106,
+          "p95": 23.506
+        },
+        "distance_km": {
+          "mean": 1.821,
+          "median": 1.796
+        },
+        "containment_rate_mean": 0.697,
+        "planning_latency_ms": {
+          "mean": 0.048,
+          "median": 0.048,
+          "p95": 0.061
+        },
+        "composite_score": {
+          "mean": 65.189,
+          "median": 71.793,
+          "cvar_05": 5.0
+        }
+      },
+      "STRAT-06-ATLAS": {
+        "strategy_id": "STRAT-06-ATLAS",
+        "total_runs": 170,
+        "feasible_runs_count": 170,
+        "infeasible_runs_count": 0,
+        "feasibility_rate_pct": 100.0,
+        "science": {
+          "mean": 10.038,
+          "median": 10.33,
+          "ci_95": [
+            9.742,
+            10.304
+          ],
+          "iqr": 2.195,
+          "worst_case": 1.8,
+          "cvar_05": 5.28
+        },
+        "energy_kwh": {
+          "mean": 49.212,
+          "median": 48.114,
+          "p95": 60.718
+        },
+        "distance_km": {
+          "mean": 2.547,
+          "median": 2.546
+        },
+        "containment_rate_mean": 1.0,
+        "planning_latency_ms": {
+          "mean": 0.027,
+          "median": 0.027,
+          "p95": 0.033
+        },
+        "composite_score": {
+          "mean": 75.954,
+          "median": 76.3,
+          "cvar_05": 63.568
+        }
+      }
+    },
+    "champions": {
+      "science_champion": {
+        "strategy_id": "STRAT-03-SCIENCE",
+        "title": "Highest Raw Scientific Return",
+        "score": 11.821
+      },
+      "efficiency_champion": {
+        "strategy_id": "STRAT-04-RESSAFE",
+        "title": "Lowest Energy & Distance Footprint",
+        "score_kwh": 13.796
+      },
+      "robustness_champion": {
+        "strategy_id": "STRAT-06-ATLAS",
+        "title": "Highest Worst-Case Reliability (CVaR & Feasibility)",
+        "feasibility_pct": 100.0,
+        "cvar05": 63.568
+      },
+      "overall_grand_prix_champion": {
+        "strategy_id": "STRAT-06-ATLAS",
+        "title": "Overall Balanced Tournament Champion",
+        "feasibility_pct": 100.0,
+        "composite_mean": 75.954
+      }
+    }
+  },
+  "evaluations_sample": [
+    {
+      "scenario_id": "SCEN-DEV-1100",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1100,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.72,
+        "information_gain_nats": 4.922,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 6,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.506,
+        "duration_sols": 11.0,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 47.23,
+        "battery_min_soc_pct": 93.4,
+        "energy_per_target_kwh": 7.87,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.08,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 71.76,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1100",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1100,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.21,
+        "information_gain_nats": 3.448,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.667
+      },
+      "operations": {
+        "traverse_distance_km": 1.548,
+        "duration_sols": 6.5,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 17.86,
+        "battery_min_soc_pct": 97.5,
+        "energy_per_target_kwh": 4.46,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 59.65,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1100",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1100,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 14.72,
+        "information_gain_nats": 6.182,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 6,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.264,
+        "duration_sols": 10.0,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 64.8,
+        "battery_min_soc_pct": 90.9,
+        "energy_per_target_kwh": 10.8,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 77.87,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1100",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1100,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.44,
+        "information_gain_nats": 2.285,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 1.65,
+        "duration_sols": 5.7,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 12.15,
+        "battery_min_soc_pct": 98.3,
+        "energy_per_target_kwh": 4.05,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 72.25,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1100",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1100,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.49,
+        "information_gain_nats": 3.146,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 4,
+        "completion_rate": 0.667
+      },
+      "operations": {
+        "traverse_distance_km": 2.646,
+        "duration_sols": 10.1,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 14.76,
+        "battery_min_soc_pct": 97.9,
+        "energy_per_target_kwh": 3.69,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.06,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 76.23,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1100",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1100,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.02,
+        "information_gain_nats": 4.628,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 0.833
+      },
+      "operations": {
+        "traverse_distance_km": 3.366,
+        "duration_sols": 14.9,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 48.14,
+        "battery_min_soc_pct": 93.2,
+        "energy_per_target_kwh": 9.63,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 77.25,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1101",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1101,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 14.58,
+        "information_gain_nats": 6.124,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 8,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.207,
+        "duration_sols": 15.2,
+        "tasks_completed": 8,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 72.8,
+        "battery_min_soc_pct": 91.8,
+        "energy_per_target_kwh": 9.1,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 1,
+        "containment_rate": 0.333,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.1,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 69.47,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1101",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1101,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 6.76,
+        "information_gain_nats": 2.839,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 4,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 1.065,
+        "duration_sols": 6.9,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 21.38,
+        "battery_min_soc_pct": 97.6,
+        "energy_per_target_kwh": 5.34,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 53.74,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1101",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1101,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 15.55,
+        "information_gain_nats": 6.531,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 7,
+        "completion_rate": 0.875
+      },
+      "operations": {
+        "traverse_distance_km": 3.159,
+        "duration_sols": 12.7,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 89.29,
+        "battery_min_soc_pct": 89.9,
+        "energy_per_target_kwh": 12.76,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 1,
+        "containment_rate": 0.333,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 69.83,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1101",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1101,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.65,
+        "information_gain_nats": 2.373,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.375
+      },
+      "operations": {
+        "traverse_distance_km": 0.93,
+        "duration_sols": 6.0,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 14.14,
+        "battery_min_soc_pct": 98.4,
+        "energy_per_target_kwh": 4.71,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 3,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 72.3,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1101",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1101,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.38,
+        "information_gain_nats": 3.1,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 4,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 1.305,
+        "duration_sols": 10.6,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 15.28,
+        "battery_min_soc_pct": 98.3,
+        "energy_per_target_kwh": 3.82,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 2,
+        "containment_rate": 0.667,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 68.81,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1101",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1101,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 10.72,
+        "information_gain_nats": 4.502,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 0.625
+      },
+      "operations": {
+        "traverse_distance_km": 2.197,
+        "duration_sols": 15.1,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 57.24,
+        "battery_min_soc_pct": 93.6,
+        "energy_per_target_kwh": 11.45,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 3,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 73.87,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1102",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1102,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 9.82,
+        "information_gain_nats": 4.124,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.198,
+        "duration_sols": 11.1,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 40.27,
+        "battery_min_soc_pct": 93.5,
+        "energy_per_target_kwh": 8.05,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 1,
+        "containment_rate": 0.333,
+        "recovery_delay_sols": 3.2
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 63.81,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1102",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1102,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.42,
+        "information_gain_nats": 3.536,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.8
+      },
+      "operations": {
+        "traverse_distance_km": 1.394,
+        "duration_sols": 8.6,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 18.04,
+        "battery_min_soc_pct": 97.1,
+        "energy_per_target_kwh": 4.51,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 3.2
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 59.28,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1102",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1102,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.69,
+        "information_gain_nats": 4.91,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.242,
+        "duration_sols": 11.6,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 60.35,
+        "battery_min_soc_pct": 90.2,
+        "energy_per_target_kwh": 12.07,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 1,
+        "containment_rate": 0.333,
+        "recovery_delay_sols": 3.2
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 64.77,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1102",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1102,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.52,
+        "information_gain_nats": 2.318,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.6
+      },
+      "operations": {
+        "traverse_distance_km": 1.412,
+        "duration_sols": 7.7,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 12.16,
+        "battery_min_soc_pct": 98.0,
+        "energy_per_target_kwh": 4.05,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 3,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 3.2
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 71.53,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1102",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1102,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.89,
+        "information_gain_nats": 3.314,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.8
+      },
+      "operations": {
+        "traverse_distance_km": 2.0,
+        "duration_sols": 12.2,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 13.89,
+        "battery_min_soc_pct": 97.7,
+        "energy_per_target_kwh": 3.47,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 3,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 3.2
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 76.75,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1102",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1102,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.62,
+        "information_gain_nats": 4.88,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.083,
+        "duration_sols": 17.0,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 48.7,
+        "battery_min_soc_pct": 92.1,
+        "energy_per_target_kwh": 9.74,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 3,
+        "faults_contained": 3,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 3.2
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 78.08,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1103",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1103,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.6,
+        "information_gain_nats": 3.612,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 0.786,
+        "duration_sols": 6.3,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 32.88,
+        "battery_min_soc_pct": 95.7,
+        "energy_per_target_kwh": 8.22,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 57.3,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1103",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1103,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 0.0,
+        "information_gain_nats": 0.0,
+        "hypotheses_discriminated": 1,
+        "targets_visited": 0,
+        "completion_rate": 0.0
+      },
+      "operations": {
+        "traverse_distance_km": 0.0,
+        "duration_sols": 1.8,
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "route_efficiency": 0.0
+      },
+      "resources": {
+        "energy_consumed_kwh": 9.92,
+        "battery_min_soc_pct": 98.7,
+        "energy_per_target_kwh": 9.92,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.01,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 36.62,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1103",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1103,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 10.72,
+        "information_gain_nats": 4.502,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 1.481,
+        "duration_sols": 6.9,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 51.94,
+        "battery_min_soc_pct": 93.3,
+        "energy_per_target_kwh": 12.98,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 59.3,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1103",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1103,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 0.0,
+        "information_gain_nats": 0.0,
+        "hypotheses_discriminated": 1,
+        "targets_visited": 0,
+        "completion_rate": 0.0
+      },
+      "operations": {
+        "traverse_distance_km": 0.0,
+        "duration_sols": 1.8,
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "route_efficiency": 0.0
+      },
+      "resources": {
+        "energy_consumed_kwh": 7.84,
+        "battery_min_soc_pct": 99.0,
+        "energy_per_target_kwh": 7.84,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.01,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 57.14,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1103",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1103,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 6.5,
+        "information_gain_nats": 2.73,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.75
+      },
+      "operations": {
+        "traverse_distance_km": 1.179,
+        "duration_sols": 7.8,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 11.59,
+        "battery_min_soc_pct": 98.5,
+        "energy_per_target_kwh": 3.86,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 74.87,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1103",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1103,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 10.4,
+        "information_gain_nats": 4.368,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 1.991,
+        "duration_sols": 12.7,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 44.25,
+        "battery_min_soc_pct": 94.3,
+        "energy_per_target_kwh": 11.06,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 77.25,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1104",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1104,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 12.71,
+        "information_gain_nats": 5.338,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 7,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.945,
+        "duration_sols": 10.8,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 55.9,
+        "battery_min_soc_pct": 93.1,
+        "energy_per_target_kwh": 7.99,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.07,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 62.99,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1104",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1104,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.71,
+        "information_gain_nats": 3.238,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.571
+      },
+      "operations": {
+        "traverse_distance_km": 1.045,
+        "duration_sols": 6.4,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 27.25,
+        "battery_min_soc_pct": 96.6,
+        "energy_per_target_kwh": 6.81,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 55.69,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1104",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1104,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 12.71,
+        "information_gain_nats": 5.338,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 7,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.545,
+        "duration_sols": 16.8,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 100.6,
+        "battery_min_soc_pct": 87.6,
+        "energy_per_target_kwh": 14.37,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 48.97,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1104",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1104,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.89,
+        "information_gain_nats": 2.474,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.429
+      },
+      "operations": {
+        "traverse_distance_km": 1.331,
+        "duration_sols": 5.6,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 21.83,
+        "battery_min_soc_pct": 97.3,
+        "energy_per_target_kwh": 7.28,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 71.38,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1104",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1104,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.88,
+        "information_gain_nats": 3.31,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.571
+      },
+      "operations": {
+        "traverse_distance_km": 1.387,
+        "duration_sols": 10.1,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 22.5,
+        "battery_min_soc_pct": 97.2,
+        "energy_per_target_kwh": 5.62,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 55.59,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1104",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1104,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 9.17,
+        "information_gain_nats": 3.851,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 0.714
+      },
+      "operations": {
+        "traverse_distance_km": 1.938,
+        "duration_sols": 10.2,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 53.99,
+        "battery_min_soc_pct": 93.3,
+        "energy_per_target_kwh": 10.8,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.1
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 71.97,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1105",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1105,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 15.31,
+        "information_gain_nats": 6.43,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 8,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.085,
+        "duration_sols": 12.3,
+        "tasks_completed": 8,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 48.19,
+        "battery_min_soc_pct": 92.2,
+        "energy_per_target_kwh": 6.02,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.08,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 82.84,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1105",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1105,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.56,
+        "information_gain_nats": 3.595,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 0.67,
+        "duration_sols": 6.8,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 16.8,
+        "battery_min_soc_pct": 97.3,
+        "energy_per_target_kwh": 4.2,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 60.93,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1105",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1105,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 16.2,
+        "information_gain_nats": 6.804,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 7,
+        "completion_rate": 0.875
+      },
+      "operations": {
+        "traverse_distance_km": 2.94,
+        "duration_sols": 12.7,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 71.47,
+        "battery_min_soc_pct": 88.4,
+        "energy_per_target_kwh": 10.21,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 79.78,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1105",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1105,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 6.15,
+        "information_gain_nats": 2.583,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.375
+      },
+      "operations": {
+        "traverse_distance_km": 1.308,
+        "duration_sols": 6.1,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 11.81,
+        "battery_min_soc_pct": 98.1,
+        "energy_per_target_kwh": 3.94,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 74.5,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1105",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1105,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.81,
+        "information_gain_nats": 3.28,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 1.452,
+        "duration_sols": 10.6,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 12.61,
+        "battery_min_soc_pct": 98.0,
+        "energy_per_target_kwh": 3.15,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 67.58,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1105",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1105,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.25,
+        "information_gain_nats": 4.725,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 0.625
+      },
+      "operations": {
+        "traverse_distance_km": 2.024,
+        "duration_sols": 12.1,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 46.1,
+        "battery_min_soc_pct": 92.5,
+        "energy_per_target_kwh": 9.22,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 79.92,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1106",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1106,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 12.43,
+        "information_gain_nats": 5.221,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 6,
+        "completion_rate": 0.75
+      },
+      "operations": {
+        "traverse_distance_km": 2.629,
+        "duration_sols": 13.2,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 47.56,
+        "battery_min_soc_pct": 95.0,
+        "energy_per_target_kwh": 7.93,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 3.5
+      },
+      "computation": {
+        "planning_latency_ms": 0.07,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 72.92,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1106",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1106,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.15,
+        "information_gain_nats": 3.423,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 1.326,
+        "duration_sols": 8.9,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 18.2,
+        "battery_min_soc_pct": 98.1,
+        "energy_per_target_kwh": 4.55,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 3.5
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 58.19,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1106",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1106,
+      "is_feasible": false,
+      "feasibility_status": "INFEASIBLE_SLOPE",
+      "science": {
+        "science_score": 4.07,
+        "information_gain_nats": 1.709,
+        "hypotheses_discriminated": 1,
+        "targets_visited": 7,
+        "completion_rate": 0.875
+      },
+      "operations": {
+        "traverse_distance_km": 4.175,
+        "duration_sols": 19.6,
+        "tasks_completed": 3,
+        "tasks_failed": 3,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 97.44,
+        "battery_min_soc_pct": 89.8,
+        "energy_per_target_kwh": 13.92,
+        "violations_count": 2
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 3.5
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 5.08,
+      "constraint_violations": [
+        "Slope violation at (16, 35): 20.8 deg > 15.0 deg",
+        "Slope violation at (9, 10): 15.1 deg > 15.0 deg"
+      ]
+    },
+    {
+      "scenario_id": "SCEN-DEV-1106",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1106,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.54,
+        "information_gain_nats": 2.327,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.375
+      },
+      "operations": {
+        "traverse_distance_km": 0.917,
+        "duration_sols": 7.9,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 11.81,
+        "battery_min_soc_pct": 98.8,
+        "energy_per_target_kwh": 3.94,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 3.5
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 71.59,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1106",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1106,
+      "is_feasible": false,
+      "feasibility_status": "INFEASIBLE_SLOPE",
+      "science": {
+        "science_score": 2.19,
+        "information_gain_nats": 0.919,
+        "hypotheses_discriminated": 1,
+        "targets_visited": 4,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 2.178,
+        "duration_sols": 12.4,
+        "tasks_completed": 2,
+        "tasks_failed": 2,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 14.4,
+        "battery_min_soc_pct": 98.5,
+        "energy_per_target_kwh": 3.6,
+        "violations_count": 1
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 3.5
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 5.0,
+      "constraint_violations": [
+        "Slope violation at (9, 10): 15.1 deg > 15.0 deg"
+      ]
+    },
+    {
+      "scenario_id": "SCEN-DEV-1106",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1106,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.54,
+        "information_gain_nats": 2.327,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.375
+      },
+      "operations": {
+        "traverse_distance_km": 0.917,
+        "duration_sols": 9.2,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 34.29,
+        "battery_min_soc_pct": 96.4,
+        "energy_per_target_kwh": 11.43,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 3.5
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 65.27,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1107",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1107,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 10.79,
+        "information_gain_nats": 4.532,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.245,
+        "duration_sols": 10.2,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 44.2,
+        "battery_min_soc_pct": 94.8,
+        "energy_per_target_kwh": 8.84,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 1,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 79.79,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1107",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1107,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.09,
+        "information_gain_nats": 3.398,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.8
+      },
+      "operations": {
+        "traverse_distance_km": 1.367,
+        "duration_sols": 7.1,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 18.3,
+        "battery_min_soc_pct": 97.9,
+        "energy_per_target_kwh": 4.58,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 58.87,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1107",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1107,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 10.79,
+        "information_gain_nats": 4.532,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.141,
+        "duration_sols": 13.6,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 76.68,
+        "battery_min_soc_pct": 91.1,
+        "energy_per_target_kwh": 15.34,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 1,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 70.02,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1107",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1107,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.21,
+        "information_gain_nats": 3.028,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.6
+      },
+      "operations": {
+        "traverse_distance_km": 1.649,
+        "duration_sols": 6.2,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 12.61,
+        "battery_min_soc_pct": 98.5,
+        "energy_per_target_kwh": 4.2,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 1,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 77.76,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1107",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1107,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.92,
+        "information_gain_nats": 3.746,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.8
+      },
+      "operations": {
+        "traverse_distance_km": 2.661,
+        "duration_sols": 10.7,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 15.34,
+        "battery_min_soc_pct": 98.2,
+        "energy_per_target_kwh": 3.84,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 1,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 80.57,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1107",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1107,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 10.79,
+        "information_gain_nats": 4.532,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.33,
+        "duration_sols": 14.2,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 48.23,
+        "battery_min_soc_pct": 94.4,
+        "energy_per_target_kwh": 9.65,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 1,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 1.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 76.83,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1108",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1108,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 13.42,
+        "information_gain_nats": 5.636,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 7,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.255,
+        "duration_sols": 9.9,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 46.42,
+        "battery_min_soc_pct": 93.8,
+        "energy_per_target_kwh": 6.63,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.07,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 88.18,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1108",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1108,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 9.13,
+        "information_gain_nats": 3.835,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.571
+      },
+      "operations": {
+        "traverse_distance_km": 0.697,
+        "duration_sols": 5.2,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 17.02,
+        "battery_min_soc_pct": 97.7,
+        "energy_per_target_kwh": 4.25,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 83.58,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1108",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1108,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 13.42,
+        "information_gain_nats": 5.636,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 7,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.642,
+        "duration_sols": 15.8,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 91.76,
+        "battery_min_soc_pct": 87.6,
+        "energy_per_target_kwh": 13.11,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 73.89,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1108",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1108,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.11,
+        "information_gain_nats": 2.146,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.429
+      },
+      "operations": {
+        "traverse_distance_km": 1.12,
+        "duration_sols": 4.4,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 11.74,
+        "battery_min_soc_pct": 98.4,
+        "energy_per_target_kwh": 3.91,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 71.9,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1108",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1108,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.13,
+        "information_gain_nats": 2.995,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 4,
+        "completion_rate": 0.571
+      },
+      "operations": {
+        "traverse_distance_km": 1.31,
+        "duration_sols": 9.0,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 12.49,
+        "battery_min_soc_pct": 98.3,
+        "energy_per_target_kwh": 3.12,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 76.14,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1108",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1108,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.52,
+        "information_gain_nats": 3.578,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 0.714
+      },
+      "operations": {
+        "traverse_distance_km": 1.516,
+        "duration_sols": 8.9,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 43.68,
+        "battery_min_soc_pct": 94.1,
+        "energy_per_target_kwh": 8.74,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 73.03,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1109",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1109,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.0,
+        "information_gain_nats": 4.62,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 6,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.477,
+        "duration_sols": 11.2,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 51.88,
+        "battery_min_soc_pct": 94.2,
+        "energy_per_target_kwh": 8.65,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.06,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 78.1,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1109",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1109,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 6.44,
+        "information_gain_nats": 2.705,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 4,
+        "completion_rate": 0.667
+      },
+      "operations": {
+        "traverse_distance_km": 1.421,
+        "duration_sols": 5.4,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 17.9,
+        "battery_min_soc_pct": 98.0,
+        "energy_per_target_kwh": 4.47,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 74.29,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1109",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1109,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 13.95,
+        "information_gain_nats": 5.859,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 6,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.744,
+        "duration_sols": 8.9,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 63.32,
+        "battery_min_soc_pct": 92.9,
+        "energy_per_target_kwh": 10.55,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 86.22,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1109",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1109,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 6.06,
+        "information_gain_nats": 2.545,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 1.369,
+        "duration_sols": 4.5,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 11.99,
+        "battery_min_soc_pct": 98.7,
+        "energy_per_target_kwh": 4.0,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 74.95,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1109",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1109,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.22,
+        "information_gain_nats": 3.452,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.667
+      },
+      "operations": {
+        "traverse_distance_km": 2.163,
+        "duration_sols": 9.0,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 14.04,
+        "battery_min_soc_pct": 98.4,
+        "energy_per_target_kwh": 3.51,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 79.39,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1109",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1109,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.46,
+        "information_gain_nats": 4.813,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 0.833
+      },
+      "operations": {
+        "traverse_distance_km": 3.058,
+        "duration_sols": 13.8,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 48.75,
+        "battery_min_soc_pct": 94.6,
+        "energy_per_target_kwh": 9.75,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 0,
+        "faults_contained": 0,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 79.11,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1110",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1110,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.84,
+        "information_gain_nats": 4.973,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 6,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 4.065,
+        "duration_sols": 10.6,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 47.81,
+        "battery_min_soc_pct": 94.0,
+        "energy_per_target_kwh": 7.97,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.06,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 62.21,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1110",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1110,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.49,
+        "information_gain_nats": 3.566,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.667
+      },
+      "operations": {
+        "traverse_distance_km": 2.009,
+        "duration_sols": 6.4,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 18.49,
+        "battery_min_soc_pct": 97.7,
+        "energy_per_target_kwh": 4.62,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 60.48,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1110",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1110,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 14.86,
+        "information_gain_nats": 6.241,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 6,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.294,
+        "duration_sols": 10.0,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 63.72,
+        "battery_min_soc_pct": 92.0,
+        "energy_per_target_kwh": 10.62,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 68.6,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1110",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1110,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 6.47,
+        "information_gain_nats": 2.717,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 2.129,
+        "duration_sols": 5.6,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 12.69,
+        "battery_min_soc_pct": 98.4,
+        "energy_per_target_kwh": 4.23,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 75.59,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1110",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1110,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.15,
+        "information_gain_nats": 3.423,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.667
+      },
+      "operations": {
+        "traverse_distance_km": 3.056,
+        "duration_sols": 9.8,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 15.57,
+        "battery_min_soc_pct": 98.0,
+        "energy_per_target_kwh": 3.89,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 68.37,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1110",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1110,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 12.16,
+        "information_gain_nats": 5.107,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 0.833
+      },
+      "operations": {
+        "traverse_distance_km": 3.993,
+        "duration_sols": 11.8,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 49.39,
+        "battery_min_soc_pct": 93.8,
+        "energy_per_target_kwh": 9.88,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 82.29,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1111",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1111,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 14.94,
+        "information_gain_nats": 6.275,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 8,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.181,
+        "duration_sols": 10.7,
+        "tasks_completed": 8,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 54.82,
+        "battery_min_soc_pct": 94.2,
+        "energy_per_target_kwh": 6.85,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.08,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 70.74,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1111",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1111,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.6,
+        "information_gain_nats": 3.192,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 2.355,
+        "duration_sols": 5.7,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 24.12,
+        "battery_min_soc_pct": 97.5,
+        "energy_per_target_kwh": 6.03,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 56.45,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1111",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1111,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 13.51,
+        "information_gain_nats": 5.674,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 7,
+        "completion_rate": 0.875
+      },
+      "operations": {
+        "traverse_distance_km": 3.305,
+        "duration_sols": 16.0,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 97.56,
+        "battery_min_soc_pct": 89.7,
+        "energy_per_target_kwh": 13.94,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 52.64,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1111",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1111,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.48,
+        "information_gain_nats": 2.302,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.375
+      },
+      "operations": {
+        "traverse_distance_km": 1.389,
+        "duration_sols": 4.5,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 17.18,
+        "battery_min_soc_pct": 98.2,
+        "energy_per_target_kwh": 5.73,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 1,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 71.72,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1111",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1111,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.67,
+        "information_gain_nats": 3.221,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 1.692,
+        "duration_sols": 9.0,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 18.34,
+        "battery_min_soc_pct": 98.1,
+        "energy_per_target_kwh": 4.59,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 56.48,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1111",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1111,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 9.46,
+        "information_gain_nats": 3.973,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 0.625
+      },
+      "operations": {
+        "traverse_distance_km": 2.148,
+        "duration_sols": 12.1,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 49.66,
+        "battery_min_soc_pct": 94.8,
+        "energy_per_target_kwh": 9.93,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 1,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 73.07,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1112",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1112,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 9.3,
+        "information_gain_nats": 3.906,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.937,
+        "duration_sols": 13.6,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 54.13,
+        "battery_min_soc_pct": 94.3,
+        "energy_per_target_kwh": 10.83,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 4.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 60.67,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1112",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1112,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.49,
+        "information_gain_nats": 3.146,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 4,
+        "completion_rate": 0.8
+      },
+      "operations": {
+        "traverse_distance_km": 2.191,
+        "duration_sols": 10.2,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 23.1,
+        "battery_min_soc_pct": 97.6,
+        "energy_per_target_kwh": 5.78,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 4.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 54.09,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1112",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1112,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.29,
+        "information_gain_nats": 4.742,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.751,
+        "duration_sols": 13.0,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 75.42,
+        "battery_min_soc_pct": 92.0,
+        "energy_per_target_kwh": 15.08,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 4.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 62.28,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1112",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1112,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.32,
+        "information_gain_nats": 2.234,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.6
+      },
+      "operations": {
+        "traverse_distance_km": 1.773,
+        "duration_sols": 9.3,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 15.21,
+        "battery_min_soc_pct": 98.4,
+        "energy_per_target_kwh": 5.07,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 4.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 69.28,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1112",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1112,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.13,
+        "information_gain_nats": 2.995,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 4,
+        "completion_rate": 0.8
+      },
+      "operations": {
+        "traverse_distance_km": 1.929,
+        "duration_sols": 13.6,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 16.7,
+        "battery_min_soc_pct": 98.2,
+        "energy_per_target_kwh": 4.18,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 4.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 62.79,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1112",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1112,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 11.1,
+        "information_gain_nats": 4.662,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.797,
+        "duration_sols": 15.3,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 58.52,
+        "battery_min_soc_pct": 93.8,
+        "energy_per_target_kwh": 11.7,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 4.6
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 74.72,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1113",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1113,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 9.59,
+        "information_gain_nats": 4.028,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 5,
+        "completion_rate": 0.714
+      },
+      "operations": {
+        "traverse_distance_km": 3.458,
+        "duration_sols": 14.3,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 49.07,
+        "battery_min_soc_pct": 94.1,
+        "energy_per_target_kwh": 9.81,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 3.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.06,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 62.55,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1113",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1113,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 0.0,
+        "information_gain_nats": 0.0,
+        "hypotheses_discriminated": 1,
+        "targets_visited": 0,
+        "completion_rate": 0.0
+      },
+      "operations": {
+        "traverse_distance_km": 0.0,
+        "duration_sols": 4.8,
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "route_efficiency": 0.0
+      },
+      "resources": {
+        "energy_consumed_kwh": 8.0,
+        "battery_min_soc_pct": 99.0,
+        "energy_per_target_kwh": 8.0,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 3.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.01,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 35.6,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1113",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1113,
+      "is_feasible": false,
+      "feasibility_status": "INFEASIBLE_SLOPE",
+      "science": {
+        "science_score": 4.12,
+        "information_gain_nats": 1.73,
+        "hypotheses_discriminated": 1,
+        "targets_visited": 7,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 3.634,
+        "duration_sols": 19.9,
+        "tasks_completed": 3,
+        "tasks_failed": 3,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 93.0,
+        "battery_min_soc_pct": 88.8,
+        "energy_per_target_kwh": 13.29,
+        "violations_count": 2
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 3.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 5.15,
+      "constraint_violations": [
+        "Slope violation at (18, 37): 19.5 deg > 15.0 deg",
+        "Slope violation at (33, 15): 18.7 deg > 15.0 deg"
+      ]
+    },
+    {
+      "scenario_id": "SCEN-DEV-1113",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1113,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 0.0,
+        "information_gain_nats": 0.0,
+        "hypotheses_discriminated": 1,
+        "targets_visited": 0,
+        "completion_rate": 0.0
+      },
+      "operations": {
+        "traverse_distance_km": 0.0,
+        "duration_sols": 4.8,
+        "tasks_completed": 0,
+        "tasks_failed": 0,
+        "route_efficiency": 0.0
+      },
+      "resources": {
+        "energy_consumed_kwh": 6.0,
+        "battery_min_soc_pct": 99.3,
+        "energy_per_target_kwh": 6.0,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 3.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.01,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 56.1,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1113",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1113,
+      "is_feasible": false,
+      "feasibility_status": "INFEASIBLE_SLOPE",
+      "science": {
+        "science_score": 2.15,
+        "information_gain_nats": 0.902,
+        "hypotheses_discriminated": 1,
+        "targets_visited": 4,
+        "completion_rate": 0.571
+      },
+      "operations": {
+        "traverse_distance_km": 1.953,
+        "duration_sols": 12.8,
+        "tasks_completed": 2,
+        "tasks_failed": 2,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 13.52,
+        "battery_min_soc_pct": 98.4,
+        "energy_per_target_kwh": 3.38,
+        "violations_count": 1
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 3.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.05,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 5.0,
+      "constraint_violations": [
+        "Slope violation at (18, 37): 19.5 deg > 15.0 deg"
+      ]
+    },
+    {
+      "scenario_id": "SCEN-DEV-1113",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1113,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 4.9,
+        "information_gain_nats": 2.058,
+        "hypotheses_discriminated": 1,
+        "targets_visited": 3,
+        "completion_rate": 0.429
+      },
+      "operations": {
+        "traverse_distance_km": 1.711,
+        "duration_sols": 12.8,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 34.58,
+        "battery_min_soc_pct": 95.8,
+        "energy_per_target_kwh": 11.53,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 3.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 61.29,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1114",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1114,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 6.96,
+        "information_gain_nats": 2.923,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.387,
+        "duration_sols": 5.6,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 41.39,
+        "battery_min_soc_pct": 94.8,
+        "energy_per_target_kwh": 10.35,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 50.05,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1114",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1114,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 6.96,
+        "information_gain_nats": 2.923,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.648,
+        "duration_sols": 5.8,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 24.73,
+        "battery_min_soc_pct": 96.9,
+        "energy_per_target_kwh": 6.18,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 54.12,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1114",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1114,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.64,
+        "information_gain_nats": 3.629,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 1.556,
+        "duration_sols": 6.2,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 62.85,
+        "battery_min_soc_pct": 92.1,
+        "energy_per_target_kwh": 15.71,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 49.99,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1114",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1114,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.32,
+        "information_gain_nats": 2.234,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.75
+      },
+      "operations": {
+        "traverse_distance_km": 1.634,
+        "duration_sols": 4.6,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 15.64,
+        "battery_min_soc_pct": 98.0,
+        "energy_per_target_kwh": 5.21,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 1,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 71.52,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1114",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1114,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.32,
+        "information_gain_nats": 2.234,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.75
+      },
+      "operations": {
+        "traverse_distance_km": 1.634,
+        "duration_sols": 7.0,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 13.46,
+        "battery_min_soc_pct": 98.3,
+        "energy_per_target_kwh": 4.49,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 50.87,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1114",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1114,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 8.76,
+        "information_gain_nats": 3.679,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.825,
+        "duration_sols": 9.2,
+        "tasks_completed": 5,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 55.01,
+        "battery_min_soc_pct": 93.1,
+        "energy_per_target_kwh": 13.75,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 1,
+        "faults_contained": 1,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 70.85,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1115",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1115,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.66,
+        "information_gain_nats": 3.217,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 1.681,
+        "duration_sols": 7.1,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 34.17,
+        "battery_min_soc_pct": 96.0,
+        "energy_per_target_kwh": 8.54,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.04,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 53.44,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1115",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1115,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.66,
+        "information_gain_nats": 3.217,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 1.49,
+        "duration_sols": 6.2,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 18.03,
+        "battery_min_soc_pct": 97.9,
+        "energy_per_target_kwh": 4.51,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 57.93,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1115",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1115,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 9.51,
+        "information_gain_nats": 3.994,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 1.548,
+        "duration_sols": 7.0,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 49.27,
+        "battery_min_soc_pct": 94.2,
+        "energy_per_target_kwh": 12.32,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 55.88,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1115",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1115,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.68,
+        "information_gain_nats": 2.386,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.75
+      },
+      "operations": {
+        "traverse_distance_km": 1.409,
+        "duration_sols": 5.3,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 12.07,
+        "battery_min_soc_pct": 98.6,
+        "energy_per_target_kwh": 4.02,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 73.27,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1115",
+      "strategy_id": "STRAT-05-PARETO",
+      "seed": 1115,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.68,
+        "information_gain_nats": 2.386,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.75
+      },
+      "operations": {
+        "traverse_distance_km": 1.409,
+        "duration_sols": 7.8,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 10.18,
+        "battery_min_soc_pct": 98.8,
+        "energy_per_target_kwh": 3.39,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 1,
+        "containment_rate": 0.5,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 62.49,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1115",
+      "strategy_id": "STRAT-06-ATLAS",
+      "seed": 1115,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 9.46,
+        "information_gain_nats": 3.973,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 2.31,
+        "duration_sols": 12.9,
+        "tasks_completed": 6,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 42.51,
+        "battery_min_soc_pct": 95.0,
+        "energy_per_target_kwh": 10.63,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.8
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 74.46,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1116",
+      "strategy_id": "STRAT-01-GREEDY",
+      "seed": 1116,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 15.31,
+        "information_gain_nats": 6.43,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 8,
+        "completion_rate": 1.0
+      },
+      "operations": {
+        "traverse_distance_km": 4.218,
+        "duration_sols": 11.6,
+        "tasks_completed": 8,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 66.42,
+        "battery_min_soc_pct": 92.6,
+        "energy_per_target_kwh": 8.3,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.09,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 88.63,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1116",
+      "strategy_id": "STRAT-02-MINCOST",
+      "seed": 1116,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 7.81,
+        "information_gain_nats": 3.28,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 4,
+        "completion_rate": 0.5
+      },
+      "operations": {
+        "traverse_distance_km": 1.769,
+        "duration_sols": 5.5,
+        "tasks_completed": 4,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 24.42,
+        "battery_min_soc_pct": 97.3,
+        "energy_per_target_kwh": 6.1,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 0,
+        "containment_rate": 0.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 57.18,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1116",
+      "strategy_id": "STRAT-03-SCIENCE",
+      "seed": 1116,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 13.86,
+        "information_gain_nats": 5.821,
+        "hypotheses_discriminated": 3,
+        "targets_visited": 7,
+        "completion_rate": 0.875
+      },
+      "operations": {
+        "traverse_distance_km": 4.167,
+        "duration_sols": 16.2,
+        "tasks_completed": 7,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 115.18,
+        "battery_min_soc_pct": 87.2,
+        "energy_per_target_kwh": 16.45,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.03,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 73.1,
+      "constraint_violations": []
+    },
+    {
+      "scenario_id": "SCEN-DEV-1116",
+      "strategy_id": "STRAT-04-RESSAFE",
+      "seed": 1116,
+      "is_feasible": true,
+      "feasibility_status": "FEASIBLE",
+      "science": {
+        "science_score": 5.43,
+        "information_gain_nats": 2.281,
+        "hypotheses_discriminated": 2,
+        "targets_visited": 3,
+        "completion_rate": 0.375
+      },
+      "operations": {
+        "traverse_distance_km": 1.603,
+        "duration_sols": 4.6,
+        "tasks_completed": 3,
+        "tasks_failed": 0,
+        "route_efficiency": 0.87
+      },
+      "resources": {
+        "energy_consumed_kwh": 17.23,
+        "battery_min_soc_pct": 98.1,
+        "energy_per_target_kwh": 5.74,
+        "violations_count": 0
+      },
+      "resilience": {
+        "faults_injected": 2,
+        "faults_contained": 2,
+        "containment_rate": 1.0,
+        "recovery_delay_sols": 0.0
+      },
+      "computation": {
+        "planning_latency_ms": 0.02,
+        "memory_peak_bytes": 131072
+      },
+      "balanced_composite_score": 71.49,
+      "constraint_violations": []
+    }
+  ]
+}

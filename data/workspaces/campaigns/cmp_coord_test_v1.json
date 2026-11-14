@@ -1,0 +1,471 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "cmp_coord_test",
+  "name": "Test Coordination Campaign",
+  "description": "",
+  "version": 1,
+  "revision_id": "rev_01",
+  "parent_campaign_id": null,
+  "created_at_utc": "2026-11-14T11:40:02.273627+00:00",
+  "updated_at_utc": "2026-11-14T11:40:02.273627+00:00",
+  "region_id": "jezero_crater",
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "reproducibility_manifest": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "model_version": "2.0.0",
+    "software_version": "2.0.0",
+    "input_fingerprint": "0d792f4417c956007eb9fdbf1251107d55e686ec4e1fefa6a1e341e183b9a9e2",
+    "assumptions_version": "1.0.0"
+  },
+  "config": {
+    "planning_profile": "science_priority",
+    "vehicle_mode": "crew_eva",
+    "speed_multiplier": 1.0,
+    "max_duration_per_sortie_s": 28800.0,
+    "max_sols": 4,
+    "max_total_duration_s": null,
+    "base_start_rc": [
+      117,
+      157
+    ],
+    "base_end_rc": null,
+    "return_to_base_each_sol": true,
+    "dwell_time_per_stop_s": 900.0,
+    "objective_weights": {
+      "science": 1.0,
+      "time": 0.2,
+      "margin": 0.1
+    }
+  },
+  "targets": [
+    {
+      "id": "t_dep_1",
+      "name": "Deposition Fan",
+      "row": 120,
+      "col": 158,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": null,
+      "priority_score": 90.0,
+      "priority_label": "default",
+      "dwell_time_s": 900.0,
+      "prerequisites": [],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_01",
+      "assigned_sol_index": 1,
+      "assigned_unit_id": null,
+      "unscheduled_reason": null,
+      "science_objective": "FLUVIAL_DELTA_SEDIMENTOLOGY",
+      "objective_classification": "NOT_ASSESSED",
+      "linked_observation_ids": [],
+      "repeat_observation_requested": false
+    },
+    {
+      "id": "t_dep_2",
+      "name": "Delta Front Lobe",
+      "row": 123,
+      "col": 160,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": null,
+      "priority_score": 80.0,
+      "priority_label": "default",
+      "dwell_time_s": 900.0,
+      "prerequisites": [
+        "t_dep_1"
+      ],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_02",
+      "assigned_sol_index": 2,
+      "assigned_unit_id": null,
+      "unscheduled_reason": null,
+      "science_objective": "FLUVIAL_DELTA_SEDIMENTOLOGY",
+      "objective_classification": "NOT_ASSESSED",
+      "linked_observation_ids": [],
+      "repeat_observation_requested": false
+    },
+    {
+      "id": "t_ast_1",
+      "name": "Carbonate Ridge",
+      "row": 115,
+      "col": 154,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": null,
+      "priority_score": 85.0,
+      "priority_label": "default",
+      "dwell_time_s": 900.0,
+      "prerequisites": [],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_01",
+      "assigned_sol_index": 1,
+      "assigned_unit_id": null,
+      "unscheduled_reason": null,
+      "science_objective": "ASTROBIOLOGY_BIOSIGNATURE",
+      "objective_classification": "NOT_ASSESSED",
+      "linked_observation_ids": [],
+      "repeat_observation_requested": false
+    },
+    {
+      "id": "t_ast_2",
+      "name": "Silica Outcrop",
+      "row": 112,
+      "col": 152,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": null,
+      "priority_score": 75.0,
+      "priority_label": "default",
+      "dwell_time_s": 900.0,
+      "prerequisites": [
+        "t_ast_1"
+      ],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_02",
+      "assigned_sol_index": 2,
+      "assigned_unit_id": null,
+      "unscheduled_reason": null,
+      "science_objective": "ASTROBIOLOGY_BIOSIGNATURE",
+      "objective_classification": "NOT_ASSESSED",
+      "linked_observation_ids": [],
+      "repeat_observation_requested": false
+    }
+  ],
+  "sorties": [
+    {
+      "sortie_id": "sortie_sol_01",
+      "sol_index": 1,
+      "name": "Sol 1: Deposition Fan, Carbonate Ridge",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "t_dep_1",
+        "t_ast_1"
+      ],
+      "target_names": [
+        "Deposition Fan",
+        "Carbonate Ridge"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          119,
+          157
+        ],
+        [
+          120,
+          158
+        ],
+        [
+          119,
+          157
+        ],
+        [
+          118,
+          156
+        ],
+        [
+          117,
+          155
+        ],
+        [
+          116,
+          155
+        ],
+        [
+          115,
+          154
+        ],
+        [
+          116,
+          155
+        ],
+        [
+          117,
+          156
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 271.9,
+      "travel_time_s": 581.2,
+      "dwell_time_s": 1800.0,
+      "total_duration_s": 2381.2,
+      "remaining_margin_s": 26418.8,
+      "science_score": 175.0,
+      "terrain_cost": 322.9,
+      "max_slope_deg": 3.0,
+      "cumulative_climb_m": 3.7,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "unit_id": null,
+      "legs_summary": [
+        {
+          "leg_index": 1,
+          "start_rc": [
+            117,
+            157
+          ],
+          "goal_rc": [
+            120,
+            158
+          ],
+          "distance_m": 67.6,
+          "cost": 72.1,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 2,
+          "start_rc": [
+            120,
+            158
+          ],
+          "goal_rc": [
+            115,
+            154
+          ],
+          "distance_m": 130.3,
+          "cost": 158.0,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 3,
+          "start_rc": [
+            115,
+            154
+          ],
+          "goal_rc": [
+            117,
+            157
+          ],
+          "distance_m": 74.1,
+          "cost": 92.8,
+          "is_reachable": true
+        }
+      ],
+      "timeline_events": []
+    },
+    {
+      "sortie_id": "sortie_sol_02",
+      "sol_index": 2,
+      "name": "Sol 2: Delta Front Lobe, Silica Outcrop",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "t_dep_2",
+        "t_ast_2"
+      ],
+      "target_names": [
+        "Delta Front Lobe",
+        "Silica Outcrop"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          157
+        ],
+        [
+          119,
+          157
+        ],
+        [
+          120,
+          158
+        ],
+        [
+          121,
+          159
+        ],
+        [
+          122,
+          160
+        ],
+        [
+          123,
+          160
+        ],
+        [
+          122,
+          159
+        ],
+        [
+          121,
+          158
+        ],
+        [
+          120,
+          157
+        ],
+        [
+          119,
+          156
+        ],
+        [
+          118,
+          155
+        ],
+        [
+          117,
+          155
+        ],
+        [
+          116,
+          155
+        ],
+        [
+          115,
+          155
+        ],
+        [
+          114,
+          154
+        ],
+        [
+          113,
+          153
+        ],
+        [
+          112,
+          152
+        ],
+        [
+          113,
+          153
+        ],
+        [
+          114,
+          154
+        ],
+        [
+          115,
+          155
+        ],
+        [
+          116,
+          156
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 561.1,
+      "travel_time_s": 1164.0,
+      "dwell_time_s": 1800.0,
+      "total_duration_s": 2964.0,
+      "remaining_margin_s": 25836.0,
+      "science_score": 155.0,
+      "terrain_cost": 646.6,
+      "max_slope_deg": 3.2,
+      "cumulative_climb_m": 5.6,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "unit_id": null,
+      "legs_summary": [
+        {
+          "leg_index": 1,
+          "start_rc": [
+            117,
+            157
+          ],
+          "goal_rc": [
+            123,
+            160
+          ],
+          "distance_m": 142.7,
+          "cost": 151.0,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 2,
+          "start_rc": [
+            123,
+            160
+          ],
+          "goal_rc": [
+            112,
+            152
+          ],
+          "distance_m": 280.5,
+          "cost": 323.7,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 3,
+          "start_rc": [
+            112,
+            152
+          ],
+          "goal_rc": [
+            117,
+            157
+          ],
+          "distance_m": 137.8,
+          "cost": 171.9,
+          "is_reachable": true
+        }
+      ],
+      "timeline_events": []
+    }
+  ],
+  "summary": {
+    "total_sols": 2,
+    "total_sorties": 2,
+    "total_distance_m": 833.0,
+    "total_travel_time_s": 1745.1,
+    "total_dwell_time_s": 3600.0,
+    "total_duration_s": 5345.1,
+    "total_science_score": 330.0,
+    "targets_total": 4,
+    "targets_scheduled": 4,
+    "targets_unscheduled": 0,
+    "targets_completed": 0,
+    "is_campaign_feasible": true,
+    "overall_status": "FEASIBLE",
+    "bottlenecks_and_notes": []
+  },
+  "disruption": null,
+  "revision_comparison": null,
+  "progress": null,
+  "observations_summary": null,
+  "intelligence_recommendation": null,
+  "coordination": null
+}

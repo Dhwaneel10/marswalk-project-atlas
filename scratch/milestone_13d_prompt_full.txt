@@ -1,0 +1,698 @@
+<USER_REQUEST>
+# MARSWALK 2.0 / PROJECT ATLAS
+# MILESTONE 13D — ATLAS MARS RELAYNET
+## Terrain-Aware Communication Visibility, Relay Network Optimization & Dynamic Mission Connectivity Digital Twin
+
+REPOSITORY: `E:\Python\NASA-Spaceapps\Marswalk`
+
+WORKING WINDOW: Up to 120 minutes of continuous autonomous execution.
+
+PRIMARY OBJECTIVE:
+
+Extend MarsWalk beyond terrain-aware navigation into terrain-aware mission connectivity planning.
+
+Build a computationally grounded system that evaluates geometric communication visibility between exploration units, base stations, and candidate relay locations using the existing Jezero terrain model.
+
+Connect the results to the existing campaign planner, Mission Theater, Digital Twin, Mission Robustness Lab, Rehearsal Director, and Causal Replay Studio.
+
+The intended result is an interactive Mars communications-network planning environment where an evaluator can see terrain-blocked visibility, identify potential communication gaps, explore relay placements, and observe network connectivity throughout a simulated mission.
+
+This is a new engineering capability, not a decorative map overlay.
+
+---
+
+# 0. NON-NEGOTIABLE EXECUTION CONTRACT
+
+Work autonomously throughout the available two-hour window.
+
+Do not stop after planning, creating documentation, implementing a single calculation, or obtaining the first passing tests.
+
+Use the continuous engineering cycle:
+
+Inspect → design → implement → independently verify → integrate → browser test → improve → report.
+
+Use the available Antigravity capabilities:
+
+- Read and activate relevant existing MarsWalk Skills.
+- Use parallel subagents for independent mathematical, algorithmic, and UI reviews.
+- Use the actual terminal for development and tests.
+- Use browser automation to exercise the live application.
+- Capture genuine screenshots and measurable outputs.
+- Preserve a running task checklist.
+
+The primary agent is responsible for all integration and final acceptance.
+
+Use separate reviewers where possible:
+
+AGENT A — Geospatial visibility and LOS mathematics.
+
+AGENT B — Network graph algorithms and relay placement.
+
+AGENT C — Mission integration, dynamic simulation and data provenance.
+
+AGENT D — Three.js visualization, interaction, and performance.
+
+Agents should initially investigate independently rather than concurrently editing shared files.
+
+Do not blindly accept agent findings. Independently inspect important calculations.
+
+Do not fabricate execution results or claim unfinished background work has completed.
+
+If an operation is blocked, document the limitation and continue with another valuable task.
+
+The available window is a maximum budget, not permission to claim that 120 minutes elapsed if the environment stopped earlier.
+
+Create:
+
+`docs/milestone-13d-checklist.md`
+
+---
+
+# 1. CURRENT SYSTEM AND BASELINE
+
+The current MarsWalk 2.0 edition reportedly includes:
+
+- Authentic Jezero CTX DTM terrain.
+- Terrain-aware A* navigation.
+- Terrain Intelligence and elevation profiling.
+- Campaign planning and optimization.
+- Mission Robustness Lab.
+- Closed-loop Mission Rehearsal Director.
+- Causal Replay Studio.
+- Mission Experiment Studio.
+- Conference Demo Mode.
+- Three.js Mission Theater.
+- Simulated exploration-unit visualization.
+- Five camera modes.
+- Synchronized mission playback and forensic events.
+
+The latest 13C report claims 757/757 repository tests passed, nine geospatial terrain audit tests passed, Atlas preflight passed 12/12, and browser visual audits were clean.
+
+These are previous agent-reported results, not independently established starting facts.
+
+Before editing, inspect:
+
+- `docs/NEXT-SESSION-HANDOFF.md`
+- `docs/mission-theater-architecture.md`
+- `docs/methods-and-equations.md`
+- `docs/technical-validation-matrix.md`
+- Existing source raster and processed terrain metadata.
+- Existing terrain transformation and sampling functions.
+- Existing Three.js scene, markers, route overlays and camera director.
+- Campaign and mission unit representations.
+- Existing event and Digital Twin time models.
+- Current APIs, schemas and persistence.
+
+Run relevant baseline checks.
+
+Do not overwrite previous user changes or operational data.
+
+---
+
+# 2. SCIENTIFIC SCOPE — DEFINE THE COMMUNICATION MODEL HONESTLY
+
+The foundational capability for this milestone is **terrain-based geometric line of sight**.
+
+It is not automatically a complete radio communication model.
+
+The primary engineering model must determine whether a straight geometric path between two antenna reference points intersects the terrain surface.
+
+Use:
+
+- Verified terrain elevation.
+- Correct planetary map coordinates.
+- Explicit antenna heights.
+- Explicit sample spacing.
+- Configurable clearance assumptions where supported.
+- Explicit maximum geometric-range assumptions.
+
+For this milestone, distinguish:
+
+1. Geometric line-of-sight visibility.
+2. Configured maximum range constraint.
+3. Network graph connectivity.
+4. Actual radio-frequency link performance.
+
+The first three can be evaluated using the available terrain and configured assumptions.
+
+The fourth requires additional physical and engineering inputs.
+
+Do not imply that geometric line of sight establishes actual radio link availability.
+
+Do not claim validated radio range, bandwidth, throughput, packet delivery, latency, link margin or communication reliability.
+
+Do not fabricate antenna specifications, transmitter power, gain, frequency or a Mars RF propagation model.
+
+If such parameters are configurable, clearly label them as user assumptions, not experimentally validated values.
+
+---
+
+# 3. PHASE A — TERRAIN VISIBILITY ENGINE
+
+Suggested allocation: 0–25 minutes.
+
+Inspect the existing coordinate transformation and terrain sampling implementation.
+
+Build or extend an appropriate module for geometric visibility analysis.
+
+Possible module name:
+
+`src/marswalk/core/terrain_visibility.py`
+
+Use the actual repository architecture where an equivalent capability already exists.
+
+## 3.1 Input model
+
+Support two endpoints with:
+
+- Valid terrain or map coordinates.
+- Antenna reference height above local terrain.
+- Endpoint identity.
+- Coordinate-system declaration.
+- Optional configured range limit.
+- Optional clearance margin.
+
+Never silently mix:
+- Raster row/column coordinates.
+- Projected map coordinates.
+- Planetocentric longitude/latitude.
+- Local 3D scene coordinates.
+
+Use the existing verified geospatial transformations.
+
+Handle unknown or out-of-bounds positions explicitly.
+
+## 3.2 Line-of-sight calculation
+
+For terrain samples along the horizontal path between two endpoints:
+
+1. Compute the horizontal ground path distance.
+2. Sample the actual elevation raster along the path.
+3. Construct the straight geometric ray between endpoint antenna reference heights.
+4. Evaluate each intermediate terrain sample against that ray.
+5. Determine whether the terrain obstructs the ray.
+6. Record the first obstruction and its location when known.
+7. Calculate any geometric clearance information supported by the sampling resolution.
+
+For a normalized horizontal path parameter t:
+
+`P(t) = P0 + t(P1 - P0)`
+
+For the geometric ray height:
+
+`h_LOS(t) = h0 + t(h1 - h0)`
+
+At a terrain sample with elevation `z(t)`, geometric clearance is:
+
+`c(t) = h_LOS(t) - z(t)`
+
+A negative clearance indicates that the sampled terrain surface intersects or exceeds the idealized ray height under this simplified geometric model.
+
+Clearly document the sampling assumptions.
+
+Do not interpret a positive terrain clearance as sufficient Fresnel-zone clearance or proof of RF performance.
+
+Do not hide nodata regions by substituting zero elevation.
+
+If terrain coverage is insufficient to establish visibility, return an explicit `UNKNOWN` or incomplete-data result, not `VISIBLE`.
+
+## 3.3 Results
+
+Return:
+
+- Endpoint identifiers.
+- Horizontal distance.
+- Endpoint antenna heights.
+- Number of terrain samples.
+- Sampling interval.
+- Minimum sampled clearance.
+- First obstruction position where identifiable.
+- Data completeness.
+- Range-constraint result.
+- Geometric visibility classification.
+- Source terrain identity and metadata.
+- Model assumptions and limitations.
+
+Use status classifications consistent with the existing project where possible:
+
+- `VISIBLE`
+- `BLOCKED`
+- `OUT_OF_RANGE`
+- `UNKNOWN`
+- `INVALID_INPUT`
+
+Do not classify an out-of-range path as terrain-obstructed unless it is both.
+
+Keep line-of-sight and maximum-range constraints as separate findings.
+
+## 3.4 Independent mathematical tests
+
+Build analytical terrain fixtures.
+
+Test:
+
+- Flat unobstructed terrain.
+- One raised ridge obstructing the path.
+- A line grazing terrain.
+- Different antenna heights.
+- Unequal endpoint elevations.
+- Out-of-bounds endpoints.
+- Missing terrain coverage.
+- Exactly-at-range and beyond-range cases.
+- Zero-length path.
+- Sampling and coordinate boundary conditions.
+
+Use hand-calculated expected values where practical.
+
+Add independent reference calculations rather than calling the same application method twice.
+
+---
+
+# 4. PHASE B — MARS RELAY NETWORK GRAPH
+
+Suggested allocation: 25–45 minutes.
+
+Create a graph representation of the communication network.
+
+Nodes may include:
+
+- Mission base or lander.
+- Simulated rover units.
+- Supported surface exploration units.
+- Candidate relay stations.
+- User-selected fixed communication nodes.
+
+Only use units and coordinates present in actual project records or explicitly supplied demonstration fixtures.
+
+## 4.1 Edge construction
+
+Create a candidate graph connection between two nodes only when the supported geometric conditions pass.
+
+Separate:
+- Terrain visibility.
+- Configured range.
+- Endpoint validity.
+- Missing terrain coverage.
+
+An edge should preserve the evidence and calculation that justified its inclusion or rejection.
+
+Do not treat an unknown connection as a valid connection.
+
+Avoid an unbounded all-pairs computation. Enforce a practical node limit and use bounded spatial preselection where appropriate.
+
+## 4.2 Network topology
+
+Calculate:
+
+- Connected components.
+- Whether a unit can connect to the designated base.
+- Nodes disconnected from the base.
+- Communication-path candidate sequences.
+- Relay-dependent connections.
+- Critical bridge edges where useful.
+
+Use actual graph algorithms with deterministic behavior.
+
+When possible, use BFS for reachability and connected components.
+
+For minimum-hop communication routes, use an explicitly defined shortest-path objective.
+
+Do not assign artificial latency or bandwidth metrics where the model does not support them.
+
+## 4.3 Network resilience
+
+Perform bounded graph stress tests.
+
+Evaluate:
+
+- Removal of one supported relay node.
+- Loss of a simulated unit node.
+- A terrain-obstructed connection.
+- A configured range restriction.
+- Multiple simultaneous node or edge failures.
+
+Report actual changes in network connectivity.
+
+Do not convert a finite deterministic stress suite into physical probability-of-communication estimates.
+
+---
+
+# 5. PHASE C — RELAY SITE CANDIDATE GENERATION AND PLANNING
+
+Suggested allocation: 45–65 minutes.
+
+Use the actual Jezero raster to generate plausible geometric relay candidates.
+
+Do not create arbitrary points outside the supported study region.
+
+## 5.1 Candidate generation
+
+Generate a bounded set of valid terrain positions.
+
+Filter according to explicit configurable criteria, such as:
+
+- Terrain data validity.
+- Existing terrain slope estimate.
+- Distance from a selected target or corridor.
+- Maximum configured geometric range.
+- Site separation.
+- User-defined exclusions.
+
+If the project does not support a specific engineering site criterion, do not invent it.
+
+Terrain suitability is a geometric screening step, not a validated landing or installation-site certification.
+
+## 5.2 Relay placement algorithm
+
+Implement a transparent, bounded candidate-selection strategy.
+
+The objective is to connect the greatest feasible number of selected exploration nodes to the base while minimizing the number of added relays, subject to documented assumptions.
+
+Possible approach:
+
+- Generate the candidate connectivity graph.
+- Calculate each candidate's coverage of currently disconnected components or units.
+- Select a candidate that provides the greatest documented incremental connectivity benefit.
+- Add the candidate to the network.
+- Recompute connectivity.
+- Stop when the supported objectives are satisfied or the relay budget is exhausted.
+
+Use deterministic tie-breaking.
+
+Label a greedy or heuristic result as such. Do not claim global optimality unless formally established for the implemented problem and search scope.
+
+Provide a clear comparison:
+- Original topology.
+- Proposed relay topology.
+- Newly connected units.
+- Remaining disconnected units.
+- Number of proposed relays.
+- Unresolved terrain or range constraints.
+
+Do not present hypothetical relay sites as physically deployed equipment.
+
+---
+
+# 6. PHASE D — DYNAMIC MISSION CONNECTIVITY
+
+Suggested allocation: 65–80 minutes.
+
+Connect the graph engine to the existing Mission Theater and Digital Twin.
+
+Use actual simulated unit positions at their recorded mission times.
+
+At each supported time step:
+
+1. Retrieve or derive the correct simulated unit position.
+2. Evaluate required communication visibility.
+3. Construct the applicable connectivity graph.
+4. Determine which units can geometrically connect to the base directly or through relay nodes.
+5. Record connectivity state.
+6. Identify changes from the previous state.
+7. Associate any supported topology change with the mission timeline.
+
+Do not run a full expensive viewshed or all-pairs analysis every animation frame unnecessarily.
+
+Use bounded update intervals and cache only when the relevant inputs are unchanged.
+
+Invalidate cached results when unit positions, antenna assumptions, relay locations, or terrain inputs change.
+
+## Connectivity history
+
+Record:
+- Simulated timestamp.
+- Connected units.
+- Disconnected units.
+- Network component count.
+- Active relay paths.
+- Visibility changes.
+- Unknown or incomplete connections.
+
+Do not report a geometric disconnection as a measured radio outage.
+
+Use a precise label such as `SIMULATED_GEOMETRIC_CONNECTIVITY_GAP`.
+
+Preserve historical mission event ordering.
+
+---
+
+# 7. PHASE E — THE 3D RELAYNET VISUALIZATION
+
+Suggested allocation: 80–100 minutes.
+
+Integrate the system into the existing Mission Theater.
+
+Reuse the current Three.js renderer, scene, camera, coordinate conversion, animation loop and marker architecture.
+
+Do not create another WebGL context or duplicate animation loop.
+
+Build a dedicated **RelayNet visualization mode**.
+
+## 7.1 Network overlay
+
+Display:
+
+- Base station.
+- Simulated exploration units.
+- Candidate relay sites.
+- Selected relay sites.
+- Geometrically visible network edges.
+- Terrain-obstructed connections.
+- Unknown or incomplete connections.
+- The selected multi-hop communication path.
+
+Use clear visual distinction between:
+- Confirmed model-visible connections.
+- Blocked geometric paths.
+- Candidate connections.
+- Unknown connections.
+
+Avoid drawing every rejected link at full opacity. Use selected or filtered paths and meaningful layering to prevent visual clutter.
+
+## 7.2 Terrain visibility beams
+
+For a selected connection, render a 3D line or ray between the endpoint antenna reference heights.
+
+If an obstruction exists and the terrain data support its location, mark the first obstructing point.
+
+Make clear that the visual ray is a simplified geometric reference and not a Fresnel-zone or RF propagation visualization.
+
+## 7.3 Relay placement inspector
+
+Clicking a base, unit, candidate relay or selected relay should reveal:
+
+- Identifier.
+- Coordinates.
+- Local terrain elevation.
+- Configured antenna reference height.
+- Connected peers.
+- Base connectivity.
+- Relevant visibility evidence.
+- Whether the node is existing or hypothetical.
+
+Do not describe a hypothetical relay as deployed.
+
+## 7.4 Connectivity timeline
+
+Integrate the selected mission's recorded timeline.
+
+As the simulation time changes:
+- Update unit positions.
+- Refresh supported network edges.
+- Show connectivity-state changes.
+- Highlight a base-connectivity gap.
+- Allow selection of a historical gap and inspect its underlying geometry.
+
+The UI must distinguish actual recorded mission events from derived connectivity states.
+
+---
+
+# 8. PHASE F — RELAYNET MISSION PLANNER
+
+Suggested allocation: 100–108 minutes.
+
+Expose the network analysis through a usable operational view.
+
+Integrate it into existing Mission Control or Mission Theater navigation.
+
+The evaluator should be able to:
+
+1. Load the conference demonstration campaign.
+2. Inspect the current unit network.
+3. Select endpoint assumptions.
+4. Run a visibility analysis.
+5. See the initial topology.
+6. Generate candidate relay sites.
+7. Evaluate a bounded relay configuration.
+8. Compare original and proposed network topology.
+9. Replay connectivity changes during a supported mission.
+10. Inspect the evidence behind a selected connection.
+
+Provide:
+- Clear loading states.
+- Empty states.
+- Error handling.
+- Invalid-input handling.
+- Missing-data handling.
+- A distinction between direct and relayed connectivity.
+
+Prevent duplicate requests.
+
+Changing campaigns must clear stale network information.
+
+Keep all configuration assumptions visible.
+
+---
+
+# 9. PHASE G — API, CONTRACTS AND PERSISTENCE
+
+Suggested allocation: 108–113 minutes.
+
+Reuse existing service conventions and schema validation.
+
+Potential capabilities:
+
+- Pairwise visibility analysis.
+- Network topology evaluation.
+- Relay candidate generation.
+- Bounded relay placement.
+- Mission-time connectivity retrieval.
+- Historical connectivity inspection.
+
+Use existing endpoints if suitable.
+
+Introduce a new versioned JSON schema only where necessary.
+
+Persist user-requested network designs using an isolated workspace if storage is genuinely required.
+
+Do not store transient recalculable visibility results in the operational campaign record unless existing conventions support that.
+
+Preserve:
+- Source campaign identity.
+- Selected terrain source.
+- Coordinates and CRS.
+- Antenna-height assumptions.
+- Range assumptions.
+- Sampling parameters.
+- Connectivity results.
+- Relay-site classifications.
+- Model limitations.
+- Schema version.
+
+Test workspace isolation, retrieval, validation, and repeatability.
+
+---
+
+# 10. PHASE H — FINAL VERIFICATION AND SHOWCASE
+
+Suggested allocation: 113–120 minutes.
+
+Use available project Skills and independent reviewers.
+
+Run:
+- Analytical LOS mathematics tests.
+- Raster coordinate tests.
+- Nodata visibility tests.
+- Graph connectivity tests.
+- Relay-placement determinism tests.
+- Candidate-bound tests.
+- Dynamic timeline tests.
+- Mission Theater integration tests.
+- JavaScript syntax.
+- Atlas preflight.
+- Existing terrain and route regressions.
+- Relevant campaign and rehearsal regressions.
+- Actual browser RelayNet walkthrough.
+- Full repository tests where time permits.
+
+Capture actual exit codes.
+
+Capture genuine screenshots under:
+
+`outputs/conference_showcase/relaynet/`
+
+Create or update:
+
+- `docs/milestone-13d-report.md`
+- `docs/milestone-13d-checklist.md`
+- `docs/relaynet-architecture.md`
+- `docs/relaynet-methods-and-equations.md`
+- `docs/conference-demo-guide.md`
+- `docs/v2-demonstration-runbook.md`
+
+Avoid duplicate documentation.
+
+The final report must state:
+- Actual network nodes and candidate counts tested.
+- Terrain profile samples.
+- Visibility outcomes.
+- Graph components.
+- Relay placements.
+- Before/after connectivity.
+- Execution timings.
+- Browser verification.
+- Test totals.
+- Assumptions and limitations.
+- Any unsupported operation.
+- Acceptance decision.
+
+---
+
+# SCIENTIFIC INTEGRITY AND DATA SAFETY
+
+Non-negotiable:
+
+- Use the authentic supported Jezero elevation raster.
+- Verify the CRS and coordinate transformations.
+- Do not fabricate relay locations or terrain heights.
+- Do not treat NoData as unobstructed terrain.
+- Do not claim that line-of-sight visibility proves radio communication.
+- Do not claim a validated Fresnel-zone clearance.
+- Do not calculate made-up bandwidth, signal strength, latency or packet delivery.
+- Do not use an unsupported physical communication model.
+- Do not describe geometric disconnection as a measured real radio outage.
+- Keep antenna heights and maximum ranges clearly labelled as assumptions.
+- Do not claim real communications reliability from deterministic graph tests.
+- Do not modify source terrain or historical mission records.
+- Never delete operational campaigns, observations, events, experiments, caches or evidence.
+- Use isolated workspaces for tests.
+- Do not create Git commits, push, deploy or publish.
+- Do not overwrite user changes.
+- Preserve the existing Three.js renderer.
+- Do not leave unnecessary servers or test processes running.
+
+---
+
+# ACCEPTANCE CRITERIA
+
+Milestone 13D is accepted only if:
+
+1. A real terrain-based geometric LOS calculation works.
+2. Obstructed and unobstructed cases pass independent mathematical fixtures.
+3. Nodata or incomplete terrain produces an honest unknown state.
+4. The network graph uses valid LOS and range conditions.
+5. Connectivity and disconnected components are correctly identified.
+6. A bounded relay selection method produces a reproducible result.
+7. Mission-time connectivity derives from actual simulated unit positions.
+8. The 3D Theater renders network nodes and selected connections accurately.
+9. The browser workflow is actually exercised.
+10. The implementation passes relevant regression tests.
+11. All communication-model assumptions and limitations are clearly disclosed.
+
+If an acceptance requirement cannot be verified, report conditional acceptance rather than inventing success.
+
+# FINAL DIRECTIVE
+
+BEGIN MILESTONE 13D NOW.
+
+Make RelayNet a genuine computational extension of MarsWalk: terrain-based visibility, graph-based connectivity, relay site planning, and time-dependent mission network visualization.
+
+Use the available two-hour window productively. Implement, independently verify, integrate into the actual 3D Mission Theater, and demonstrate the results.
+
+Do not stop at a decorative network overlay.
+
+Make the underlying mathematical analysis work, make the visual system understandable, and document precisely what the model does and does not establish.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-31T02:33:57+05:30.
+</ADDITIONAL_METADATA>

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-plan-compilation.schema.json",
+  "title": "Mission Plan Compilation Result Contract",
+  "description": "Portfolio synthesis response delivering 8 distinct multi-rover candidates, Pareto ranking, recommended champion, and audit dossier.",
+  "type": "object",
+  "required": [
+    "compilation_id",
+    "intent_id",
+    "status",
+    "recommended_candidate_id",
+    "pareto_frontier_ids",
+    "total_candidates",
+    "compilation_duration_ms",
+    "candidates"
+  ],
+  "properties": {
+    "compilation_id": { "type": "string" },
+    "intent_id": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["SUCCESS", "FEASIBLE_WITH_TRADEOFFS", "INFEASIBLE"]
+    },
+    "recommended_candidate_id": { "type": "string" },
+    "pareto_frontier_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "total_candidates": { "type": "integer", "minimum": 1 },
+    "compilation_duration_ms": { "type": "number", "minimum": 0.0 },
+    "audit_dossier": { "type": "object" },
+    "created_at_utc": { "type": "string" },
+    "candidates": {
+      "type": "array",
+      "items": { "type": "object" }
+    }
+  }
+}

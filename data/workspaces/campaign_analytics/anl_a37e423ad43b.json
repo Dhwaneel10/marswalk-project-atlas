@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "anl_a37e423ad43b",
+  "campaign_id": "cmp_audit_1793310424_v2",
+  "campaign_version": 2,
+  "simulation_id": "sim_cmp_audit_1793310424_v2_015ef1",
+  "created_at_utc": "2026-10-29T21:47:06.625610+00:00",
+  "executive_summary": {
+    "planned_duration_s": 10392.5,
+    "simulated_duration_s": 8799.2,
+    "duration_delta_s": -1593.3,
+    "target_completion_rate_pct": 0.0,
+    "total_distance_m": 3222.2,
+    "total_operational_holds": 0,
+    "total_hold_duration_s": 0,
+    "fleet_utilization_pct": 50.0,
+    "temporal_conflicts_count": 0
+  },
+  "sortie_deviations": [
+    {
+      "sortie_id": "sortie_sol_01",
+      "sol_index": 1,
+      "planned_start_s": 0.0,
+      "simulated_start_s": 0.0,
+      "start_slip_s": 0.0,
+      "planned_end_s": 10392.5,
+      "simulated_end_s": 8799.2,
+      "end_slip_s": -1593.3,
+      "planned_duration_s": 10392.5,
+      "simulated_duration_s": 8799.2,
+      "duration_delta_s": -1593.3,
+      "status": "COMPLETED"
+    }
+  ],
+  "target_analytics": {
+    "total_targets": 4,
+    "completed_count": 0,
+    "deferred_count": 0,
+    "blocked_count": 0,
+    "unallocated_count": 4,
+    "priority_breakdown": {
+      "high": {
+        "total": 4,
+        "completed": 0,
+        "completion_rate_pct": 0.0
+      },
+      "medium": {
+        "total": 0,
+        "completed": 0,
+        "completion_rate_pct": 100.0
+      },
+      "low": {
+        "total": 0,
+        "completed": 0,
+        "completion_rate_pct": 100.0
+      }
+    }
+  },
+  "unit_workloads": [
+    {
+      "unit_id": "unit_perseverance",
+      "unit_name": "Perseverance Rover Analogue",
+      "unit_type": "robotic_rover",
+      "active_duration_s": 0.0,
+      "idle_duration_s": 0.0,
+      "utilization_pct": 0.0,
+      "total_distance_m": 0.0,
+      "energy_consumed_kwh": 0.0
+    },
+    {
+      "unit_id": "unit_crew_eva_1",
+      "unit_name": "Crew EVA Team Alpha",
+      "unit_type": "crew_eva",
+      "active_duration_s": 8799.2,
+      "idle_duration_s": 0.0,
+      "utilization_pct": 100.0,
+      "total_distance_m": 3222.2,
+      "energy_consumed_kwh": 0.296
+    }
+  ],
+  "deviations": [
+    {
+      "deviation_id": "dev_tgt_tgt_octavia",
+      "code": "DEV_TARGET_ABANDONED",
+      "severity": "blocker",
+      "affected_sortie_id": null,
+      "affected_unit_id": null,
+      "affected_target_id": "tgt_octavia",
+      "simulated_time_s": 8799.2,
+      "triggering_event_ids": [],
+      "cause_attribution": "undetermined",
+      "explanation": "Target 'tgt_octavia' was scheduled but not reached during simulated campaign execution.",
+      "recommended_action": "Reallocate target 'tgt_octavia' to an alternate asset or include in subsequent campaign iteration."
+    },
+    {
+      "deviation_id": "dev_tgt_tgt_delta_front",
+      "code": "DEV_TARGET_ABANDONED",
+      "severity": "blocker",
+      "affected_sortie_id": null,
+      "affected_unit_id": null,
+      "affected_target_id": "tgt_delta_front",
+      "simulated_time_s": 8799.2,
+      "triggering_event_ids": [],
+      "cause_attribution": "undetermined",
+      "explanation": "Target 'tgt_delta_front' was scheduled but not reached during simulated campaign execution.",
+      "recommended_action": "Reallocate target 'tgt_delta_front' to an alternate asset or include in subsequent campaign iteration."
+    },
+    {
+      "deviation_id": "dev_tgt_tgt_crater_rim",
+      "code": "DEV_TARGET_ABANDONED",
+      "severity": "blocker",
+      "affected_sortie_id": null,
+      "affected_unit_id": null,
+      "affected_target_id": "tgt_crater_rim",
+      "simulated_time_s": 8799.2,
+      "triggering_event_ids": [],
+      "cause_attribution": "undetermined",
+      "explanation": "Target 'tgt_crater_rim' was scheduled but not reached during simulated campaign execution.",
+      "recommended_action": "Reallocate target 'tgt_crater_rim' to an alternate asset or include in subsequent campaign iteration."
+    },
+    {
+      "deviation_id": "dev_tgt_tgt_neretva_fan",
+      "code": "DEV_TARGET_ABANDONED",
+      "severity": "blocker",
+      "affected_sortie_id": null,
+      "affected_unit_id": null,
+      "affected_target_id": "tgt_neretva_fan",
+      "simulated_time_s": 8799.2,
+      "triggering_event_ids": [],
+      "cause_attribution": "undetermined",
+      "explanation": "Target 'tgt_neretva_fan' was scheduled but not reached during simulated campaign execution.",
+      "recommended_action": "Reallocate target 'tgt_neretva_fan' to an alternate asset or include in subsequent campaign iteration."
+    },
+    {
+      "deviation_id": "dev_imbalance_c4f14c",
+      "code": "DEV_FLEET_IDLE_IMBALANCE",
+      "severity": "warning",
+      "affected_sortie_id": null,
+      "affected_unit_id": "unit_perseverance",
+      "affected_target_id": null,
+      "simulated_time_s": 0.0,
+      "triggering_event_ids": [],
+      "cause_attribution": "contributing_factor",
+      "explanation": "Fleet utilization imbalance of 100.0% detected between 'Crew EVA Team Alpha' (100.0%) and 'Perseverance Rover Analogue' (0.0%).",
+      "recommended_action": "Shift target assignments from 'unit_crew_eva_1' to underutilized asset 'unit_perseverance'.",
+      "planned_value": {
+        "value": 50.0,
+        "unit": "pct"
+      },
+      "simulated_value": {
+        "value": 0.0,
+        "unit": "pct"
+      },
+      "delta_value": {
+        "value": -100.0,
+        "unit": "pct"
+      }
+    }
+  ],
+  "lessons_learned": [
+    {
+      "recommendation_id": "rec_seq_b4a036",
+      "category": "task_sequencing",
+      "title": "Front-Load High-Priority Prerequisite Targets",
+      "evidence_references": [
+        "dev_tgt_tgt_octavia",
+        "dev_tgt_tgt_delta_front",
+        "dev_tgt_tgt_crater_rim",
+        "dev_tgt_tgt_neretva_fan"
+      ],
+      "rationale": "4 high-priority target(s) were missed due to prerequisite cascading or late scheduling.",
+      "expected_impact": "Guarantees core primary mission science objectives are achieved early before contingency accumulation.",
+      "assumptions_and_limitations": "May increase initial traverse distances on Sol 1 to reach high-value reconnaissance waypoints.",
+      "proposed_change": {
+        "type": "task_reordering",
+        "action": "PRIORITIZE_PREREQUISITES",
+        "affected_target_ids": [
+          "tgt_octavia",
+          "tgt_delta_front",
+          "tgt_crater_rim",
+          "tgt_neretva_fan"
+        ]
+      },
+      "status": "active"
+    },
+    {
+      "recommendation_id": "rec_alloc_6b0c46",
+      "category": "unit_assignment",
+      "title": "Rebalance Target Allocations Across Fleet Assets",
+      "evidence_references": [
+        "dev_imbalance_c4f14c"
+      ],
+      "rationale": "Disproportionate workload distribution led to asset idling while other units were over-utilized.",
+      "expected_impact": "Balances fleet utilization closer to parity and reduces single-asset wear and tear.",
+      "assumptions_and_limitations": "Assumes secondary asset has instrument capabilities matching assigned targets.",
+      "proposed_change": {
+        "type": "unit_rebalance",
+        "target_utilization_pct": 50.0,
+        "underutilized_unit_id": "unit_perseverance"
+      },
+      "status": "active"
+    }
+  ],
+  "limitations_disclaimer": "Campaign Performance Analytics & Lessons Learned is a deterministic planning-analysis system designed for simulated Mars exploration mission evaluation and rehearsal. It does NOT utilize live spacecraft telemetry, certified flight hardware diagnostics, or autonomous operational command authority. All causal attributions, workload breakdowns, and advisory recommendations are grounded in simulated model outputs and must be verified by mission operations personnel."
+}

@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "anl_423288f088a7",
+  "campaign_id": "cmp_anl_test_001",
+  "campaign_version": 1,
+  "simulation_id": "sim_anl_test_001",
+  "created_at_utc": "2026-11-06T18:17:11.120650+00:00",
+  "executive_summary": {
+    "planned_duration_s": 4379.4,
+    "simulated_duration_s": 183838.4,
+    "duration_delta_s": 179459.0,
+    "target_completion_rate_pct": 100.0,
+    "total_distance_m": 536.2,
+    "total_operational_holds": 0,
+    "total_hold_duration_s": 0,
+    "fleet_utilization_pct": 37.0,
+    "temporal_conflicts_count": 0
+  },
+  "sortie_deviations": [
+    {
+      "sortie_id": "sortie_sol_01",
+      "sol_index": 1,
+      "planned_start_s": 0.0,
+      "simulated_start_s": 0.0,
+      "start_slip_s": 0.0,
+      "planned_end_s": 2007.9,
+      "simulated_end_s": 88775.2,
+      "end_slip_s": 86767.3,
+      "planned_duration_s": 2007.9,
+      "simulated_duration_s": 88775.2,
+      "duration_delta_s": 86767.3,
+      "status": "COMPLETED"
+    },
+    {
+      "sortie_id": "sortie_sol_02",
+      "sol_index": 2,
+      "planned_start_s": 88775.2,
+      "simulated_start_s": 88775.2,
+      "start_slip_s": 0.0,
+      "planned_end_s": 89907.3,
+      "simulated_end_s": 177550.5,
+      "end_slip_s": 87643.2,
+      "planned_duration_s": 1132.1,
+      "simulated_duration_s": 88775.2,
+      "duration_delta_s": 87643.1,
+      "status": "COMPLETED"
+    },
+    {
+      "sortie_id": "sortie_sol_03",
+      "sol_index": 3,
+      "planned_start_s": 177550.5,
+      "simulated_start_s": 177550.5,
+      "start_slip_s": 0.0,
+      "planned_end_s": 178789.9,
+      "simulated_end_s": 183838.4,
+      "end_slip_s": 5048.5,
+      "planned_duration_s": 1239.4,
+      "simulated_duration_s": 6288.0,
+      "duration_delta_s": 5048.6,
+      "status": "COMPLETED"
+    }
+  ],
+  "target_analytics": {
+    "total_targets": 4,
+    "completed_count": 4,
+    "deferred_count": 0,
+    "blocked_count": 0,
+    "unallocated_count": 0,
+    "priority_breakdown": {
+      "high": {
+        "total": 3,
+        "completed": 3,
+        "completion_rate_pct": 100.0
+      },
+      "medium": {
+        "total": 0,
+        "completed": 0,
+        "completion_rate_pct": 100.0
+      },
+      "low": {
+        "total": 1,
+        "completed": 1,
+        "completion_rate_pct": 100.0
+      }
+    }
+  },
+  "unit_workloads": [
+    {
+      "unit_id": "unit_perseverance",
+      "unit_name": "Perseverance Rover Analogue",
+      "unit_type": "robotic_rover",
+      "active_duration_s": 20433.5,
+      "idle_duration_s": 7200.0,
+      "utilization_pct": 73.9,
+      "total_distance_m": 536.2,
+      "energy_consumed_kwh": 0.01
+    },
+    {
+      "unit_id": "unit_crew_eva_1",
+      "unit_name": "Crew EVA Team Alpha",
+      "unit_type": "crew_eva",
+      "active_duration_s": 0.0,
+      "idle_duration_s": 0.0,
+      "utilization_pct": 0.0,
+      "total_distance_m": 0.0,
+      "energy_consumed_kwh": 0.0
+    }
+  ],
+  "deviations": [
+    {
+      "deviation_id": "dev_blowout_sortie_sol_01",
+      "code": "DEV_SORTIE_DURATION_BLOWOUT",
+      "severity": "blocker",
+      "affected_sortie_id": "sortie_sol_01",
+      "affected_unit_id": null,
+      "affected_target_id": null,
+      "simulated_time_s": 0.0,
+      "triggering_event_ids": [
+        "evt_sim_start_sim_anl_",
+        "evt_start_iv_trans_unit_perseverance_sort_unit_perseverance_sol01_68d2ea",
+        "evt_end_iv_trans_unit_perseverance_sort_unit_perseverance_sol01_68d2ea"
+      ],
+      "cause_attribution": "contributing_factor",
+      "explanation": "Sortie 'sortie_sol_01' experienced a duration increase of 86767.3s with concurrent operational events occurring during execution.",
+      "recommended_action": "Expand duration margin for Sol 1 by at least 1447 minutes.",
+      "planned_value": {
+        "value": 2007.9,
+        "unit": "seconds"
+      },
+      "simulated_value": {
+        "value": 88775.2,
+        "unit": "seconds"
+      },
+      "delta_value": {
+        "value": 86767.3,
+        "unit": "seconds"
+      }
+    },
+    {
+      "deviation_id": "dev_blowout_sortie_sol_02",
+      "code": "DEV_SORTIE_DURATION_BLOWOUT",
+      "severity": "blocker",
+      "affected_sortie_id": "sortie_sol_02",
+      "affected_unit_id": null,
+      "affected_target_id": null,
+      "simulated_time_s": 88775.2,
+      "triggering_event_ids": [
+        "evt_start_iv_trans_unit_perseverance_sort_unit_perseverance_sol02_8a8d5d",
+        "evt_end_iv_trans_unit_perseverance_sort_unit_perseverance_sol02_8a8d5d",
+        "evt_dwell_start_iv_dwell_unit_perseverance_sort_unit_perseverance_sol02_8a8d5d_tgt_hawksbill_w1"
+      ],
+      "cause_attribution": "contributing_factor",
+      "explanation": "Sortie 'sortie_sol_02' experienced a duration increase of 87643.1s with concurrent operational events occurring during execution.",
+      "recommended_action": "Expand duration margin for Sol 2 by at least 1461 minutes.",
+      "planned_value": {
+        "value": 1132.1,
+        "unit": "seconds"
+      },
+      "simulated_value": {
+        "value": 88775.2,
+        "unit": "seconds"
+      },
+      "delta_value": {
+        "value": 87643.1,
+        "unit": "seconds"
+      }
+    },
+    {
+      "deviation_id": "dev_blowout_sortie_sol_03",
+      "code": "DEV_SORTIE_DURATION_BLOWOUT",
+      "severity": "blocker",
+      "affected_sortie_id": "sortie_sol_03",
+      "affected_unit_id": null,
+      "affected_target_id": null,
+      "simulated_time_s": 177550.5,
+      "triggering_event_ids": [
+        "evt_end_iv_trans_unit_perseverance_sort_unit_perseverance_sol03_27f045",
+        "evt_dwell_start_iv_dwell_unit_perseverance_sort_unit_perseverance_sol03_27f045_tgt_skinner_w2"
+      ],
+      "cause_attribution": "contributing_factor",
+      "explanation": "Sortie 'sortie_sol_03' experienced a duration increase of 5048.6s with concurrent operational events occurring during execution.",
+      "recommended_action": "Expand duration margin for Sol 3 by at least 85 minutes.",
+      "planned_value": {
+        "value": 1239.4,
+        "unit": "seconds"
+      },
+      "simulated_value": {
+        "value": 6288.0,
+        "unit": "seconds"
+      },
+      "delta_value": {
+        "value": 5048.6,
+        "unit": "seconds"
+      }
+    },
+    {
+      "deviation_id": "dev_imbalance_bd21d7",
+      "code": "DEV_FLEET_IDLE_IMBALANCE",
+      "severity": "warning",
+      "affected_sortie_id": null,
+      "affected_unit_id": "unit_crew_eva_1",
+      "affected_target_id": null,
+      "simulated_time_s": 0.0,
+      "triggering_event_ids": [],
+      "cause_attribution": "contributing_factor",
+      "explanation": "Fleet utilization imbalance of 73.9% detected between 'Perseverance Rover Analogue' (73.9%) and 'Crew EVA Team Alpha' (0.0%).",
+      "recommended_action": "Shift target assignments from 'unit_perseverance' to underutilized asset 'unit_crew_eva_1'.",
+      "planned_value": {
+        "value": 50.0,
+        "unit": "pct"
+      },
+      "simulated_value": {
+        "value": 0.0,
+        "unit": "pct"
+      },
+      "delta_value": {
+        "value": -73.9,
+        "unit": "pct"
+      }
+    }
+  ],
+  "lessons_learned": [
+    {
+      "recommendation_id": "rec_tb_ca6962",
+      "category": "time_budget",
+      "title": "Expand Sortie Contingency Time Margin",
+      "evidence_references": [
+        "dev_blowout_sortie_sol_01",
+        "dev_blowout_sortie_sol_02",
+        "dev_blowout_sortie_sol_03"
+      ],
+      "rationale": "Simulated execution revealed sortie duration overruns up to 87643s and 0s of operational holds. Baseline duration buffers were insufficient.",
+      "expected_impact": "Provides 1480 minutes of additional operational buffer, preventing late sol cutoffs.",
+      "assumptions_and_limitations": "Assumes crew EVA life support reserves or rover battery depth of discharge allows extended margin.",
+      "proposed_change": {
+        "type": "parameter_adjustment",
+        "parameter": "max_duration_per_sortie_s",
+        "current_value": 14400.0,
+        "recommended_value": 36000.0
+      },
+      "status": "reviewed"
+    },
+    {
+      "recommendation_id": "rec_alloc_61d56e",
+      "category": "unit_assignment",
+      "title": "Rebalance Target Allocations Across Fleet Assets",
+      "evidence_references": [
+        "dev_imbalance_bd21d7"
+      ],
+      "rationale": "Disproportionate workload distribution led to asset idling while other units were over-utilized.",
+      "expected_impact": "Balances fleet utilization closer to parity and reduces single-asset wear and tear.",
+      "assumptions_and_limitations": "Assumes secondary asset has instrument capabilities matching assigned targets.",
+      "proposed_change": {
+        "type": "unit_rebalance",
+        "target_utilization_pct": 50.0,
+        "underutilized_unit_id": "unit_crew_eva_1"
+      },
+      "status": "active"
+    }
+  ],
+  "limitations_disclaimer": "Campaign Performance Analytics & Lessons Learned is a deterministic planning-analysis system designed for simulated Mars exploration mission evaluation and rehearsal. It does NOT utilize live spacecraft telemetry, certified flight hardware diagnostics, or autonomous operational command authority. All causal attributions, workload breakdowns, and advisory recommendations are grounded in simulated model outputs and must be verified by mission operations personnel."
+}

@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-intent.schema.json",
+  "title": "Mission Intent Specification Contract",
+  "description": "Formal high-level mission intent capturing objectives, fleet constraints, spatial boundaries, and multi-objective optimization preferences.",
+  "type": "object",
+  "required": [
+    "intent_id",
+    "name",
+    "science",
+    "fleet",
+    "geography",
+    "timeline",
+    "communications",
+    "resources",
+    "preferences"
+  ],
+  "properties": {
+    "intent_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,64}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "description": {
+      "type": "string"
+    },
+    "campaign_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "raw_natural_language_brief": {
+      "type": ["string", "null"]
+    },
+    "fingerprint": {
+      "type": "string"
+    },
+    "created_at_utc": {
+      "type": "string"
+    },
+    "science": {
+      "type": "object",
+      "required": ["primary_objectives", "minimum_observations_count", "maximum_targets_limit"],
+      "properties": {
+        "primary_objectives": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "mandatory_target_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "preferred_target_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "minimum_observations_count": { "type": "integer", "minimum": 1 },
+        "maximum_targets_limit": { "type": "integer", "minimum": 1 },
+        "required_instruments": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "excluded_instruments": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "minimum_science_utility_pts": { "type": "number", "minimum": 0.0 }
+      }
+    },
+    "fleet": {
+      "type": "object",
+      "required": ["maximum_rovers", "permitted_rover_ids"],
+      "properties": {
+        "maximum_rovers": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "minimum_rovers": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "permitted_rover_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "mandatory_rover_assignments": { "type": "object" },
+        "allow_mobile_relay_role": { "type": "boolean" },
+        "enforce_zero_energy_pooling": { "type": "boolean" }
+      }
+    },
+    "geography": {
+      "type": "object",
+      "required": ["region_id", "starting_location_rc", "base_station_rc"],
+      "properties": {
+        "region_id": { "type": "string" },
+        "starting_location_rc": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "base_station_rc": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "spatial_proximity_margin_m": { "type": "number", "minimum": 0.0 },
+        "maximum_slope_limit_deg": { "type": "number", "minimum": 0.0, "maximum": 90.0 }
+      }
+    },
+    "timeline": {
+      "type": "object",
+      "required": ["maximum_sols", "minimum_sol_reserve_soc_pct"],
+      "properties": {
+        "maximum_sols": { "type": "integer", "minimum": 1, "maximum": 30 },
+        "preferred_sols": { "type": "integer", "minimum": 1 },
+        "minimum_sol_reserve_soc_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+        "diurnal_recharge_enabled": { "type": "boolean" }
+      }
+    },
+    "communications": {
+      "type": "object",
+      "required": ["maximum_relays_deployable", "minimum_geometric_reachability_pct"],
+      "properties": {
+        "maximum_relays_deployable": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "minimum_geometric_reachability_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+        "enable_peer_mesh_forwarding": { "type": "boolean" }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "required": ["minimum_battery_reserve_pct", "maximum_flash_storage_utilization_pct"],
+      "properties": {
+        "minimum_battery_reserve_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+        "maximum_flash_storage_utilization_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+        "max_acceptable_data_backlog_mb": { "type": "number", "minimum": 0.0 },
+        "shared_downlink_bandwidth_mbps": { "type": "number", "minimum": 0.1 }
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "required": ["preferred_planning_mode"],
+      "properties": {
+        "weight_science_utility": { "type": "number" },
+        "weight_energy_conservation": { "type": "number" },
+        "weight_traverse_efficiency": { "type": "number" },
+        "weight_communications_continuity": { "type": "number" },
+        "weight_duration_compression": { "type": "number" },
+        "weight_infrastructure_minimization": { "type": "number" },
+        "preferred_planning_mode": { "type": "string" }
+      }
+    }
+  }
+}

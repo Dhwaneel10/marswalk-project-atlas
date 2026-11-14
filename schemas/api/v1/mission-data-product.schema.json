@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk Mission Data Product Schema",
+  "description": "JSON Schema for MarsWalk 2.0 / Project Atlas Milestone 13G Onboard Science and Engineering Data Products",
+  "type": "object",
+  "required": [
+    "product_id",
+    "observation_id",
+    "target_id",
+    "instrument_id",
+    "category",
+    "size_bytes",
+    "created_mission_time_s",
+    "priority_score",
+    "priority_type",
+    "checksum_sha256",
+    "storage_status",
+    "transfer_status",
+    "retention_policy",
+    "is_synthetic",
+    "is_simulated"
+  ],
+  "properties": {
+    "product_id": { "type": "string", "pattern": "^dp_[a-zA-Z0-9_-]+$" },
+    "observation_id": { "type": "string" },
+    "target_id": { "type": "string" },
+    "instrument_id": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": [
+        "ENVIRONMENTAL_TELEMETRY",
+        "MULTISPECTRAL_IMAGERY",
+        "HIGH_RES_PANORAMA",
+        "SPECTRAL_CUBE",
+        "SUBSURFACE_RADAR",
+        "ENGINEERING_LOG"
+      ]
+    },
+    "size_bytes": { "type": "integer", "minimum": 1 },
+    "size_mb": { "type": "number", "minimum": 0 },
+    "created_mission_time_s": { "type": "number", "minimum": 0 },
+    "priority_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "priority_type": {
+      "type": "string",
+      "enum": ["USER_ASSIGNED_PRIORITY", "SOURCE_DERIVED_PRIORITY", "UNASSESSED_PRIORITY"]
+    },
+    "checksum_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "storage_status": {
+      "type": "string",
+      "enum": [
+        "STORED_ONBOARD",
+        "PARTIALLY_TRANSFERRED",
+        "TRANSFERRED_AND_RETAINED",
+        "TRANSFERRED_AND_RELEASED",
+        "PURGED_OVERFLOW"
+      ]
+    },
+    "transfer_status": {
+      "type": "string",
+      "enum": [
+        "PENDING_TRANSFER",
+        "QUEUED",
+        "IN_TRANSFER",
+        "TRANSFER_VERIFIED",
+        "TRANSFER_DEFERRED",
+        "TRANSFER_FAILED"
+      ]
+    },
+    "retention_policy": {
+      "type": "string",
+      "enum": [
+        "PROTECTED_PERMANENT",
+        "TRANSFER_THEN_RELEASE",
+        "TRANSFER_THEN_RETAIN",
+        "VOLATILE_SCRATCH"
+      ]
+    },
+    "transferred_bytes": { "type": "integer", "minimum": 0 },
+    "transfer_completion_time_s": { "type": ["number", "null"] },
+    "is_synthetic": { "type": "boolean", "const": true },
+    "is_simulated": { "type": "boolean", "const": true },
+    "is_protected": { "type": "boolean" },
+    "metadata": { "type": "object" }
+  },
+  "additionalProperties": false
+}

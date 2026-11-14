@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/scenario-sensitivity-request.schema.json",
+  "title": "MarsWalk Scenario Sensitivity Request",
+  "description": "Request payload to evaluate an automated parameter sweep experiment for an individual scenario.",
+  "type": "object",
+  "required": ["start", "goal", "scenario_id", "parameter_name"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "1.0.0"
+    },
+    "mission_id": {
+      "type": "string"
+    },
+    "start": {
+      "type": "object",
+      "required": ["row", "col"],
+      "properties": {
+        "row": { "type": "integer", "minimum": 0 },
+        "col": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "goal": {
+      "type": "object",
+      "required": ["row", "col"],
+      "properties": {
+        "row": { "type": "integer", "minimum": 0 },
+        "col": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "stops": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": ["row", "col"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "row": { "type": "integer", "minimum": 0 },
+          "col": { "type": "integer", "minimum": 0 },
+          "priority_score": { "type": "number", "minimum": 0.0, "maximum": 100.0 }
+        }
+      }
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["conservative", "balanced", "science_first"],
+      "default": "conservative"
+    },
+    "vehicle_mode": {
+      "type": "string",
+      "enum": ["crew_eva", "robotic_rover"],
+      "default": "crew_eva"
+    },
+    "scenario_id": {
+      "type": "string",
+      "description": "Identifier of the scenario to sweep (e.g., scen_corridor_rockfall)."
+    },
+    "parameter_name": {
+      "type": "string",
+      "enum": [
+        "radius_m",
+        "cost_multiplier",
+        "speed_multiplier",
+        "operational_delay_s",
+        "budget_reduction_pct",
+        "max_slope_deg_override"
+      ],
+      "description": "Name of the numeric severity parameter to vary."
+    },
+    "parameter_values": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 1,
+      "maxItems": 8,
+      "description": "List of up to 8 discrete severity values to test."
+    },
+    "dwell_time_per_stop_s": {
+      "type": "number",
+      "minimum": 0.0,
+      "default": 900.0
+    },
+    "speed_multiplier": {
+      "type": "number",
+      "exclusiveMinimum": 0.0,
+      "default": 1.0
+    }
+  },
+  "additionalProperties": true
+}

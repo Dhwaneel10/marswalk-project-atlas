@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk Joint Mission Optimization Schema",
+  "description": "JSON Schema for MarsWalk 2.0 / Project Atlas Milestone 13E Joint Mission Co-Design Optimization Result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "result_id",
+    "timestamp_utc",
+    "sha256_fingerprint",
+    "input_parameters",
+    "candidate_traverses",
+    "candidate_relay_pool",
+    "configurations_evaluated",
+    "pareto_configurations_count",
+    "pareto_frontier",
+    "recommended_configuration",
+    "decision_explanation",
+    "search_bounds",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "result_id": { "type": "string" },
+    "timestamp_utc": { "type": "string" },
+    "sha256_fingerprint": { "type": "string" },
+    "input_parameters": { "type": "object" },
+    "candidate_traverses": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "candidate_relay_pool": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "configurations_evaluated": { "type": "integer" },
+    "pareto_configurations_count": { "type": "integer" },
+    "pareto_frontier": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "recommended_configuration": { "type": "object" },
+    "decision_explanation": {
+      "type": "object",
+      "required": ["summary", "selection_rationale", "terrain_trade_offs", "connectivity_resolution", "assumptions_and_limitations"],
+      "properties": {
+        "summary": { "type": "string" },
+        "selection_rationale": { "type": "string" },
+        "terrain_trade_offs": { "type": "string" },
+        "connectivity_resolution": { "type": "string" },
+        "rejected_alternatives_comparison": { "type": "array", "items": { "type": "string" } },
+        "marginal_rates_of_substitution": { "type": "object" },
+        "assumptions_and_limitations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "search_bounds": {
+      "type": "object",
+      "required": ["candidate_traverses_generated", "promontory_candidates_screened", "configurations_evaluated", "pareto_configurations_count", "execution_runtime_ms"],
+      "properties": {
+        "candidate_traverses_generated": { "type": "integer" },
+        "promontory_candidates_screened": { "type": "integer" },
+        "configurations_evaluated": { "type": "integer" },
+        "pareto_configurations_count": { "type": "integer" },
+        "execution_runtime_ms": { "type": "number" }
+      }
+    },
+    "provenance": { "type": "object" }
+  }
+}

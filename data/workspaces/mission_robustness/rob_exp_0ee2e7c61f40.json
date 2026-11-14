@@ -1,0 +1,307 @@
+{
+  "schema_version": "1.0.0",
+  "experiment_id": "rob_exp_0ee2e7c61f40",
+  "created_at_utc": "2026-10-30T19:57:44.888545+00:00",
+  "target_type": "campaign",
+  "target_id": "cmp_test_robustness_12e",
+  "target_title": "Jezero Test Campaign (12E)",
+  "suite_evaluated": "mobility_derating",
+  "baseline_metrics": {
+    "duration_s": 4477.3,
+    "distance_m": 601.1,
+    "science_score": 310.0,
+    "targets_scheduled": 4,
+    "total_sorties": 1,
+    "min_margin_s": 17122.7
+  },
+  "case_evaluations": [
+    {
+      "case_id": "scen_mob_85",
+      "suite": "mobility_derating",
+      "name": "Mobility Derating 0.85x (Mild Regolith Slip)",
+      "description": "Reduces traverse speed to 85% of nominal due to terrain wheel slip.",
+      "parameter_name": "speed_factor",
+      "parameter_value": 0.85,
+      "nominal_value": 1.0,
+      "status": "FEASIBLE",
+      "is_feasible": true,
+      "failure_reason": null,
+      "duration_s": 4685.1,
+      "duration_delta_s": 207.8,
+      "distance_m": 601.1,
+      "distance_delta_m": 0.0,
+      "science_score": 310.0,
+      "science_score_delta": 0.0,
+      "targets_scheduled": 4,
+      "targets_scheduled_delta": 0,
+      "targets_lost": [],
+      "targets_deferred": [],
+      "remaining_margin_s": 16914.9,
+      "remaining_margin_pct": 78.3,
+      "modifications": [
+        {
+          "type": "mobility_change",
+          "speed_factor": 0.85
+        }
+      ]
+    },
+    {
+      "case_id": "scen_mob_70",
+      "suite": "mobility_derating",
+      "name": "Mobility Derating 0.70x (Moderate Loose Sand)",
+      "description": "Reduces traverse speed to 70% of nominal due to terrain wheel slip.",
+      "parameter_name": "speed_factor",
+      "parameter_value": 0.7,
+      "nominal_value": 1.0,
+      "status": "FEASIBLE",
+      "is_feasible": true,
+      "failure_reason": null,
+      "duration_s": 4981.9,
+      "duration_delta_s": 504.6,
+      "distance_m": 601.1,
+      "distance_delta_m": 0.0,
+      "science_score": 310.0,
+      "science_score_delta": 0.0,
+      "targets_scheduled": 4,
+      "targets_scheduled_delta": 0,
+      "targets_lost": [],
+      "targets_deferred": [],
+      "remaining_margin_s": 16618.1,
+      "remaining_margin_pct": 76.9,
+      "modifications": [
+        {
+          "type": "mobility_change",
+          "speed_factor": 0.7
+        }
+      ]
+    },
+    {
+      "case_id": "scen_mob_50",
+      "suite": "mobility_derating",
+      "name": "Mobility Derating 0.50x (Severe Traction Loss)",
+      "description": "Reduces traverse speed to 50% of nominal due to terrain wheel slip.",
+      "parameter_name": "speed_factor",
+      "parameter_value": 0.5,
+      "nominal_value": 1.0,
+      "status": "FEASIBLE",
+      "is_feasible": true,
+      "failure_reason": null,
+      "duration_s": 5654.7,
+      "duration_delta_s": 1177.4,
+      "distance_m": 601.1,
+      "distance_delta_m": 0.0,
+      "science_score": 310.0,
+      "science_score_delta": 0.0,
+      "targets_scheduled": 4,
+      "targets_scheduled_delta": 0,
+      "targets_lost": [],
+      "targets_deferred": [],
+      "remaining_margin_s": 15945.3,
+      "remaining_margin_pct": 73.8,
+      "modifications": [
+        {
+          "type": "mobility_change",
+          "speed_factor": 0.5
+        }
+      ]
+    },
+    {
+      "case_id": "scen_slope_12",
+      "suite": "mobility_derating",
+      "name": "Maximum Slope Cutoff 12\u00b0 (Conservative Incline Ceiling)",
+      "description": "Restricts traversable slope ceiling from 15\u00b0 to 12\u00b0.",
+      "parameter_name": "max_slope_deg",
+      "parameter_value": 12.0,
+      "nominal_value": 15.0,
+      "status": "FEASIBLE",
+      "is_feasible": true,
+      "failure_reason": null,
+      "duration_s": 5262.2,
+      "duration_delta_s": 784.9,
+      "distance_m": 601.1,
+      "distance_delta_m": 0.0,
+      "science_score": 310.0,
+      "science_score_delta": 0.0,
+      "targets_scheduled": 4,
+      "targets_scheduled_delta": 0,
+      "targets_lost": [],
+      "targets_deferred": [],
+      "remaining_margin_s": 16337.8,
+      "remaining_margin_pct": 75.6,
+      "modifications": [
+        {
+          "type": "mobility_change",
+          "max_slope_deg": 12.0
+        }
+      ]
+    },
+    {
+      "case_id": "scen_slope_10",
+      "suite": "mobility_derating",
+      "name": "Maximum Slope Cutoff 10\u00b0 (Gentle Slope Restriction)",
+      "description": "Restricts traversable slope ceiling from 15\u00b0 to 10\u00b0.",
+      "parameter_name": "max_slope_deg",
+      "parameter_value": 10.0,
+      "nominal_value": 15.0,
+      "status": "FEASIBLE",
+      "is_feasible": true,
+      "failure_reason": null,
+      "duration_s": 5262.2,
+      "duration_delta_s": 784.9,
+      "distance_m": 601.1,
+      "distance_delta_m": 0.0,
+      "science_score": 310.0,
+      "science_score_delta": 0.0,
+      "targets_scheduled": 4,
+      "targets_scheduled_delta": 0,
+      "targets_lost": [],
+      "targets_deferred": [],
+      "remaining_margin_s": 16337.8,
+      "remaining_margin_pct": 75.6,
+      "modifications": [
+        {
+          "type": "mobility_change",
+          "max_slope_deg": 10.0
+        }
+      ]
+    }
+  ],
+  "parameter_sensitivities": [
+    {
+      "parameter_name": "speed_factor",
+      "dimension": "terrain_mobility",
+      "nominal_value": 1.0,
+      "tested_range": [
+        0.5,
+        0.85
+      ],
+      "delta_parameter": -0.5,
+      "sensitivity_duration_s_per_unit": -2354.73,
+      "sensitivity_science_per_unit": -0.0,
+      "sensitivity_completion_pct_per_unit": -0.0,
+      "relative_elasticity": 0.526,
+      "sensitivity_rank": 1,
+      "explanation": "A 10% change in speed_factor shifts mission duration by approx 5.3%. Gradient: -2354.7 s per unit change in speed_factor."
+    },
+    {
+      "parameter_name": "max_slope_deg",
+      "dimension": "terrain_mobility",
+      "nominal_value": 15.0,
+      "tested_range": [
+        10.0,
+        12.0
+      ],
+      "delta_parameter": -5.0,
+      "sensitivity_duration_s_per_unit": -156.97,
+      "sensitivity_science_per_unit": -0.0,
+      "sensitivity_completion_pct_per_unit": -0.0,
+      "relative_elasticity": 0.526,
+      "sensitivity_rank": 2,
+      "explanation": "A 10% change in max_slope_deg shifts mission duration by approx 5.3%. Gradient: -157.0 s per unit change in max_slope_deg."
+    }
+  ],
+  "feasibility_envelope": {
+    "tested_cases_count": 5,
+    "feasible_cases_count": 5,
+    "degraded_cases_count": 0,
+    "infeasible_cases_count": 0,
+    "tested_feasibility_ratio": 1.0,
+    "tested_feasibility_pct": 100.0,
+    "critical_breakpoints": [],
+    "bottlenecks": [
+      "No critical physical bottlenecks identified across the tested scenario parameter space."
+    ],
+    "vulnerable_targets": [],
+    "vulnerable_units": [
+      {
+        "unit_id": "primary_unit",
+        "role": "Astronaut / Primary Rover",
+        "stressed_load_level": "MODERATE",
+        "delay_sensitivity": "HIGH"
+      }
+    ]
+  },
+  "strategy_comparisons": [
+    {
+      "strategy_id": "strat_baseline",
+      "name": "Baseline Plan (Nominal Profile)",
+      "description": "Current nominal campaign allocation balanced for science return and operational efficiency.",
+      "planning_profile": "science_priority",
+      "nominal_metrics": {
+        "duration_s": 4477.3,
+        "distance_m": 601.1,
+        "science_score": 310.0,
+        "targets_scheduled": 4,
+        "remaining_margin_s": 17122.7
+      },
+      "stressed_feasibility_ratio": 1.0,
+      "stressed_min_margin_s": 15945.3,
+      "stressed_science_retention_pct": 100.0,
+      "pareto_optimal": true,
+      "tradeoff_rationale": "Achieves maximum nominal science return under standard conditions but experiences margin erosion under >25% mobility derating."
+    },
+    {
+      "strategy_id": "strat_conservative_margin",
+      "name": "Conservative High-Margin Strategy",
+      "description": "Builds in larger temporal safety buffers at each science stop to absorb transit delays.",
+      "planning_profile": "conservative",
+      "nominal_metrics": {
+        "duration_s": 4477.3,
+        "distance_m": 601.1,
+        "science_score": 310.0,
+        "targets_scheduled": 4,
+        "remaining_margin_s": 17122.7
+      },
+      "stressed_feasibility_ratio": 1.0,
+      "stressed_min_margin_s": 15945.3,
+      "stressed_science_retention_pct": 100.0,
+      "pareto_optimal": true,
+      "tradeoff_rationale": "Retains superior feasibility ratio (100% vs 100%) and higher minimum margin under stress, at the expense of 0.0 pts lower nominal science."
+    },
+    {
+      "strategy_id": "strat_agile_yield",
+      "name": "Agile High-Yield Strategy",
+      "description": "Fast profile optimizing for maximum science points with tighter temporal safety buffers.",
+      "planning_profile": "time_constrained",
+      "nominal_metrics": {
+        "duration_s": 4190.4,
+        "distance_m": 448.8,
+        "science_score": 310.0,
+        "targets_scheduled": 4,
+        "remaining_margin_s": 17409.6
+      },
+      "stressed_feasibility_ratio": 1.0,
+      "stressed_min_margin_s": 16519.2,
+      "stressed_science_retention_pct": 100.0,
+      "pareto_optimal": true,
+      "tradeoff_rationale": "Maximizes traverse throughput under ideal terrain conditions, but exhibits heightened vulnerability to delays and mobility impedance."
+    }
+  ],
+  "recommended_strategy_id": "strat_baseline",
+  "recommendation_rationale": "Retain 'Baseline Plan (Nominal Profile)': Provides optimal science yield while maintaining adequate operational feasibility across tested conditions.",
+  "answers_to_key_questions": {
+    "most_sensitive_assumptions": "The plan is most sensitive to 'speed_factor' (elasticity = 0.53), where a 10% parameter change alters mission duration by approx 5.3%. A 10% change in speed_factor shifts mission duration by approx 5.3%. Gradient: -2354.7 s per unit change in speed_factor.",
+    "infeasibility_conditions": "The plan remained feasible across all evaluated stress test scenarios within the tested parameter bounds.",
+    "vulnerable_objectives_and_units": "All scheduled science targets remained achievable across tested stress conditions.",
+    "performance_spread": "Across 5 tested scenarios, feasibility ratio is 1.00 (100% of cases). 5 scenarios feasible, 0 degraded, 0 infeasible.",
+    "maximum_margin_plans": "'Agile High-Yield Strategy' retains maximum margin under stress: tested feasibility ratio = 1.00, minimum stressed margin = 4h 35m. Maximizes traverse throughput under ideal terrain conditions, but exhibits heightened vulnerability to delays and mobility impedance.",
+    "supporting_evidence": "Conclusions are grounded in USGS CTX 20m Jezero topography (GeoTIFF DTM), IAU Mars 2000 planetocentric coordinates, Apollo EVA metabolic traverse equations, and empirical Perseverance mobility telemetry. All energy and timing models use SI units.",
+    "unestablished_limits": "LIMITATIONS DISCLOSURE: Tested scenario frequencies (e.g. 70% feasible) reflect deterministic performance across the selected stress suite only. They MUST NOT be interpreted as physical Martian probabilities or mission success likelihoods. Subsurface void collapse, unmodeled micrometeorite strikes, and localized dust storm atmospheric density shifts beyond MEDA records cannot be established."
+  },
+  "evidence_provenance": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "coordinate_system": "IAU_MARS_2000_SPHERE",
+    "elevation_units": "METERS",
+    "duration_units": "SECONDS",
+    "distance_units": "METERS",
+    "speed_units": "METERS_PER_SECOND",
+    "computation_fingerprint": "01760763665b3a08e599361d88914bc21058a7ca840e1e31c8395352ac77d429"
+  },
+  "truth_disclosures": [
+    "Tested scenario frequency (e.g. 70% feasible) is an empirical property of the tested stress suite ONLY. It is NOT a physical Martian probability, likelihood of success, or astronaut safety certificate.",
+    "Model sensitivity is calculated using finite-difference gradients (dMetric / dParam) and relative elasticity under deterministic conditions.",
+    "Topography is sourced from the USGS CTX 20m Jezero Crater DTM mosaic with bilinear elevation interpolation.",
+    "Traverse energy expenditure and walking velocity curves derive from Apollo lunar surface exploration metabolic baselines adapted for 0.38g Martian gravity."
+  ]
+}

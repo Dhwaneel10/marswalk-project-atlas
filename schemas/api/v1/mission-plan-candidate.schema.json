@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-plan-candidate.schema.json",
+  "title": "Mission Plan Candidate Contract",
+  "description": "Synthesized planetary exploration candidate configuration containing multi-rover routes, physical metrics, constraints, and task DAG.",
+  "type": "object",
+  "required": [
+    "candidate_id",
+    "name",
+    "posture",
+    "intent_id",
+    "fingerprint",
+    "is_feasible",
+    "total_science_utility",
+    "total_distance_m",
+    "total_energy_wh",
+    "min_battery_reserve_pct",
+    "duration_sols",
+    "active_rovers"
+  ],
+  "properties": {
+    "candidate_id": { "type": "string" },
+    "name": { "type": "string" },
+    "posture": { "type": "string" },
+    "intent_id": { "type": "string" },
+    "fingerprint": { "type": "string" },
+    "is_feasible": { "type": "boolean" },
+    "is_pareto_champion": { "type": "boolean" },
+    "pareto_rank": { "type": "integer", "minimum": 1 },
+    "total_science_utility": { "type": "number", "minimum": 0.0 },
+    "total_distance_m": { "type": "number", "minimum": 0.0 },
+    "total_energy_wh": { "type": "number", "minimum": 0.0 },
+    "min_battery_reserve_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+    "peak_storage_utilization_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+    "comms_reachability_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+    "duration_sols": { "type": "integer", "minimum": 1 },
+    "total_duration_hours": { "type": "number", "minimum": 0.0 },
+    "relays_deployed_count": { "type": "integer", "minimum": 0 },
+    "data_backlog_mb": { "type": "number", "minimum": 0.0 },
+    "active_rovers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "scores": { "type": "object" },
+    "selection_rationale": { "type": "string" },
+    "task_graph": { "type": "object" },
+    "constraint_report": { "type": "object" },
+    "rover_routes": { "type": "object" },
+    "schedule_timeline": {
+      "type": "array",
+      "items": { "type": "object" }
+    }
+  }
+}

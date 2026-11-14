@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/saved-mission.schema.json",
+  "title": "MarsWalk Saved Mission Record",
+  "description": "Persistent, versioned definition of a planetary surface mission with complete configuration parameters.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "mission_id",
+    "name",
+    "created_at",
+    "updated_at",
+    "input_fingerprint",
+    "canonical_mission",
+    "terrain_dataset_id",
+    "model_version"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "mission_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,64}$",
+      "description": "Unique, URL-safe identifier for the mission record."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Human-readable mission title or designation."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Optional notes or scientific description."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "input_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16,64}$",
+      "description": "Deterministic SHA-256 hash computed from canonical mission parameters."
+    },
+    "canonical_mission": {
+      "type": "object",
+      "required": ["start", "goal", "profile", "vehicle_mode"],
+      "properties": {
+        "start": {
+          "type": "object",
+          "properties": {
+            "row": { "type": "integer" },
+            "col": { "type": "integer" },
+            "id": { "type": "string" },
+            "name": { "type": "string" }
+          },
+          "required": ["row", "col"]
+        },
+        "goal": {
+          "type": "object",
+          "properties": {
+            "row": { "type": "integer" },
+            "col": { "type": "integer" },
+            "id": { "type": "string" },
+            "name": { "type": "string" }
+          },
+          "required": ["row", "col"]
+        },
+        "stops": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "profile": {
+          "type": "string",
+          "enum": ["conservative", "balanced", "science_first"]
+        },
+        "vehicle_mode": {
+          "type": "string",
+          "enum": ["crew_eva", "robotic_rover"]
+        },
+        "speed_multiplier": {
+          "type": "number",
+          "exclusiveMinimum": 0.0
+        },
+        "optimize_stops": {
+          "type": "boolean"
+        },
+        "mission_constraints": {
+          "type": "object"
+        }
+      }
+    },
+    "terrain_dataset_id": {
+      "type": "string",
+      "description": "Identifier of the digital elevation model (e.g. USGS_CTX_DTM_JEZERO_20M)."
+    },
+    "model_version": {
+      "type": "string"
+    },
+    "assumptions_version": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

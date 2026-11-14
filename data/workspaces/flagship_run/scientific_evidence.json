@@ -1,0 +1,105 @@
+{
+  "summary": {
+    "total_observations": 2,
+    "hypotheses_count": 4,
+    "validated_hypotheses_count": 2,
+    "mean_posterior_probability": 0.6046,
+    "cumulative_information_gain_bits": 1.0734,
+    "reference_dtm_provenance": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3"
+  },
+  "investigations": [
+    {
+      "hypothesis_id": "HYP-JEZERO-01",
+      "target_feature": "Delta Scarp",
+      "statement": "Delta Scarp strata preserve lacustrine mudstones rich in Fe/Mg-smectite clays and carbonates.",
+      "prior_probability": 0.65,
+      "posterior_probability": 0.9404,
+      "observations": [
+        "OBS-JEZERO-DELTA-001"
+      ],
+      "status": "ACTIVE",
+      "information_entropy_bits": 0.3258
+    },
+    {
+      "hypothesis_id": "HYP-JEZERO-02",
+      "target_feature": "S\u00e9\u00edtah Floor",
+      "statement": "S\u00e9\u00edtah floor formation represents cumulate olivine-bearing igneous intrusion weathered by early carbonated waters.",
+      "prior_probability": 0.5,
+      "posterior_probability": 0.878,
+      "observations": [
+        "OBS-JEZERO-SEITAH-002"
+      ],
+      "status": "ACTIVE",
+      "information_entropy_bits": 0.5349
+    },
+    {
+      "hypothesis_id": "HYP-JEZERO-03",
+      "target_feature": "Regional Regolith",
+      "statement": "Diurnal atmospheric water vapor exchange induces transient deliquescence of perchlorate salts in surface regolith.",
+      "prior_probability": 0.4,
+      "posterior_probability": 0.4,
+      "observations": [],
+      "status": "ACTIVE",
+      "information_entropy_bits": 0.9709505944546686
+    },
+    {
+      "hypothesis_id": "HYP-JEZERO-04",
+      "target_feature": "Belva Crater Rim",
+      "statement": "Impact-induced hydrothermal circulation along Belva ring faults created low-temperature silica sinter deposits.",
+      "prior_probability": 0.2,
+      "posterior_probability": 0.2,
+      "observations": [],
+      "status": "ACTIVE",
+      "information_entropy_bits": 0.7219280948873623
+    }
+  ],
+  "observations": [
+    {
+      "observation_id": "OBS-JEZERO-DELTA-001",
+      "source_asset_id": "ATLAS-ROVER-01",
+      "sol": 41,
+      "sol_time": "11:30:00",
+      "location": {
+        "lat": 18.452,
+        "lon": 77.435,
+        "elevation_m": -2515.0
+      },
+      "instrument_type": "PIXL_XRF_SPECTROMETER",
+      "scientific_modality": "ELEMENTAL_GEOCHEMISTRY",
+      "measurement_data": {
+        "fe_mg_phyllosilicates_pct": 28.4,
+        "carbonate_veins": true,
+        "sio2_pct": 46.2
+      },
+      "uncertainty": {
+        "fe_mg_pct": 0.4,
+        "sio2_pct": 0.8
+      },
+      "provenance_hash": "1a1d8819d4b242e2ba28355c9dd5908ab55f08f8a8d99a2c0c67a1fdfdba64a4",
+      "shannon_information_gain_bits": 0.6083
+    },
+    {
+      "observation_id": "OBS-JEZERO-SEITAH-002",
+      "source_asset_id": "HEXACOPTER-SURVEYOR-02",
+      "sol": 43,
+      "sol_time": "13:15:00",
+      "location": {
+        "lat": 18.438,
+        "lon": 77.442,
+        "elevation_m": -2545.0
+      },
+      "instrument_type": "MULTISPECTRAL_IMAGER",
+      "scientific_modality": "MINERALOGICAL_REFLECTANCE",
+      "measurement_data": {
+        "olivine_absorption_band_nm": 1050.0,
+        "grain_size_mm": 2.5,
+        "cumulate_texture": true
+      },
+      "uncertainty": {
+        "band_nm": 5.0
+      },
+      "provenance_hash": "41a4efafc51dad5e01aed8de2be8280ab6f3094011e50bd48589f6b0fa00af9a",
+      "shannon_information_gain_bits": 0.4651
+    }
+  ]
+}

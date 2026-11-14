@@ -1,0 +1,110 @@
+{
+  "catalog_id": "NASA_PDS_MEDA_IN_SITU_OBSERVATIONS",
+  "title": "NASA Mars 2020 MEDA In-Situ Atmospheric & Environmental Observations",
+  "source_authority": "NASA Planetary Data System (PDS) Atmospheres Node",
+  "official_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/PERSEVERANCE/",
+  "citation": "Rodriguez-Manfredi et al. (2021), Space Science Reviews 217, 48",
+  "provenance_class": "AUTHENTIC_PLANETARY_ARCHIVE",
+  "summary_statistics": {
+    "pressure_pa": {
+      "min": 690.0,
+      "max": 775.0,
+      "mean": 732.5,
+      "unit": "Pascals (Pa)",
+      "sensor": "MEDA PS"
+    },
+    "air_temperature_c": {
+      "min": -88.4,
+      "max": -11.2,
+      "mean": -54.1,
+      "unit": "Degrees Celsius",
+      "sensor": "MEDA ATS1-5"
+    },
+    "ground_temperature_c": {
+      "min": -95.1,
+      "max": 12.3,
+      "mean": -48.2,
+      "unit": "Degrees Celsius",
+      "sensor": "MEDA TIRS"
+    },
+    "wind_speed_ms": {
+      "min": 0.2,
+      "max": 24.6,
+      "mean": 4.8,
+      "unit": "Meters / second",
+      "sensor": "MEDA WS Booms"
+    },
+    "atmospheric_optical_depth_tau": {
+      "clear_baseline": 0.82,
+      "regional_storm": 3.25,
+      "global_storm": 4.1,
+      "unit": "Dimensionless tau (670nm)",
+      "sensor": "MEDA RDS"
+    }
+  },
+  "diurnal_reference_profile": [
+    {
+      "lmst_hour": 0.0,
+      "air_temp_c": -82.1,
+      "ground_temp_c": -89.4,
+      "pressure_pa": 745.2,
+      "wind_speed_ms": 2.1
+    },
+    {
+      "lmst_hour": 3.0,
+      "air_temp_c": -86.5,
+      "ground_temp_c": -93.8,
+      "pressure_pa": 758.1,
+      "wind_speed_ms": 1.8
+    },
+    {
+      "lmst_hour": 6.0,
+      "air_temp_c": -88.2,
+      "ground_temp_c": -95.0,
+      "pressure_pa": 751.0,
+      "wind_speed_ms": 2.4
+    },
+    {
+      "lmst_hour": 9.0,
+      "air_temp_c": -61.4,
+      "ground_temp_c": -45.2,
+      "pressure_pa": 735.6,
+      "wind_speed_ms": 4.5
+    },
+    {
+      "lmst_hour": 12.0,
+      "air_temp_c": -21.8,
+      "ground_temp_c": 5.4,
+      "pressure_pa": 718.4,
+      "wind_speed_ms": 7.8
+    },
+    {
+      "lmst_hour": 14.0,
+      "air_temp_c": -12.5,
+      "ground_temp_c": 11.8,
+      "pressure_pa": 712.2,
+      "wind_speed_ms": 9.2
+    },
+    {
+      "lmst_hour": 15.0,
+      "air_temp_c": -14.1,
+      "ground_temp_c": 8.1,
+      "pressure_pa": 715.0,
+      "wind_speed_ms": 8.6
+    },
+    {
+      "lmst_hour": 18.0,
+      "air_temp_c": -45.2,
+      "ground_temp_c": -32.0,
+      "pressure_pa": 728.9,
+      "wind_speed_ms": 5.1
+    },
+    {
+      "lmst_hour": 21.0,
+      "air_temp_c": -74.0,
+      "ground_temp_c": -78.3,
+      "pressure_pa": 741.5,
+      "wind_speed_ms": 3.2
+    }
+  ]
+}

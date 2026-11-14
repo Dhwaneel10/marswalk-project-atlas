@@ -1,0 +1,466 @@
+{
+  "schema_version": "1.0.0",
+  "campaign_id": "cmp_jezero_c10f338d",
+  "name": "Test Live Campaign",
+  "description": "",
+  "version": 1,
+  "revision_id": "rev_01",
+  "parent_campaign_id": null,
+  "created_at_utc": "2026-10-28T23:59:30.031526+00:00",
+  "updated_at_utc": "2026-10-28T23:59:30.031526+00:00",
+  "region_id": "jezero_crater",
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "reproducibility_manifest": {
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+    "model_version": "2.0.0",
+    "software_version": "2.0.0",
+    "input_fingerprint": "66a754607eb31adfee582262f4aa22626f17b9706c17b8752b73a45e6d061370",
+    "assumptions_version": "1.0.0"
+  },
+  "config": {
+    "planning_profile": "science_priority",
+    "vehicle_mode": "crew_eva",
+    "speed_multiplier": 1.0,
+    "max_duration_per_sortie_s": 28800.0,
+    "max_sols": 2,
+    "max_total_duration_s": null,
+    "base_start_rc": [
+      117,
+      157
+    ],
+    "base_end_rc": null,
+    "return_to_base_each_sol": true,
+    "dwell_time_per_stop_s": 900.0,
+    "objective_weights": {
+      "science": 1.0,
+      "time": 0.2,
+      "margin": 0.1
+    }
+  },
+  "targets": [
+    {
+      "id": "t1",
+      "name": "T1",
+      "row": 122,
+      "col": 122,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": -2554.33,
+      "priority_score": 80.0,
+      "priority_label": "default",
+      "dwell_time_s": 900.0,
+      "prerequisites": [],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "USGS Jezero 20m",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_01",
+      "assigned_sol_index": 1,
+      "unscheduled_reason": null
+    },
+    {
+      "id": "t2",
+      "name": "T2",
+      "row": 124,
+      "col": 124,
+      "lat_deg": null,
+      "lon_deg": null,
+      "elevation_m": -2554.72,
+      "priority_score": 90.0,
+      "priority_label": "default",
+      "dwell_time_s": 900.0,
+      "prerequisites": [],
+      "geological_context": "",
+      "crism_signature": "",
+      "provenance": "USGS Jezero 20m",
+      "status": "SCHEDULED",
+      "assigned_sortie_id": "sortie_sol_01",
+      "assigned_sol_index": 1,
+      "unscheduled_reason": null
+    }
+  ],
+  "sorties": [
+    {
+      "sortie_id": "sortie_sol_01",
+      "sol_index": 1,
+      "name": "Sol 1: T2, T1",
+      "start_rc": [
+        117,
+        157
+      ],
+      "goal_rc": [
+        117,
+        157
+      ],
+      "target_ids": [
+        "t2",
+        "t1"
+      ],
+      "target_names": [
+        "T2",
+        "T1"
+      ],
+      "path_rc": [
+        [
+          117,
+          157
+        ],
+        [
+          118,
+          156
+        ],
+        [
+          119,
+          155
+        ],
+        [
+          120,
+          154
+        ],
+        [
+          121,
+          153
+        ],
+        [
+          121,
+          152
+        ],
+        [
+          121,
+          151
+        ],
+        [
+          121,
+          150
+        ],
+        [
+          121,
+          149
+        ],
+        [
+          122,
+          148
+        ],
+        [
+          123,
+          147
+        ],
+        [
+          123,
+          146
+        ],
+        [
+          124,
+          145
+        ],
+        [
+          124,
+          144
+        ],
+        [
+          124,
+          143
+        ],
+        [
+          124,
+          142
+        ],
+        [
+          124,
+          141
+        ],
+        [
+          124,
+          140
+        ],
+        [
+          124,
+          139
+        ],
+        [
+          124,
+          138
+        ],
+        [
+          124,
+          137
+        ],
+        [
+          124,
+          136
+        ],
+        [
+          124,
+          135
+        ],
+        [
+          124,
+          134
+        ],
+        [
+          124,
+          133
+        ],
+        [
+          124,
+          132
+        ],
+        [
+          124,
+          131
+        ],
+        [
+          124,
+          130
+        ],
+        [
+          124,
+          129
+        ],
+        [
+          124,
+          128
+        ],
+        [
+          124,
+          127
+        ],
+        [
+          124,
+          126
+        ],
+        [
+          124,
+          125
+        ],
+        [
+          124,
+          124
+        ],
+        [
+          123,
+          123
+        ],
+        [
+          122,
+          122
+        ],
+        [
+          122,
+          123
+        ],
+        [
+          122,
+          124
+        ],
+        [
+          122,
+          125
+        ],
+        [
+          122,
+          126
+        ],
+        [
+          122,
+          127
+        ],
+        [
+          122,
+          128
+        ],
+        [
+          122,
+          129
+        ],
+        [
+          122,
+          130
+        ],
+        [
+          122,
+          131
+        ],
+        [
+          122,
+          132
+        ],
+        [
+          122,
+          133
+        ],
+        [
+          122,
+          134
+        ],
+        [
+          122,
+          135
+        ],
+        [
+          122,
+          136
+        ],
+        [
+          122,
+          137
+        ],
+        [
+          122,
+          138
+        ],
+        [
+          122,
+          139
+        ],
+        [
+          122,
+          140
+        ],
+        [
+          122,
+          141
+        ],
+        [
+          122,
+          142
+        ],
+        [
+          122,
+          143
+        ],
+        [
+          122,
+          144
+        ],
+        [
+          122,
+          145
+        ],
+        [
+          122,
+          146
+        ],
+        [
+          122,
+          147
+        ],
+        [
+          121,
+          148
+        ],
+        [
+          120,
+          149
+        ],
+        [
+          120,
+          150
+        ],
+        [
+          120,
+          151
+        ],
+        [
+          120,
+          152
+        ],
+        [
+          120,
+          153
+        ],
+        [
+          120,
+          154
+        ],
+        [
+          119,
+          155
+        ],
+        [
+          118,
+          156
+        ],
+        [
+          117,
+          157
+        ]
+      ],
+      "distance_m": 1448.4,
+      "travel_time_s": 3087.7,
+      "dwell_time_s": 1800.0,
+      "total_duration_s": 4887.7,
+      "remaining_margin_s": 23912.3,
+      "science_score": 170.0,
+      "terrain_cost": 1715.4,
+      "max_slope_deg": 4.2,
+      "cumulative_climb_m": 17.6,
+      "is_feasible": true,
+      "status": "PLANNED",
+      "legs_summary": [
+        {
+          "leg_index": 1,
+          "start_rc": [
+            117,
+            157
+          ],
+          "goal_rc": [
+            124,
+            124
+          ],
+          "distance_m": 686.3,
+          "cost": 820.4,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 2,
+          "start_rc": [
+            124,
+            124
+          ],
+          "goal_rc": [
+            122,
+            122
+          ],
+          "distance_m": 55.1,
+          "cost": 65.1,
+          "is_reachable": true
+        },
+        {
+          "leg_index": 3,
+          "start_rc": [
+            122,
+            122
+          ],
+          "goal_rc": [
+            117,
+            157
+          ],
+          "distance_m": 707.0,
+          "cost": 829.9,
+          "is_reachable": true
+        }
+      ],
+      "timeline_events": []
+    }
+  ],
+  "summary": {
+    "total_sols": 1,
+    "total_sorties": 1,
+    "total_distance_m": 1448.4,
+    "total_travel_time_s": 3087.7,
+    "total_dwell_time_s": 1800.0,
+    "total_duration_s": 4887.7,
+    "total_science_score": 170.0,
+    "targets_total": 2,
+    "targets_scheduled": 2,
+    "targets_unscheduled": 0,
+    "targets_completed": 0,
+    "is_campaign_feasible": true,
+    "overall_status": "FEASIBLE",
+    "bottlenecks_and_notes": []
+  },
+  "disruption": null,
+  "revision_comparison": null
+}

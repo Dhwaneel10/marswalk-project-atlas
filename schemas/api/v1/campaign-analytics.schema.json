@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/campaign-analytics.schema.json",
+  "title": "MarsWalk Campaign Performance Analytics & Lessons Learned Contract",
+  "description": "Schema validating performance analytics, planned vs simulated deviation analysis, cause attribution, unit workload breakdowns, and evidence-grounded lessons learned for multi-sol Mars exploration campaigns.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "campaign_id",
+    "campaign_version",
+    "simulation_id",
+    "created_at_utc",
+    "executive_summary",
+    "sortie_deviations",
+    "target_analytics",
+    "unit_workloads",
+    "deviations",
+    "lessons_learned",
+    "limitations_disclaimer"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "analysis_id": {
+      "type": "string",
+      "pattern": "^anl_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "campaign_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "simulation_id": {
+      "type": "string",
+      "pattern": "^sim_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "created_at_utc": {
+      "type": "string"
+    },
+    "executive_summary": {
+      "type": "object",
+      "required": [
+        "planned_duration_s",
+        "simulated_duration_s",
+        "duration_delta_s",
+        "target_completion_rate_pct",
+        "total_distance_m",
+        "total_operational_holds",
+        "total_hold_duration_s",
+        "fleet_utilization_pct",
+        "temporal_conflicts_count"
+      ],
+      "properties": {
+        "planned_duration_s": { "type": "number", "minimum": 0.0 },
+        "simulated_duration_s": { "type": "number", "minimum": 0.0 },
+        "duration_delta_s": { "type": "number" },
+        "target_completion_rate_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+        "total_distance_m": { "type": "number", "minimum": 0.0 },
+        "total_operational_holds": { "type": "integer", "minimum": 0 },
+        "total_hold_duration_s": { "type": "number", "minimum": 0.0 },
+        "fleet_utilization_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+        "temporal_conflicts_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "sortie_deviations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sortie_id",
+          "sol_index",
+          "planned_start_s",
+          "simulated_start_s",
+          "start_slip_s",
+          "planned_end_s",
+          "simulated_end_s",
+          "end_slip_s",
+          "planned_duration_s",
+          "simulated_duration_s",
+          "duration_delta_s",
+          "status"
+        ],
+        "properties": {
+          "sortie_id": { "type": "string" },
+          "sol_index": { "type": "integer", "minimum": 1 },
+          "planned_start_s": { "type": "number", "minimum": 0.0 },
+          "simulated_start_s": { "type": "number", "minimum": 0.0 },
+          "start_slip_s": { "type": "number" },
+          "planned_end_s": { "type": "number", "minimum": 0.0 },
+          "simulated_end_s": { "type": "number", "minimum": 0.0 },
+          "end_slip_s": { "type": "number" },
+          "planned_duration_s": { "type": "number", "minimum": 0.0 },
+          "simulated_duration_s": { "type": "number", "minimum": 0.0 },
+          "duration_delta_s": { "type": "number" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+    "target_analytics": {
+      "type": "object",
+      "required": [
+        "total_targets",
+        "completed_count",
+        "deferred_count",
+        "blocked_count",
+        "unallocated_count",
+        "priority_breakdown"
+      ],
+      "properties": {
+        "total_targets": { "type": "integer", "minimum": 0 },
+        "completed_count": { "type": "integer", "minimum": 0 },
+        "deferred_count": { "type": "integer", "minimum": 0 },
+        "blocked_count": { "type": "integer", "minimum": 0 },
+        "unallocated_count": { "type": "integer", "minimum": 0 },
+        "priority_breakdown": {
+          "type": "object",
+          "required": ["high", "medium", "low"],
+          "properties": {
+            "high": {
+              "type": "object",
+              "required": ["total", "completed", "completion_rate_pct"],
+              "properties": {
+                "total": { "type": "integer", "minimum": 0 },
+                "completed": { "type": "integer", "minimum": 0 },
+                "completion_rate_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 }
+              }
+            },
+            "medium": {
+              "type": "object",
+              "required": ["total", "completed", "completion_rate_pct"],
+              "properties": {
+                "total": { "type": "integer", "minimum": 0 },
+                "completed": { "type": "integer", "minimum": 0 },
+                "completion_rate_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 }
+              }
+            },
+            "low": {
+              "type": "object",
+              "required": ["total", "completed", "completion_rate_pct"],
+              "properties": {
+                "total": { "type": "integer", "minimum": 0 },
+                "completed": { "type": "integer", "minimum": 0 },
+                "completion_rate_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "unit_workloads": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "unit_id",
+          "unit_name",
+          "unit_type",
+          "active_duration_s",
+          "idle_duration_s",
+          "utilization_pct",
+          "total_distance_m",
+          "energy_consumed_kwh"
+        ],
+        "properties": {
+          "unit_id": { "type": "string" },
+          "unit_name": { "type": "string" },
+          "unit_type": { "type": "string" },
+          "active_duration_s": { "type": "number", "minimum": 0.0 },
+          "idle_duration_s": { "type": "number", "minimum": 0.0 },
+          "utilization_pct": { "type": "number", "minimum": 0.0, "maximum": 100.0 },
+          "total_distance_m": { "type": "number", "minimum": 0.0 },
+          "energy_consumed_kwh": { "type": "number", "minimum": 0.0 }
+        }
+      }
+    },
+    "deviations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "deviation_id",
+          "code",
+          "severity",
+          "simulated_time_s",
+          "cause_attribution",
+          "explanation",
+          "recommended_action"
+        ],
+        "properties": {
+          "deviation_id": { "type": "string" },
+          "code": { "type": "string" },
+          "severity": { "type": "string", "enum": ["blocker", "warning", "info"] },
+          "affected_sortie_id": { "type": ["string", "null"] },
+          "affected_unit_id": { "type": ["string", "null"] },
+          "affected_target_id": { "type": ["string", "null"] },
+          "planned_value": {
+            "type": "object",
+            "required": ["value", "unit"],
+            "properties": {
+              "value": { "type": "number" },
+              "unit": { "type": "string" }
+            }
+          },
+          "simulated_value": {
+            "type": "object",
+            "required": ["value", "unit"],
+            "properties": {
+              "value": { "type": "number" },
+              "unit": { "type": "string" }
+            }
+          },
+          "delta_value": {
+            "type": "object",
+            "required": ["value", "unit"],
+            "properties": {
+              "value": { "type": "number" },
+              "unit": { "type": "string" }
+            }
+          },
+          "simulated_time_s": { "type": "number", "minimum": 0.0 },
+          "triggering_event_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "cause_attribution": {
+            "type": "string",
+            "enum": ["confirmed_cause", "contributing_factor", "undetermined"]
+          },
+          "explanation": { "type": "string" },
+          "recommended_action": { "type": "string" }
+        }
+      }
+    },
+    "lessons_learned": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "recommendation_id",
+          "category",
+          "title",
+          "evidence_references",
+          "rationale",
+          "expected_impact",
+          "assumptions_and_limitations",
+          "proposed_change",
+          "status"
+        ],
+        "properties": {
+          "recommendation_id": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": [
+              "time_budget",
+              "coordination_strategy",
+              "task_sequencing",
+              "scenario_coverage",
+              "unit_assignment"
+            ]
+          },
+          "title": { "type": "string" },
+          "evidence_references": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "rationale": { "type": "string" },
+          "expected_impact": { "type": "string" },
+          "assumptions_and_limitations": { "type": "string" },
+          "proposed_change": { "type": "object" },
+          "status": {
+            "type": "string",
+            "enum": ["active", "reviewed", "dismissed"]
+          }
+        }
+      }
+    },
+    "limitations_disclaimer": {
+      "type": "string"
+    }
+  }
+}

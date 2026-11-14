@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/campaign-operations-event.schema.json",
+  "title": "MarsWalk Campaign Operations Event Contract",
+  "description": "Validated, append-only event record for campaign-level tracking, cross-sol handoffs, and idempotent replay.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "event_id",
+    "campaign_id",
+    "sol_index",
+    "event_type",
+    "timestamp_iso",
+    "mission_elapsed_s",
+    "sequence_number",
+    "payload",
+    "event_fingerprint"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^evt_[a-zA-Z0-9_-]{1,64}$"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "sol_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "event_type": {
+      "type": "string"
+    },
+    "timestamp_iso": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "mission_elapsed_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "sequence_number": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "payload": {
+      "type": "object"
+    },
+    "event_fingerprint": {
+      "type": "string"
+    }
+  }
+}

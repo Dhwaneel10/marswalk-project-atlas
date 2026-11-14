@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "mission_id": "m_when_mars_goes_dark_flagship",
+  "name": "WHEN MARS GOES DARK — Jezero Crater Resilience Traverse",
+  "description": "Signature 60-Sol resilience demonstrator: Navigates Jezero Delta floor, survives dust storm tau spike, maintains DTN custody through topographic comms blackout, adapts to scarp rockfall corridor closure, and restores RF communications at Ridge Terrace.",
+  "created_at": "2026-11-14T12:00:00.000000+00:00",
+  "updated_at": "2026-11-14T12:00:00.000000+00:00",
+  "input_fingerprint": "0380a7cf112a7bd394ef8a21f3ddae772d8103e0caf9998cf36538b7844069b8",
+  "canonical_mission": {
+    "start": {
+      "row": 117,
+      "col": 157,
+      "name": "Octavia E. Butler Landing / Three Forks Base"
+    },
+    "goal": {
+      "row": 66,
+      "col": 128,
+      "name": "Delta Scarp Overlook"
+    },
+    "stops": [
+      {
+        "row": 136,
+        "col": 91,
+        "id": "wp_hawksbill",
+        "name": "Hawksbill Gap Channel",
+        "priority_score": 85.0,
+        "dwell_time_s": 900
+      },
+      {
+        "row": 102,
+        "col": 110,
+        "id": "wp_ridge",
+        "name": "Ridge Terrace Relay Point",
+        "priority_score": 75.0,
+        "dwell_time_s": 900
+      }
+    ],
+    "profile": "balanced",
+    "vehicle_mode": "robotic_rover",
+    "speed_multiplier": 1.0,
+    "optimize_stops": true,
+    "mission_constraints": {
+      "max_slope_deg": 15.0,
+      "battery_capacity_wh": 15000.0,
+      "max_operational_time_s": 28800.0,
+      "dtn_enabled": true,
+      "rf_frequency_mhz": 401.58,
+      "base_antenna_height_m": 15.0,
+      "rover_antenna_height_m": 2.5
+    }
+  },
+  "disruption_scenario": {
+    "scenario_id": "SCEN_MARS_DARK_COMPOUND",
+    "name": "Dust Storm & Hawksbill Scarp Rockfall with RF Shadow",
+    "tau_storm": 3.25,
+    "solar_derate_factor": 0.55,
+    "speed_multiplier": 0.60,
+    "rockfall_center": [136, 91],
+    "rockfall_radius_m": 60.0
+  },
+  "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+  "model_version": "2.0.0",
+  "assumptions_version": "1.0.0",
+  "tags": [
+    "flagship",
+    "jezero",
+    "when_mars_goes_dark",
+    "dtn",
+    "resilience",
+    "robotic_rover"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsWalk Science Mission Schedule Schema",
+  "description": "JSON Schema for MarsWalk 2.0 / Project Atlas Milestone 13G Chronological In-Situ Science Activities and Observation Sequencing",
+  "type": "object",
+  "required": [
+    "targets_scheduled_count",
+    "total_dwell_s",
+    "total_energy_consumed_wh",
+    "science_points_awarded",
+    "targets"
+  ],
+  "properties": {
+    "targets_scheduled_count": { "type": "integer", "minimum": 0 },
+    "total_dwell_s": { "type": "number", "minimum": 0 },
+    "total_energy_consumed_wh": { "type": "number", "minimum": 0 },
+    "science_points_awarded": { "type": "number", "minimum": 0 },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "target_id",
+          "target_name",
+          "arrival_time_s",
+          "departure_time_s",
+          "total_dwell_s",
+          "total_energy_consumed_wh",
+          "total_data_generated_bytes",
+          "science_points_awarded",
+          "events",
+          "generated_product_ids"
+        ],
+        "properties": {
+          "target_id": { "type": "string" },
+          "target_name": { "type": "string" },
+          "arrival_time_s": { "type": "number", "minimum": 0 },
+          "departure_time_s": { "type": "number", "minimum": 0 },
+          "total_dwell_s": { "type": "number", "minimum": 0 },
+          "total_energy_consumed_wh": { "type": "number", "minimum": 0 },
+          "total_data_generated_bytes": { "type": "integer", "minimum": 0 },
+          "total_data_generated_mb": { "type": "number", "minimum": 0 },
+          "science_points_awarded": { "type": "number", "minimum": 0 },
+          "events_count": { "type": "integer", "minimum": 0 },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "event_id",
+                "target_id",
+                "phase",
+                "mode_name",
+                "start_time_s",
+                "end_time_s",
+                "duration_s",
+                "electrical_power_w",
+                "energy_consumed_wh"
+              ]
+            }
+          },
+          "generated_product_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

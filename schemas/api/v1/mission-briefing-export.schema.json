@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-briefing-export.schema.json",
+  "title": "MarsWalk Mission Briefing Export Bundle",
+  "description": "Standardized, reproducible technical mission briefing archive bundling snapshot, baseline, scenario comparison, sensitivity sweep, and scientific provenance.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "metadata",
+    "mission_snapshot",
+    "baseline_route",
+    "engineering_assumptions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["title", "timestamp", "planetary_target", "boundary", "disclaimer"],
+      "properties": {
+        "title": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "planetary_target": { "type": "string" },
+        "boundary": { "type": "string" },
+        "dtm_resolution_m": { "type": "number" },
+        "imagery_resolution_nominal_m": { "type": "number" },
+        "disclaimer": { "type": "string" },
+        "export_version": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "mission_snapshot": {
+      "type": "object",
+      "description": "Full mission snapshot and deterministic input fingerprint."
+    },
+    "baseline_route": {
+      "type": "object",
+      "description": "Canonical route result of the nominal baseline plan."
+    },
+    "scenario_comparison": {
+      "type": ["object", "null"],
+      "description": "Comparison batch results evaluated against the baseline fingerprint."
+    },
+    "sensitivity_analysis": {
+      "type": ["object", "null"],
+      "description": "Severity parameter sweep results."
+    },
+    "recovery_plan": {
+      "type": ["object", "null"],
+      "description": "Recommended contingency recovery plan."
+    },
+    "engineering_assumptions": {
+      "type": "object",
+      "description": "Classification ledger of all mobility rates, envelopes, and dwell times."
+    },
+    "data_provenance": {
+      "type": "object",
+      "properties": {
+        "dtm_source": { "type": "string" },
+        "orthomosaic_source": { "type": "string" },
+        "coordinate_system": { "type": "string" },
+        "institution": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

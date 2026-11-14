@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/campaign-coordination.schema.json",
+  "title": "MarsWalk Campaign Coordination & Multi-Unit Allocation Contract",
+  "description": "Schema validating multi-asset planetary campaign allocation, coordination strategy comparison, and task responsibility handoffs across simulated exploration units.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "coordination_id",
+    "campaign_id",
+    "version",
+    "units",
+    "allocation_strategy",
+    "target_allocations",
+    "summary",
+    "limitations_disclaimer"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "coordination_id": {
+      "type": "string",
+      "pattern": "^coord_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^cmp_[a-zA-Z0-9_-]{3,64}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "created_at_utc": {
+      "type": "string"
+    },
+    "units": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "unit_id",
+          "name",
+          "unit_type",
+          "mobility_profile",
+          "availability_window",
+          "max_duration_per_sortie_s",
+          "status"
+        ],
+        "properties": {
+          "unit_id": { "type": "string", "minLength": 2, "maxLength": 64 },
+          "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+          "unit_type": {
+            "type": "string",
+            "enum": ["robotic_rover", "crew_eva", "scout_rover"]
+          },
+          "mobility_profile": {
+            "type": "object",
+            "required": ["speed_multiplier", "max_slope_deg", "vehicle_mode"],
+            "properties": {
+              "speed_multiplier": { "type": "number", "minimum": 0.05, "maximum": 5.0 },
+              "max_slope_deg": { "type": "number", "minimum": 1.0, "maximum": 45.0 },
+              "vehicle_mode": { "type": "string", "enum": ["crew_eva", "robotic_rover"] }
+            }
+          },
+          "availability_window": {
+            "type": "object",
+            "required": ["start_sol", "end_sol"],
+            "properties": {
+              "start_sol": { "type": "integer", "minimum": 1 },
+              "end_sol": { "type": "integer", "minimum": 1 }
+            }
+          },
+          "max_duration_per_sortie_s": { "type": "number", "minimum": 600.0, "maximum": 86400.0 },
+          "starting_location_rc": {
+            "type": ["array", "null"],
+            "items": { "type": "integer" }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["AVAILABLE", "BUSY", "UNAVAILABLE", "MAINTENANCE", "RETIRED"]
+          },
+          "capabilities": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "assigned_target_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "assigned_sortie_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "allocation_strategy": {
+      "type": "string",
+      "enum": ["priority_first", "balanced_workload", "capability_first"]
+    },
+    "target_allocations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_id", "status"],
+        "properties": {
+          "target_id": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["ASSIGNED", "DEFERRED", "BLOCKED", "UNREACHABLE", "UNALLOCATED"]
+          },
+          "assigned_unit_id": { "type": ["string", "null"] },
+          "assigned_sol_index": { "type": ["integer", "null"] },
+          "assigned_sortie_id": { "type": ["string", "null"] },
+          "reason": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "strategy_comparison": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "strategy",
+          "total_sols",
+          "total_distance_m",
+          "total_duration_s",
+          "total_science_score",
+          "targets_scheduled",
+          "targets_deferred",
+          "is_feasible"
+        ]
+      }
+    },
+    "handoffs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "handoff_id",
+          "target_id",
+          "source_unit_id",
+          "receiving_unit_id",
+          "sol_index",
+          "status",
+          "is_valid"
+        ],
+        "properties": {
+          "handoff_id": { "type": "string" },
+          "target_id": { "type": "string" },
+          "source_unit_id": { "type": "string" },
+          "receiving_unit_id": { "type": "string" },
+          "sol_index": { "type": "integer", "minimum": 1 },
+          "status": {
+            "type": "string",
+            "enum": ["PROPOSED", "ACCEPTED", "REJECTED", "COMPLETED", "CANCELLED"]
+          },
+          "reason": { "type": ["string", "null"] },
+          "is_valid": { "type": "boolean" },
+          "validation_details": { "type": "array", "items": { "type": "string" } },
+          "rejection_reason": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "total_units",
+        "total_sols",
+        "total_sorties",
+        "total_distance_m",
+        "total_duration_s",
+        "total_science_score",
+        "targets_scheduled",
+        "targets_unscheduled",
+        "is_feasible"
+      ]
+    },
+    "limitations_disclaimer": {
+      "type": "string"
+    }
+  }
+}

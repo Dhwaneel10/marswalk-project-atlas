@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/incident-replay-response.schema.json",
+  "title": "MarsWalk Incident Replay Response",
+  "description": "Milestone 10C — Sortie Black Box Incident Replay & Decision Reconstruction Response Schema.",
+  "type": "object",
+  "required": [
+    "status",
+    "schema_version",
+    "source_mission_id",
+    "total_events",
+    "events",
+    "timeline_summary",
+    "reconstructed_sortie",
+    "fidelity",
+    "disclosures"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "const": "success"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "source_mission_id": {
+      "type": "string"
+    },
+    "continuation_id": {
+      "type": ["string", "null"]
+    },
+    "total_events": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "event_id",
+          "source_mission_id",
+          "event_type",
+          "mission_time_s",
+          "playback_elapsed_s",
+          "recorded_at_utc",
+          "route_variant",
+          "payload"
+        ],
+        "properties": {
+          "schema_version": { "type": "string" },
+          "event_id": { "type": "string" },
+          "source_mission_id": { "type": "string" },
+          "continuation_id": { "type": ["string", "null"] },
+          "event_type": { "type": "string" },
+          "mission_time_s": { "type": "number" },
+          "playback_elapsed_s": { "type": "number" },
+          "recorded_at_utc": { "type": "string" },
+          "route_variant": { "type": "string" },
+          "rover_rc": { "type": ["array", "null"] },
+          "rover_float_rc": { "type": ["array", "null"] },
+          "elevation_m": { "type": ["number", "null"] },
+          "slope_deg": { "type": ["number", "null"] },
+          "speed_m_s": { "type": ["number", "null"] },
+          "payload": { "type": "object" },
+          "provenance": { "type": "object" }
+        }
+      }
+    },
+    "timeline_summary": {
+      "type": "object",
+      "required": [
+        "start_time_s",
+        "end_time_s",
+        "duration_s",
+        "contingency_events_count",
+        "replan_events_count",
+        "phases"
+      ],
+      "properties": {
+        "start_time_s": { "type": "number", "minimum": 0.0 },
+        "end_time_s": { "type": "number", "minimum": 0.0 },
+        "duration_s": { "type": "number", "minimum": 0.0 },
+        "contingency_events_count": { "type": "integer", "minimum": 0 },
+        "replan_events_count": { "type": "integer", "minimum": 0 },
+        "phases": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "reconstructed_sortie": {
+      "type": "object",
+      "required": [
+        "has_incident",
+        "decision_points"
+      ],
+      "properties": {
+        "has_incident": { "type": "boolean" },
+        "incident_event_id": { "type": ["string", "null"] },
+        "interruption_time_s": { "type": ["number", "null"] },
+        "interruption_rc": {
+          "type": ["array", "null"],
+          "items": { "type": "integer" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "injected_contingency": { "type": ["object", "null"] },
+        "recorded_recommendation": { "type": ["string", "null"] },
+        "recomputed_recommendation": { "type": ["string", "null"] },
+        "decision_points": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "fidelity": {
+      "type": "object",
+      "required": [
+        "is_recomputed",
+        "exact_geometry_match",
+        "variance_distance_m",
+        "variance_duration_s"
+      ],
+      "properties": {
+        "is_recomputed": { "type": "boolean" },
+        "exact_geometry_match": { "type": "boolean" },
+        "variance_distance_m": { "type": "number" },
+        "variance_duration_s": { "type": "number" },
+        "provenance_notes": { "type": "string" }
+      }
+    },
+    "disclosures": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

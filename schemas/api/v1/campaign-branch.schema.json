@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/campaign-branch.schema.json",
+  "title": "Campaign Branch Definition & Status Contract",
+  "description": "Immutable campaign branch metadata, lineage tracking, and promotion state.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "branch_id",
+    "name",
+    "campaign_id",
+    "branch_status",
+    "fork_sol",
+    "fork_sequence",
+    "parent_state_fingerprint",
+    "created_at_utc",
+    "updated_at_utc"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "branch_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_:-]{3,64}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_:-]{3,128}$"
+    },
+    "parent_branch_id": {
+      "type": ["string", "null"]
+    },
+    "branch_status": {
+      "type": "string",
+      "enum": ["ACTIVE", "PROMOTED", "ARCHIVED", "FAILED_CONSTRAINTS"]
+    },
+    "fork_sol": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "fork_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "parent_state_fingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "created_at_utc": {
+      "type": "string"
+    },
+    "updated_at_utc": {
+      "type": "string"
+    },
+    "scenario_def": {
+      "type": ["object", "null"]
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "promotion_metadata": {
+      "type": ["object", "null"]
+    }
+  },
+  "additionalProperties": true
+}

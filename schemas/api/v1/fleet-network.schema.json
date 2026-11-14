@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/fleet-network.schema.json",
+  "title": "Fleet Communications Network Contract",
+  "description": "Defines geometric RelayNet reachability, active multi-hop paths, and communications status across all fleet nodes.",
+  "type": "object",
+  "required": [
+    "reports",
+    "active_relays",
+    "fleet_connectivity_pct"
+  ],
+  "properties": {
+    "reports": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["rover_id", "is_connected_to_base", "connectivity_status", "hop_count"],
+        "properties": {
+          "rover_id": { "type": "string" },
+          "is_connected_to_base": { "type": "boolean" },
+          "connectivity_status": { "type": "string" },
+          "hop_count": { "type": "integer" },
+          "active_path": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "direct_los_to_base": { "type": "boolean" },
+          "intermediate_relay_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "signal_margin_db": { "type": "number" },
+          "critical_relay_dependency": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "active_relays": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "fleet_connectivity_pct": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 100.0
+    }
+  },
+  "additionalProperties": true
+}

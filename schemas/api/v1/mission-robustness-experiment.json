@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-robustness-experiment.schema.json",
+  "title": "MarsWalk Mission Robustness Experiment Record",
+  "description": "Validated output of deterministic multi-scenario stress testing, sensitivity gradients, feasibility envelopes, and resilient mission design.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "created_at_utc",
+    "target_type",
+    "target_id",
+    "suite_evaluated",
+    "baseline_metrics",
+    "case_evaluations",
+    "parameter_sensitivities",
+    "feasibility_envelope",
+    "answers_to_key_questions",
+    "truth_disclosures"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "experiment_id": { "type": "string" },
+    "created_at_utc": { "type": "string" },
+    "target_type": { "type": "string", "enum": ["campaign", "mission"] },
+    "target_id": { "type": "string" },
+    "target_title": { "type": "string" },
+    "suite_evaluated": { "type": "string" },
+    "baseline_metrics": {
+      "type": "object",
+      "required": ["duration_s", "distance_m", "science_score", "targets_scheduled"]
+    },
+    "case_evaluations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case_id",
+          "name",
+          "parameter_name",
+          "status",
+          "is_feasible",
+          "duration_s",
+          "duration_delta_s",
+          "science_score",
+          "remaining_margin_s"
+        ]
+      }
+    },
+    "parameter_sensitivities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "parameter_name",
+          "nominal_value",
+          "tested_range",
+          "sensitivity_duration_s_per_unit",
+          "relative_elasticity",
+          "sensitivity_rank"
+        ]
+      }
+    },
+    "feasibility_envelope": {
+      "type": "object",
+      "required": [
+        "tested_cases_count",
+        "feasible_cases_count",
+        "tested_feasibility_ratio",
+        "tested_feasibility_pct",
+        "bottlenecks",
+        "vulnerable_targets"
+      ]
+    },
+    "strategy_comparisons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "strategy_id",
+          "name",
+          "planning_profile",
+          "stressed_feasibility_ratio",
+          "stressed_min_margin_s",
+          "tradeoff_rationale"
+        ]
+      }
+    },
+    "recommended_strategy_id": { "type": "string" },
+    "recommendation_rationale": { "type": "string" },
+    "answers_to_key_questions": {
+      "type": "object",
+      "required": [
+        "most_sensitive_assumptions",
+        "infeasibility_conditions",
+        "vulnerable_objectives_and_units",
+        "performance_spread",
+        "maximum_margin_plans",
+        "supporting_evidence",
+        "unestablished_limits"
+      ]
+    },
+    "evidence_provenance": {
+      "type": "object"
+    },
+    "truth_disclosures": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

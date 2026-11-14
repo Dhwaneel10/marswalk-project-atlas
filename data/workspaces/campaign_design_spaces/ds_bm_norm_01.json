@@ -1,0 +1,305 @@
+{
+  "schema_version": "1.0.0",
+  "design_space_id": "ds_bm_norm_01",
+  "campaign_id": "cmp_bm_norm_01",
+  "campaign_version": 1,
+  "created_at_utc": "2026-11-14T11:40:07.349808+00:00",
+  "search_bounds": {
+    "max_candidates": 12,
+    "max_planner_calls": 15
+  },
+  "search_completeness": {
+    "candidates_considered": 12,
+    "candidates_deduplicated": 0,
+    "candidates_evaluated": 12,
+    "candidates_rejected": 0,
+    "is_exhaustive": false,
+    "limit_reached": true,
+    "unexplored_scope_notes": "Evaluation budget reached 12 candidates. Unexplored combinations: 15."
+  },
+  "pareto_candidates": [
+    {
+      "candidate_id": "cand_cp_01",
+      "fingerprint": "41495feccda74d9a4ff7e7e74a6a7ccda32e969d9dfbb38813eed08f70035cf9",
+      "configuration": {
+        "planning_profile": "science_priority",
+        "max_duration_per_sortie_s": 28800.0,
+        "max_sols": 3,
+        "is_baseline": true
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_02",
+      "fingerprint": "bf00d6056f24f68895ed15195a9a851493358cbbd02bd2c847663fb09876575e",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 2,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 66.7,
+        "total_duration_s": 1732.1,
+        "total_distance_m": 110.3,
+        "unallocated_priority": 50.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 2
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 66.7% science coverage, 0.5h duration, and 0.11km distance across 2 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_03",
+      "fingerprint": "efe92aa9f51a2cc455dd539be2cc5e2c8a40b0be8294cfb68164778d5dfb421c",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 3,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_04",
+      "fingerprint": "59b92baae74c8e51b1a36179a72b8aa1f5c5de8bcc5e6c446d342fbdd87cc4ce",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 4,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_05",
+      "fingerprint": "1679e4efb76ae2852d6f97eae87a0f50856dfeeb4e2576939f95ac61182bcc27",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 28800.0,
+        "max_sols": 2,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 66.7,
+        "total_duration_s": 1732.1,
+        "total_distance_m": 110.3,
+        "unallocated_priority": 50.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 2
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 66.7% science coverage, 0.5h duration, and 0.11km distance across 2 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_06",
+      "fingerprint": "5f3f5dbfe82c0bdc305c9070a3f1d1226bc2cf87c35e1f6d4d5525b7d451a095",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 28800.0,
+        "max_sols": 3,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_07",
+      "fingerprint": "66f83aa497aaaa4d2a14e82ec3528b00af2c77dde61312c51ee3359b2f222459",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 28800.0,
+        "max_sols": 4,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_08",
+      "fingerprint": "b1f4b9f3f146b37e031aaf7fb63aed436116cbaeac2bdec5e8483ed981238ca0",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 32400.0,
+        "max_sols": 2,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 66.7,
+        "total_duration_s": 1732.1,
+        "total_distance_m": 110.3,
+        "unallocated_priority": 50.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 2
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 66.7% science coverage, 0.5h duration, and 0.11km distance across 2 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_09",
+      "fingerprint": "bb0d5c0b22b82cc347f809d8c84b96ec26a79d1c827e90520bb61b1b8723e891",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 32400.0,
+        "max_sols": 3,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_10",
+      "fingerprint": "ef1ebee5af0005508768885e0bcfa49978b8ccaab413160a5c5d9f70ffb38eb0",
+      "configuration": {
+        "planning_profile": "conservative",
+        "max_duration_per_sortie_s": 32400.0,
+        "max_sols": 4,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_11",
+      "fingerprint": "3b908ad058d9ca3669e184060c487988fe2be97e6396739382b85599cefe7318",
+      "configuration": {
+        "planning_profile": "science_priority",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 2,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 66.7,
+        "total_duration_s": 1732.1,
+        "total_distance_m": 110.3,
+        "unallocated_priority": 50.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 2
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 66.7% science coverage, 0.5h duration, and 0.11km distance across 2 sorties. Not dominated by any alternative."
+    },
+    {
+      "candidate_id": "cand_cp_12",
+      "fingerprint": "d5eb17f9dff4e01147e6c60acb656c43fe4006262a172b97f7813748a8b9ce14",
+      "configuration": {
+        "planning_profile": "science_priority",
+        "max_duration_per_sortie_s": 21600.0,
+        "max_sols": 3,
+        "is_baseline": false
+      },
+      "status": "FEASIBLE",
+      "objectives": {
+        "science_coverage_pct": 100.0,
+        "total_duration_s": 2971.5,
+        "total_distance_m": 275.7,
+        "unallocated_priority": 0.0,
+        "temporal_conflicts_count": 0,
+        "sortie_count": 3
+      },
+      "dominance_status": "PARETO_EFFICIENT",
+      "dominated_by": [],
+      "tradeoff_explanation": "Pareto frontier candidate with 100.0% science coverage, 0.8h duration, and 0.28km distance across 3 sorties. Not dominated by any alternative."
+    }
+  ],
+  "dominated_candidates": [],
+  "infeasible_candidates": [],
+  "recommendations": [
+    {
+      "recommendation_id": "rec_ds_fd3d7b",
+      "candidate_id": "cand_cp_01",
+      "headline": "Maximal Science Yield (100.0% Coverage)",
+      "tradeoff_summary": "Achieves highest objective coverage of 100.0% across 3 sorties (276m traverse) over a modeled total duration of 0.8h.",
+      "selection_rationale": "Recommended when primary mission priority is exhaustive scientific return."
+    },
+    {
+      "recommendation_id": "rec_ds_5c217d",
+      "candidate_id": "cand_cp_02",
+      "headline": "Expedited Campaign Duration (0.5h Total)",
+      "tradeoff_summary": "Saves 0.3h of surface operational time relative to maximal science, while retaining 66.7% science coverage (-33.3% reduction in coverage).",
+      "selection_rationale": "Recommended when crew fatigue, dust storm approach, or life support margins require minimal surface exposure."
+    }
+  ],
+  "limitations_disclaimer": "The Campaign Design Space Explorer is a deterministic multi-objective planning tool for simulated Mars exploration evaluation. It does NOT guarantee global mathematical optimality, employ probabilistic forecasting, or represent certified flight operations software. All candidate trade-offs are grounded in simulated route planning."
+}

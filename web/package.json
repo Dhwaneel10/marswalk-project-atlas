@@ -1,0 +1,22 @@
+{
+  "name": "marswalk-atlas",
+  "version": "2.0.0",
+  "private": true,
+  "description": "MarsWalk 2.0 - Interactive 3D Planetary Atlas and Traverse Workstation for Jezero Crater",
+  "scripts": {
+    "dev": "python -m http.server 3000 --directory web",
+    "start": "python ../scripts/run_atlas.py",
+    "build": "python ../scripts/export_mission_assets.py"
+  },
+  "keywords": [
+    "mars",
+    "cesium",
+    "webgl",
+    "planetary-atlas",
+    "jezero-crater",
+    "route-planning",
+    "nasa-space-apps"
+  ],
+  "author": "MarsWalk Systems Engineering Team",
+  "license": "MIT"
+}

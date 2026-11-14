@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/environmental-solar.schema.json",
+  "title": "Atlas Mars Solar Ephemeris Schema",
+  "description": "Milestone 13L — Astronomical solar ephemeris, top-of-atmosphere flux, and celestial angles.",
+  "type": "object",
+  "required": [
+    "sol",
+    "ltst_hours",
+    "solar_longitude_ls_deg",
+    "solar_declination_deg",
+    "hour_angle_deg",
+    "solar_elevation_deg",
+    "solar_zenith_deg",
+    "solar_azimuth_deg",
+    "sun_distance_au",
+    "toa_irradiance_w_m2",
+    "is_sun_above_horizon"
+  ],
+  "properties": {
+    "sol": { "type": "integer" },
+    "ltst_hours": { "type": "number", "minimum": 0.0, "maximum": 24.0 },
+    "solar_longitude_ls_deg": { "type": "number", "minimum": 0.0, "maximum": 360.0 },
+    "solar_declination_deg": { "type": "number" },
+    "hour_angle_deg": { "type": "number" },
+    "solar_elevation_deg": { "type": "number" },
+    "solar_zenith_deg": { "type": "number" },
+    "solar_azimuth_deg": { "type": "number", "minimum": 0.0, "maximum": 360.0 },
+    "sun_distance_au": { "type": "number" },
+    "toa_irradiance_w_m2": { "type": "number" },
+    "is_sun_above_horizon": { "type": "boolean" }
+  }
+}

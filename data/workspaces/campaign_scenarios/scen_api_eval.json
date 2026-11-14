@@ -1,0 +1,526 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "scen_api_eval",
+  "campaign_id": "cmp_whatif_test",
+  "source_version": 1,
+  "name": "API Service Test Scenario",
+  "description": "Evaluation of scenario scen_api_eval",
+  "scenario_type": "combined",
+  "modifications": [
+    {
+      "type": "operational_delay",
+      "delay_s": 300.0
+    }
+  ],
+  "planning_profile": null,
+  "created_at_utc": "2026-11-14T11:40:00.809122+00:00",
+  "status": "COMPLETED",
+  "is_feasible": true,
+  "failure_reason": null,
+  "warnings": [
+    "Operational delay hold of 300s (5.0m) injected."
+  ],
+  "comparison": {
+    "delta_sols": 0,
+    "delta_sorties": 0,
+    "delta_distance_m": 0.0,
+    "delta_duration_s": 300.0,
+    "delta_science_score": 0.0,
+    "targets_scheduled_delta": 0,
+    "baseline_targets_scheduled": 4,
+    "scenario_targets_scheduled": 4,
+    "lost_target_ids": [],
+    "gained_target_ids": [],
+    "deferred_target_ids": [],
+    "blocked_target_ids": [],
+    "causal_attribution": {},
+    "feasibility_status": "FEASIBLE"
+  },
+  "simulated_campaign": {
+    "schema_version": "1.0.0",
+    "campaign_id": "cmp_whatif_test",
+    "name": "What-If Test Campaign (What-If: API Service Test Scenario)",
+    "description": "What-if simulation revision for scenario 'API Service Test Scenario'.",
+    "version": 1,
+    "revision_id": "whatif_scen_api",
+    "parent_campaign_id": "cmp_whatif_test",
+    "created_at_utc": "2026-11-14T11:40:00.820660+00:00",
+    "updated_at_utc": "2026-11-14T11:40:00.820660+00:00",
+    "region_id": "jezero_crater",
+    "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+    "reproducibility_manifest": {
+      "terrain_dataset_id": "USGS_CTX_DTM_JEZERO_20M",
+      "terrain_sha256": "875e7e80c170b84e4b2a3dd650b12abbee289e6d3fae5664e4d3cb93e9a1f5b3",
+      "model_version": "2.0.0",
+      "software_version": "2.0.0",
+      "input_fingerprint": "cc09aecc97f8d9d6ac4f30779a33f6f8a3fdb02fdce4ab3a6e2ad40ca0d0d20a",
+      "assumptions_version": "1.0.0"
+    },
+    "config": {
+      "planning_profile": "science_priority",
+      "vehicle_mode": "crew_eva",
+      "speed_multiplier": 1.0,
+      "max_duration_per_sortie_s": 7100.0,
+      "max_sols": 3,
+      "max_total_duration_s": null,
+      "base_start_rc": [
+        117,
+        157
+      ],
+      "base_end_rc": null,
+      "return_to_base_each_sol": true,
+      "dwell_time_per_stop_s": 900.0,
+      "objective_weights": {
+        "science": 1.0,
+        "time": 0.2,
+        "margin": 0.1
+      }
+    },
+    "targets": [
+      {
+        "id": "t_dep_1",
+        "name": "Deposition Fan",
+        "row": 120,
+        "col": 158,
+        "lat_deg": null,
+        "lon_deg": null,
+        "elevation_m": null,
+        "priority_score": 90.0,
+        "priority_label": "default",
+        "dwell_time_s": 900.0,
+        "prerequisites": [],
+        "geological_context": "",
+        "crism_signature": "",
+        "provenance": "",
+        "status": "SCHEDULED",
+        "assigned_sortie_id": "sortie_sol_01",
+        "assigned_sol_index": 1,
+        "assigned_unit_id": null,
+        "unscheduled_reason": null,
+        "science_objective": "FLUVIAL_DELTA_SEDIMENTOLOGY",
+        "objective_classification": "NOT_ASSESSED",
+        "linked_observation_ids": [],
+        "repeat_observation_requested": false
+      },
+      {
+        "id": "t_dep_2",
+        "name": "Clay Mudstone Strata",
+        "row": 122,
+        "col": 156,
+        "lat_deg": null,
+        "lon_deg": null,
+        "elevation_m": null,
+        "priority_score": 85.0,
+        "priority_label": "default",
+        "dwell_time_s": 900.0,
+        "prerequisites": [
+          "t_dep_1"
+        ],
+        "geological_context": "",
+        "crism_signature": "",
+        "provenance": "",
+        "status": "SCHEDULED",
+        "assigned_sortie_id": "sortie_sol_02",
+        "assigned_sol_index": 2,
+        "assigned_unit_id": null,
+        "unscheduled_reason": null,
+        "science_objective": "ASTROBIOLOGY_BIOSIGNATURE",
+        "objective_classification": "NOT_ASSESSED",
+        "linked_observation_ids": [],
+        "repeat_observation_requested": false
+      },
+      {
+        "id": "t_hyd_1",
+        "name": "Paleolake Terrace",
+        "row": 125,
+        "col": 154,
+        "lat_deg": null,
+        "lon_deg": null,
+        "elevation_m": null,
+        "priority_score": 75.0,
+        "priority_label": "default",
+        "dwell_time_s": 900.0,
+        "prerequisites": [],
+        "geological_context": "",
+        "crism_signature": "",
+        "provenance": "",
+        "status": "SCHEDULED",
+        "assigned_sortie_id": "sortie_sol_01",
+        "assigned_sol_index": 1,
+        "assigned_unit_id": null,
+        "unscheduled_reason": null,
+        "science_objective": "PALEOLAKE_HYDROLOGY",
+        "objective_classification": "NOT_ASSESSED",
+        "linked_observation_ids": [],
+        "repeat_observation_requested": false
+      },
+      {
+        "id": "t_hyd_2",
+        "name": "Carbonate Margin",
+        "row": 127,
+        "col": 152,
+        "lat_deg": null,
+        "lon_deg": null,
+        "elevation_m": null,
+        "priority_score": 70.0,
+        "priority_label": "default",
+        "dwell_time_s": 900.0,
+        "prerequisites": [
+          "t_hyd_1"
+        ],
+        "geological_context": "",
+        "crism_signature": "",
+        "provenance": "",
+        "status": "SCHEDULED",
+        "assigned_sortie_id": "sortie_sol_02",
+        "assigned_sol_index": 2,
+        "assigned_unit_id": null,
+        "unscheduled_reason": null,
+        "science_objective": "ASTROBIOLOGY_BIOSIGNATURE",
+        "objective_classification": "NOT_ASSESSED",
+        "linked_observation_ids": [],
+        "repeat_observation_requested": false
+      }
+    ],
+    "sorties": [
+      {
+        "sortie_id": "sortie_sol_01",
+        "sol_index": 1,
+        "name": "Sol 1: Deposition Fan, Paleolake Terrace...",
+        "start_rc": [
+          117,
+          157
+        ],
+        "goal_rc": [
+          117,
+          157
+        ],
+        "target_ids": [
+          "t_dep_1",
+          "t_hyd_1"
+        ],
+        "target_names": [
+          "Deposition Fan",
+          "Paleolake Terrace"
+        ],
+        "path_rc": [
+          [
+            117,
+            157
+          ],
+          [
+            118,
+            157
+          ],
+          [
+            119,
+            157
+          ],
+          [
+            120,
+            158
+          ],
+          [
+            121,
+            157
+          ],
+          [
+            122,
+            156
+          ],
+          [
+            123,
+            155
+          ],
+          [
+            124,
+            154
+          ],
+          [
+            125,
+            154
+          ],
+          [
+            124,
+            154
+          ],
+          [
+            123,
+            154
+          ],
+          [
+            122,
+            155
+          ],
+          [
+            121,
+            156
+          ],
+          [
+            120,
+            157
+          ],
+          [
+            119,
+            157
+          ],
+          [
+            118,
+            157
+          ],
+          [
+            117,
+            157
+          ]
+        ],
+        "distance_m": 380.5,
+        "travel_time_s": 739.1,
+        "dwell_time_s": 1800.0,
+        "total_duration_s": 2539.1,
+        "remaining_margin_s": 4560.9,
+        "science_score": 165.0,
+        "terrain_cost": 410.6,
+        "max_slope_deg": 1.0,
+        "cumulative_climb_m": 1.4,
+        "is_feasible": true,
+        "status": "PLANNED",
+        "unit_id": null,
+        "legs_summary": [
+          {
+            "leg_index": 1,
+            "start_rc": [
+              117,
+              157
+            ],
+            "goal_rc": [
+              120,
+              158
+            ],
+            "distance_m": 67.6,
+            "cost": 72.1,
+            "is_reachable": true
+          },
+          {
+            "leg_index": 2,
+            "start_rc": [
+              120,
+              158
+            ],
+            "goal_rc": [
+              125,
+              154
+            ],
+            "distance_m": 130.3,
+            "cost": 140.4,
+            "is_reachable": true
+          },
+          {
+            "leg_index": 3,
+            "start_rc": [
+              125,
+              154
+            ],
+            "goal_rc": [
+              117,
+              157
+            ],
+            "distance_m": 182.7,
+            "cost": 198.2,
+            "is_reachable": true
+          }
+        ],
+        "timeline_events": []
+      },
+      {
+        "sortie_id": "sortie_sol_02",
+        "sol_index": 2,
+        "name": "Sol 2: Clay Mudstone Strata, Carbonate Margin...",
+        "start_rc": [
+          117,
+          157
+        ],
+        "goal_rc": [
+          117,
+          157
+        ],
+        "target_ids": [
+          "t_dep_2",
+          "t_hyd_2"
+        ],
+        "target_names": [
+          "Clay Mudstone Strata",
+          "Carbonate Margin"
+        ],
+        "path_rc": [
+          [
+            117,
+            157
+          ],
+          [
+            118,
+            157
+          ],
+          [
+            119,
+            156
+          ],
+          [
+            120,
+            156
+          ],
+          [
+            121,
+            156
+          ],
+          [
+            122,
+            156
+          ],
+          [
+            123,
+            155
+          ],
+          [
+            124,
+            154
+          ],
+          [
+            125,
+            153
+          ],
+          [
+            126,
+            152
+          ],
+          [
+            127,
+            152
+          ],
+          [
+            126,
+            153
+          ],
+          [
+            125,
+            153
+          ],
+          [
+            124,
+            153
+          ],
+          [
+            123,
+            154
+          ],
+          [
+            122,
+            155
+          ],
+          [
+            121,
+            156
+          ],
+          [
+            120,
+            157
+          ],
+          [
+            119,
+            157
+          ],
+          [
+            118,
+            157
+          ],
+          [
+            117,
+            157
+          ]
+        ],
+        "distance_m": 475.7,
+        "travel_time_s": 914.6,
+        "dwell_time_s": 1800.0,
+        "total_duration_s": 2714.6,
+        "remaining_margin_s": 4385.4,
+        "science_score": 155.0,
+        "terrain_cost": 508.1,
+        "max_slope_deg": 0.8,
+        "cumulative_climb_m": 1.3,
+        "is_feasible": true,
+        "status": "PLANNED",
+        "unit_id": null,
+        "legs_summary": [
+          {
+            "leg_index": 1,
+            "start_rc": [
+              117,
+              157
+            ],
+            "goal_rc": [
+              122,
+              156
+            ],
+            "distance_m": 107.6,
+            "cost": 114.8,
+            "is_reachable": true
+          },
+          {
+            "leg_index": 2,
+            "start_rc": [
+              122,
+              156
+            ],
+            "goal_rc": [
+              127,
+              152
+            ],
+            "distance_m": 130.3,
+            "cost": 137.8,
+            "is_reachable": true
+          },
+          {
+            "leg_index": 3,
+            "start_rc": [
+              127,
+              152
+            ],
+            "goal_rc": [
+              117,
+              157
+            ],
+            "distance_m": 237.8,
+            "cost": 255.5,
+            "is_reachable": true
+          }
+        ],
+        "timeline_events": []
+      }
+    ],
+    "summary": {
+      "total_sols": 2,
+      "total_sorties": 2,
+      "total_distance_m": 856.2,
+      "total_travel_time_s": 1653.7,
+      "total_dwell_time_s": 3600.0,
+      "total_duration_s": 5553.7,
+      "total_science_score": 320.0,
+      "targets_total": 4,
+      "targets_scheduled": 4,
+      "targets_unscheduled": 0,
+      "targets_completed": 0,
+      "is_campaign_feasible": true,
+      "overall_status": "FEASIBLE",
+      "bottlenecks_and_notes": [
+        "Operational delay hold of 300s (5.0m) injected."
+      ]
+    },
+    "disruption": null,
+    "revision_comparison": null,
+    "progress": null,
+    "observations_summary": null,
+    "intelligence_recommendation": null,
+    "coordination": null
+  },
+  "provenance": "DETERMINISTIC_WHAT_IF_SIMULATION",
+  "limitations_disclaimer": "Calculated what-if scenarios are deterministic planning heuristics for Mars mission simulation. They do not represent certified flight decisions, probabilistic failure risks, or statistical survival models."
+}

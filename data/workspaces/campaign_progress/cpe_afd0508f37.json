@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "event_id": "cpe_afd0508f37",
+  "campaign_id": "cmp_live_2bec17",
+  "sol_index": 1,
+  "sortie_id": null,
+  "event_type": "TARGET_OBSERVED",
+  "target_id": "t_live_a",
+  "observation_id": "obs_4edf8630ce",
+  "timestamp_utc": "2026-11-06T20:35:21.650183+00:00",
+  "details": {},
+  "idempotency_key": "cmp_live_2bec17_TARGET_OBSERVED_t_live_a_1_2026-11-06T20:35:21",
+  "black_box_event_id": null
+}

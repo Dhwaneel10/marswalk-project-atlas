@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/scenario-sensitivity-response.schema.json",
+  "title": "MarsWalk Scenario Sensitivity Response",
+  "description": "Structured records of an automated parameter sensitivity sweep experiment.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "baseline_fingerprint",
+    "scenario_id",
+    "parameter_name",
+    "parameter_values",
+    "records",
+    "overall_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "baseline_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16,64}$",
+      "description": "Deterministic input fingerprint of the baseline route used for delta evaluations."
+    },
+    "scenario_id": { "type": "string" },
+    "scenario_name": { "type": "string" },
+    "parameter_name": { "type": "string" },
+    "parameter_values": {
+      "type": "array",
+      "items": { "type": "number" }
+    },
+    "max_evaluations_supported": {
+      "type": "integer",
+      "default": 8
+    },
+    "num_evaluations": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 8
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "parameter_name",
+          "parameter_value",
+          "is_reachable",
+          "is_budget_feasible"
+        ],
+        "properties": {
+          "parameter_name": { "type": "string" },
+          "parameter_value": { "type": "number" },
+          "distance_m": { "type": ["number", "null"] },
+          "delta_distance_m": { "type": ["number", "null"] },
+          "pct_distance_change": { "type": ["number", "null"] },
+          "cost": { "type": ["number", "null"] },
+          "delta_cost": { "type": ["number", "null"] },
+          "pct_cost_change": { "type": ["number", "null"] },
+          "travel_time_s": { "type": ["number", "null"] },
+          "delta_travel_time_s": { "type": ["number", "null"] },
+          "formatted_delta_travel_time": { "type": "string" },
+          "total_mission_time_s": { "type": ["number", "null"] },
+          "is_reachable": { "type": "boolean" },
+          "is_budget_feasible": { "type": "boolean" },
+          "retention_pct": { "type": "number" },
+          "warnings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "baseline_distance_m": { "type": "number" },
+    "baseline_travel_time_s": { "type": "number" },
+    "formatted_baseline_travel_time": { "type": "string" },
+    "overall_status": {
+      "type": "string",
+      "enum": ["all_feasible", "transition_to_blocked", "all_blocked", "calculation_failed"]
+    },
+    "disclaimer": { "type": "string" },
+    "assumptions": { "type": "object" },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marswalk.nasa.gov/schemas/api/v1/mission-robustness-response.schema.json",
+  "title": "MarsWalk Mission Robustness Analysis Response",
+  "description": "Structured output of deterministic sensitivity, robustness, and breakpoint evaluation.",
+  "type": "object",
+  "required": [
+    "status",
+    "schema_version",
+    "computation_fingerprint",
+    "evaluated_mission_id",
+    "baseline_mission",
+    "primary_evaluation",
+    "tested_dimensions",
+    "total_evaluations"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "success" },
+    "schema_version": { "type": "string" },
+    "computation_fingerprint": { "type": "string" },
+    "evaluated_mission_id": { "type": "string" },
+    "evaluated_mission_title": { "type": "string" },
+    "baseline_mission": { "type": "object" },
+    "primary_evaluation": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "cases_tested",
+        "feasible_cases_count",
+        "feasible_ratio",
+        "reachable_cases_count",
+        "reachable_ratio",
+        "case_results"
+      ]
+    },
+    "candidate_comparisons": {
+      "type": "array"
+    },
+    "tested_dimensions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "total_evaluations": { "type": "integer" },
+    "execution_time_ms": { "type": "number" },
+    "disclosures": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

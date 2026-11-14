@@ -1,0 +1,386 @@
+{
+  "fleet_id": "test_promote",
+  "name": "Jezero Western Delta Multi-Rover Fleet",
+  "campaign_id": "cmp_jezero_delta_5sol",
+  "version": 2,
+  "fleet_status": "AVAILABLE",
+  "base_station": {
+    "rc": [
+      128,
+      128
+    ],
+    "antenna_height_m": 5.0
+  },
+  "kpis": {
+    "active_rovers": 4,
+    "total_rovers": 4,
+    "total_distance_m": 0.0,
+    "total_distance_km": 0.0,
+    "total_energy_consumed_wh": 0.0,
+    "min_rover_soc_pct": 100.0,
+    "total_science_utility": 0.0,
+    "targets_completed": 0,
+    "total_storage_used_mb": 0.0,
+    "total_data_backlog_mb": 0.0,
+    "fleet_connectivity_pct": 100.0,
+    "active_relays_count": 2,
+    "current_sol": 1,
+    "simulated_met_s": 0.0,
+    "fleet_status": "AVAILABLE"
+  },
+  "rovers": {
+    "ATLAS_ROVER_A": {
+      "rover_id": "ATLAS_ROVER_A",
+      "name": "Rover Alpha (Science Lead)",
+      "unit_type": "robotic_rover",
+      "starting_location_rc": [
+        128,
+        128
+      ],
+      "antenna_height_m": 2.2,
+      "usable_battery_capacity_wh": 5000.0,
+      "reserve_margin_pct": 20.0,
+      "nominal_speed_mps": 0.1,
+      "storage_capacity_mb": 65536.0,
+      "instrument_ids": [
+        "MASTCAM_Z",
+        "SUPERCAM",
+        "PIXL",
+        "MEDA"
+      ],
+      "can_act_as_mobile_relay": false,
+      "color_hex": "#38bdf8",
+      "rover_mass_kg": 1025.0,
+      "base_electrical_load_w": 110.0
+    },
+    "ATLAS_ROVER_B": {
+      "rover_id": "ATLAS_ROVER_B",
+      "name": "Rover Beta (Geophysical Surveyor)",
+      "unit_type": "robotic_rover",
+      "starting_location_rc": [
+        128,
+        128
+      ],
+      "antenna_height_m": 2.0,
+      "usable_battery_capacity_wh": 4800.0,
+      "reserve_margin_pct": 20.0,
+      "nominal_speed_mps": 0.12,
+      "storage_capacity_mb": 65536.0,
+      "instrument_ids": [
+        "MASTCAM_Z",
+        "RIMFAX",
+        "MEDA"
+      ],
+      "can_act_as_mobile_relay": false,
+      "color_hex": "#10b981",
+      "rover_mass_kg": 1025.0,
+      "base_electrical_load_w": 110.0
+    },
+    "ATLAS_ROVER_C": {
+      "rover_id": "ATLAS_ROVER_C",
+      "name": "Rover Gamma (Coring Specialist)",
+      "unit_type": "robotic_rover",
+      "starting_location_rc": [
+        128,
+        128
+      ],
+      "antenna_height_m": 2.0,
+      "usable_battery_capacity_wh": 5200.0,
+      "reserve_margin_pct": 20.0,
+      "nominal_speed_mps": 0.08,
+      "storage_capacity_mb": 65536.0,
+      "instrument_ids": [
+        "SHERLOC",
+        "CORING_TOOL",
+        "MASTCAM_Z"
+      ],
+      "can_act_as_mobile_relay": false,
+      "color_hex": "#a855f7",
+      "rover_mass_kg": 1025.0,
+      "base_electrical_load_w": 110.0
+    },
+    "ATLAS_ROVER_D": {
+      "rover_id": "ATLAS_ROVER_D",
+      "name": "Rover Delta (Relay & Environmental Sentinel)",
+      "unit_type": "scout_rover",
+      "starting_location_rc": [
+        128,
+        128
+      ],
+      "antenna_height_m": 3.5,
+      "usable_battery_capacity_wh": 4400.0,
+      "reserve_margin_pct": 25.0,
+      "nominal_speed_mps": 0.14,
+      "storage_capacity_mb": 32768.0,
+      "instrument_ids": [
+        "MASTCAM_Z",
+        "MEDA"
+      ],
+      "can_act_as_mobile_relay": true,
+      "color_hex": "#f59e0b",
+      "rover_mass_kg": 1025.0,
+      "base_electrical_load_w": 110.0
+    }
+  },
+  "rover_states": {
+    "ATLAS_ROVER_A": {
+      "rover_id": "ATLAS_ROVER_A",
+      "status": "AVAILABLE",
+      "current_location_rc": [
+        128,
+        128
+      ],
+      "current_heading_deg": 0.0,
+      "current_sol": 1,
+      "met_seconds": 0.0,
+      "battery_soc_pct": 100.0,
+      "current_energy_wh": 5000.0,
+      "consumed_energy_wh": 0.0,
+      "used_storage_mb": 0.0,
+      "data_backlog_mb": 0.0,
+      "data_products_count": 0,
+      "active_activity_id": null,
+      "assigned_target_ids": [],
+      "completed_target_ids": [],
+      "connectivity_status": "CONNECTED_DIRECT",
+      "current_path_index": 0,
+      "active_route_id": null,
+      "accumulated_distance_m": 0.0,
+      "accumulated_science_utility": 0.0
+    },
+    "ATLAS_ROVER_B": {
+      "rover_id": "ATLAS_ROVER_B",
+      "status": "AVAILABLE",
+      "current_location_rc": [
+        128,
+        128
+      ],
+      "current_heading_deg": 0.0,
+      "current_sol": 1,
+      "met_seconds": 0.0,
+      "battery_soc_pct": 100.0,
+      "current_energy_wh": 4800.0,
+      "consumed_energy_wh": 0.0,
+      "used_storage_mb": 0.0,
+      "data_backlog_mb": 0.0,
+      "data_products_count": 0,
+      "active_activity_id": null,
+      "assigned_target_ids": [],
+      "completed_target_ids": [],
+      "connectivity_status": "CONNECTED_DIRECT",
+      "current_path_index": 0,
+      "active_route_id": null,
+      "accumulated_distance_m": 0.0,
+      "accumulated_science_utility": 0.0
+    },
+    "ATLAS_ROVER_C": {
+      "rover_id": "ATLAS_ROVER_C",
+      "status": "AVAILABLE",
+      "current_location_rc": [
+        128,
+        128
+      ],
+      "current_heading_deg": 0.0,
+      "current_sol": 1,
+      "met_seconds": 0.0,
+      "battery_soc_pct": 100.0,
+      "current_energy_wh": 5200.0,
+      "consumed_energy_wh": 0.0,
+      "used_storage_mb": 0.0,
+      "data_backlog_mb": 0.0,
+      "data_products_count": 0,
+      "active_activity_id": null,
+      "assigned_target_ids": [],
+      "completed_target_ids": [],
+      "connectivity_status": "CONNECTED_DIRECT",
+      "current_path_index": 0,
+      "active_route_id": null,
+      "accumulated_distance_m": 0.0,
+      "accumulated_science_utility": 0.0
+    },
+    "ATLAS_ROVER_D": {
+      "rover_id": "ATLAS_ROVER_D",
+      "status": "AVAILABLE",
+      "current_location_rc": [
+        128,
+        128
+      ],
+      "current_heading_deg": 0.0,
+      "current_sol": 1,
+      "met_seconds": 0.0,
+      "battery_soc_pct": 100.0,
+      "current_energy_wh": 4400.0,
+      "consumed_energy_wh": 0.0,
+      "used_storage_mb": 0.0,
+      "data_backlog_mb": 0.0,
+      "data_products_count": 0,
+      "active_activity_id": null,
+      "assigned_target_ids": [],
+      "completed_target_ids": [],
+      "connectivity_status": "CONNECTED_DIRECT",
+      "current_path_index": 0,
+      "active_route_id": null,
+      "accumulated_distance_m": 0.0,
+      "accumulated_science_utility": 0.0
+    }
+  },
+  "shared_relay_ids": [
+    "relay_octavia_mast",
+    "relay_delta_crest"
+  ],
+  "science_target_ids": [],
+  "fingerprint": "637cb582623cfd9eace5de3a038ca1a8bdc69790f2eef0de8f0b57e4c78d5071",
+  "events_count": 5,
+  "events_log": [
+    {
+      "sequence_number": 1,
+      "event_id": "fevt_test_promote_00001",
+      "event_type": "ROVER_REGISTERED",
+      "rover_id": "ATLAS_ROVER_A",
+      "sol_index": 1,
+      "met_seconds": 0.0,
+      "payload": {
+        "config": {
+          "rover_id": "ATLAS_ROVER_A",
+          "name": "Rover Alpha (Science Lead)",
+          "unit_type": "robotic_rover",
+          "starting_location_rc": [
+            128,
+            128
+          ],
+          "antenna_height_m": 2.2,
+          "usable_battery_capacity_wh": 5000.0,
+          "reserve_margin_pct": 20.0,
+          "nominal_speed_mps": 0.1,
+          "storage_capacity_mb": 65536.0,
+          "instrument_ids": [
+            "MASTCAM_Z",
+            "SUPERCAM",
+            "PIXL",
+            "MEDA"
+          ],
+          "can_act_as_mobile_relay": false,
+          "color_hex": "#38bdf8",
+          "rover_mass_kg": 1025.0,
+          "base_electrical_load_w": 110.0
+        }
+      },
+      "timestamp_iso": "2026-11-14T11:40:35Z"
+    },
+    {
+      "sequence_number": 2,
+      "event_id": "fevt_test_promote_00002",
+      "event_type": "ROVER_REGISTERED",
+      "rover_id": "ATLAS_ROVER_B",
+      "sol_index": 1,
+      "met_seconds": 0.0,
+      "payload": {
+        "config": {
+          "rover_id": "ATLAS_ROVER_B",
+          "name": "Rover Beta (Geophysical Surveyor)",
+          "unit_type": "robotic_rover",
+          "starting_location_rc": [
+            128,
+            128
+          ],
+          "antenna_height_m": 2.0,
+          "usable_battery_capacity_wh": 4800.0,
+          "reserve_margin_pct": 20.0,
+          "nominal_speed_mps": 0.12,
+          "storage_capacity_mb": 65536.0,
+          "instrument_ids": [
+            "MASTCAM_Z",
+            "RIMFAX",
+            "MEDA"
+          ],
+          "can_act_as_mobile_relay": false,
+          "color_hex": "#10b981",
+          "rover_mass_kg": 1025.0,
+          "base_electrical_load_w": 110.0
+        }
+      },
+      "timestamp_iso": "2026-11-14T11:40:35Z"
+    },
+    {
+      "sequence_number": 3,
+      "event_id": "fevt_test_promote_00003",
+      "event_type": "ROVER_REGISTERED",
+      "rover_id": "ATLAS_ROVER_C",
+      "sol_index": 1,
+      "met_seconds": 0.0,
+      "payload": {
+        "config": {
+          "rover_id": "ATLAS_ROVER_C",
+          "name": "Rover Gamma (Coring Specialist)",
+          "unit_type": "robotic_rover",
+          "starting_location_rc": [
+            128,
+            128
+          ],
+          "antenna_height_m": 2.0,
+          "usable_battery_capacity_wh": 5200.0,
+          "reserve_margin_pct": 20.0,
+          "nominal_speed_mps": 0.08,
+          "storage_capacity_mb": 65536.0,
+          "instrument_ids": [
+            "SHERLOC",
+            "CORING_TOOL",
+            "MASTCAM_Z"
+          ],
+          "can_act_as_mobile_relay": false,
+          "color_hex": "#a855f7",
+          "rover_mass_kg": 1025.0,
+          "base_electrical_load_w": 110.0
+        }
+      },
+      "timestamp_iso": "2026-11-14T11:40:35Z"
+    },
+    {
+      "sequence_number": 4,
+      "event_id": "fevt_test_promote_00004",
+      "event_type": "ROVER_REGISTERED",
+      "rover_id": "ATLAS_ROVER_D",
+      "sol_index": 1,
+      "met_seconds": 0.0,
+      "payload": {
+        "config": {
+          "rover_id": "ATLAS_ROVER_D",
+          "name": "Rover Delta (Relay & Environmental Sentinel)",
+          "unit_type": "scout_rover",
+          "starting_location_rc": [
+            128,
+            128
+          ],
+          "antenna_height_m": 3.5,
+          "usable_battery_capacity_wh": 4400.0,
+          "reserve_margin_pct": 25.0,
+          "nominal_speed_mps": 0.14,
+          "storage_capacity_mb": 32768.0,
+          "instrument_ids": [
+            "MASTCAM_Z",
+            "MEDA"
+          ],
+          "can_act_as_mobile_relay": true,
+          "color_hex": "#f59e0b",
+          "rover_mass_kg": 1025.0,
+          "base_electrical_load_w": 110.0
+        }
+      },
+      "timestamp_iso": "2026-11-14T11:40:35Z"
+    },
+    {
+      "sequence_number": 5,
+      "event_id": "fevt_test_promote_00005",
+      "event_type": "FLEET_PLAN_PROMOTED",
+      "rover_id": null,
+      "sol_index": 1,
+      "met_seconds": 0.0,
+      "payload": {
+        "approver": "CHIEF_FLIGHT_DIRECTOR",
+        "rationale": "Promoted F1 recovered fleet plan for sol 2-5 execution.",
+        "new_version": 2
+      },
+      "timestamp_iso": "2026-11-14T11:40:35Z"
+    }
+  ]
+}

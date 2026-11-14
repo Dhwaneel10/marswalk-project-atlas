@@ -1,0 +1,12 @@
+target_id,target_name,institution,country,primary_specialty,review_track,priority,current_outreach_status,public_route_verified
+TGT-13AH-01,Dr. Mark T. Lemmon,Space Science Institute,USA,Martian Aerosol Scattering & Optical Depth Inversions,Track A,Tier 1,PREPARED_NOT_SENT,YES
+TGT-13AH-02,Dr. Luca Montabone,LMD / Sorbonne Université & SSI,France/USA,Mars Dust Climatology & Global Storm Reanalysis,Track A,Tier 1,PREPARED_NOT_SENT,YES
+TGT-13AH-03,Dr. Inmaculada Fernández-Rodríguez,University of Vigo,Spain,Martian Free-Space Optical Communications & Dust Extinction,Track A,Tier 1,PREPARED_NOT_SENT,YES
+TGT-13AH-04,Mars Climate Sounder (MCS) Team,NASA JPL / Caltech,USA,Aloft Detached Dust Layers & Vertical Atmospheric Sounding,Track A,Tier 2,PREPARED_NOT_SENT,YES
+TGT-13AH-05,NASA JPL DESCANSO Center of Excellence,NASA Jet Propulsion Laboratory,USA,Deep Space Communications Systems & Ka-band Propagation,Track B,Tier 1,PREPARED_NOT_SENT,YES
+TGT-13AH-06,ESA ESOC Ground Systems Engineering,European Space Operations Centre,Germany,Estrack Deep Space Network & Planetary Relay Telemetry,Track B,Tier 1,PREPARED_NOT_SENT,YES
+TGT-13AH-07,NASA GRC SCaN Advanced Communications,NASA Glenn Research Center,USA,Surface Mesh Telecommunications & Planetary DTN Protocols,Track B,Tier 2,PREPARED_NOT_SENT,YES
+TGT-13AH-08,JHU-APL Space Communications Group,Johns Hopkins University Applied Physics Lab,USA,Microwave Dust Attenuation & Radar Scattering,Track B,Tier 2,PREPARED_NOT_SENT,YES
+TGT-13AH-09,NASA Ames Robust Software Engineering (RSE),NASA Ames Research Center,USA,Automated Software Verification & Mutation Testing,Track C,Tier 1,PREPARED_NOT_SENT,YES
+TGT-13AH-10,Journal of Open Source Software (JOSS),Open Journals / NumFOCUS,International,Research Software Quality & Open Science Reproducibility,Track C,Tier 1,PREPARED_NOT_SENT,YES
+TGT-13AH-11,ACM TOMS Editorial Board,Association for Computing Machinery,International,Replicated Computational Results & Numerical Determinism,Track C,Tier 2,PREPARED_NOT_SENT,YES
