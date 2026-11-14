@@ -505,6 +505,7 @@ def generalized_octile_heuristic(
     v: Tuple[int, int],
     dx_ground_m: float,
     dy_ground_m: float,
+    d_diag: Optional[float] = None,
 ) -> float:
     """
     Calculate the admissible and consistent obstacle-free ground distance heuristic
@@ -524,7 +525,8 @@ def generalized_octile_heuristic(
     dr = abs(v[0] - u[0])
     dc = abs(v[1] - u[1])
 
-    d_diag = math.sqrt(dx_ground_m**2 + dy_ground_m**2)
+    if d_diag is None:
+        d_diag = math.sqrt(dx_ground_m**2 + dy_ground_m**2)
     min_steps = min(dr, dc)
     rem_r = dr - min_steps
     rem_c = dc - min_steps
@@ -580,14 +582,15 @@ def astar_search(
 
     dx = terrain.dx_ground_m
     dy = terrain.dy_ground_m
+    d_diag = math.sqrt(dx**2 + dy**2)
 
-    # 8-connected neighbor offsets
-    neighbors_delta = [
-        (-1, 0), (1, 0), (0, -1), (0, 1),
-        (-1, -1), (-1, 1), (1, -1), (1, 1)
+    # 8-connected neighbor offsets with precomputed ground step distances
+    neighbor_steps = [
+        (-1, 0, dy), (1, 0, dy), (0, -1, dx), (0, 1, dx),
+        (-1, -1, d_diag), (-1, 1, d_diag), (1, -1, d_diag), (1, 1, d_diag)
     ]
 
-    h_start = generalized_octile_heuristic(start_rc, goal_rc, dx, dy)
+    h_start = generalized_octile_heuristic(start_rc, goal_rc, dx, dy, d_diag=d_diag)
     # Priority queue stores (f_score, g_score, (r, c))
     pq: List[Tuple[float, float, Tuple[int, int]]] = [(h_start, 0.0, start_rc)]
     g_score: Dict[Tuple[int, int], float] = {start_rc: 0.0}
@@ -619,7 +622,7 @@ def astar_search(
             continue
 
         ur, uc = u
-        for dr, dc in neighbors_delta:
+        for dr, dc, step_d in neighbor_steps:
             nr = ur + dr
             nc = uc + dc
 
@@ -631,7 +634,7 @@ def astar_search(
                 continue
 
             v = (nr, nc)
-            edge_c = calculate_edge_cost(u, v, terrain, config=terrain_config)
+            edge_c = calculate_edge_cost(u, v, terrain, config=terrain_config, step_dist=step_d)
             if math.isinf(edge_c):
                 continue
 
@@ -641,14 +644,13 @@ def astar_search(
                 if mult > 1.0:
                     edge_c *= mult
 
-            step_d = calculate_step_distance(u, v, dx, dy)
             tentative_g = g + edge_c
 
             if tentative_g < g_score.get(v, float("inf")):
                 g_score[v] = tentative_g
                 dist_so_far[v] = dist_so_far[u] + step_d
                 parent[v] = u
-                h_v = generalized_octile_heuristic(v, goal_rc, dx, dy)
+                h_v = generalized_octile_heuristic(v, goal_rc, dx, dy, d_diag=d_diag)
                 heapq.heappush(pq, (tentative_g + h_v, tentative_g, v))
 
     # Destination was unreachable

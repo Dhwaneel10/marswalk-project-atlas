@@ -28147,7 +28147,6 @@ Astrobiology Reward Yield      0 pts                      160 pts               
 
   function renderStep(step) {
     currentStep = step;
-    window._gpCurrentStep = step;
     const cfg = STEPS_CONFIG[step] || STEPS_CONFIG[1];
     if (stepHeader) stepHeader.innerText = cfg.title;
     if (contentBox) contentBox.innerHTML = cfg.desc;
@@ -28172,7 +28171,6 @@ Astrobiology Reward Yield      0 pts                      160 pts               
     if (btnPrev) btnPrev.disabled = (step === 1);
     if (btnNext) btnNext.disabled = (step === 7);
   }
-  window._gpRenderStep = renderStep;
 
   if (btnToggle) {
     btnToggle.addEventListener('click', () => {

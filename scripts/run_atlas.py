@@ -345,12 +345,15 @@ class MarsWalkHTTPRequestHandler(SimpleHTTPRequestHandler):
 
     def send_json_response(self, data: dict, status_code: int = 200):
         """Helper to send a JSON response."""
-        body = json.dumps(data, indent=2).encode("utf-8")
-        self.send_response(status_code)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
+        try:
+            body = json.dumps(data, indent=2).encode("utf-8")
+            self.send_response(status_code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
 
     def send_binary_response(
         self,

@@ -358,7 +358,7 @@ def interpolate_position_along_path(
     lat = None
     if transform is not None:
         try:
-            x, y = transform * (c + 0.5, r + 0.5)
+            x, y = transform @ (c + 0.5, r + 0.5)
             lon = round(float(x), 6)
             lat = round(float(y), 6)
         except Exception:

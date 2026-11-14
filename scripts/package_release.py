@@ -6,12 +6,13 @@ Produces outputs/releases/marswalk-v2.0.0-rc1.tar.gz with SHA-256 checksum.
 
 import hashlib
 import os
+import sys
 import tarfile
 import time
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUTPUTS_DIR = os.path.join(PROJECT_ROOT, "outputs", "releases")
-RELEASE_NAME = "marswalk-v2.0.0-rc1"
+RELEASE_NAME = sys.argv[1] if len(sys.argv) > 1 else "marswalk-v2.0.0-rc2"
 ARCHIVE_PATH = os.path.join(OUTPUTS_DIR, f"{RELEASE_NAME}.tar.gz")
 CHECKSUM_PATH = os.path.join(OUTPUTS_DIR, f"{RELEASE_NAME}.sha256")
 
@@ -59,7 +60,7 @@ def should_exclude(path: str) -> bool:
         if p in EXCLUDE_DIRS:
             return True
     _, ext = os.path.splitext(path)
-    if ext in EXCLUDE_EXTENSIONS:
+    if ext in EXCLUDE_EXTENSIONS or ".bak" in path or ext.startswith(".bak"):
         return True
     return False
 

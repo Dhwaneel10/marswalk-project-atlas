@@ -10806,7 +10806,7 @@ def pillars_terrain_inspect_api(payload: Dict[str, Any]) -> Dict[str, Any]:
     if os.path.exists(ctx_tif):
         with rasterio.open(ctx_tif) as src:
             inv_ctx = ~src.transform
-            c_col, c_row = inv_ctx * (x_m, y_m)
+            c_col, c_row = inv_ctx @ (x_m, y_m)
             c_r, c_c = int(c_row), int(c_col)
             if 0 <= c_r < src.height and 0 <= c_c < src.width:
                 data = src.read(1)
@@ -10821,7 +10821,7 @@ def pillars_terrain_inspect_api(payload: Dict[str, Any]) -> Dict[str, Any]:
     if is_in_hirise and os.path.exists(hirise_tif):
         with rasterio.open(hirise_tif) as src:
             inv_h = ~src.transform
-            h_col, h_row = inv_h * (x_m, y_m)
+            h_col, h_row = inv_h @ (x_m, y_m)
             h_r, h_c = int(h_row), int(h_col)
             if 0 <= h_r < src.height and 0 <= h_c < src.width:
                 data = src.read(1)
@@ -11132,7 +11132,7 @@ def pillars_science_targets_plan_api(
     for t in selected_targets:
         x_m = np.radians(t["lon_deg"]) * R_mars
         y_m = np.radians(t["lat_deg"]) * R_mars
-        c, r = inv_t * (x_m, y_m)
+        c, r = inv_t @ (x_m, y_m)
         target_rcs.append((int(round(r)), int(round(c))))
 
     # Plan sequential legs: start -> target_1 -> target_n -> end

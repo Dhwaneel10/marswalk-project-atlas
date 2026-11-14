@@ -483,6 +483,7 @@ def calculate_edge_cost(
     v: Tuple[int, int],
     terrain: TerrainGrid,
     config: Optional[TerrainConfig] = None,
+    step_dist: Optional[float] = None,
 ) -> float:
     """
     Calculate the directed traversal cost C(u -> v) between neighboring cells u and v.
@@ -526,12 +527,14 @@ def calculate_edge_cost(
     if r1 == r2 and c1 == c2:
         return 0.0
 
-    dr = abs(r2 - r1)
-    dc = abs(c2 - c1)
-    if dr > 1 or dc > 1:
-        raise ValueError(f"Cells u={u} and v={v} are not adjacent on an 8-connected grid!")
-
-    dist = calculate_step_distance(u, v, terrain.dx_ground_m, terrain.dy_ground_m)
+    if step_dist is not None:
+        dist = step_dist
+    else:
+        dr = abs(r2 - r1)
+        dc = abs(c2 - c1)
+        if dr > 1 or dc > 1:
+            raise ValueError(f"Cells u={u} and v={v} are not adjacent on an 8-connected grid!")
+        dist = calculate_step_distance(u, v, terrain.dx_ground_m, terrain.dy_ground_m)
     if dist <= 0:
         return float("inf")
 
