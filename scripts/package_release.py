@@ -42,6 +42,7 @@ INCLUDE_FILES = [
     ".env.example",
     ".gitignore",
     "data/waypoints_jezero.json",
+    "data/raw/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif",
     "data/raw/pds_places_best_tactical.csv",
     "data/raw/pds_three_forks_sample_drops.csv",
     "data/raw/nasa_m20_traverse.json",

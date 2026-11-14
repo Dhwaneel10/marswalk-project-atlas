@@ -22,7 +22,8 @@ import tempfile
 import urllib.request
 import websockets
 
-BASE_URL = "http://127.0.0.1:3000"
+TARGET_PORT = int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 3000
+BASE_URL = f"http://127.0.0.1:{TARGET_PORT}"
 DEBUG_PORT = 9499
 OUTPUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "outputs", "browser_qa"))
 CHROME_BIN = "/usr/bin/google-chrome"

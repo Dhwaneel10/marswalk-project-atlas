@@ -112,7 +112,7 @@ gate_7() {
 # Gate 8: Chrome DevTools Protocol Headless Golden Path Audit
 gate_8() {
     if [[ -x "/usr/bin/google-chrome" ]]; then
-        .venv/bin/python scripts/audit_golden_path_browser.py
+        .venv/bin/python scripts/audit_golden_path_browser.py "$PORT"
     else
         echo "Notice: /usr/bin/google-chrome not available, skipping CDP browser test."
     fi
