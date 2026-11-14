@@ -257,6 +257,27 @@ def format_route_result(
     elif not route.is_budget_feasible:
         warnings.append("Traverse exceeds allowable mission operational budget.")
 
+    # Human EVA bioenergetics & safety disclosures (GAP-H1, GAP-H2, GAP-H3)
+    disclaimer = (
+        "MarsWalk modeled traverses reflect conceptual decision-support calculations and are NOT certified operationally safe for astronauts or flight hardware."
+    )
+    human_eva_metrics = None
+    if route.vehicle_mode == "crew_eva":
+        hrs = (active_time_val or 0.0) / 3600.0
+        metabolic_kcal = round(hrs * 320.0, 1)
+        o2_liters = round(hrs * 50.0, 1)
+        walkback_exceeded = bool(ground_dist_val is not None and ground_dist_val > 4000.0)
+        human_eva_metrics = {
+            "metabolic_burn_kcal": metabolic_kcal,
+            "estimated_o2_liters": o2_liters,
+            "walkback_limit_exceeded": walkback_exceeded,
+            "apollo_walkback_limit_m": 4000.0,
+        }
+        if walkback_exceeded:
+            warnings.append(
+                f"Advisory: Traverse length ({ground_dist_val:.0f}m) exceeds the 4.0 km Apollo-analogue walking return envelope from base station."
+            )
+
     route_metrics = {
         "ground_distance_m": ground_dist_val,
         "terrain_cost_flat_m": round(cost_val, 2) if cost_val is not None else None,
@@ -318,6 +339,8 @@ def format_route_result(
         "status_message": route.status_message,
         "execution_time_s": round(route.execution_time_s, 4),
         "assumptions": dict(ENGINEERING_ASSUMPTIONS),
+        "operational_safety_disclaimer": disclaimer,
+        "human_eva_bioenergetics": human_eva_metrics,
     }
     if route.legs:
         result["legs"] = [

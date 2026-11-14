@@ -376,3 +376,52 @@ def test_live_server_endpoints():
         g_data = json.loads(resp.read().decode())
         assert "HYPOTHETICAL" in g_data["disclaimer"]
         assert g_data["scenario"]["id"] == "scen_hawksbill_rockfall"
+
+
+def test_crew_eva_bioenergetics_and_safety_disclaimer(jezero_environment):
+    """
+    Verify GAP-H1, GAP-H2, and GAP-H3 compliance:
+    1. Mandatory operational safety disclaimer present.
+    2. Metabolic burn (kcal) and O2 consumption (L) calculated for crew_eva.
+    3. Walkback safety envelope checked (>4.0 km flags advisory warning).
+    4. Robotic rover mode omits human metabolic models.
+    """
+    grid = jezero_environment["grid"]
+    transform = jezero_environment["transform"]
+    waypoints = jezero_environment["waypoints"]
+
+    # 1. Crew EVA mode traverse
+    payload_eva = {
+        "start": {"row": 117, "col": 157},
+        "goal": {"row": 66, "col": 128},
+        "profile": "balanced",
+        "vehicle_mode": "crew_eva",
+    }
+    res_eva = plan_route_api(payload_eva, grid, transform, waypoints)
+    assert res_eva["is_reachable"] is True
+    assert "operational_safety_disclaimer" in res_eva
+    assert "NOT certified operationally safe" in res_eva["operational_safety_disclaimer"]
+    
+    bio = res_eva.get("human_eva_bioenergetics")
+    assert bio is not None
+    assert bio["metabolic_burn_kcal"] > 0.0
+    assert bio["estimated_o2_liters"] > 0.0
+    assert bio["apollo_walkback_limit_m"] == 4000.0
+
+    # If traverse distance > 4000m, verify advisory warning
+    if res_eva["distance_m"] > 4000.0:
+        assert bio["walkback_limit_exceeded"] is True
+        assert any("walkback" in w.lower() or "apollo" in w.lower() for w in res_eva["warnings"])
+
+    # 2. Robotic rover mode traverse
+    payload_rover = {
+        "start": {"row": 117, "col": 157},
+        "goal": {"row": 66, "col": 128},
+        "profile": "balanced",
+        "vehicle_mode": "robotic_rover",
+    }
+    res_rover = plan_route_api(payload_rover, grid, transform, waypoints)
+    assert res_rover["is_reachable"] is True
+    assert res_rover.get("human_eva_bioenergetics") is None
+    assert not any("walkback" in w.lower() for w in res_rover["warnings"])
+
