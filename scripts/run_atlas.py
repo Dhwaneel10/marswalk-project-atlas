@@ -2053,7 +2053,7 @@ def preload_terrain_and_waypoints(
 def main():
     parser = argparse.ArgumentParser(description="Launch MarsWalk 2.0 3D Atlas and Live Routing API.")
     parser.add_argument("--host", type=str, default="0.0.0.0", help="Host interface to bind to (default: 0.0.0.0 for LAN/WSL/Windows access)")
-    parser.add_argument("--port", type=int, default=3000, help="Port to serve on (default: 3000)")
+    parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", 3000)), help="Port to serve on (default: 3000 or $PORT)")
     parser.add_argument("--no-browser", action="store_true", help="Do not auto-open default web browser")
     parser.add_argument("--export-only", action="store_true", help="Only export mission assets and exit")
     parser.add_argument("--demo", action="store_true", help="Launch browser directly in Conference Demonstration mode (?mode=demo)")

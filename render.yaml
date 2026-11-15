@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: marswalk-project-atlas
+    runtime: python
+    buildCommand: pip install -e .
+    startCommand: python3 scripts/run_atlas.py --port $PORT --host 0.0.0.0 --no-browser
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
