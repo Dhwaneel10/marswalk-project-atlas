@@ -16,12 +16,15 @@
 
 ## 🏆 Official Competition Release Package (NASA Space Apps 2026)
 
-**Release Candidate:** `v2.6.0-competition-release` (`mission-17-competition-readiness`)  
-**Mission 17 Validation Status:** **11 / 11 Checkpoints Passed (100% Verified)**  
-**Reproducible Server Command:** `python3 scripts/run_atlas.py --port 3000` (Listening on `0.0.0.0:3000`)  
+**Release:** `v2.6.1-competition-ready` (`mission-17-competition-readiness`)  
+**Mission 17 & 17B Validation Status:** **11 / 11 Checkpoints Passed (100% Verified)**  
+**Public Repository:** [https://github.com/Dhwaneel10/marswalk-project-atlas](https://github.com/Dhwaneel10/marswalk-project-atlas)  
+**Published Git Commit:** `f924d54` (Branch: `mission-17-competition-readiness`)  
+**Reproducible Server Command:** `python3 scripts/run_atlas.py --port 3000 --host 0.0.0.0 --no-browser` (Listening on `0.0.0.0:3000`)  
 **Automated Verification Suite:** `.venv/bin/python3 scripts/verify_mission17_workflow.py`  
 
-### 📑 Mission 17 & 17B Release Documents
+### 📑 Mission 18, 17B & 17 Release Documents
+- **[Mission 18 Publication and Live Deployment Report](docs/MISSION_18_PUBLICATION_AND_DEPLOYMENT_REPORT.md):** Official public GitHub release audit, zero-leak verification, and cloud hosting architecture.
 - **[Mission 17B Homepage Repair Report](docs/MISSION_17B_HOMEPAGE_REPAIR_REPORT.md):** Architectural root-cause repair, 7-section continuous document flow, and layout rebalancing.
 - **[Mission 17B Multi-Resolution Responsive QA](docs/MISSION_17B_RESPONSIVE_QA.md):** Automated CDP audit across 7 viewports (1920x1080 to 360x800) with 0px horizontal overflow verification.
 - **[Mission 17 Final Handover Report](docs/MISSION_17_FINAL_HANDOVER.md):** Complete release sign-off, phase-by-phase completion matrix, and screenshot index.
@@ -63,10 +66,11 @@ MarsWalk 2.0 / Atlas is organized around **Five Core Capabilities** grounded in 
 4. **[Pillar 4 — Science-Driven Rover Planning](docs/FIVE_PILLAR_PRODUCT_ARCHITECTURE.md#5-pillar-4-science-driven-rover-planning):**
    - Geolocated astrobiology targets collocated onto the Jezero raster grid: Wildcat Ridge (organic carbon rings in sulfate mudstone), Skinner Ridge, Enchanted Lake, Kodiak Butte, and Belva Crater Rim.
    - Multi-objective A* traversal optimizing distance, energy, slopes, and scientific priority scores.
-5. **[Pillar 5 — Communications & Autonomous Resilience](docs/FIVE_PILLAR_PRODUCT_ARCHITECTURE.md#6-pillar-5-communications--autonomous-resilience):**
-   - Topographic Line-of-Sight (LOS) 3D ray-casting across the 20m CTX DTM toward orbital relays.
-   - RFC 9171 Delay-Tolerant Networking (DTN) custodian buffer model with store-and-forward resilience (**0 KB data loss** during 4-hour blackout).
-   - Autonomous safe hold & adaptive lateral ridge detour, with bit-exact cryptographic Merkle state proof (`0380a7cf112a7bd394ef8a21f3ddae772d8103e0caf9998cf36538b7844069b8`).
+5. **[Pillar 5 — Autonomous Resilience & Mission Assurance](docs/FIVE_PILLAR_PRODUCT_ARCHITECTURE.md#6-pillar-5-communications--autonomous-resilience):**
+   - Topographic Line-of-Sight (LOS) 3D ray-casting across the 20m CTX DTM.
+   - Autonomous safe hold & adaptive lateral ridge detour around steep slope barriers and rockfall corridors.
+   - Bit-exact cryptographic Merkle state proof (`0380a7cf112a7bd394ef8a21f3ddae772d8103e0caf9998cf36538b7844069b8`).
+   - *(Note: Deferred subsystem capabilities, including RelayNet RFC 9171 multi-hop mesh routing, are documented in the formal audit ledger at [docs/MISSION_17_FEATURE_AUDIT.md](docs/MISSION_17_FEATURE_AUDIT.md) to keep this competition release focused on verified surface operations.)*
 
 ---
 
@@ -84,18 +88,18 @@ Project MarsWalk 2.0 / Atlas is fully verified, regression-tested, and submissio
 ```
 
 ### 📋 Evaluator & Mission 6 Qualification Documentation Suite
-- **[Evaluator Golden Path Walkthrough](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/EVALUATOR_GOLDEN_PATH.md):** 7-step guided evaluator tour through the Five-Pillar architecture with live interactive HUD (`★ EVALUATOR TOUR`), expected values, and scientific explanations.
-- **[Mission 6 Final Handover Report](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/MISSION_6_FINAL_HANDOVER.md):** Complete mission sign-off, red-team defect register, comprehensive verification scorecard, and evaluator rubric alignment.
-- **[Mission 6 Red-Team Qualification Audit](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/MISSION_6_RED_TEAM_AUDIT.md):** Independent adversarial audit verifying Git state, process daemons, and 8/8 disk SHA-256 hashes.
-- **[Mission 6 Scientific & Mathematical Validation](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/MISSION_6_SCIENTIFIC_VALIDATION.md):** Mathematical resolution of Route A vs B planning, 30m science interception tolerance, and Three Forks sample depot ground truth.
-- **[Mission 6 Linux Browser QA Report](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/MISSION_6_BROWSER_QA.md):** Automated Chrome DevTools Protocol (CDP) headless test suite on Ubuntu 22.04 with 0 unhandled exceptions and full visual screenshot evidence.
-- **[Evaluator Demo Guide](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/EVALUATOR_DEMO_GUIDE.md):** Step-by-step evaluator manual for hackathon judges with terminal verification, 5-minute browser tour, and scenario walkthrough.
-- **[Five-Pillar Interaction Report](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/FIVE_PILLAR_INTERACTION_REPORT.md):** Architecture of the five NASA pillars, interactive endpoints, dynamic calibration, and live UI action trays.
-- **[Multi-Scale Terrain Explorer Report](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/TERRAIN_EXPLORER_REPORT.md):** USGS CTX 20m vs HiRISE 1m DTM geodesy, 5 control points, Horn slope math, and resolution-aware point inspection.
-- **[Science-Driven Mission Report](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/SCIENCE_DRIVEN_MISSION_REPORT.md):** Complete narrative arc connecting Three Forks Depot $\to$ Wildcat Ridge organic sampling $\to$ MEDA dust storm $\to$ RFC 9171 DTN custody buffer $\to$ Ridge detour $\to$ MRO orbiter link $\to$ Bit-exact Merkle proof.
-- **[NASA Planetary Data Inventory](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/NASA_DATA_INVENTORY.md):** Complete catalog of all ingested USGS, PDS, and JPL datasets with SHA-256 digests.
-- **[NASA Data Provenance & Geodesy Standards](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/NASA_DATA_PROVENANCE.md):** IAU 2000 Mars Spheroid parameters, Equirectangular projection math, and primary citations.
-- **[Technical Claims Register](file:///home/mech_ka_launda/projects/NASA-SpaceApps-2026/MarsWalk-Submission/docs/TECHNICAL_CLAIMS_REGISTER.md):** 12 verified claims with source citations, code links, test files, and measured results.
+- **[Evaluator Golden Path Walkthrough](docs/EVALUATOR_GOLDEN_PATH.md):** 7-step guided evaluator tour through the Five-Pillar architecture with live interactive HUD (`★ EVALUATOR TOUR`), expected values, and scientific explanations.
+- **[Mission 6 Final Handover Report](docs/MISSION_6_FINAL_HANDOVER.md):** Complete mission sign-off, red-team defect register, comprehensive verification scorecard, and evaluator rubric alignment.
+- **[Mission 6 Red-Team Qualification Audit](docs/MISSION_6_RED_TEAM_AUDIT.md):** Independent adversarial audit verifying Git state, process daemons, and 8/8 disk SHA-256 hashes.
+- **[Mission 6 Scientific & Mathematical Validation](docs/MISSION_6_SCIENTIFIC_VALIDATION.md):** Mathematical resolution of Route A vs B planning, 30m science interception tolerance, and Three Forks sample depot ground truth.
+- **[Mission 6 Linux Browser QA Report](docs/MISSION_6_BROWSER_QA.md):** Automated Chrome DevTools Protocol (CDP) headless test suite on Ubuntu 22.04 with 0 unhandled exceptions and full visual screenshot evidence.
+- **[Evaluator Demo Guide](docs/EVALUATOR_DEMO_GUIDE.md):** Step-by-step evaluator manual for hackathon judges with terminal verification, 5-minute browser tour, and scenario walkthrough.
+- **[Five-Pillar Interaction Report](docs/FIVE_PILLAR_INTERACTION_REPORT.md):** Architecture of the five NASA pillars, interactive endpoints, dynamic calibration, and live UI action trays.
+- **[Multi-Scale Terrain Explorer Report](docs/TERRAIN_EXPLORER_REPORT.md):** USGS CTX 20m vs HiRISE 1m DTM geodesy, 5 control points, Horn slope math, and resolution-aware point inspection.
+- **[Science-Driven Mission Report](docs/SCIENCE_DRIVEN_MISSION_REPORT.md):** Complete narrative arc connecting Three Forks Depot $\to$ Wildcat Ridge organic sampling $\to$ MEDA dust storm $\to$ Ridge detour $\to$ Bit-exact Merkle proof.
+- **[NASA Planetary Data Inventory](docs/NASA_DATA_INVENTORY.md):** Complete catalog of all ingested USGS, PDS, and JPL datasets with SHA-256 digests.
+- **[NASA Data Provenance & Geodesy Standards](docs/NASA_DATA_PROVENANCE.md):** IAU 2000 Mars Spheroid parameters, Equirectangular projection math, and primary citations.
+- **[Technical Claims Register](docs/TECHNICAL_CLAIMS_REGISTER.md):** 12 verified claims with source citations, code links, test files, and measured results.
 
 ### Quick Start & Automated Verification (Linux / Ubuntu 22.04 LTS)
 ```bash
@@ -174,14 +178,12 @@ Unlike generic routing tools, MarsWalk strictly respects planetary data boundari
 - **12-Point Automated Preflight Diagnostics:** Instant verification of HTTP server, raster basemaps, 2,061-item gazetteer, DTM grids, A* planner, Gauntlet disruption engine, and workspace storage via CLI (`scripts/preflight_check.py`) or UI modal.
 - **Safe Session Isolation:** In-memory session snapshotting (`demoSessionBackup`) guarantees active mission planning and persistent disk records are never mutated or lost.
 
-### 2. Planetary Cartography & Regional Exploration
+### 2. Planetary Cartography & Surface Demonstration Focus
 - **IAU 2000 Planetocentric Reference Sphere:** 3D globe rendered with USGS Viking MDIM 2.1 color basemap (232 m/pixel) and MOLA global topography.
-- **Searchable Gazetteer:** Over 2,000 verified planetary landmarks, robotic landing sites, and geological features with instant camera navigation.
-- **Four Featured Regional Destinations:**
-  - **Jezero Crater:** Delta deposits, crater rim, and Perseverance traverse route.
-  - **Olympus Mons:** Solar System's tallest shield volcano with calibrated CTX caldera preview.
-  - **Valles Marineris:** Planetary tectonic canyon rift with undistorted 5.625° regional subquad.
-  - **Gale Crater:** Curiosity rover traverse grounds and Mount Sharp (Aeolis Mons) strata.
+- **Searchable Gazetteer:** Over 2,000 verified planetary landmarks, robotic landing sites, and geological features with instant orbital camera navigation.
+- **Operational Surface Focus — Jezero Crater:**
+  - **Jezero Crater (Primary Demonstration Workstation):** High-resolution surface routing, DTM pathfinding, and interactive EVA sortie planning are **focused exclusively on Jezero Crater** (Perseverance landing site, Hawksbill Gap, Skinner Ridge, Enchanted Lake, Delta Rim) backed by authentic USGS CTX 20m digital elevation data and NASA PDS telemetry.
+  *(Note: Other planetary landmarks such as Olympus Mons, Valles Marineris, and Gale Crater are indexed in the orbital reference gazetteer for planetary orientation; 3D terrain elevation mesh routing is exclusively implemented and verified for Jezero Crater.)*
 
 ### 3. Jezero Crater 3D Surface Workstation
 - **Authentic 20 m/px DTM:** Constructed from USGS Astrogeology Science Center MRO CTX stereo pairs.
@@ -341,13 +343,12 @@ Unlike generic routing tools, MarsWalk strictly respects planetary data boundari
 
 ### 16. Mars Environmental Intelligence (Milestone 10D)
 - **NASA PDS In-Situ Archival Ingestion:** Atmospheric data ingestion from the NASA Planetary Data System (PDS) Atmospheres Node, featuring authentic Perseverance MEDA ground observations at Jezero Crater (Sol 1619: 589.7 Pa surface pressure, -61.7°C air temperature, -60.0°C ground temperature, 5.6% RH, $\tau = 0.35$).
-- **Multi-Site Planetary Isolation:** Strictly prevents erroneous cross-site projection across planetary distances. Curiosity REMS data at Gale Crater (842.1 Pa, -65°C) and InSight APSS data at Elysium Planitia are geographically isolated and tagged with site disclaimers.
+- **In-Situ Environmental Focus:** Strictly anchors in-situ environmental calculations to Perseverance MEDA ground truth at Jezero Crater. Prevents unphysical atmospheric projection across planetary distances.
 - **Physical Range Guard & Clean Missing Data:** Rejects unphysical Martian atmospheric metrics ($P \notin [10, 2000]\text{ Pa}$, $T \notin [130, 310]\text{ K}$) and maps PDS missing sentinels (`999999999`) to `null` rather than falsifying zero-wind speeds.
-- **Climatological Model Distinction:** Explicitly distinguishes empirical surface measurements (`IN_SITU_OBSERVATION`) from numerical circulation model predictions (`CLIMATOLOGICAL_MODEL` via Mars Climate Database v6.1 at Olympus Mons summit).
+- **Climatological Model Distinction:** Explicitly distinguishes empirical surface measurements (`IN_SITU_OBSERVATION`) from numerical circulation model predictions.
 - **Interactive Environmental Dashboard (`#weatherModal`):**
   - Atmospheric telemetry tiles: Barometric pressure (Pa & hPa), Air Temperature (°C & K), Ground Temperature (°C & K), Relative Humidity, Wind Vector, and Dust Optical Opacity ($\tau$).
   - Station banner with Martian Sol, UTC timestamp, local mean solar time (LMST), solar longitude ($L_s$ season), and cache age.
-  - Interactive site selector for 4 verified planetary meteorological stations.
   - Bounded 15-minute automatic refresh preference and manual query trigger.
   - Provenance links directly to official NASA PDS archival bundles.
 - **Non-Intrusive Advisory Integration:** Weather metrics provide environmental situational awareness without silently tampering with deterministic A* terrain pathfinding heuristics.
@@ -592,21 +593,24 @@ Unlike generic routing tools, MarsWalk strictly respects planetary data boundari
 ## 📥 Quick Start Guide
 
 ### Prerequisites
-- Python 3.10+ (Python 3.12 recommended)
-- Modern web browser with WebGL 2.0 support (Google Chrome, Mozilla Firefox, Microsoft Edge)
+- Python 3.10+ (Python 3.10 or 3.12 recommended)
+- Modern web browser with WebGL 2.0 support (Google Chrome, Mozilla Firefox, Microsoft Edge, Brave)
 
 ### Installation
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/NASA-Spaceapps/Marswalk.git
-   cd Marswalk
+   git clone https://github.com/Dhwaneel10/marswalk-project-atlas.git
+   cd marswalk-project-atlas
    ```
 2. **Set up virtual environment:**
-   ```powershell
-   python -m venv .venv
-   .\.venv\Scripts\Activate.ps1   # On Windows PowerShell
-   # .venv\Scripts\activate.bat   # On Windows cmd
-   # source .venv/bin/activate    # On macOS/Linux
+   ```bash
+   # On Linux / macOS / WSL
+   python3 -m venv .venv
+   source .venv/bin/activate
+
+   # On Windows PowerShell
+   # python -m venv .venv
+   # .\.venv\Scripts\Activate.ps1
    ```
 3. **Install dependencies:**
    ```bash
@@ -614,24 +618,25 @@ Unlike generic routing tools, MarsWalk strictly respects planetary data boundari
    pip install -e .
    ```
 
+### 🗺️ Planetary Terrain Datasets: Bundled vs Optional Extended
+
+- **Bundled Out-of-the-Box (Immediate Zero-Download Deployment):**  
+  The core digital elevation model `data/processed/jezero_ready_20m.tif` (247 KB, 250×250 raster grid, USGS CTX Jezero Crater 20 m/pixel) is **bundled directly in this Git repository**. You do not need to download any external files to start the server, plan EVA or rover routes, run contingency simulations, or inspect authentic topography.
+- **Extended Full-Quadrant Datasets (Optional & Downloaded Separately):**  
+  Full-quadrant regional CTX GeoTIFFs (DOI [10.5066/P9T31O12](https://doi.org/10.5066/P9T31O12), 100+ MB) and TRN HiRISE 1m DTM windows (DOI [10.5066/P13CPYYU](https://doi.org/10.5066/P13CPYYU)) are not bundled in Git to respect lightweight repository hygiene. They can be fetched on demand via `python scripts/download_hi_res_tiles.py` or `python data/fetch_raw_data.py`.
+
 ### Launching the Application
 
-#### Option A: PowerShell Launcher (Recommended for Windows)
-```powershell
-.\scripts\start_marswalk.ps1
-```
-Automatically verifies virtual environment, detects port collisions, probes existing daemon health, and opens the interactive 3D workstation in your default browser.
-
-#### Option B: Windows Batch Launcher
-```cmd
-scripts\start_marswalk.bat
-```
-
-#### Option C: Manual Python Terminal Launch
+#### Option A: Linux / WSL / macOS (Recommended)
 ```bash
-python scripts/run_atlas.py --port 3000
+python3 scripts/run_atlas.py --port 3000 --host 0.0.0.0 --no-browser
 ```
-Open your browser and navigate to `http://127.0.0.1:3000`.
+Open your browser and navigate to `http://127.0.0.1:3000` (or `http://localhost:3000`).
+
+#### Option B: Windows PowerShell Launcher
+```powershell
+.\scripts\start_atlas.ps1 -Port 3000
+```
 
 ---
 
@@ -691,8 +696,8 @@ For judges, aerospace reviewers, and teammates, follow this recommended 5-minute
 
 | Step | Duration | Target Screen / Controls | Key Demonstration Points |
 | :--- | :--- | :--- | :--- |
-| **1. Global Mars Context** | 0:00 – 1:00 | Landing Page $\rightarrow$ `EXPLORE ATLAS` | - Introduce IAU 2000 planetocentric reference sphere.<br>- Demonstrate search gazetteer (2,061 landmarks).<br>- Highlight 4 featured regions (Jezero, Olympus, Valles Marineris, Gale). |
-| **2. Jezero 3D Workstation** | 1:00 – 2:00 | Click `Jezero Crater` card or button | - Show authentic USGS 20m CTX DTM & draped optical imagery.<br>- Toggle slope hazard heatmap (>15° slope limit) & elevation tints.<br>- View 12 scientifically verified sample candidate waypoints. |
+| **1. Global Mars Context** | 0:00 – 1:00 | Landing Page $\rightarrow$ `EXPLORE ATLAS` | - Introduce IAU 2000 planetocentric reference sphere.<br>- Demonstrate search gazetteer (2,061 planetary landmarks).<br>- Highlight operational focus on Jezero Crater exploration corridor. |
+| **2. Jezero 3D Workstation** | 1:00 – 2:00 | Click `Jezero Crater` card | - Show authentic USGS 20m CTX DTM & draped optical imagery.<br>- Toggle slope hazard heatmap (>15° slope limit) & elevation tints.<br>- View 12 scientifically verified sample candidate waypoints. |
 | **3. Surface Traverse Planning** | 2:00 – 3:15 | Click `★ DEMO MODE` or load Demo Mission | - Explain 4-leg sortie: Octavia Landing $\rightarrow$ Hawksbill $\rightarrow$ Skinner $\rightarrow$ Enchanted Lake $\rightarrow$ Delta Rim.<br>- Review live A* metrics: 1,750m distance, 52 min walking, 45 min dwell, +6h 23m margin.<br>- Contrast Crew EVA walking (2.0 km/h) vs Robotic Rover (0.035 m/s). |
 | **4. Gauntlet Stress-Testing** | 3:15 – 4:15 | Stress Test $\rightarrow$ `Hawksbill Rockfall` | - Simulate physical corridor rockfall forcing 3D red obstruction cylinder and amber detour (+180m).<br>- Demonstrate mobility derating: traverse time doubles while path geometry stays invariant. |
 | **5. Recovery & Briefing Export** | 4:15 – 5:00 | `Apply Recovery` $\rightarrow$ `Export Briefing` | - Review 3-Way Trade-off Matrix (*Baseline vs Disrupted vs Recovered*).<br>- Export auditable Markdown dossier and Draft 2020-12 schema-valid JSON.<br>- Exit Demo Mode to demonstrate zero user workspace data corruption. |
@@ -704,53 +709,22 @@ For judges, aerospace reviewers, and teammates, follow this recommended 5-minute
 MarsWalk maintains an exhaustive suite of unit, integration, schema validation, and independent replay tests:
 
 ```bash
-# Run full automated test suite (660 tests)
-pytest -q
+# Run the core competition test suite (Astronaut EVA, adversarial boundaries, REST API):
+./scripts/run_tests.sh tests/test_astronaut_eva.py tests/test_astronaut_eva_adversarial.py tests/test_api_routing.py
 
-# Run Milestone 12A System Hardening & Scientific Credibility suite
-pytest -v tests/test_milestone_12a_hardening.py
+# Run surface workstation workflow verification:
+.venv/bin/python3 scripts/verify_mission17_workflow.py
 
-# Run Phase D End-to-End Workflow Audit Script
-python scripts/audit_end_to_end_workflow.py
-
-# Run Milestone 11I Campaign Benchmark Harness & Integration suite
-pytest -v tests/test_milestone_11i_integration_benchmark.py
-
-# Run Milestone 11H Campaign Design Space Explorer & Pareto Optimization suite
-pytest -v tests/test_milestone_11h_campaign_design_space.py
-
-# Run Milestone 11G Campaign Performance Analytics suite
-pytest -v tests/test_milestone_11g_campaign_analytics.py
-
-# Run Milestone 11F Campaign Digital Twin Simulation suite
-pytest -v tests/test_milestone_11f_campaign_simulator.py
-
-# Run Milestone 11E Multi-Agent Campaign Coordination suite
-pytest -v tests/test_milestone_11e_campaign_coordination.py
-
-# Run Milestone 11D Campaign What-If Simulation Lab suite
-pytest -v tests/test_milestone_11d_campaign_scenarios.py
-
-# Run Milestone 11C Observation-Driven Campaign Intelligence suite
-pytest -v tests/test_milestone_11c_campaign_intelligence.py
-
-# Run Milestone 11B Campaign Progress & Science Observation Registry suite
-pytest -v tests/test_milestone_11b_campaign_progress.py
-
-# Run Milestone 11A Mission Campaign Orchestrator suite
-pytest -v tests/test_milestone_11a_mission_campaign.py
-
-# Run Campaign Benchmark Suite Runner (8 scenarios, 22 candidates evaluated)
-python scripts/run_campaign_benchmark.py
-
-# Run Preflight Diagnostics (12/12 checkpoints)
-python scripts/preflight_check.py
+# Run multi-viewport responsive layout audit (7 resolutions, 0px overflow):
+.venv/bin/python3 scripts/verify_mission17b_responsive.py
 ```
 
 **Verification Results:**
-- **855 passed tests** across 54 test suites in **~174s (100% green)**.
-- Zero failures, zero warnings, zero skips.
-- Validates autonomous science-tour optimization, multi-objective champion synthesis, non-dominated Pareto frontier extraction, multi-stop geometry invariants, vehicle locomotion modes, budget feasibility, disruption detours, custom interactive contingencies, compound multi-event simulation, workspace immutability, canonical run bundle schemas with cryptographic execution digests, Decision Pack ZIP extraction, independent deterministic replay reproduction, mid-sortie emergency handoffs, Sortie Black Box event ledgers, authentic NASA PDS environmental intelligence, reproducible mission science reporting, Mission Readiness Decision Gate assurance evaluations, end-to-end integration rehearsal workflows, multi-sol mission campaign orchestration, science observation registries, observation-driven campaign intelligence, deterministic campaign what-if simulation scenario comparisons, multi-agent campaign fleet coordination, deterministic campaign digital twin execution simulations, evidence-grounded campaign performance analytics, multi-objective campaign design space exploration with Pareto dominance classification, the deterministic 8-scenario campaign benchmark harness across authentic Jezero crater topography, Milestone 13D RelayNet communication visibility, Milestone 13E Joint Mission Co-Design, Milestone 13F Energy & Resource Intelligence, and Milestone 13G-R Science Return & Data Logistics Co-Design with live Science Recovery Lab disturbance simulation, and Milestone 13H Campaign Operations Director (MOCC) with closed-loop multi-sol orchestration and adaptive replanning.
+- **Core Competition Suite:** **33 / 33 passed (100% green)** in 24.88s.
+- **Workflow Verification:** **11 / 11 surface workstation checkpoints passed**.
+- **Multi-Viewport Responsive QA:** **35 / 35 checks passed** across 7 device resolutions with 0px horizontal overflow.
+- **Full Repository Regression Suite:** **1,305 passed** tests across all simulation, kinematic, planetary data, and API modules.
+- Validates autonomous science-tour optimization, multi-objective champion synthesis, non-dominated Pareto frontier extraction, multi-stop geometry invariants, vehicle locomotion modes, budget feasibility, disruption detours, custom interactive contingencies, compound multi-event simulation, workspace immutability, canonical run bundle schemas with cryptographic execution digests, Decision Pack ZIP extraction, independent deterministic replay reproduction, mid-sortie emergency handoffs, Sortie Black Box event ledgers, authentic NASA PDS environmental intelligence, reproducible mission science reporting, and Mission Readiness Decision Gate assurance evaluations. *(Note: Deferred subsystem prototypes are archived in the audit ledger at `docs/MISSION_17_FEATURE_AUDIT.md`.)*
 
 ### 🔬 Independent Replay & Verification for Judges
 To independently verify the integrity and deterministic reproduction of any exported Decision Pack bundle without browser overhead:
@@ -781,12 +755,12 @@ python -c "import json, rasterio; from marswalk.core.terrain import load_and_pro
 ## 🔧 Release Documentation & Verification Artifacts
 
 - **Milestone 13K Goal-Driven Mission Design Compiler:** [`docs/milestone-13k-final-report.md`](docs/milestone-13k-final-report.md) — Natural-language mission intent parsing, remote sensing validation, Directed Acyclic Task Graph (DAG) decomposition, hard vs soft constraint engine, 7-level hierarchical fleet synthesis of 8 operational postures, non-dominated Pareto frontier extraction, forensic causal compilation debugger with 1-click relaxation, 6-scenario benchmark lab (Campaigns A–F), Atlas Mission Design Studio 2.0 interface, and 18-screenshot conference showcase gallery.
-- **Milestone 13J Atlas Fleet Intelligence:** [`docs/milestone-13j-final-report.md`](docs/milestone-13j-final-report.md) — Multi-rover cooperative exploration, distributed science task allocation with authoritative instrument matching, multi-agent terrain-aware route coordination, 4D spatiotemporal deconfliction, collaborative RelayNet mesh with mobile relay nodes, strict zero-energy-pooling accounting, multi-sol synchronized Gantt timelines, 6D Pareto optimization, counterfactual disturbance recovery lab (F1–F7), and 15-screenshot conference showcase gallery.
+- **Milestone 13J Atlas Fleet Intelligence [DEFERRED]:** [`docs/milestone-13j-final-report.md`](docs/milestone-13j-final-report.md) — Multi-rover cooperative exploration, distributed science task allocation with authoritative instrument matching, multi-agent terrain-aware route coordination, 4D spatiotemporal deconfliction, and counterfactual disturbance recovery lab (F1–F7). *(Deferred to research archive per [docs/MISSION_17_FEATURE_AUDIT.md](docs/MISSION_17_FEATURE_AUDIT.md)).*
 - **Milestone 13I Mission Assurance & Counterfactual Operations Lab:** [`docs/milestone-13i-final-report.md`](docs/milestone-13i-final-report.md) — Immutable campaign branching, deterministic replay, 20-rule invariant verification, 12 standardized planetary disturbance models, 3-way comparative workspace, optimistic concurrency promotion, Merkle cryptographic dossier, and conference showcase gallery.
 - **Milestone 13H Campaign Operations Director (MOCC):** [`docs/milestone-13h-final-report.md`](docs/milestone-13h-final-report.md) — Multi-Sol mission orchestration, closed-loop execution, SHA-256 event deduplication, adaptive campaign replanning, flight-operations MOCC cockpit, 3D Mission Theater Story Mode, and conference showcase gallery.
 - **Milestone 13G-R Science Return & Data Logistics Co-Design:** [`docs/milestone-13g-final-report.md`](docs/milestone-13g-final-report.md) — Multi-instrument observation scheduling, robotic arm turret singularity, exact First Law byte conservation ($S_{\text{used}} = S_{\text{gen}} - S_{\text{rel}}$), communications-aware simulated transfer, 8D Pareto optimization, Science Return Recovery Lab disturbance simulation, and conference showcase gallery.
 - **Milestone 13F Energy & Resource Intelligence:** [`docs/milestone-13f-report.md`](docs/milestone-13f-report.md) — Resource-constrained traverse planning, terramechanical power budgeting ($W_r, W_g, E_m$), descent non-regenerative physics, 7-state feasibility classification, and conference showcase gallery.
-- **Milestone 13E Joint Mission Co-Design:** [`docs/milestone-13e-report.md`](docs/milestone-13e-report.md) — Coupled traverse planning × RelayNet line-of-sight optimization with multi-dimensional Pareto frontier.
+- **Milestone 13E Joint Mission Co-Design [DEFERRED]:** [`docs/milestone-13e-report.md`](docs/milestone-13e-report.md) — Coupled traverse planning × orbital line-of-sight optimization with multi-dimensional Pareto frontier. *(Deferred to research archive per [docs/MISSION_17_FEATURE_AUDIT.md](docs/MISSION_17_FEATURE_AUDIT.md)).*
 - **V2 Demonstration Runbook:** [`docs/v2-demonstration-runbook.md`](docs/v2-demonstration-runbook.md) — 5-minute interactive evaluator walkthrough covering the complete V2 multi-sol campaign orchestration lifecycle.
 - **Scientific Evidence Traceability Matrix:** [`docs/scientific-evidence-traceability.md`](docs/scientific-evidence-traceability.md) — Rigorous audit mapping terrain, geodesy, atmospheric intelligence, kinematics, energy, Pareto optimization, and digital twin replay to primary citations and test suites.
 - **Milestone 12A Hardening Report:** [`docs/milestone-12a-report.md`](docs/milestone-12a-report.md) — System hardening, resilience audit, performance measurements, and acceptance gate report.

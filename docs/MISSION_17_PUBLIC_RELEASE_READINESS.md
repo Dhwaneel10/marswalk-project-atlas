@@ -1,8 +1,9 @@
 # Mission 17: Public Release Readiness & Deployment Feasibility
 
 **Project:** MarsWalk 2.0 / Project Atlas  
-**Release Tag:** `v2.6.0-competition-release`  
+**Release Tag:** `v2.6.1-competition-ready`  
 **Git Branch:** `mission-17-competition-readiness`  
+**Public Repository:** [https://github.com/Dhwaneel10/marswalk-project-atlas](https://github.com/Dhwaneel10/marswalk-project-atlas)  
 **Target Platform:** Public GitHub Repository & NASA Space Apps Submission  
 
 ---
@@ -57,8 +58,8 @@ MarsWalk 2.0 is designed for flexible deployment across local machines, virtual 
 ### 3.1 Local Machine Deployment (Native Linux / WSL2)
 ```bash
 # 1. Clone repository
-git clone https://github.com/NASA-SpaceApps-2026/MarsWalk-Submission.git
-cd MarsWalk-Submission
+git clone https://github.com/Dhwaneel10/marswalk-project-atlas.git
+cd marswalk-project-atlas
 
 # 2. Bootstrap virtual environment & dependencies
 ./scripts/setup_atlas.sh

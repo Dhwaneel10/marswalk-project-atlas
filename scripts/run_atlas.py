@@ -384,6 +384,19 @@ class MarsWalkHTTPRequestHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
+    def do_HEAD(self):
+        """Handle HEAD requests for health probes and static headers."""
+        parsed_url = urlparse(self.path)
+        clean_path = parsed_url.path
+        if clean_path in ("/api/health", "/api/status"):
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+            self.end_headers()
+            return
+        super().do_HEAD()
+
     def do_GET(self):
         """Handle GET requests for static files, API status, imagery tiles, and workspace entities."""
         parsed_url = urlparse(self.path)
