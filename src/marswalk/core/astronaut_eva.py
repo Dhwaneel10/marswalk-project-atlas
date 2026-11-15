@@ -169,14 +169,20 @@ def calculate_human_step_cost(
 
     z1 = float(terrain.elevation[r1, c1])
     z2 = float(terrain.elevation[r2, c2])
-    dz = z2 - z1
-
-    theta_step = math.degrees(math.atan(abs(dz) / dist))
     theta_dest = float(terrain.slope_deg[r2, c2])
+
+    # Guard against NaN, infinite, or corrupted DEM values (DEFECT-13-01)
+    if math.isnan(z1) or math.isnan(z2) or math.isinf(z1) or math.isinf(z2):
+        return float("inf")
+    if math.isnan(theta_dest) or math.isinf(theta_dest):
+        return float("inf")
+
+    dz = z2 - z1
+    theta_step = math.degrees(math.atan(abs(dz) / dist))
     theta_uv = max(theta_dest, theta_step)
 
     # Human slope cutoff (default 20.0°, configurable)
-    if theta_uv >= cfg.max_walk_slope_deg:
+    if math.isnan(theta_uv) or theta_uv >= cfg.max_walk_slope_deg:
         return float("inf")
 
     # Quadratic slope penalty
@@ -212,18 +218,23 @@ def calculate_human_walk_time_and_metabolics(
     m_cfg = mobility_cfg if mobility_cfg is not None else HumanMobilityConfig()
     b_cfg = budget_cfg if budget_cfg is not None else EVAConsumableBudget()
 
-    if effort_cost <= 0 or math.isinf(effort_cost) or ground_distance_m <= 0:
+    if effort_cost <= 0 or math.isinf(effort_cost) or ground_distance_m <= 0 or math.isnan(effort_cost) or math.isnan(ground_distance_m):
         return 0.0, dwell_time_s, 0.0, 0.0, 0.0
 
-    # Flat nominal speed in m/s
-    v_flat_ms = (m_cfg.nominal_walk_speed_kmh * 1000.0) / 3600.0
+    # Flat nominal speed in m/s (guarded against non-positive values)
+    nominal_kmh = max(0.1, float(m_cfg.nominal_walk_speed_kmh))
+    min_kmh = max(0.05, float(m_cfg.min_walk_speed_kmh))
+    v_flat_ms = (nominal_kmh * 1000.0) / 3600.0
+    v_min_ms = (min_kmh * 1000.0) / 3600.0
+
     # Terrain effort factor (ratio of flat-effort distance to actual distance)
     terrain_impedance = max(1.0, effort_cost / max(1.0, ground_distance_m))
     
     # Effective speed is slowed down by terrain impedance and work/rest ratio
+    cadence = max(0.1, min(1.0, float(m_cfg.work_rest_ratio)))
     v_effective_ms = max(
-        (m_cfg.min_walk_speed_kmh * 1000.0) / 3600.0,
-        (v_flat_ms / terrain_impedance) * m_cfg.work_rest_ratio
+        v_min_ms,
+        (v_flat_ms / terrain_impedance) * cadence
     )
     walk_time_s = ground_distance_m / v_effective_ms
     total_time_s = walk_time_s + dwell_time_s
@@ -272,8 +283,11 @@ def evaluate_eva_consumable_budget(
 
     walkback_exceeded = ground_dist_m > b.apollo_walkback_limit_m
     is_feasible = (
-        total_time_s <= b.max_duration_s
+        b.primary_o2_capacity_liters > 0.0
+        and o2_liters < b.primary_o2_capacity_liters
+        and total_time_s <= b.max_duration_s
         and remaining_o2 >= b.emergency_o2_reserve_liters
+        and remaining_o2 > 0.0
         and remaining_battery > 0.0
     )
 
@@ -470,25 +484,23 @@ def plan_three_astronaut_eva_routes(
         # Determine sequence of waypoints
         # Outbound: Base -> Stop 1 -> Stop 2 -> ... -> Final Stop
         # Inbound: Final Stop -> Base (if require_return_to_base)
-        nodes: List[Tuple[int, int]] = [base_rc]
+        outbound_nodes: List[Tuple[int, int]] = [base_rc]
         stop_meta = []
         for s in science_stops:
             s_rc = (int(s["row"]), int(s["col"]))
-            nodes.append(s_rc)
+            outbound_nodes.append(s_rc)
             stop_meta.append(s)
 
-        if require_return_to_base and len(nodes) > 1:
-            nodes.append(base_rc)
-
-        total_path: List[Tuple[int, int]] = []
-        total_dist_m = 0.0
-        total_cost = 0.0
-        is_reachable = True
+        outbound_path: List[Tuple[int, int]] = []
+        outbound_dist_m = 0.0
+        outbound_cost = 0.0
+        outbound_reachable = True
         legs_data = []
 
-        for i in range(len(nodes) - 1):
-            u = nodes[i]
-            v = nodes[i + 1]
+        # 1. Compute Outbound Legs (Base -> Stop 1 -> ... -> Stop N)
+        for i in range(len(outbound_nodes) - 1):
+            u = outbound_nodes[i]
+            v = outbound_nodes[i + 1]
             leg = plan_human_eva_leg(
                 u, v, terrain,
                 mobility_cfg=p_mob,
@@ -496,51 +508,118 @@ def plan_three_astronaut_eva_routes(
                 cost_multiplier_mask=cost_multiplier_mask,
             )
             if not leg.is_reachable:
-                is_reachable = False
+                outbound_reachable = False
                 break
-            
-            # Stitch path
+
             if i == 0:
-                total_path.extend(leg.path)
+                outbound_path.extend(leg.path)
             else:
-                total_path.extend(leg.path[1:])
-            total_dist_m += leg.distance_m
-            total_cost += leg.cost
+                outbound_path.extend(leg.path[1:])
+            outbound_dist_m += leg.distance_m
+            outbound_cost += leg.cost
             legs_data.append({
                 "leg_index": i + 1,
                 "from_rc": list(u),
                 "to_rc": list(v),
                 "distance_m": round(leg.distance_m, 1),
                 "effort_cost": round(leg.cost, 1),
-                "is_return_leg": bool(i == len(nodes) - 2 and require_return_to_base),
+                "is_return_leg": False,
             })
 
-        # Science dwell time: 0 at base, dwell_time_per_target_s at intermediate science stops
+        # 2. Compute Return Leg (Final Stop -> Base)
+        return_path: List[Tuple[int, int]] = []
+        return_dist_m = 0.0
+        return_cost = 0.0
+        return_leg_feasible = True
+
+        if outbound_reachable and require_return_to_base and len(outbound_nodes) > 1:
+            ret_u = outbound_nodes[-1]
+            ret_v = base_rc
+            ret_leg = plan_human_eva_leg(
+                ret_u, ret_v, terrain,
+                mobility_cfg=p_mob,
+                blocked_mask=blocked_mask,
+                cost_multiplier_mask=cost_multiplier_mask,
+            )
+            if not ret_leg.is_reachable:
+                return_leg_feasible = False
+            else:
+                return_path = list(ret_leg.path)
+                return_dist_m = ret_leg.distance_m
+                return_cost = ret_leg.cost
+                legs_data.append({
+                    "leg_index": len(legs_data) + 1,
+                    "from_rc": list(ret_u),
+                    "to_rc": list(ret_v),
+                    "distance_m": round(ret_leg.distance_m, 1),
+                    "effort_cost": round(ret_leg.cost, 1),
+                    "is_return_leg": True,
+                })
+
+        # Combined path
+        total_path: List[Tuple[int, int]] = []
+        if outbound_path:
+            total_path.extend(outbound_path)
+        if return_path:
+            total_path.extend(return_path[1:] if total_path else return_path)
+
+        total_dist_m = outbound_dist_m + return_dist_m
+        total_cost = outbound_cost + return_cost
+        is_reachable = bool(outbound_reachable and (return_leg_feasible or not require_return_to_base))
+
+        # Science dwell time: dwell_time_per_target_s at intermediate science stops
         total_dwell_s = len(science_stops) * dwell_time_per_target_s
 
         if is_reachable and total_dist_m > 0:
-            walk_s, tot_s, kcal, o2_l, bat_wh = calculate_human_walk_time_and_metabolics(
-                effort_cost=total_cost,
-                ground_distance_m=total_dist_m,
+            # Outbound transit metrics
+            out_walk_s, _, out_kcal, out_o2_l, out_bat_wh = calculate_human_walk_time_and_metabolics(
+                effort_cost=outbound_cost,
+                ground_distance_m=outbound_dist_m,
                 mobility_cfg=p_mob,
                 budget_cfg=b_cfg,
-                dwell_time_s=total_dwell_s,
+                dwell_time_s=0.0,
             )
+            # Dwell metrics (stationary research / sampling at 180 kcal/hr)
+            dwell_hrs = total_dwell_s / 3600.0
+            dwell_kcal = dwell_hrs * 180.0
+            o2_ratio = b_cfg.nominal_o2_liters_hr / b_cfg.nominal_metabolic_kcal_hr
+            dwell_o2_l = dwell_kcal * o2_ratio
+            dwell_bat_wh = dwell_hrs * b_cfg.base_suit_power_w
+
+            # Return transit metrics
+            ret_walk_s, _, ret_kcal, ret_o2_l, ret_bat_wh = calculate_human_walk_time_and_metabolics(
+                effort_cost=return_cost,
+                ground_distance_m=return_dist_m,
+                mobility_cfg=p_mob,
+                budget_cfg=b_cfg,
+                dwell_time_s=0.0,
+            )
+
+            tot_walk_s = out_walk_s + ret_walk_s
+            tot_time_s = tot_walk_s + total_dwell_s
+            tot_kcal = out_kcal + dwell_kcal + ret_kcal
+            tot_o2_l = out_o2_l + dwell_o2_l + ret_o2_l
+            tot_bat_wh = out_bat_wh + dwell_bat_wh + ret_bat_wh
+
             consumable_eval = evaluate_eva_consumable_budget(
-                active_walk_s=walk_s,
+                active_walk_s=tot_walk_s,
                 dwell_s=total_dwell_s,
-                metabolic_kcal=kcal,
-                o2_liters=o2_l,
-                battery_wh=bat_wh,
+                metabolic_kcal=tot_kcal,
+                o2_liters=tot_o2_l,
+                battery_wh=tot_bat_wh,
                 budget=b_cfg,
                 ground_dist_m=total_dist_m,
             )
-            
-            # Max slope along path
+
+            # Max & average slope along path
             slopes = [float(terrain.slope_deg[r, c]) for r, c in total_path]
             max_slope = max(slopes) if slopes else 0.0
             avg_slope = sum(slopes) / len(slopes) if slopes else 0.0
         else:
+            out_walk_s, ret_walk_s = 0.0, 0.0
+            out_kcal, dwell_kcal, ret_kcal = 0.0, 0.0, 0.0
+            out_o2_l, dwell_o2_l, ret_o2_l = 0.0, 0.0, 0.0
+            tot_bat_wh = 0.0
             consumable_eval = evaluate_eva_consumable_budget(
                 active_walk_s=0.0, dwell_s=0.0, metabolic_kcal=0.0, o2_liters=0.0,
                 battery_wh=0.0, budget=b_cfg, ground_dist_m=0.0
@@ -551,8 +630,10 @@ def plan_three_astronaut_eva_routes(
         # Return-to-base validation
         return_feasible = is_reachable and consumable_eval.is_consumable_feasible
         warnings = []
-        if not is_reachable:
-            warnings.append("Route is impassable due to slope limit or terrain barrier.")
+        if not outbound_reachable:
+            warnings.append("Outbound route is impassable due to slope limit or terrain barrier.")
+        elif require_return_to_base and not return_leg_feasible:
+            warnings.append("CRITICAL: Outbound traverse reaches science targets, but return-to-base path is IMPASSABLE. Excursion is UNSAFE.")
         elif not consumable_eval.is_consumable_feasible:
             warnings.append("Consumable envelope exceeded: projected oxygen or mission duration exceeds safety threshold.")
         if consumable_eval.walkback_limit_exceeded:
@@ -564,9 +645,14 @@ def plan_three_astronaut_eva_routes(
             "description": p_desc,
             "is_reachable": is_reachable,
             "is_feasible": return_feasible,
+            "return_leg_feasible": return_leg_feasible,
             "total_distance_m": round(total_dist_m, 1),
+            "outbound_distance_m": round(outbound_dist_m, 1),
+            "return_distance_m": round(return_dist_m, 1),
             "terrain_effort_cost": round(total_cost, 1),
             "active_walk_time_s": consumable_eval.active_walk_time_s,
+            "outbound_walk_time_s": round(out_walk_s, 1),
+            "return_walk_time_s": round(ret_walk_s, 1),
             "science_dwell_time_s": consumable_eval.science_dwell_time_s,
             "total_mission_time_s": consumable_eval.total_time_s,
             "formatted_duration": format_duration(consumable_eval.total_time_s),
@@ -583,8 +669,21 @@ def plan_three_astronaut_eva_routes(
                 "walkback_limit_exceeded": consumable_eval.walkback_limit_exceeded,
                 "apollo_walkback_limit_m": b_cfg.apollo_walkback_limit_m,
             },
+            "consumable_breakdown": {
+                "outbound_o2_liters": round(out_o2_l, 1),
+                "dwell_o2_liters": round(dwell_o2_l, 1),
+                "return_o2_liters": round(ret_o2_l, 1),
+                "total_o2_liters": round(consumable_eval.oxygen_consumed_liters, 1),
+                "outbound_metabolic_kcal": round(out_kcal, 1),
+                "dwell_metabolic_kcal": round(dwell_kcal, 1),
+                "return_metabolic_kcal": round(ret_kcal, 1),
+                "total_metabolic_kcal": round(consumable_eval.metabolic_energy_kcal, 1),
+                "battery_wh": round(consumable_eval.battery_energy_wh, 1),
+            },
             "return_to_base_included": require_return_to_base,
             "path_rc": [list(rc) for rc in total_path],
+            "outbound_path_rc": [list(rc) for rc in outbound_path],
+            "return_path_rc": [list(rc) for rc in return_path],
             "legs": legs_data,
             "warnings": warnings,
         }
@@ -620,33 +719,79 @@ def execute_eva_contingency_workflow(
     consumable_budget: Optional[EVAConsumableBudget] = None,
     blocked_mask: Optional[np.ndarray] = None,
     custom_message: Optional[str] = None,
+    current_state: Union[EVAMissionState, str] = EVAMissionState.NOMINAL,
+    dust_optical_depth: Optional[float] = None,
+    remaining_o2_liters: Optional[float] = None,
 ) -> Dict[str, Any]:
     """
     Dedicated Human EVA Contingency Workflow.
 
-    Evaluates disruption, determines authoritative state transition:
-    - Dust event -> CAUTION / SAFE_HOLD / RETURN_TO_BASE depending on opacity.
-    - Comms loss -> CAUTION with relay loss alert.
-    - Obstacle / route obstruction -> Immediate emergency return route recomputation.
-    - Low consumable reserve -> RETURN_TO_BASE abort.
+    Evaluates disruption and determines authoritative state transitions:
+    - Dust event -> CAUTION (moderate dust tau < 3.0) or RETURN_TO_BASE (severe dust storm tau >= 3.0).
+    - Comms loss -> CAUTION with relay loss alert and visor dead-reckoning.
+    - Obstacle / route obstruction -> Immediate emergency return route recomputation (RETURN_TO_BASE).
+    - Low consumable reserve (< 20%) -> Immediate abort sequence (RETURN_TO_BASE).
+    - Unrecoverable blocked return with exhausted O2 -> MISSION_ABORTED.
+    - Safe arrival at habitat airlock -> COMPLETED.
 
     Calculates emergency return route to base/habitat from current coordinates.
     """
     m_cfg = mobility_config if mobility_config is not None else HumanMobilityConfig()
     b_cfg = consumable_budget if consumable_budget is not None else EVAConsumableBudget()
 
-    # Determine state and advisory
+    prev_state_str = getattr(current_state, "value", str(current_state)).upper()
+    H, W = terrain.shape
+
+    # Grid bounds check
+    for pt, name in [(current_astronaut_rc, "Current Astronaut Position"), (base_rc, "Base Location")]:
+        if not (0 <= pt[0] < H and 0 <= pt[1] < W):
+            return {
+                "schema_version": "2.0.0",
+                "contingency_type": getattr(contingency_type, "value", str(contingency_type)),
+                "mission_state": EVAMissionState.SAFE_HOLD.value,
+                "previous_state": prev_state_str,
+                "requires_immediate_return": True,
+                "advisory": f"CRITICAL: {name} ({pt[0]}, {pt[1]}) is outside terrain raster boundary ({H}x{W}).",
+                "user_description": custom_message or "",
+                "current_position_rc": list(current_astronaut_rc),
+                "base_location_rc": list(base_rc),
+                "emergency_return_route": {
+                    "is_reachable": False,
+                    "path_rc": [],
+                    "metrics": None,
+                },
+                "radiation_status": "UNKNOWN (In-situ surface sensor telemetry unavailable in this sector)",
+                "operational_safety_disclaimer": (
+                    "Conceptual Mars EVA planning prototype. Not certified for astronaut operations, "
+                    "spacesuit design, life-support sizing or real mission safety decisions."
+                ),
+            }
+
+    # Evaluate lifecycle state and advisory
     state = EVAMissionState.NOMINAL
     advisory = ""
     requires_immediate_return = False
 
-    if contingency_type == EVAContingencyType.DUST_EVENT:
-        state = EVAMissionState.CAUTION
-        advisory = "Regional dust opacity event detected. Atmospheric optical depth rising; solar insolation and visual contrast degraded."
+    # Check arrival at base
+    if current_astronaut_rc == base_rc:
+        state = EVAMissionState.COMPLETED
+        advisory = "Astronaut has arrived safely at habitat base airlock. Ingress completed."
+    elif remaining_o2_liters is not None and remaining_o2_liters <= 0.0:
+        state = EVAMissionState.MISSION_ABORTED
+        advisory = "CRITICAL: Consumable life-support depleted before reaching base. Excursion aborted."
+    elif contingency_type == EVAContingencyType.DUST_EVENT:
+        tau = float(dust_optical_depth) if dust_optical_depth is not None else 1.5
+        if tau >= 3.0:
+            state = EVAMissionState.RETURN_TO_BASE
+            requires_immediate_return = True
+            advisory = f"Severe regional dust storm detected (optical depth tau = {tau:.1f}). Solar insolation collapsed and surface visibility zero. Immediate abort to base initiated."
+        else:
+            state = EVAMissionState.CAUTION
+            advisory = f"Moderate dust opacity event detected (optical depth tau = {tau:.1f}). Atmospheric contrast degraded. Visor contrast enhancement active."
     elif contingency_type == EVAContingencyType.COMMS_LOSS:
         state = EVAMissionState.CAUTION
         advisory = "Primary RF line-of-sight to habitat base station disrupted. Autonomous visor inertial navigation active."
-    elif contingency_type == EVAContingencyType.NEWLY_DETECTED_OBSTACLE or contingency_type == EVAContingencyType.ROUTE_OBSTRUCTION:
+    elif contingency_type in (EVAContingencyType.NEWLY_DETECTED_OBSTACLE, EVAContingencyType.ROUTE_OBSTRUCTION):
         state = EVAMissionState.RETURN_TO_BASE
         requires_immediate_return = True
         advisory = "Traverse corridor obstructed by newly identified terrain hazard. Immediate return-to-base sequence initiated."
@@ -682,8 +827,12 @@ def execute_eva_contingency_workflow(
             "is_return_feasible": True,
         }
     else:
-        state = EVAMissionState.SAFE_HOLD
-        advisory += " CRITICAL: Direct return corridor blocked. Astronaut must maintain SAFE HOLD while secondary escape route is calculated."
+        if remaining_o2_liters is not None and remaining_o2_liters <= 0.0:
+            state = EVAMissionState.MISSION_ABORTED
+            advisory += " CRITICAL: Direct return corridor blocked AND life-support consumables exhausted. Mission aborted."
+        elif current_astronaut_rc != base_rc:
+            state = EVAMissionState.SAFE_HOLD
+            advisory += " CRITICAL: Direct return corridor blocked. Astronaut must maintain SAFE HOLD while secondary escape route is calculated."
         emergency_metrics = {
             "return_distance_m": 0.0,
             "estimated_return_time_s": 0.0,
@@ -695,8 +844,9 @@ def execute_eva_contingency_workflow(
 
     return {
         "schema_version": "2.0.0",
-        "contingency_type": contingency_type.value,
+        "contingency_type": getattr(contingency_type, "value", str(contingency_type)),
         "mission_state": state.value,
+        "previous_state": prev_state_str,
         "requires_immediate_return": requires_immediate_return,
         "advisory": advisory,
         "user_description": custom_message or "",

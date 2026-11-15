@@ -76,7 +76,7 @@
   let scene, camera, renderer, controls;
   let marsGlobeGroup, marsSphereMesh, atmosphereMesh, starfield;
   let jezeroTargetMarker, jezeroSurfaceGroup;
-  let terrainMesh, routeLineMesh, boundaryLineMesh, waypointBeacons = [];
+  let terrainMesh, routeLineMesh, evaReturnLineMesh = null, boundaryLineMesh, waypointBeacons = [];
   let hiriseBoundaryMesh = null, roverTraverseMesh = null, sampleDepotGroup = null, scienceTargetsGroup = null;
   let raycaster, mouse;
   let selectedWaypoint = null;
@@ -5750,6 +5750,64 @@
 
     routeLineMesh = new THREE.Line(geom, mat);
     jezeroSurfaceGroup.add(routeLineMesh);
+
+    if (typeof refreshPlaybackData === 'function') {
+      refreshPlaybackData('nominal');
+    }
+  }
+
+  // Mission 13: Draw Dual-Track EVA Route (Outbound Leg in Solid Color, Return Leg in High-Contrast Cyan)
+  function drawDualEvaRoute(outbound_rc, return_rc, profileKey) {
+    if (!missionData || !jezeroSurfaceGroup) return;
+    if (routeLineMesh) {
+      jezeroSurfaceGroup.remove(routeLineMesh);
+      routeLineMesh = null;
+    }
+    if (evaReturnLineMesh) {
+      jezeroSurfaceGroup.remove(evaReturnLineMesh);
+      evaReturnLineMesh = null;
+    }
+
+    // 1. Outbound track (amber/gold for science/time, emerald for conservative)
+    if (outbound_rc && outbound_rc.length >= 2) {
+      const outPoints = outbound_rc.map(rc => {
+        const r = rc[0];
+        const c = rc[1];
+        const elev = missionData.elevation_samples[r][c];
+        const pos = rcToLocalPos(r, c, elev, currentExaggeration);
+        pos.y += 5.0;
+        return pos;
+      });
+      const outGeom = new THREE.BufferGeometry().setFromPoints(outPoints);
+      const outColorHex = (profileKey === 'conservative')
+        ? 0x10b981
+        : (profileKey === 'science_first' ? 0xa78bfa : 0xf59e0b);
+      const outMat = new THREE.LineBasicMaterial({
+        color: outColorHex,
+        linewidth: 5
+      });
+      routeLineMesh = new THREE.Line(outGeom, outMat);
+      jezeroSurfaceGroup.add(routeLineMesh);
+    }
+
+    // 2. Return-to-base track (distinct high-contrast cyan polyline)
+    if (return_rc && return_rc.length >= 2) {
+      const retPoints = return_rc.map(rc => {
+        const r = rc[0];
+        const c = rc[1];
+        const elev = missionData.elevation_samples[r][c];
+        const pos = rcToLocalPos(r, c, elev, currentExaggeration);
+        pos.y += 7.5; // Offset higher to prevent z-fighting on retraced paths
+        return pos;
+      });
+      const retGeom = new THREE.BufferGeometry().setFromPoints(retPoints);
+      const retMat = new THREE.LineBasicMaterial({
+        color: 0x38bdf8,
+        linewidth: 4
+      });
+      evaReturnLineMesh = new THREE.Line(retGeom, retMat);
+      jezeroSurfaceGroup.add(evaReturnLineMesh);
+    }
 
     if (typeof refreshPlaybackData === 'function') {
       refreshPlaybackData('nominal');
@@ -19610,13 +19668,16 @@ function setupRelayNetUIListeners() {
         evaSelectedRouteTag.textContent = `${routeKey.toUpperCase()} ACTIVE`;
       }
 
-      if (r.path_rc && r.path_rc.length > 0) {
+      if (r.outbound_path_rc && r.return_path_rc && (r.outbound_path_rc.length > 0 || r.return_path_rc.length > 0)) {
+        activeRoutePath = r.path_rc || r.outbound_path_rc;
+        drawDualEvaRoute(r.outbound_path_rc, r.return_path_rc, routeKey);
+      } else if (r.path_rc && r.path_rc.length > 0) {
         activeRoutePath = r.path_rc;
         drawLiveRoute(r.path_rc, routeKey === 'science_first' ? 'science_first' : (routeKey === 'time_efficient' ? 'balanced' : 'conservative'));
       }
 
       // Update telemetry box
-      if (statDistance) statDistance.innerHTML = `${r.total_distance_m.toLocaleString()} <span class="unit">m</span>`;
+      if (statDistance) statDistance.innerHTML = `${r.total_distance_m.toLocaleString()} <span class="unit">m (Out: ${r.outbound_distance_m || Math.round(r.total_distance_m/2)}m &bull; Ret: ${r.return_distance_m || Math.round(r.total_distance_m/2)}m)</span>`;
       if (statEffort) statEffort.innerHTML = `${r.terrain_effort_cost.toLocaleString()} <span class="unit">flat-m</span>`;
       if (statSlope) statSlope.innerHTML = `${r.max_slope_deg} <span class="unit">&deg;</span>`;
       if (statTravelTime) statTravelTime.innerHTML = `${r.formatted_duration} <span class="unit">(O2: ${r.consumables.oxygen_consumed_liters} L &bull; ${r.consumables.metabolic_burn_kcal} kcal)</span>`;

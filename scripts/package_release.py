@@ -23,6 +23,7 @@ INCLUDE_DIRS = [
     "scripts",
     "tests",
     "docs",
+    "submission",
     "data/catalogs",
     "data/manifests",
     "data/processed",

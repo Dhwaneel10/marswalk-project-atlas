@@ -11335,29 +11335,71 @@ def plan_astronaut_eva_api(
             "priority_score": float(t.get("priority_score", 50.0)),
         })
 
-    # Human mobility config overrides
+    # Human mobility config overrides with strict validation (DEFECT-13-03)
     mob_cfg = HumanMobilityConfig()
     p_mob = payload.get("walking_profile", {})
     if isinstance(p_mob, dict):
-        if "nominal_walk_speed_kmh" in p_mob and p_mob["nominal_walk_speed_kmh"]:
-            mob_cfg.nominal_walk_speed_kmh = float(p_mob["nominal_walk_speed_kmh"])
-        if "max_walk_slope_deg" in p_mob and p_mob["max_walk_slope_deg"]:
-            mob_cfg.max_walk_slope_deg = float(p_mob["max_walk_slope_deg"])
-        if "carried_gear_mass_kg" in p_mob and p_mob["carried_gear_mass_kg"]:
-            mob_cfg.carried_gear_mass_kg = float(p_mob["carried_gear_mass_kg"])
+        if "nominal_walk_speed_kmh" in p_mob and p_mob["nominal_walk_speed_kmh"] is not None:
+            try:
+                v_nom = float(p_mob["nominal_walk_speed_kmh"])
+                if v_nom <= 0.0 or v_nom > 10.0:
+                    raise ValueError()
+                mob_cfg.nominal_walk_speed_kmh = v_nom
+            except (ValueError, TypeError):
+                raise APIError("'nominal_walk_speed_kmh' must be between 0.1 and 10.0 km/h", 400, error_code="ERR_VALIDATION_FAILED")
+        if "max_walk_slope_deg" in p_mob and p_mob["max_walk_slope_deg"] is not None:
+            try:
+                s_max = float(p_mob["max_walk_slope_deg"])
+                if s_max <= 0.0 or s_max > 45.0:
+                    raise ValueError()
+                mob_cfg.max_walk_slope_deg = s_max
+            except (ValueError, TypeError):
+                raise APIError("'max_walk_slope_deg' must be between 1.0 and 45.0 degrees", 400, error_code="ERR_VALIDATION_FAILED")
+        if "carried_gear_mass_kg" in p_mob and p_mob["carried_gear_mass_kg"] is not None:
+            try:
+                m_gear = float(p_mob["carried_gear_mass_kg"])
+                if m_gear < 0.0 or m_gear > 200.0:
+                    raise ValueError()
+                mob_cfg.carried_gear_mass_kg = m_gear
+            except (ValueError, TypeError):
+                raise APIError("'carried_gear_mass_kg' must be between 0.0 and 200.0 kg", 400, error_code="ERR_VALIDATION_FAILED")
 
-    # Consumable budget overrides
+    # Consumable budget overrides with strict validation
     b_cfg = EVAConsumableBudget()
     p_bud = payload.get("consumable_budget", {})
     if isinstance(p_bud, dict):
-        if "max_duration_hours" in p_bud and p_bud["max_duration_hours"]:
-            b_cfg.max_duration_s = float(p_bud["max_duration_hours"]) * 3600.0
-        if "primary_o2_capacity_liters" in p_bud and p_bud["primary_o2_capacity_liters"]:
-            b_cfg.primary_o2_capacity_liters = float(p_bud["primary_o2_capacity_liters"])
-        if "emergency_o2_reserve_liters" in p_bud and p_bud["emergency_o2_reserve_liters"]:
-            b_cfg.emergency_o2_reserve_liters = float(p_bud["emergency_o2_reserve_liters"])
+        if "max_duration_hours" in p_bud and p_bud["max_duration_hours"] is not None:
+            try:
+                dur_h = float(p_bud["max_duration_hours"])
+                if dur_h <= 0.0 or dur_h > 48.0:
+                    raise ValueError()
+                b_cfg.max_duration_s = dur_h * 3600.0
+            except (ValueError, TypeError):
+                raise APIError("'max_duration_hours' must be between 0.1 and 48.0 hours", 400, error_code="ERR_VALIDATION_FAILED")
+        if "primary_o2_capacity_liters" in p_bud and p_bud["primary_o2_capacity_liters"] is not None:
+            try:
+                o2_cap = float(p_bud["primary_o2_capacity_liters"])
+                if o2_cap <= 0.0 or o2_cap > 5000.0:
+                    raise ValueError()
+                b_cfg.primary_o2_capacity_liters = o2_cap
+            except (ValueError, TypeError):
+                raise APIError("'primary_o2_capacity_liters' must be between 1.0 and 5000.0 liters", 400, error_code="ERR_VALIDATION_FAILED")
+        if "emergency_o2_reserve_liters" in p_bud and p_bud["emergency_o2_reserve_liters"] is not None:
+            try:
+                o2_res = float(p_bud["emergency_o2_reserve_liters"])
+                if o2_res < 0.0 or o2_res > b_cfg.primary_o2_capacity_liters:
+                    raise ValueError()
+                b_cfg.emergency_o2_reserve_liters = o2_res
+            except (ValueError, TypeError):
+                raise APIError("'emergency_o2_reserve_liters' cannot exceed primary capacity or be negative", 400, error_code="ERR_VALIDATION_FAILED")
 
-    dwell_s = float(payload.get("dwell_time_per_target_s", 900.0))
+    try:
+        dwell_s = float(payload.get("dwell_time_per_target_s", 900.0))
+        if dwell_s < 0:
+            raise ValueError()
+    except (ValueError, TypeError):
+        raise APIError("'dwell_time_per_target_s' must be a non-negative number", 400, error_code="ERR_VALIDATION_FAILED")
+
     require_return = bool(payload.get("require_return_to_base", True))
 
     result = plan_three_astronaut_eva_routes(
@@ -11404,6 +11446,23 @@ def eva_contingency_api(
         raise APIError(f"Invalid contingency_type '{c_type_str}'. Allowed: {valid_types}", 400, error_code="ERR_UNSUPPORTED_CONTINGENCY")
 
     custom_msg = payload.get("custom_message")
+    curr_state = payload.get("current_state", "NOMINAL")
+
+    tau_val = None
+    if "dust_optical_depth" in payload and payload["dust_optical_depth"] is not None:
+        try:
+            tau_val = float(payload["dust_optical_depth"])
+            if tau_val < 0.0:
+                raise ValueError()
+        except (ValueError, TypeError):
+            raise APIError("'dust_optical_depth' must be a non-negative number", 400, error_code="ERR_VALIDATION_FAILED")
+
+    rem_o2 = None
+    if "remaining_o2_liters" in payload and payload["remaining_o2_liters"] is not None:
+        try:
+            rem_o2 = float(payload["remaining_o2_liters"])
+        except (ValueError, TypeError):
+            raise APIError("'remaining_o2_liters' must be a number", 400, error_code="ERR_VALIDATION_FAILED")
 
     # Obstacle footprint if obstacle or route obstruction
     blocked_mask = None
@@ -11421,6 +11480,9 @@ def eva_contingency_api(
         terrain=terrain,
         blocked_mask=blocked_mask,
         custom_message=custom_msg,
+        current_state=curr_state,
+        dust_optical_depth=tau_val,
+        remaining_o2_liters=rem_o2,
     )
     return sanitize_for_json(result)
 
