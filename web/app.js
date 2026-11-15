@@ -1193,6 +1193,7 @@
     });
 
     if (inspectorPanel) {
+      inspectorPanel.classList.remove('hidden');
       if (tabId === 'tabPlan' || tabId === 'tabResults' || tabId === 'tabScenarios' || tabId === 'tabWorkspaces') {
         inspectorPanel.classList.remove('cockpit-mode');
       } else {
@@ -1927,10 +1928,17 @@
       const payload = campaignData || mcState.activeCampaignData;
       if (!payload) return;
 
+      const body = (payload.mission_id || payload.mission_plan)
+        ? payload
+        : {
+          mission_id: payload.campaign_id || payload.id || 'cmp_active',
+          mission_plan: payload
+        };
+
       const resp = await fetch('/api/mission/readiness', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(body)
       });
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const data = await resp.json();
@@ -4025,7 +4033,7 @@
     }
   }
 
-    function openOnboarding(step = 1) {
+  function openOnboarding(step = 1) {
     if (marsOnboardingModal) {
       marsOnboardingModal.classList.remove('hidden');
       setOnboardingStep(step);
@@ -4094,29 +4102,19 @@
   function resetOnboarding() {
     try {
       localStorage.removeItem(ONBOARDING_STORAGE_KEY);
-    } catch (e) {}
+    } catch (e) { }
     currentOnboardingStep = 1;
   }
 
   function handleDestinationSelect(destKey) {
     destItems.forEach(item => {
-      if (item.dataset.dest === destKey) item.classList.add('active');
+      if (item.dataset.dest === 'jezero') item.classList.add('active');
       else item.classList.remove('active');
     });
 
-    if (destKey === 'jezero') {
-      const place = placesById.get('iau_14300') || placesById.get('landing_perseverance');
-      if (place) selectAndFocusPlace(place);
-    } else if (destKey === 'olympus') {
-      const place = placesById.get('iau_4453');
-      if (place) selectAndFocusPlace(place);
-    } else if (destKey === 'valles') {
-      const place = placesById.get('iau_6288');
-      if (place) selectAndFocusPlace(place);
-    } else if (destKey === 'gale') {
-      const place = placesById.get('iau_2071');
-      if (place) selectAndFocusPlace(place);
-    }
+    // Jezero Crater is the sole verified surface operations workstation in this release
+    const place = placesById.get('iau_14300') || placesById.get('landing_perseverance');
+    if (place) selectAndFocusPlace(place);
   }
 
   // Modal DOM
@@ -4246,18 +4244,20 @@
     }
   }
 
-  // Populate Featured Destinations Dropdown
+  // Populate Featured Destinations Dropdown (Jezero Crater Focused Release)
   function populateFeaturedDropdown() {
     if (!featuredSelect || !placeCatalog) return;
-    featuredSelect.innerHTML = '<option value="">&bull; FEATURED DESTINATIONS &bull;</option>';
+    featuredSelect.innerHTML = '<option value="">&bull; JEZERO WORKSTATION DESTINATIONS &bull;</option>';
 
-    placeCatalog.featured_destinations.forEach(fid => {
+    // Filter strictly to supported Jezero Crater mission sites & landmarks
+    const jezeroDestinationIds = ['landing_perseverance', 'iau_14300'];
+    jezeroDestinationIds.forEach(fid => {
       const p = placesById.get(fid);
       if (p) {
         const opt = document.createElement('option');
         opt.value = p.id;
         const prefix = p.is_landing_site ? '🚀 ' : '🪐 ';
-        opt.textContent = `${prefix}${p.name} (${p.category.toUpperCase()})`;
+        opt.textContent = `${prefix}${p.name} (JEZERO CRATER)`;
         featuredSelect.appendChild(opt);
       }
     });
@@ -6104,10 +6104,10 @@
   // Milestone 9H: Update Telemetry Metrics from Planner Data
   function updateTelemetryFromData(data) {
     if (statDistance) {
-      statDistance.innerHTML = `${data.distance_m.toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1})} <span class="unit">m</span>`;
+      statDistance.innerHTML = `${data.distance_m.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} <span class="unit">m</span>`;
     }
     if (statEffort) {
-      const effortVal = data.cost !== null && data.cost !== undefined ? data.cost.toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1}) : 'N/A';
+      const effortVal = data.cost !== null && data.cost !== undefined ? data.cost.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : 'N/A';
       statEffort.innerHTML = `${effortVal} <span class="unit">flat-m</span>`;
     }
     if (statClimb) {
@@ -6430,10 +6430,10 @@
       } else {
         setPlanningStatus(`TRAVERSE INFEASIBLE: ${data.status_message || 'Destination unreachable'}`, "error");
         if (typeof clearTerrainProfileWorkbench === 'function') {
-      clearTerrainProfileWorkbench();
-    }
+          clearTerrainProfileWorkbench();
+        }
 
-    if (statFeasibility) {
+        if (statFeasibility) {
           statFeasibility.textContent = 'UNREACHABLE';
           statFeasibility.style.color = 'var(--status-red)';
           statFeasibility.style.background = 'rgba(255,23,68,0.15)';
@@ -6996,7 +6996,7 @@
               return mdlSelectedTargetIds.has(w.id);
             }
             return (w.row !== customStart.row || w.col !== customStart.col) &&
-                   (w.row !== customGoal.row || w.col !== customGoal.col);
+              (w.row !== customGoal.row || w.col !== customGoal.col);
           })
           .map(w => ({
             id: w.id,
@@ -8027,7 +8027,7 @@
       }
     }
     if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume().catch(() => {});
+      audioCtx.resume().catch(() => { });
     }
     return audioCtx;
   }
@@ -8084,7 +8084,7 @@
   function playMissionEventCue(cueType) {
     if (!audioCuesEnabled || !audioCtx) return;
     if (audioCtx.state === 'suspended') {
-      audioCtx.resume().catch(() => {});
+      audioCtx.resume().catch(() => { });
     }
     const now = audioCtx.currentTime;
     try {
@@ -9105,7 +9105,7 @@
       }
 
       if (bbRecordedRec) {
-        bbRecordedRec.textContent = (res.reconstructed_sortie && res.reconstructed_sortie.recorded_recommendation) 
+        bbRecordedRec.textContent = (res.reconstructed_sortie && res.reconstructed_sortie.recorded_recommendation)
           ? res.reconstructed_sortie.recorded_recommendation.toUpperCase().replace(/_/g, ' ')
           : 'NOMINAL';
       }
@@ -9557,10 +9557,10 @@
         reportCostDisplay.textContent = mob.total_cost !== null ? `Cost: ${mob.total_cost.toLocaleString()}` : 'Cost: N/A';
       }
       if (reportDurationDisplay) {
-        reportDurationDisplay.textContent = mob.total_duration_s !== null ? `${(mob.total_duration_s/60).toFixed(1)} min` : '-- min';
+        reportDurationDisplay.textContent = mob.total_duration_s !== null ? `${(mob.total_duration_s / 60).toFixed(1)} min` : '-- min';
       }
       if (reportDwellDisplay) {
-        reportDwellDisplay.textContent = `Dwell: ${(mob.total_dwell_s/60).toFixed(1)} min`;
+        reportDwellDisplay.textContent = `Dwell: ${(mob.total_dwell_s / 60).toFixed(1)} min`;
       }
 
       const env = data.report.environmental_context;
@@ -9780,8 +9780,8 @@
         readinessFeasBadge.style.color = feas.status === 'PASSED' ? 'var(--status-green)' : (feas.status === 'BLOCKED' ? 'var(--status-red)' : 'var(--status-amber)');
       }
       if (readinessFeasRoute) readinessFeasRoute.textContent = feas.route_exists ? `${(feas.total_distance_m || 0).toLocaleString()} m` : 'Uncomputed';
-      if (readinessFeasDuration) readinessFeasDuration.textContent = feas.total_duration_s ? `${(feas.total_duration_s/60).toFixed(1)} min` : '--';
-      if (readinessFeasMargin) readinessFeasMargin.textContent = feas.margin_s !== null ? `${(feas.margin_s/60).toFixed(1)} min` : '--';
+      if (readinessFeasDuration) readinessFeasDuration.textContent = feas.total_duration_s ? `${(feas.total_duration_s / 60).toFixed(1)} min` : '--';
+      if (readinessFeasMargin) readinessFeasMargin.textContent = feas.margin_s !== null ? `${(feas.margin_s / 60).toFixed(1)} min` : '--';
 
       const env = cats.environmental || {};
       if (readinessEnvBadge) {
@@ -11330,25 +11330,25 @@
         scenario_id: `scen_preset_dust_${Date.now().toString(36)}`,
         name: "Dust Storm Motor Derating (-40% Speed)",
         scenario_type: "mobility_change",
-        modifications: [{"type": "mobility_change", "speed_factor": 0.6}],
+        modifications: [{ "type": "mobility_change", "speed_factor": 0.6 }],
       },
       {
         scenario_id: `scen_preset_rockfall_${Date.now().toString(36)}`,
         name: "Delta Scarp Rockfall Corridor Closure",
         scenario_type: "corridor_closure",
-        modifications: [{"type": "corridor_closure", "center_row": 121, "center_col": 157, "radius_m": 60.0}],
+        modifications: [{ "type": "corridor_closure", "center_row": 121, "center_col": 157, "radius_m": 60.0 }],
       },
       {
         scenario_id: `scen_preset_sensor_${Date.now().toString(36)}`,
         name: `Primary Sensor Failure (${firstTid})`,
         scenario_type: "target_loss",
-        modifications: [{"type": "target_loss", "target_id": firstTid, "reason": "Spectrometer optical window frosted"}],
+        modifications: [{ "type": "target_loss", "target_id": firstTid, "reason": "Spectrometer optical window frosted" }],
       },
       {
         scenario_id: `scen_preset_constriction_${Date.now().toString(36)}`,
         name: "Constricted Sol Life-Support Window (5400s)",
         scenario_type: "time_constraint",
-        modifications: [{"type": "time_constraint", "max_duration_per_sortie_s": 5400.0, "max_sols": 2}],
+        modifications: [{ "type": "time_constraint", "max_duration_per_sortie_s": 5400.0, "max_sols": 2 }],
       },
     ];
 
@@ -11835,7 +11835,7 @@
           const ev = evals[k];
           const isSelected = k === plan.strategy;
           const stratName = k === 'priority_first' ? 'Priority-First' :
-                            k === 'balanced_workload' ? 'Balanced Workload' : 'Capability-First';
+            k === 'balanced_workload' ? 'Balanced Workload' : 'Capability-First';
           return `
             <tr style="border-bottom:1px solid rgba(255,255,255,0.05); ${isSelected ? 'background:rgba(56,189,248,0.12); font-weight:700;' : ''}">
               <td style="padding:4px 6px; color:${isSelected ? '#38bdf8' : '#e2e8f0'};">
@@ -13797,7 +13797,7 @@
     if (btnClearComparison) btnClearComparison.classList.add('hidden');
   }
 
-    async function runGauntletStressTest(scenarioIdParam = null) {
+  async function runGauntletStressTest(scenarioIdParam = null) {
     if (currentViewMode !== 'jezero') {
       setPlanningStatus("Terrain stress testing is confined to the surveyed Jezero Crater 20 m DTM. Fly to Jezero Crater to evaluate routes.", "error");
       return;
@@ -15818,7 +15818,7 @@
   }
 
   // Event Listeners Setup
-  
+
   // =========================================================================
   // Format Duration in Seconds to Human-Readable String
   function formatDuration(sec) {
@@ -17032,7 +17032,7 @@
 
         // If at default endpoints AND no intermediate science stops are added, use precomputed assets
         const isDefaultEndpoints = customStart && customStart.row === 117 && customStart.col === 157 &&
-                                  customGoal && customGoal.row === 66 && customGoal.col === 128;
+          customGoal && customGoal.row === 66 && customGoal.col === 128;
         const hasNoStops = (!activeIntermediateStops || activeIntermediateStops.length === 0);
 
         if (isDefaultEndpoints && hasNoStops && missionData && missionData.routes && missionData.routes[currentProfile]) {
@@ -17914,7 +17914,7 @@
         let isDone = false;
         try {
           isDone = (localStorage.getItem(ONBOARDING_STORAGE_KEY) === 'completed');
-        } catch (e) {}
+        } catch (e) { }
         if (!isDone) {
           openOnboarding(1);
         } else {
@@ -18066,10 +18066,50 @@
 
     if (navLinkAbout) {
       navLinkAbout.addEventListener('click', () => {
-        if (landingHowItWorksSection) {
+        const footerEl = document.getElementById('landingFooter');
+        if (footerEl) {
+          footerEl.scrollIntoView({ behavior: 'smooth' });
+        } else if (landingHowItWorksSection) {
           landingHowItWorksSection.classList.remove('hidden');
           landingHowItWorksSection.scrollIntoView({ behavior: 'smooth' });
         }
+      });
+    }
+
+    // Landing Page Footer Actions (Mission 16)
+    const btnFooterEnterEVA = document.getElementById('btnFooterEnterEVA');
+    if (btnFooterEnterEVA && btnLandingEnterEVA) {
+      btnFooterEnterEVA.addEventListener('click', () => btnLandingEnterEVA.click());
+    }
+
+    const btnFooterEnterRover = document.getElementById('btnFooterEnterRover');
+    if (btnFooterEnterRover) {
+      btnFooterEnterRover.addEventListener('click', () => {
+        hideLandingPage(true);
+        setTimeout(() => {
+          switchInspectorTab('tabPlan');
+          const btnRover = document.getElementById('btnModeRoboticRover');
+          if (btnRover) btnRover.click();
+          if (inspectorPanel) inspectorPanel.classList.remove('hidden');
+          setActiveNavPill(btnNavRover);
+        }, 150);
+      });
+    }
+
+    const btnFooterHowItWorks = document.getElementById('btnFooterHowItWorks');
+    if (btnFooterHowItWorks && btnLandingHowItWorks) {
+      btnFooterHowItWorks.addEventListener('click', () => btnLandingHowItWorks.click());
+    }
+
+    const btnFooterPreflight = document.getElementById('btnFooterPreflight');
+    if (btnFooterPreflight && btnLandingPreflight) {
+      btnFooterPreflight.addEventListener('click', () => btnLandingPreflight.click());
+    }
+
+    const btnFooterBackToTop = document.getElementById('btnFooterBackToTop');
+    if (btnFooterBackToTop) {
+      btnFooterBackToTop.addEventListener('click', () => {
+        if (marsLandingPage) marsLandingPage.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
 
@@ -18582,7 +18622,7 @@
         <div class="theater-inspector-row"><span class="theater-inspector-key">Comms Coverage:</span><span class="theater-inspector-val" style="color:#10b981;">${Number(m.comms_coverage_pct || 0).toFixed(1)}%</span></div>
         <div class="theater-inspector-row"><span class="theater-inspector-key">Relays Deployed:</span><span class="theater-inspector-val">${m.relay_count || 0} towers</span></div>
         ${energyWh != null ? `<div class="theater-inspector-row"><span class="theater-inspector-key">Energy Consumed:</span><span class="theater-inspector-val text-yellow">${Number(energyWh).toFixed(1)} Wh</span></div>` : ''}
-        ${socPct != null ? `<div class="theater-inspector-row"><span class="theater-inspector-key">Final Battery SOC:</span><span class="theater-inspector-val" style="color:${feasColor};">${Number(socPct).toFixed(1)}% (${(feas||'FEASIBLE').replace(/_/g,' ')})</span></div>` : ''}
+        ${socPct != null ? `<div class="theater-inspector-row"><span class="theater-inspector-key">Final Battery SOC:</span><span class="theater-inspector-val" style="color:${feasColor};">${Number(socPct).toFixed(1)}% (${(feas || 'FEASIBLE').replace(/_/g, ' ')})</span></div>` : ''}
         <div class="theater-inspector-row"><span class="theater-inspector-key">Waligora Metabolic:</span><span class="theater-inspector-val">${Number((m.metabolic_energy_j || 0) / 1000).toFixed(0)} kJ</span></div>
       `;
       if (citation) citation.textContent = 'Atlas Joint Mission Co-Design Engine (USGS CTX 20m DTM)';
@@ -18604,7 +18644,7 @@
       body.innerHTML = `
         <div class="theater-inspector-row"><span class="theater-inspector-key">Gap Identifier:</span><span class="theater-inspector-val text-crimson" style="color:#ef4444;">${g.gap_id || 'GAP-01'}</span></div>
         <div class="theater-inspector-row"><span class="theater-inspector-key">Blackout Distance:</span><span class="theater-inspector-val">${Number(g.gap_distance_m || 0).toFixed(0)} m</span></div>
-        <div class="theater-inspector-row"><span class="theater-inspector-key">Blackout Duration:</span><span class="theater-inspector-val">${Number(g.duration_s || 0).toFixed(0)} s (${(Number(g.duration_s || 0)/60).toFixed(1)} min)</span></div>
+        <div class="theater-inspector-row"><span class="theater-inspector-key">Blackout Duration:</span><span class="theater-inspector-val">${Number(g.duration_s || 0).toFixed(0)} s (${(Number(g.duration_s || 0) / 60).toFixed(1)} min)</span></div>
         <div class="theater-inspector-row"><span class="theater-inspector-key">Occluding Scarp:</span><span class="theater-inspector-val">Delta Front Topographic Ridge</span></div>
         <div class="theater-inspector-row"><span class="theater-inspector-key">Mitigation Triage:</span><span class="theater-inspector-val" style="color:#f59e0b;">Deploy Promontory Tower or Detour</span></div>
       `;
@@ -18857,660 +18897,657 @@
 
 
 
-// ==============================================================================
-// Milestone 13D: Atlas Mars RelayNet 3D Engine & Digital Twin
-// ==============================================================================
+  // ==============================================================================
+  // Milestone 13D: Atlas Mars RelayNet 3D Engine & Digital Twin
+  // ==============================================================================
 
-let relayNetGroup = null;
-let relayNetNodesGroup = null;
-let relayNetCandidatesGroup = null;
-let relayNetLinksGroup = null;
-let relayNetObstructionsGroup = null;
-let relayNetActiveCarrierBeam = null;
+  let relayNetGroup = null;
+  let relayNetNodesGroup = null;
+  let relayNetCandidatesGroup = null;
+  let relayNetLinksGroup = null;
+  let relayNetObstructionsGroup = null;
+  let relayNetActiveCarrierBeam = null;
 
-let relayNetVisible = true;
-let relayNetActiveRelays = [];
-let relayNetCandidates = [];
-let relayNetTimelineData = null;
-let relayNetBaselineStation = { node_id: 'BASE', rc: [117, 157], elevation_m: -2548.2, antenna_height_m: 10.0, label: 'Octavia Butler Base' };
+  let relayNetVisible = true;
+  let relayNetActiveRelays = [];
+  let relayNetCandidates = [];
+  let relayNetTimelineData = null;
+  let relayNetBaselineStation = { node_id: 'BASE', rc: [117, 157], elevation_m: -2548.2, antenna_height_m: 10.0, label: 'Octavia Butler Base' };
 
-// Reusable Three.js vectors for zero-allocation 60fps render loop
-const _rnVecA = new THREE.Vector3();
-const _rnVecB = new THREE.Vector3();
-const _rnVecMid = new THREE.Vector3();
+  // Reusable Three.js vectors for zero-allocation 60fps render loop
+  const _rnVecA = new THREE.Vector3();
+  const _rnVecB = new THREE.Vector3();
+  const _rnVecMid = new THREE.Vector3();
 
-function initRelayNetEngine() {
-  if (!jezeroSurfaceGroup) return;
+  function initRelayNetEngine() {
+    if (!jezeroSurfaceGroup) return;
 
-  // 1. Initialize Groups
-  if (!relayNetGroup) {
-    relayNetGroup = new THREE.Group();
-    relayNetGroup.name = 'relayNetGroup';
+    // 1. Initialize Groups
+    if (!relayNetGroup) {
+      relayNetGroup = new THREE.Group();
+      relayNetGroup.name = 'relayNetGroup';
 
-    relayNetNodesGroup = new THREE.Group();
-    relayNetNodesGroup.name = 'relayNetNodesGroup';
+      relayNetNodesGroup = new THREE.Group();
+      relayNetNodesGroup.name = 'relayNetNodesGroup';
 
-    relayNetCandidatesGroup = new THREE.Group();
-    relayNetCandidatesGroup.name = 'relayNetCandidatesGroup';
+      relayNetCandidatesGroup = new THREE.Group();
+      relayNetCandidatesGroup.name = 'relayNetCandidatesGroup';
 
-    relayNetLinksGroup = new THREE.Group();
-    relayNetLinksGroup.name = 'relayNetLinksGroup';
+      relayNetLinksGroup = new THREE.Group();
+      relayNetLinksGroup.name = 'relayNetLinksGroup';
 
-    relayNetObstructionsGroup = new THREE.Group();
-    relayNetObstructionsGroup.name = 'relayNetObstructionsGroup';
+      relayNetObstructionsGroup = new THREE.Group();
+      relayNetObstructionsGroup.name = 'relayNetObstructionsGroup';
 
-    relayNetGroup.add(relayNetNodesGroup);
-    relayNetGroup.add(relayNetCandidatesGroup);
-    relayNetGroup.add(relayNetLinksGroup);
-    relayNetGroup.add(relayNetObstructionsGroup);
+      relayNetGroup.add(relayNetNodesGroup);
+      relayNetGroup.add(relayNetCandidatesGroup);
+      relayNetGroup.add(relayNetLinksGroup);
+      relayNetGroup.add(relayNetObstructionsGroup);
 
-    jezeroSurfaceGroup.add(relayNetGroup);
-  }
-
-  // 2. Build Base Station 3D Mast
-  buildBaseStation3DMast();
-
-  // 3. Load Promontory Candidates from API
-  loadRelayNetCandidates();
-
-  // 4. Wire DOM Control Listeners
-  setupRelayNetUIListeners();
-
-  console.log('[RelayNet] Initialized 3D Mars RelayNet Engine on Jezero Crater Surface.');
-}
-
-function buildBaseStation3DMast() {
-  if (!relayNetNodesGroup) return;
-
-  // Find base elevation from missionData
-  let baseElev = -2548.2;
-  if (missionData && missionData.elevation_samples && missionData.elevation_samples[117]) {
-    baseElev = missionData.elevation_samples[117][157];
-  }
-  relayNetBaselineStation.elevation_m = baseElev;
-
-  const basePos = rcToLocalPos(117, 157, baseElev, currentExaggeration);
-
-  const baseGroup = new THREE.Group();
-  baseGroup.position.set(basePos.x, basePos.y, basePos.z);
-  baseGroup.userData = {
-    nodeType: 'base_station',
-    relayData: {
-      node_id: 'OCTAVIA-BASE',
-      label: 'Octavia E. Butler Base Station Transceiver',
-      row: 117,
-      col: 157,
-      elevation_m: baseElev,
-      antenna_height_m: 10.0,
-      effective_z_m: baseElev + 10.0,
-      node_type: 'base_station',
-      role: 'Central Surface Gateway & Mars Relay Transceiver',
-      status: 'ONLINE (NOMINAL)',
+      jezeroSurfaceGroup.add(relayNetGroup);
     }
-  };
 
-  // Base Plate
-  const padGeo = new THREE.CylinderGeometry(7, 8, 2, 8);
-  const padMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.3 });
-  const padMesh = new THREE.Mesh(padGeo, padMat);
-  padMesh.position.y = 1.0;
-  baseGroup.add(padMesh);
+    // 2. Build Base Station 3D Mast
+    buildBaseStation3DMast();
 
-  // Lattice Mast
-  const mastGeo = new THREE.CylinderGeometry(1.2, 2.2, 38, 6);
-  const mastMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.25 });
-  const mastMesh = new THREE.Mesh(mastGeo, mastMat);
-  mastMesh.position.y = 20.0;
-  baseGroup.add(mastMesh);
+    // 3. Load Promontory Candidates from API
+    loadRelayNetCandidates();
 
-  // Omnidirectional Antenna Rod
-  const rodGeo = new THREE.CylinderGeometry(0.3, 0.3, 12, 6);
-  const rodMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-  const rodMesh = new THREE.Mesh(rodGeo, rodMat);
-  rodMesh.position.y = 44.0;
-  baseGroup.add(rodMesh);
+    // 4. Wire DOM Control Listeners
+    setupRelayNetUIListeners();
 
-  // Pulsating Cyan Beacon
-  const beaconGeo = new THREE.SphereGeometry(2.8, 16, 16);
-  const beaconMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff });
-  const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
-  beaconMesh.position.y = 48.0;
-  baseGroup.add(beaconMesh);
+    console.log('[RelayNet] Initialized 3D Mars RelayNet Engine on Jezero Crater Surface.');
+  }
 
-  // Cyan Point Light
-  const beaconLight = new THREE.PointLight(0x00e5ff, 1.8, 120);
-  beaconLight.position.y = 48.0;
-  baseGroup.add(beaconLight);
+  function buildBaseStation3DMast() {
+    if (!relayNetNodesGroup) return;
 
-  // Ground Footprint Pulse Ring
-  const ringGeo = new THREE.RingGeometry(8, 12, 32);
-  const ringMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff, side: THREE.DoubleSide, transparent: true, opacity: 0.45 });
-  const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-  ringMesh.rotation.x = -Math.PI / 2;
-  ringMesh.position.y = 0.5;
-  baseGroup.add(ringMesh);
-
-  relayNetNodesGroup.add(baseGroup);
-}
-
-function create3DRelayTower(cand) {
-  const towerGroup = new THREE.Group();
-  const pos = rcToLocalPos(cand.row, cand.col, cand.elevation_m, currentExaggeration);
-  towerGroup.position.set(pos.x, pos.y, pos.z);
-
-  towerGroup.userData = {
-    nodeType: 'relay_node',
-    relayData: {
-      node_id: cand.candidate_id || cand.node_id || 'MRN-TOWER',
-      label: `Autonomous Relay Tower (${cand.candidate_id || 'MRN'})`,
-      row: cand.row,
-      col: cand.col,
-      elevation_m: cand.elevation_m,
-      antenna_height_m: 10.0,
-      effective_z_m: cand.elevation_m + 10.0,
-      node_type: 'active_relay',
-      slope_deg: cand.slope_deg || 2.5,
-      prominence_score: cand.prominence_score || 0.85,
-      role: 'Autonomous Topographic Communication Relay Bridge',
-      status: 'ACTIVE MULTI-HOP BRIDGE',
+    // Find base elevation from missionData
+    let baseElev = -2548.2;
+    if (missionData && missionData.elevation_samples && missionData.elevation_samples[117]) {
+      baseElev = missionData.elevation_samples[117][157];
     }
-  };
+    relayNetBaselineStation.elevation_m = baseElev;
 
-  // Tripod Struts
-  const strutMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.9, roughness: 0.3 });
-  for (let i = 0; i < 3; i++) {
-    const angle = (i * Math.PI * 2) / 3;
-    const strutGeo = new THREE.CylinderGeometry(0.5, 0.5, 20, 6);
-    const strutMesh = new THREE.Mesh(strutGeo, strutMat);
-    strutMesh.position.set(Math.cos(angle) * 5, 8, Math.sin(angle) * 5);
-    strutMesh.rotation.z = (Math.cos(angle) * Math.PI) / 12;
-    strutMesh.rotation.x = -(Math.sin(angle) * Math.PI) / 12;
-    towerGroup.add(strutMesh);
-  }
+    const basePos = rcToLocalPos(117, 157, baseElev, currentExaggeration);
 
-  // Central Lattice Mast
-  const mastGeo = new THREE.CylinderGeometry(0.8, 1.4, 30, 6);
-  const mastMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.85, roughness: 0.35 });
-  const mastMesh = new THREE.Mesh(mastGeo, mastMat);
-  mastMesh.position.y = 16.0;
-  towerGroup.add(mastMesh);
-
-  // Parabolic Dish (Articulated Reflector)
-  const dishGeo = new THREE.SphereGeometry(4.0, 16, 8, 0, Math.PI * 2, 0, Math.PI * 0.35);
-  const dishMat = new THREE.MeshStandardMaterial({
-    color: 0x34d399,
-    metalness: 0.95,
-    roughness: 0.15,
-    emissive: 0x064e3b,
-    emissiveIntensity: 0.35,
-    side: THREE.DoubleSide
-  });
-  const dishMesh = new THREE.Mesh(dishGeo, dishMat);
-  dishMesh.position.set(0, 31, 0);
-  dishMesh.rotation.x = Math.PI * 0.7;
-  dishMesh.name = 'parabolicDish';
-  towerGroup.add(dishMesh);
-
-  // Emerald Apex Beacon
-  const beaconGeo = new THREE.SphereGeometry(2.2, 12, 12);
-  const beaconMat = new THREE.MeshBasicMaterial({ color: 0x10b981 });
-  const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
-  beaconMesh.position.y = 35.0;
-  towerGroup.add(beaconMesh);
-
-  // Emerald Point Light
-  const pLight = new THREE.PointLight(0x10b981, 1.5, 90);
-  pLight.position.y = 35.0;
-  towerGroup.add(pLight);
-
-  return towerGroup;
-}
-
-function loadRelayNetCandidates() {
-  fetch('/api/relaynet/candidates')
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.candidates) {
-        relayNetCandidates = data.candidates;
-        renderCandidatePins(relayNetCandidates);
-      }
-    })
-    .catch(err => console.warn('[RelayNet] Candidate fetch deferred:', err));
-}
-
-function renderCandidatePins(cands) {
-  if (!relayNetCandidatesGroup) return;
-  // Clear previous candidate pins
-  while (relayNetCandidatesGroup.children.length > 0) {
-    const obj = relayNetCandidatesGroup.children[0];
-    relayNetCandidatesGroup.remove(obj);
-    if (obj.geometry) obj.geometry.dispose();
-  }
-
-  cands.forEach((cand, idx) => {
-    const pos = rcToLocalPos(cand.row, cand.col, cand.elevation_m, currentExaggeration);
-    const pinGroup = new THREE.Group();
-    pinGroup.position.set(pos.x, pos.y, pos.z);
-    pinGroup.userData = {
-      nodeType: 'candidate_relay',
-      candidateData: {
-        candidate_id: cand.candidate_id || `MRN_CAND_${idx + 1}`,
-        row: cand.row,
-        col: cand.col,
-        elevation_m: cand.elevation_m,
-        slope_deg: cand.slope_deg,
-        prominence_score: cand.prominence_score,
-        status: 'SCREENED PROMONTORY CANDIDATE',
+    const baseGroup = new THREE.Group();
+    baseGroup.position.set(basePos.x, basePos.y, basePos.z);
+    baseGroup.userData = {
+      nodeType: 'base_station',
+      relayData: {
+        node_id: 'OCTAVIA-BASE',
+        label: 'Octavia E. Butler Base Station Transceiver',
+        row: 117,
+        col: 157,
+        elevation_m: baseElev,
         antenna_height_m: 10.0,
+        effective_z_m: baseElev + 10.0,
+        node_type: 'base_station',
+        role: 'Central Surface Gateway & Mars Relay Transceiver',
+        status: 'ONLINE (NOMINAL)',
       }
     };
 
-    // Ground Ring
-    const ringGeo = new THREE.RingGeometry(5, 7.5, 24);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b, side: THREE.DoubleSide, transparent: true, opacity: 0.6 });
+    // Base Plate
+    const padGeo = new THREE.CylinderGeometry(7, 8, 2, 8);
+    const padMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.3 });
+    const padMesh = new THREE.Mesh(padGeo, padMat);
+    padMesh.position.y = 1.0;
+    baseGroup.add(padMesh);
+
+    // Lattice Mast
+    const mastGeo = new THREE.CylinderGeometry(1.2, 2.2, 38, 6);
+    const mastMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.25 });
+    const mastMesh = new THREE.Mesh(mastGeo, mastMat);
+    mastMesh.position.y = 20.0;
+    baseGroup.add(mastMesh);
+
+    // Omnidirectional Antenna Rod
+    const rodGeo = new THREE.CylinderGeometry(0.3, 0.3, 12, 6);
+    const rodMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const rodMesh = new THREE.Mesh(rodGeo, rodMat);
+    rodMesh.position.y = 44.0;
+    baseGroup.add(rodMesh);
+
+    // Pulsating Cyan Beacon
+    const beaconGeo = new THREE.SphereGeometry(2.8, 16, 16);
+    const beaconMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff });
+    const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
+    beaconMesh.position.y = 48.0;
+    baseGroup.add(beaconMesh);
+
+    // Cyan Point Light
+    const beaconLight = new THREE.PointLight(0x00e5ff, 1.8, 120);
+    beaconLight.position.y = 48.0;
+    baseGroup.add(beaconLight);
+
+    // Ground Footprint Pulse Ring
+    const ringGeo = new THREE.RingGeometry(8, 12, 32);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff, side: THREE.DoubleSide, transparent: true, opacity: 0.45 });
     const ringMesh = new THREE.Mesh(ringGeo, ringMat);
     ringMesh.rotation.x = -Math.PI / 2;
     ringMesh.position.y = 0.5;
-    pinGroup.add(ringMesh);
+    baseGroup.add(ringMesh);
 
-    // Guide Stem
-    const stemGeo = new THREE.CylinderGeometry(0.2, 0.2, 14, 6);
-    const stemMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b, transparent: true, opacity: 0.5 });
-    const stemMesh = new THREE.Mesh(stemGeo, stemMat);
-    stemMesh.position.y = 7.0;
-    pinGroup.add(stemMesh);
+    relayNetNodesGroup.add(baseGroup);
+  }
 
-    // Floating Amber Diamond Pin
-    const diamGeo = new THREE.OctahedronGeometry(3.0, 0);
-    const diamMat = new THREE.MeshStandardMaterial({
-      color: 0xf59e0b,
-      metalness: 0.8,
-      roughness: 0.2,
-      emissive: 0xb45309,
-      emissiveIntensity: 0.4
+  function create3DRelayTower(cand) {
+    const towerGroup = new THREE.Group();
+    const pos = rcToLocalPos(cand.row, cand.col, cand.elevation_m, currentExaggeration);
+    towerGroup.position.set(pos.x, pos.y, pos.z);
+
+    towerGroup.userData = {
+      nodeType: 'relay_node',
+      relayData: {
+        node_id: cand.candidate_id || cand.node_id || 'MRN-TOWER',
+        label: `Autonomous Relay Tower (${cand.candidate_id || 'MRN'})`,
+        row: cand.row,
+        col: cand.col,
+        elevation_m: cand.elevation_m,
+        antenna_height_m: 10.0,
+        effective_z_m: cand.elevation_m + 10.0,
+        node_type: 'active_relay',
+        slope_deg: cand.slope_deg || 2.5,
+        prominence_score: cand.prominence_score || 0.85,
+        role: 'Autonomous Topographic Communication Relay Bridge',
+        status: 'ACTIVE MULTI-HOP BRIDGE',
+      }
+    };
+
+    // Tripod Struts
+    const strutMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.9, roughness: 0.3 });
+    for (let i = 0; i < 3; i++) {
+      const angle = (i * Math.PI * 2) / 3;
+      const strutGeo = new THREE.CylinderGeometry(0.5, 0.5, 20, 6);
+      const strutMesh = new THREE.Mesh(strutGeo, strutMat);
+      strutMesh.position.set(Math.cos(angle) * 5, 8, Math.sin(angle) * 5);
+      strutMesh.rotation.z = (Math.cos(angle) * Math.PI) / 12;
+      strutMesh.rotation.x = -(Math.sin(angle) * Math.PI) / 12;
+      towerGroup.add(strutMesh);
+    }
+
+    // Central Lattice Mast
+    const mastGeo = new THREE.CylinderGeometry(0.8, 1.4, 30, 6);
+    const mastMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.85, roughness: 0.35 });
+    const mastMesh = new THREE.Mesh(mastGeo, mastMat);
+    mastMesh.position.y = 16.0;
+    towerGroup.add(mastMesh);
+
+    // Parabolic Dish (Articulated Reflector)
+    const dishGeo = new THREE.SphereGeometry(4.0, 16, 8, 0, Math.PI * 2, 0, Math.PI * 0.35);
+    const dishMat = new THREE.MeshStandardMaterial({
+      color: 0x34d399,
+      metalness: 0.95,
+      roughness: 0.15,
+      emissive: 0x064e3b,
+      emissiveIntensity: 0.35,
+      side: THREE.DoubleSide
     });
-    const diamMesh = new THREE.Mesh(diamGeo, diamMat);
-    diamMesh.position.y = 16.0;
-    diamMesh.name = 'floatingDiamond';
-    pinGroup.add(diamMesh);
+    const dishMesh = new THREE.Mesh(dishGeo, dishMat);
+    dishMesh.position.set(0, 31, 0);
+    dishMesh.rotation.x = Math.PI * 0.7;
+    dishMesh.name = 'parabolicDish';
+    towerGroup.add(dishMesh);
 
-    relayNetCandidatesGroup.add(pinGroup);
-  });
-}
+    // Emerald Apex Beacon
+    const beaconGeo = new THREE.SphereGeometry(2.2, 12, 12);
+    const beaconMat = new THREE.MeshBasicMaterial({ color: 0x10b981 });
+    const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
+    beaconMesh.position.y = 35.0;
+    towerGroup.add(beaconMesh);
 
-function updateRelayNetPlayback(timeSeconds, state) {
-  if (!relayNetGroup || !relayNetVisible || !state) return;
+    // Emerald Point Light
+    const pLight = new THREE.PointLight(0x10b981, 1.5, 90);
+    pLight.position.y = 35.0;
+    towerGroup.add(pLight);
 
-  const r = state.rc[0];
-  const c = state.rc[1];
-  const roverElev = state.elevation_m;
-  const roverPos = rcToLocalPos(r, c, roverElev, currentExaggeration);
-  roverPos.y += 12.0; // Rover antenna height visual offset
+    return towerGroup;
+  }
 
-  const baseElev = relayNetBaselineStation.elevation_m;
-  const basePos = rcToLocalPos(117, 157, baseElev, currentExaggeration);
-  basePos.y += 48.0; // Base mast beacon height
+  function loadRelayNetCandidates() {
+    fetch('/api/relaynet/candidates')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.candidates) {
+          relayNetCandidates = data.candidates;
+          renderCandidatePins(relayNetCandidates);
+        }
+      })
+      .catch(err => console.warn('[RelayNet] Candidate fetch deferred:', err));
+  }
 
-  // 1. Clear previous dynamic rays
-  clearDynamicLinks();
+  function renderCandidatePins(cands) {
+    if (!relayNetCandidatesGroup) return;
+    // Clear previous candidate pins
+    while (relayNetCandidatesGroup.children.length > 0) {
+      const obj = relayNetCandidatesGroup.children[0];
+      relayNetCandidatesGroup.remove(obj);
+      if (obj.geometry) obj.geometry.dispose();
+    }
 
-  // 2. Check direct visibility to Base Station
-  const dx = (missionData && missionData.grid) ? missionData.grid.ground_dx_m : 18.973;
-  const dy = (missionData && missionData.grid) ? missionData.grid.ground_dy_m : 20.0;
-  const distToBaseM = Math.hypot((157 - c) * dx, (117 - r) * dy);
+    cands.forEach((cand, idx) => {
+      const pos = rcToLocalPos(cand.row, cand.col, cand.elevation_m, currentExaggeration);
+      const pinGroup = new THREE.Group();
+      pinGroup.position.set(pos.x, pos.y, pos.z);
+      pinGroup.userData = {
+        nodeType: 'candidate_relay',
+        candidateData: {
+          candidate_id: cand.candidate_id || `MRN_CAND_${idx + 1}`,
+          row: cand.row,
+          col: cand.col,
+          elevation_m: cand.elevation_m,
+          slope_deg: cand.slope_deg,
+          prominence_score: cand.prominence_score,
+          status: 'SCREENED PROMONTORY CANDIDATE',
+          antenna_height_m: 10.0,
+        }
+      };
 
-  // Fast client-side line-of-sight check against sampled grid
-  let isDirectBlocked = false;
-  let firstObsPos = null;
-  let minClearance = 14.2;
+      // Ground Ring
+      const ringGeo = new THREE.RingGeometry(5, 7.5, 24);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b, side: THREE.DoubleSide, transparent: true, opacity: 0.6 });
+      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+      ringMesh.rotation.x = -Math.PI / 2;
+      ringMesh.position.y = 0.5;
+      pinGroup.add(ringMesh);
 
-  if (missionData && missionData.elevation_samples) {
-    const elevGrid = missionData.elevation_samples;
-    const numSteps = Math.max(4, Math.ceil(distToBaseM / 20.0));
-    for (let i = 1; i < numSteps; i++) {
-      const t = i / numSteps;
-      const sr = Math.round(r + t * (117 - r));
-      const sc = Math.round(c + t * (157 - c));
-      if (sr >= 0 && sr < 250 && sc >= 0 && sc < 250) {
-        const rayH = (roverElev + 2.5) + t * ((baseElev + 10.0) - (roverElev + 2.5));
-        const terrainH = elevGrid[sr][sc];
-        const clr = rayH - terrainH;
-        if (clr < minClearance) minClearance = clr;
-        if (clr <= 0 && !isDirectBlocked) {
-          isDirectBlocked = true;
-          firstObsPos = rcToLocalPos(sr, sc, terrainH, currentExaggeration);
-          firstObsPos.y += 2.0;
-          break;
+      // Guide Stem
+      const stemGeo = new THREE.CylinderGeometry(0.2, 0.2, 14, 6);
+      const stemMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b, transparent: true, opacity: 0.5 });
+      const stemMesh = new THREE.Mesh(stemGeo, stemMat);
+      stemMesh.position.y = 7.0;
+      pinGroup.add(stemMesh);
+
+      // Floating Amber Diamond Pin
+      const diamGeo = new THREE.OctahedronGeometry(3.0, 0);
+      const diamMat = new THREE.MeshStandardMaterial({
+        color: 0xf59e0b,
+        metalness: 0.8,
+        roughness: 0.2,
+        emissive: 0xb45309,
+        emissiveIntensity: 0.4
+      });
+      const diamMesh = new THREE.Mesh(diamGeo, diamMat);
+      diamMesh.position.y = 16.0;
+      diamMesh.name = 'floatingDiamond';
+      pinGroup.add(diamMesh);
+
+      relayNetCandidatesGroup.add(pinGroup);
+    });
+  }
+
+  function updateRelayNetPlayback(timeSeconds, state) {
+    if (!relayNetGroup || !relayNetVisible || !state) return;
+
+    const r = state.rc[0];
+    const c = state.rc[1];
+    const roverElev = state.elevation_m;
+    const roverPos = rcToLocalPos(r, c, roverElev, currentExaggeration);
+    roverPos.y += 12.0; // Rover antenna height visual offset
+
+    const baseElev = relayNetBaselineStation.elevation_m;
+    const basePos = rcToLocalPos(117, 157, baseElev, currentExaggeration);
+    basePos.y += 48.0; // Base mast beacon height
+
+    // 1. Clear previous dynamic rays
+    clearDynamicLinks();
+
+    // 2. Check direct visibility to Base Station
+    const dx = (missionData && missionData.grid) ? missionData.grid.ground_dx_m : 18.973;
+    const dy = (missionData && missionData.grid) ? missionData.grid.ground_dy_m : 20.0;
+    const distToBaseM = Math.hypot((157 - c) * dx, (117 - r) * dy);
+
+    // Fast client-side line-of-sight check against sampled grid
+    let isDirectBlocked = false;
+    let firstObsPos = null;
+    let minClearance = 14.2;
+
+    if (missionData && missionData.elevation_samples) {
+      const elevGrid = missionData.elevation_samples;
+      const numSteps = Math.max(4, Math.ceil(distToBaseM / 20.0));
+      for (let i = 1; i < numSteps; i++) {
+        const t = i / numSteps;
+        const sr = Math.round(r + t * (117 - r));
+        const sc = Math.round(c + t * (157 - c));
+        if (sr >= 0 && sr < 250 && sc >= 0 && sc < 250) {
+          const rayH = (roverElev + 2.5) + t * ((baseElev + 10.0) - (roverElev + 2.5));
+          const terrainH = elevGrid[sr][sc];
+          const clr = rayH - terrainH;
+          if (clr < minClearance) minClearance = clr;
+          if (clr <= 0 && !isDirectBlocked) {
+            isDirectBlocked = true;
+            firstObsPos = rcToLocalPos(sr, sc, terrainH, currentExaggeration);
+            firstObsPos.y += 2.0;
+            break;
+          }
         }
       }
     }
-  }
 
-  // 3. Determine if an Active Relay rescues the connection
-  let isRelayed = false;
-  let activeRelayPos = null;
-  let activeRelayId = null;
+    // 3. Determine if an Active Relay rescues the connection
+    let isRelayed = false;
+    let activeRelayPos = null;
+    let activeRelayId = null;
 
-  if (relayNetActiveRelays.length > 0) {
-    // If direct is blocked or out of range, check if any active relay is visible
-    for (let relay of relayNetActiveRelays) {
-      const rPos = rcToLocalPos(relay.row, relay.col, relay.elevation_m, currentExaggeration);
-      rPos.y += 35.0; // Relay beacon height
-      // Check clearance to relay
-      isRelayed = true;
-      activeRelayPos = rPos;
-      activeRelayId = relay.node_id || 'MRN-TOWER';
-      break;
-    }
-  }
-
-  // 4. Update HUD Telemetry Badges
-  const badge = document.getElementById('relayNetConnectivityBadge');
-  const dot = document.getElementById('theaterRelayStatusDot');
-  const statusVal = document.getElementById('relayTelemetryStatus');
-  const hopsVal = document.getElementById('relayTelemetryHops');
-  const clrVal = document.getElementById('relayTelemetryClearance');
-  const latVal = document.getElementById('relayTelemetryLatency');
-
-  if (!isDirectBlocked) {
-    // Direct link nominal
-    if (badge) {
-      badge.textContent = 'DIRECT LINK';
-      badge.className = 'relaynet-badge-status direct';
-    }
-    if (dot) dot.className = 'relaynet-status-dot online';
-    if (statusVal) {
-      statusVal.textContent = 'NOMINAL (100% COVERAGE)';
-      statusVal.style.color = '#10b981';
-    }
-    if (hopsVal) hopsVal.textContent = '0 (Direct to Base)';
-    if (clrVal) clrVal.textContent = `+${Math.max(1.0, minClearance).toFixed(1)} m`;
-    if (latVal) latVal.textContent = `${(distToBaseM / 300000.0 * 1000.0).toFixed(3)} ms`;
-
-    // Draw Active Direct Beam
-    renderActiveCarrierBeam([roverPos, basePos]);
-
-  } else if (isRelayed && activeRelayPos) {
-    // Relayed nominal
-    if (badge) {
-      badge.textContent = 'RELAYED (1 HOP)';
-      badge.className = 'relaynet-badge-status relayed';
-    }
-    if (dot) dot.className = 'relaynet-status-dot online';
-    if (statusVal) {
-      statusVal.textContent = `RELAYED VIA ${activeRelayId}`;
-      statusVal.style.color = '#34d399';
-    }
-    if (hopsVal) hopsVal.textContent = `1 Hop (${activeRelayId} &rarr; Base)`;
-    if (clrVal) clrVal.textContent = '+18.5 m (Relay Cleared)';
-    if (latVal) latVal.textContent = '0.016 ms';
-
-    // Draw Multi-Hop Carrier Beam (Rover -> Relay -> Base)
-    renderActiveCarrierBeam([roverPos, activeRelayPos, basePos]);
-
-    // Show blocked direct path in red with hazard marker
-    renderObstructedRay(roverPos, basePos, firstObsPos);
-
-  } else {
-    // Geometric Connectivity Gap
-    if (badge) {
-      badge.textContent = 'CONNECTIVITY GAP';
-      badge.className = 'relaynet-badge-status gap';
-    }
-    if (dot) dot.className = 'relaynet-status-dot gap';
-    if (statusVal) {
-      statusVal.textContent = 'LOS OCCLUDED (SCARP SHADOW)';
-      statusVal.style.color = '#ef4444';
-    }
-    if (hopsVal) hopsVal.textContent = 'DISCONNECTED (0 Hops)';
-    if (clrVal) clrVal.textContent = `${minClearance.toFixed(1)} m (TERRAIN BLOCKED)`;
-    if (latVal) latVal.textContent = 'N/A (LINK SEVERED)';
-
-    // Show blocked path in red with hazard marker
-    renderObstructedRay(roverPos, basePos, firstObsPos);
-  }
-}
-
-function clearDynamicLinks() {
-  if (!relayNetLinksGroup || !relayNetObstructionsGroup) return;
-
-  while (relayNetLinksGroup.children.length > 0) {
-    const obj = relayNetLinksGroup.children[0];
-    relayNetLinksGroup.remove(obj);
-    if (obj.geometry) obj.geometry.dispose();
-  }
-
-  while (relayNetObstructionsGroup.children.length > 0) {
-    const obj = relayNetObstructionsGroup.children[0];
-    relayNetObstructionsGroup.remove(obj);
-    if (obj.geometry) obj.geometry.dispose();
-  }
-}
-
-function renderActiveCarrierBeam(points) {
-  if (!relayNetLinksGroup || points.length < 2) return;
-
-  const chkActive = document.getElementById('chkRelayActiveRoute');
-  if (chkActive && !chkActive.checked) return;
-
-  const curve = new THREE.CatmullRomCurve3(points);
-  const pts = curve.getPoints(points.length * 15);
-  const geo = new THREE.BufferGeometry().setFromPoints(pts);
-
-  const mat = new THREE.LineBasicMaterial({
-    color: 0x00e5ff,
-    linewidth: 3,
-    transparent: true,
-    opacity: 0.95,
-  });
-
-  const line = new THREE.Line(geo, mat);
-  relayNetLinksGroup.add(line);
-}
-
-function renderObstructedRay(startPos, endPos, obsPos) {
-  if (!relayNetLinksGroup) return;
-
-  const chkObs = document.getElementById('chkRelayObstructedRays');
-  if (chkObs && !chkObs.checked) return;
-
-  // Red dashed line
-  const pts = [startPos, endPos];
-  const geo = new THREE.BufferGeometry().setFromPoints(pts);
-  const mat = new THREE.LineDashedMaterial({
-    color: 0xef4444,
-    dashSize: 12,
-    gapSize: 8,
-    transparent: true,
-    opacity: 0.75,
-  });
-  const line = new THREE.Line(pts, mat);
-  line.computeLineDistances();
-  relayNetLinksGroup.add(line);
-
-  // Red Obstruction Contact Diamond Marker
-  if (obsPos && relayNetObstructionsGroup) {
-    const obsMarkerGroup = new THREE.Group();
-    obsMarkerGroup.position.set(obsPos.x, obsPos.y + 6.0, obsPos.z);
-    obsMarkerGroup.userData = {
-      nodeType: 'los_obstruction',
-      obstructionData: {
-        title: 'Topographic Line-of-Sight Occlusion',
-        description: 'Jezero Delta scarp relief exceeds geometric ray altitude.',
-        remedy: 'Deploy autonomous relay tower on Promontory MRN_CAND_03.',
+    if (relayNetActiveRelays.length > 0) {
+      // If direct is blocked or out of range, check if any active relay is visible
+      for (let relay of relayNetActiveRelays) {
+        const rPos = rcToLocalPos(relay.row, relay.col, relay.elevation_m, currentExaggeration);
+        rPos.y += 35.0; // Relay beacon height
+        // Check clearance to relay
+        isRelayed = true;
+        activeRelayPos = rPos;
+        activeRelayId = relay.node_id || 'MRN-TOWER';
+        break;
       }
-    };
+    }
 
-    const diaGeo = new THREE.OctahedronGeometry(3.5, 0);
-    const diaMat = new THREE.MeshStandardMaterial({
+    // 4. Update HUD Telemetry Badges
+    const badge = document.getElementById('relayNetConnectivityBadge');
+    const dot = document.getElementById('theaterRelayStatusDot');
+    const statusVal = document.getElementById('relayTelemetryStatus');
+    const hopsVal = document.getElementById('relayTelemetryHops');
+    const clrVal = document.getElementById('relayTelemetryClearance');
+    const latVal = document.getElementById('relayTelemetryLatency');
+
+    if (!isDirectBlocked) {
+      // Direct link nominal
+      if (badge) {
+        badge.textContent = 'DIRECT LINK';
+        badge.className = 'relaynet-badge-status direct';
+      }
+      if (dot) dot.className = 'relaynet-status-dot online';
+      if (statusVal) {
+        statusVal.textContent = 'NOMINAL (100% COVERAGE)';
+        statusVal.style.color = '#10b981';
+      }
+      if (hopsVal) hopsVal.textContent = '0 (Direct to Base)';
+      if (clrVal) clrVal.textContent = `+${Math.max(1.0, minClearance).toFixed(1)} m`;
+      if (latVal) latVal.textContent = `${(distToBaseM / 300000.0 * 1000.0).toFixed(3)} ms`;
+
+      // Draw Active Direct Beam
+      renderActiveCarrierBeam([roverPos, basePos]);
+
+    } else if (isRelayed && activeRelayPos) {
+      // Relayed nominal
+      if (badge) {
+        badge.textContent = 'RELAYED (1 HOP)';
+        badge.className = 'relaynet-badge-status relayed';
+      }
+      if (dot) dot.className = 'relaynet-status-dot online';
+      if (statusVal) {
+        statusVal.textContent = `RELAYED VIA ${activeRelayId}`;
+        statusVal.style.color = '#34d399';
+      }
+      if (hopsVal) hopsVal.textContent = `1 Hop (${activeRelayId} &rarr; Base)`;
+      if (clrVal) clrVal.textContent = '+18.5 m (Relay Cleared)';
+      if (latVal) latVal.textContent = '0.016 ms';
+
+      // Draw Multi-Hop Carrier Beam (Rover -> Relay -> Base)
+      renderActiveCarrierBeam([roverPos, activeRelayPos, basePos]);
+
+      // Show blocked direct path in red with hazard marker
+      renderObstructedRay(roverPos, basePos, firstObsPos);
+
+    } else {
+      // Geometric Connectivity Gap
+      if (badge) {
+        badge.textContent = 'CONNECTIVITY GAP';
+        badge.className = 'relaynet-badge-status gap';
+      }
+      if (dot) dot.className = 'relaynet-status-dot gap';
+      if (statusVal) {
+        statusVal.textContent = 'LOS OCCLUDED (SCARP SHADOW)';
+        statusVal.style.color = '#ef4444';
+      }
+      if (hopsVal) hopsVal.textContent = 'DISCONNECTED (0 Hops)';
+      if (clrVal) clrVal.textContent = `${minClearance.toFixed(1)} m (TERRAIN BLOCKED)`;
+      if (latVal) latVal.textContent = 'N/A (LINK SEVERED)';
+
+      // Show blocked path in red with hazard marker
+      renderObstructedRay(roverPos, basePos, firstObsPos);
+    }
+  }
+
+  function clearDynamicLinks() {
+    if (!relayNetLinksGroup || !relayNetObstructionsGroup) return;
+
+    while (relayNetLinksGroup.children.length > 0) {
+      const obj = relayNetLinksGroup.children[0];
+      relayNetLinksGroup.remove(obj);
+      if (obj.geometry) obj.geometry.dispose();
+    }
+
+    while (relayNetObstructionsGroup.children.length > 0) {
+      const obj = relayNetObstructionsGroup.children[0];
+      relayNetObstructionsGroup.remove(obj);
+      if (obj.geometry) obj.geometry.dispose();
+    }
+  }
+
+  function renderActiveCarrierBeam(points) {
+    if (!relayNetLinksGroup || points.length < 2) return;
+
+    const chkActive = document.getElementById('chkRelayActiveRoute');
+    if (chkActive && !chkActive.checked) return;
+
+    const curve = new THREE.CatmullRomCurve3(points);
+    const pts = curve.getPoints(points.length * 15);
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+
+    const mat = new THREE.LineBasicMaterial({
+      color: 0x00e5ff,
+      linewidth: 3,
+      transparent: true,
+      opacity: 0.95,
+    });
+
+    const line = new THREE.Line(geo, mat);
+    relayNetLinksGroup.add(line);
+  }
+
+  function renderObstructedRay(startPos, endPos, obsPos) {
+    if (!relayNetLinksGroup) return;
+
+    const chkObs = document.getElementById('chkRelayObstructedRays');
+    if (chkObs && !chkObs.checked) return;
+
+    // Red dashed line
+    const pts = [startPos, endPos];
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const mat = new THREE.LineDashedMaterial({
       color: 0xef4444,
-      emissive: 0x991b1b,
-      emissiveIntensity: 0.6,
-      metalness: 0.8,
-      roughness: 0.2
+      dashSize: 12,
+      gapSize: 8,
+      transparent: true,
+      opacity: 0.75,
     });
-    const diaMesh = new THREE.Mesh(diaGeo, diaMat);
-    obsMarkerGroup.add(diaMesh);
+    const line = new THREE.Line(pts, mat);
+    line.computeLineDistances();
+    relayNetLinksGroup.add(line);
 
-    // Warning Ring
-    const wRingGeo = new THREE.RingGeometry(3, 5, 16);
-    const wRingMat = new THREE.MeshBasicMaterial({ color: 0xef4444, side: THREE.DoubleSide });
-    const wRingMesh = new THREE.Mesh(wRingGeo, wRingMat);
-    wRingMesh.rotation.x = -Math.PI / 2;
-    obsMarkerGroup.add(wRingMesh);
+    // Red Obstruction Contact Diamond Marker
+    if (obsPos && relayNetObstructionsGroup) {
+      const obsMarkerGroup = new THREE.Group();
+      obsMarkerGroup.position.set(obsPos.x, obsPos.y + 6.0, obsPos.z);
+      obsMarkerGroup.userData = {
+        nodeType: 'los_obstruction',
+        obstructionData: {
+          title: 'Topographic Line-of-Sight Occlusion',
+          description: 'Jezero Delta scarp relief exceeds geometric ray altitude.',
+          remedy: 'Deploy autonomous relay tower on Promontory MRN_CAND_03.',
+        }
+      };
 
-    relayNetObstructionsGroup.add(obsMarkerGroup);
+      const diaGeo = new THREE.OctahedronGeometry(3.5, 0);
+      const diaMat = new THREE.MeshStandardMaterial({
+        color: 0xef4444,
+        emissive: 0x991b1b,
+        emissiveIntensity: 0.6,
+        metalness: 0.8,
+        roughness: 0.2
+      });
+      const diaMesh = new THREE.Mesh(diaGeo, diaMat);
+      obsMarkerGroup.add(diaMesh);
+
+      // Warning Ring
+      const wRingGeo = new THREE.RingGeometry(3, 5, 16);
+      const wRingMat = new THREE.MeshBasicMaterial({ color: 0xef4444, side: THREE.DoubleSide });
+      const wRingMesh = new THREE.Mesh(wRingGeo, wRingMat);
+      wRingMesh.rotation.x = -Math.PI / 2;
+      obsMarkerGroup.add(wRingMesh);
+
+      relayNetObstructionsGroup.add(obsMarkerGroup);
+    }
   }
-}
 
-function autoPlanOptimalRelays() {
-  const btn = document.getElementById('btnRelayAutoPlan');
-  if (btn) {
-    btn.innerHTML = '<span class="btn-icon">&#8987;</span> Screening Promontories...';
-    btn.disabled = true;
-  }
+  function autoPlanOptimalRelays() {
+    const btn = document.getElementById('btnRelayAutoPlan');
+    if (btn) {
+      btn.innerHTML = '<span class="btn-icon">&#8987;</span> Screening Promontories...';
+      btn.disabled = true;
+    }
 
-  // Target points along standard mission traverse
-  const targetPayload = {
-    base_station: { node_id: 'BASE', row: 117, col: 157, antenna_height_m: 10.0 },
-    target_units: [
-      { node_id: 'DELTA_FRONT', row: 130, col: 135, antenna_height_m: 2.5 },
-      { node_id: 'THREE_FORKS', row: 138, col: 114, antenna_height_m: 2.5 },
-      { node_id: 'HAWKSBILL_ASCENT', row: 145, col: 95, antenna_height_m: 2.5 }
-    ],
-    relay_budget: 2
-  };
-
-  fetch('/api/relaynet/optimize', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(targetPayload)
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (btn) {
-        btn.innerHTML = '<span class="btn-icon">&#10004;</span> Relays Deployed';
-        btn.disabled = false;
-      }
-
-      if (data && data.selected_relays) {
-        relayNetActiveRelays = data.selected_relays;
-        renderActiveRelayTowers(relayNetActiveRelays);
-
-        const summaryBox = document.getElementById('relayOptimizationSummary');
-        const statCov = document.getElementById('relayStatCoverage');
-        const statTow = document.getElementById('relayStatTowers');
-        const statBld = document.getElementById('relayStatBlindspot');
-
-        if (summaryBox) summaryBox.classList.remove('hidden');
-        if (statCov) statCov.textContent = `33% &rarr; ${data.coverage_percentage}%`;
-        if (statTow) statTow.textContent = `${data.selected_relays.length} (${data.selected_relays.map(r => r.node_id).join(', ')})`;
-        if (statBld) statBld.textContent = '1.8 km terrain blindspot eliminated';
-
-        console.log('[RelayNet] Deployed optimized relays:', data.selected_relays);
-      }
-    })
-    .catch(err => {
-      console.error('[RelayNet] Auto-plan failed:', err);
-      if (btn) {
-        btn.innerHTML = '<span class="btn-icon">&#9889;</span> Auto-Plan Optimal Relays';
-        btn.disabled = false;
-      }
-    });
-}
-
-function renderActiveRelayTowers(relays) {
-  if (!relayNetNodesGroup) return;
-
-  // Retain only base station mast, remove existing relay towers
-  const toRemove = [];
-  relayNetNodesGroup.children.forEach(c => {
-    if (c.userData && c.userData.nodeType === 'relay_node') toRemove.push(c);
-  });
-  toRemove.forEach(c => relayNetNodesGroup.remove(c));
-
-  relays.forEach(r => {
-    const candObj = {
-      candidate_id: r.node_id,
-      row: r.rc ? r.rc[0] : r.row,
-      col: r.rc ? r.rc[1] : r.col,
-      elevation_m: r.elevation_m,
-      slope_deg: 3.2,
-      prominence_score: 0.91,
+    // Target points along standard mission traverse
+    const targetPayload = {
+      base_station: { node_id: 'BASE', row: 117, col: 157, antenna_height_m: 10.0 },
+      target_units: [
+        { node_id: 'DELTA_FRONT', row: 130, col: 135, antenna_height_m: 2.5 },
+        { node_id: 'THREE_FORKS', row: 138, col: 114, antenna_height_m: 2.5 },
+        { node_id: 'HAWKSBILL_ASCENT', row: 145, col: 95, antenna_height_m: 2.5 }
+      ],
+      relay_budget: 2
     };
-    const towerMesh = create3DRelayTower(candObj);
-    relayNetNodesGroup.add(towerMesh);
-  });
-}
 
-function resetRelayNetMesh() {
-  relayNetActiveRelays = [];
-  renderActiveRelayTowers([]);
-  clearDynamicLinks();
+    fetch('/api/relaynet/optimize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(targetPayload)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (btn) {
+          btn.innerHTML = '<span class="btn-icon">&#10004;</span> Relays Deployed';
+          btn.disabled = false;
+        }
 
-  const summaryBox = document.getElementById('relayOptimizationSummary');
-  if (summaryBox) summaryBox.classList.add('hidden');
+        if (data && data.selected_relays) {
+          relayNetActiveRelays = data.selected_relays;
+          renderActiveRelayTowers(relayNetActiveRelays);
 
-  const btn = document.getElementById('btnRelayAutoPlan');
-  if (btn) {
-    btn.innerHTML = '<span class="btn-icon">&#9889;</span> Auto-Plan Optimal Relays';
-    btn.disabled = false;
+          const summaryBox = document.getElementById('relayOptimizationSummary');
+          const statCov = document.getElementById('relayStatCoverage');
+          const statTow = document.getElementById('relayStatTowers');
+          const statBld = document.getElementById('relayStatBlindspot');
+
+          if (summaryBox) summaryBox.classList.remove('hidden');
+          if (statCov) statCov.textContent = `33% &rarr; ${data.coverage_percentage}%`;
+          if (statTow) statTow.textContent = `${data.selected_relays.length} (${data.selected_relays.map(r => r.node_id).join(', ')})`;
+          if (statBld) statBld.textContent = '1.8 km terrain blindspot eliminated';
+
+          console.log('[RelayNet] Deployed optimized relays:', data.selected_relays);
+        }
+      })
+      .catch(err => {
+        console.error('[RelayNet] Auto-plan failed:', err);
+        if (btn) {
+          btn.innerHTML = '<span class="btn-icon">&#9889;</span> Auto-Plan Optimal Relays';
+          btn.disabled = false;
+        }
+      });
   }
-}
 
-function setupRelayNetUIListeners() {
-  const btnToggle = document.getElementById('btnToggleRelayNet');
-  const panel = document.getElementById('relayNetPanel');
-  const btnClose = document.getElementById('btnCloseRelayNetPanel');
-  const btnAuto = document.getElementById('btnRelayAutoPlan');
-  const btnReset = document.getElementById('btnRelayResetMesh');
+  function renderActiveRelayTowers(relays) {
+    if (!relayNetNodesGroup) return;
 
-  const chkActive = document.getElementById('chkRelayActiveRoute');
-  const chkClear = document.getElementById('chkRelayClearLinks');
-  const chkObs = document.getElementById('chkRelayObstructedRays');
-  const chkCand = document.getElementById('chkRelayCandidates');
+    // Retain only base station mast, remove existing relay towers
+    const toRemove = [];
+    relayNetNodesGroup.children.forEach(c => {
+      if (c.userData && c.userData.nodeType === 'relay_node') toRemove.push(c);
+    });
+    toRemove.forEach(c => relayNetNodesGroup.remove(c));
 
-  if (btnToggle) {
-    btnToggle.addEventListener('click', () => {
-      relayNetVisible = !relayNetVisible;
-      if (relayNetGroup) relayNetGroup.visible = relayNetVisible;
-      if (panel) {
-        if (relayNetVisible) panel.classList.remove('hidden');
-        else panel.classList.add('hidden');
-      }
-      btnToggle.classList.toggle('active', relayNetVisible);
+    relays.forEach(r => {
+      const candObj = {
+        candidate_id: r.node_id,
+        row: r.rc ? r.rc[0] : r.row,
+        col: r.rc ? r.rc[1] : r.col,
+        elevation_m: r.elevation_m,
+        slope_deg: 3.2,
+        prominence_score: 0.91,
+      };
+      const towerMesh = create3DRelayTower(candObj);
+      relayNetNodesGroup.add(towerMesh);
     });
   }
 
-  if (btnClose && panel) {
-    btnClose.addEventListener('click', () => {
-      panel.classList.add('hidden');
-    });
+  function resetRelayNetMesh() {
+    relayNetActiveRelays = [];
+    renderActiveRelayTowers([]);
+    clearDynamicLinks();
+
+    const summaryBox = document.getElementById('relayOptimizationSummary');
+    if (summaryBox) summaryBox.classList.add('hidden');
+
+    const btn = document.getElementById('btnRelayAutoPlan');
+    if (btn) {
+      btn.innerHTML = '<span class="btn-icon">&#9889;</span> Auto-Plan Optimal Relays';
+      btn.disabled = false;
+    }
   }
 
-  if (btnAuto) {
-    btnAuto.addEventListener('click', autoPlanOptimalRelays);
-  }
+  function setupRelayNetUIListeners() {
+    const btnToggle = document.getElementById('btnToggleRelayNet');
+    const panel = document.getElementById('relayNetPanel');
+    const btnClose = document.getElementById('btnCloseRelayNetPanel');
+    const btnAuto = document.getElementById('btnRelayAutoPlan');
+    const btnReset = document.getElementById('btnRelayResetMesh');
 
-  if (btnReset) {
-    btnReset.addEventListener('click', resetRelayNetMesh);
-  }
+    const chkActive = document.getElementById('chkRelayActiveRoute');
+    const chkClear = document.getElementById('chkRelayClearLinks');
+    const chkObs = document.getElementById('chkRelayObstructedRays');
+    const chkCand = document.getElementById('chkRelayCandidates');
 
-  if (chkCand) {
-    chkCand.addEventListener('change', () => {
-      if (relayNetCandidatesGroup) relayNetCandidatesGroup.visible = chkCand.checked;
-    });
-  }
+    if (btnToggle) {
+      btnToggle.addEventListener('click', () => {
+        relayNetVisible = !relayNetVisible;
+        if (relayNetGroup) relayNetGroup.visible = relayNetVisible;
+        if (panel) {
+          if (relayNetVisible) panel.classList.remove('hidden');
+          else panel.classList.add('hidden');
+        }
+        btnToggle.classList.toggle('active', relayNetVisible);
+      });
+    }
 
-  if (chkObs) {
-    chkObs.addEventListener('change', () => {
-      if (relayNetObstructionsGroup) relayNetObstructionsGroup.visible = chkObs.checked;
-    });
-  }
+    if (btnClose && panel) {
+      btnClose.addEventListener('click', () => {
+        panel.classList.add('hidden');
+      });
+    }
 
-  // Mission 12: Astronaut EVA Mode Event Setup
-  setupAstronautEVAMode();
-}
+    if (btnAuto) {
+      btnAuto.addEventListener('click', autoPlanOptimalRelays);
+    }
+
+    if (btnReset) {
+      btnReset.addEventListener('click', resetRelayNetMesh);
+    }
+
+    if (chkCand) {
+      chkCand.addEventListener('change', () => {
+        if (relayNetCandidatesGroup) relayNetCandidatesGroup.visible = chkCand.checked;
+      });
+    }
+
+    if (chkObs) {
+      chkObs.addEventListener('change', () => {
+        if (relayNetObstructionsGroup) relayNetObstructionsGroup.visible = chkObs.checked;
+      });
+    }
+  }
 
   // ==========================================================================
   // Mission 14: Ascend-Inspired Ambient Starfield Engine
@@ -19636,7 +19673,7 @@ function setupRelayNetUIListeners() {
       currentVehicleMode = mode;
       if (btnModeAstronautEVA) btnModeAstronautEVA.classList.toggle('active', mode === 'crew_eva');
       if (btnModeRoboticRover) btnModeRoboticRover.classList.toggle('active', mode === 'robotic_rover');
-      
+
       if (activeModeBadge) {
         if (mode === 'crew_eva') {
           activeModeBadge.textContent = 'ASTRONAUT EVA ACTIVE';
@@ -19792,8 +19829,8 @@ function setupRelayNetUIListeners() {
             ${r.description}
           </div>
           <div style="display:flex; gap:5px; margin-bottom:5px;">
-            <span class="eva-leg-tag eva-leg-outbound">&#128694; Out: ${r.outbound_distance_m || Math.round(r.total_distance_m/2)}m (${Math.round((r.outbound_walk_time_s || r.total_duration_s/2)/60)}m)</span>
-            <span class="eva-leg-tag eva-leg-return">&#8617; Ret: ${r.return_distance_m || Math.round(r.total_distance_m/2)}m (${Math.round((r.return_walk_time_s || r.total_duration_s/2)/60)}m)</span>
+            <span class="eva-leg-tag eva-leg-outbound">&#128694; Out: ${r.outbound_distance_m || Math.round(r.total_distance_m / 2)}m (${Math.round((r.outbound_walk_time_s || r.total_duration_s / 2) / 60)}m)</span>
+            <span class="eva-leg-tag eva-leg-return">&#8617; Ret: ${r.return_distance_m || Math.round(r.total_distance_m / 2)}m (${Math.round((r.return_walk_time_s || r.total_duration_s / 2) / 60)}m)</span>
           </div>
           <div class="eva-route-metrics-grid">
             <div class="eva-metric-col">
@@ -19853,7 +19890,7 @@ function setupRelayNetUIListeners() {
       }
 
       // Update telemetry box
-      if (statDistance) statDistance.innerHTML = `${r.total_distance_m.toLocaleString()} <span class="unit">m (Out: ${r.outbound_distance_m || Math.round(r.total_distance_m/2)}m &bull; Ret: ${r.return_distance_m || Math.round(r.total_distance_m/2)}m)</span>`;
+      if (statDistance) statDistance.innerHTML = `${r.total_distance_m.toLocaleString()} <span class="unit">m (Out: ${r.outbound_distance_m || Math.round(r.total_distance_m / 2)}m &bull; Ret: ${r.return_distance_m || Math.round(r.total_distance_m / 2)}m)</span>`;
       if (statEffort) statEffort.innerHTML = `${r.terrain_effort_cost.toLocaleString()} <span class="unit">flat-m</span>`;
       if (statSlope) statSlope.innerHTML = `${r.max_slope_deg} <span class="unit">&deg;</span>`;
       if (statTravelTime) statTravelTime.innerHTML = `${r.formatted_duration} <span class="unit">(O2: ${r.consumables.oxygen_consumed_liters} L &bull; ${r.consumables.metabolic_burn_kcal} kcal)</span>`;
@@ -20018,6 +20055,7 @@ function setupRelayNetUIListeners() {
   // Application Lifecycle Boot
   async function init() {
     setupEventListeners();
+    setupAstronautEVAMode();
     try {
       await Promise.all([
         loadMissionData(),
@@ -20146,20 +20184,20 @@ function setupRelayNetUIListeners() {
 
       // Milestone 9L: Check URL query parameters for deep linking vs landing page display
       const isDeepLink = params.has('view') ||
-                         params.has('mode') ||
-                         params.has('fly') ||
-                         params.has('route') ||
-                         params.has('wp') ||
-                         params.has('waypoint') ||
-                         params.has('place') ||
-                         params.has('feature') ||
-                         params.has('q') ||
-                         params.has('search') ||
-                         params.has('cat') ||
-                         params.has('category') ||
-                         params.get('skip_landing') === '1' ||
-                         params.get('landing') === '0' ||
-                         params.get('landing') === 'false';
+        params.has('mode') ||
+        params.has('fly') ||
+        params.has('route') ||
+        params.has('wp') ||
+        params.has('waypoint') ||
+        params.has('place') ||
+        params.has('feature') ||
+        params.has('q') ||
+        params.has('search') ||
+        params.has('cat') ||
+        params.has('category') ||
+        params.get('skip_landing') === '1' ||
+        params.get('landing') === '0' ||
+        params.get('landing') === 'false';
       const forceLanding = params.get('landing') === '1' || params.get('landing') === 'true';
 
       if (forceLanding || !isDeepLink) {
@@ -20213,23 +20251,23 @@ function setupRelayNetUIListeners() {
       initAerialCorpsEngine();
       // Milestone 13Q: Initialize Atlas Autonomous Science Discovery Engine
       initScienceDiscoveryEngine();
-        // Milestone 13R: Initialize Atlas Mission Resilience & Apocalypse Center
-        initMissionResilienceEngine();
-        if (params.get('tab') === 'resilience' || params.get('tab') === 'apocalypse' || params.get('tab') === 'tabResilience') {
-          switchInspectorTab('tabResilience');
-        }
-        initSettlementEngine();
-        if (params.get('tab') === 'settlement' || params.get('tab') === 'settlement_center' || params.get('tab') === 'tabSettlement') {
-          switchInspectorTab('tabSettlement');
-        }
-        initMissionOSEngine();
-        if (typeof initGrandPrixEngine === 'function') initGrandPrixEngine();
-        initPlanetaryNetworkEngine();
-        initPlanetaryFoundryEngine();
-        initWhenMarsGoesDarkFlagship();
-        initNasaPillarsDeck();
-        if (typeof initEvaluatorGoldenPathTour === 'function') initEvaluatorGoldenPathTour();
-              if (params.get('tab') === 'planetary_foundry' || params.get('tab') === 'planetary-foundry' || params.get('tab') === 'foundry' || params.get('tab') === 'tabPlanetaryFoundry') {
+      // Milestone 13R: Initialize Atlas Mission Resilience & Apocalypse Center
+      initMissionResilienceEngine();
+      if (params.get('tab') === 'resilience' || params.get('tab') === 'apocalypse' || params.get('tab') === 'tabResilience') {
+        switchInspectorTab('tabResilience');
+      }
+      initSettlementEngine();
+      if (params.get('tab') === 'settlement' || params.get('tab') === 'settlement_center' || params.get('tab') === 'tabSettlement') {
+        switchInspectorTab('tabSettlement');
+      }
+      initMissionOSEngine();
+      if (typeof initGrandPrixEngine === 'function') initGrandPrixEngine();
+      initPlanetaryNetworkEngine();
+      initPlanetaryFoundryEngine();
+      initWhenMarsGoesDarkFlagship();
+      initNasaPillarsDeck();
+      if (typeof initEvaluatorGoldenPathTour === 'function') initEvaluatorGoldenPathTour();
+      if (params.get('tab') === 'planetary_foundry' || params.get('tab') === 'planetary-foundry' || params.get('tab') === 'foundry' || params.get('tab') === 'tabPlanetaryFoundry') {
         switchInspectorTab('tabPlanetaryFoundry');
       }
       if (params.get('tab') === 'planetary_network' || params.get('tab') === 'planetary-network' || params.get('tab') === 'network' || params.get('tab') === 'tabPlanetaryNetwork') {
@@ -20239,8 +20277,8 @@ function setupRelayNetUIListeners() {
         switchInspectorTab('tabGrandPrix');
       }
       if (params.get('tab') === 'mission_os' || params.get('tab') === 'mission-os' || params.get('tab') === 'tabMissionOS') {
-          switchInspectorTab('tabMissionOS');
-        }
+        switchInspectorTab('tabMissionOS');
+      }
       if (params.get('tab') === 'discovery' || params.get('tab') === 'science-discovery' || params.get('tab') === 'tabScienceDiscovery') {
         switchInspectorTab('tabScienceDiscovery');
       }
@@ -20676,772 +20714,772 @@ function setupRelayNetUIListeners() {
     init();
   }
 
-// ==============================================================================
-// Milestone 13E: Atlas Joint Mission Co-Design Studio & 3D Theater Integration
-// ==============================================================================
+  // ==============================================================================
+  // Milestone 13E: Atlas Joint Mission Co-Design Studio & 3D Theater Integration
+  // ==============================================================================
 
-let jointMissionTraverseGroup = null;
-let jointCandidatesGroup = null;
-let jointSelectedRouteGroup = null;
-let jointGapsGroup = null;
-let jointScienceTargetsGroup = null;
-let jointMissionOptimizationResult = null;
-let jointSelectedCandidateId = null;
-let currentJointWizardStep = 1;
-let jointMissionDrawerVisible = true;
+  let jointMissionTraverseGroup = null;
+  let jointCandidatesGroup = null;
+  let jointSelectedRouteGroup = null;
+  let jointGapsGroup = null;
+  let jointScienceTargetsGroup = null;
+  let jointMissionOptimizationResult = null;
+  let jointSelectedCandidateId = null;
+  let currentJointWizardStep = 1;
+  let jointMissionDrawerVisible = true;
 
-// DOM Element Handles
-let tabBtnJointMissionStudio = null;
-let tabJointMissionStudio = null;
-let btnToggleJointStudio = null;
-let jointMissionStudioPanel = null;
-let btnCloseJointStudioPanel = null;
-let paretoScatterCanvas = null;
-let paretoCanvasTooltip = null;
-let paretoScorecardTable = null;
-let paretoScorecardBody = null;
-let btnRunJointOptimization = null;
-let btnTheaterRunJointOptimize = null;
-let btnPromoteJointPlan = null;
-let btnTheaterPromoteJoint = null;
-let btnExportJointJson = null;
-let btnExportJointMd = null;
-let jointTheaterCandidateSelect = null;
+  // DOM Element Handles
+  let tabBtnJointMissionStudio = null;
+  let tabJointMissionStudio = null;
+  let btnToggleJointStudio = null;
+  let jointMissionStudioPanel = null;
+  let btnCloseJointStudioPanel = null;
+  let paretoScatterCanvas = null;
+  let paretoCanvasTooltip = null;
+  let paretoScorecardTable = null;
+  let paretoScorecardBody = null;
+  let btnRunJointOptimization = null;
+  let btnTheaterRunJointOptimize = null;
+  let btnPromoteJointPlan = null;
+  let btnTheaterPromoteJoint = null;
+  let btnExportJointJson = null;
+  let btnExportJointMd = null;
+  let jointTheaterCandidateSelect = null;
 
-function initJointMissionStudio() {
-  initJointMissionTheaterGroup();
-  bindJointStudioElements();
-  setupJointStudioListeners();
-  console.log('[JointMissionStudio] Initialized Joint Mission Co-Design Studio.');
-}
-
-function initJointMissionTheaterGroup() {
-  if (!jezeroSurfaceGroup) return;
-  if (!jointMissionTraverseGroup) {
-    jointMissionTraverseGroup = new THREE.Group();
-    jointMissionTraverseGroup.name = 'jointMissionTraverseGroup';
-
-    jointCandidatesGroup = new THREE.Group();
-    jointCandidatesGroup.name = 'jointCandidatesGroup';
-
-    jointSelectedRouteGroup = new THREE.Group();
-    jointSelectedRouteGroup.name = 'jointSelectedRouteGroup';
-
-    jointGapsGroup = new THREE.Group();
-    jointGapsGroup.name = 'jointGapsGroup';
-
-    jointScienceTargetsGroup = new THREE.Group();
-    jointScienceTargetsGroup.name = 'jointScienceTargetsGroup';
-
-    jointMissionTraverseGroup.add(jointCandidatesGroup);
-    jointMissionTraverseGroup.add(jointSelectedRouteGroup);
-    jointMissionTraverseGroup.add(jointGapsGroup);
-    jointMissionTraverseGroup.add(jointScienceTargetsGroup);
-
-    jezeroSurfaceGroup.add(jointMissionTraverseGroup);
+  function initJointMissionStudio() {
+    initJointMissionTheaterGroup();
+    bindJointStudioElements();
+    setupJointStudioListeners();
+    console.log('[JointMissionStudio] Initialized Joint Mission Co-Design Studio.');
   }
-}
 
+  function initJointMissionTheaterGroup() {
+    if (!jezeroSurfaceGroup) return;
+    if (!jointMissionTraverseGroup) {
+      jointMissionTraverseGroup = new THREE.Group();
+      jointMissionTraverseGroup.name = 'jointMissionTraverseGroup';
 
-// Milestone 13F & 13G: Resource Intelligence State & Presets
-let jointCurrentParetoMode = 'science_vs_energy'; // 'science_vs_energy', 'science_vs_data', 'storage_vs_distance', 'energy_vs_distance', 'energy_vs_gap', 'distance_vs_gap'
+      jointCandidatesGroup = new THREE.Group();
+      jointCandidatesGroup.name = 'jointCandidatesGroup';
 
-const JOINT_RESOURCE_PRESETS = {
-  perseverance_nominal: {
-    batteryCapacity: 4800,
-    reserveMargin: 20,
-    allowRegen: false,
-    rollingCrr: 0.08,
-    drivetrainEff: 0.72,
-    driveSpeed: 0.38,
-    baseLoadW: 110.0,
-    instActiveW: 120.0,
-    scienceDwellS: 900,
-    relayDeployS: 1200
-  },
-  high_power_drill: {
-    batteryCapacity: 6000,
-    reserveMargin: 25,
-    allowRegen: false,
-    rollingCrr: 0.09,
-    drivetrainEff: 0.68,
-    driveSpeed: 0.30,
-    baseLoadW: 140.0,
-    instActiveW: 240.0,
-    scienceDwellS: 1800,
-    relayDeployS: 1200
-  },
-  ultralight_scout: {
-    batteryCapacity: 1600,
-    reserveMargin: 15,
-    allowRegen: false,
-    rollingCrr: 0.06,
-    drivetrainEff: 0.80,
-    driveSpeed: 0.65,
-    baseLoadW: 45.0,
-    instActiveW: 35.0,
-    scienceDwellS: 450,
-    relayDeployS: 900
-  },
-  crew_eva_sortie: {
-    batteryCapacity: 2500,
-    reserveMargin: 25,
-    allowRegen: false,
-    rollingCrr: 0.08,
-    drivetrainEff: 0.72,
-    driveSpeed: 1.00,
-    baseLoadW: 85.0,
-    instActiveW: 20.0,
-    scienceDwellS: 600,
-    relayDeployS: 600
+      jointSelectedRouteGroup = new THREE.Group();
+      jointSelectedRouteGroup.name = 'jointSelectedRouteGroup';
+
+      jointGapsGroup = new THREE.Group();
+      jointGapsGroup.name = 'jointGapsGroup';
+
+      jointScienceTargetsGroup = new THREE.Group();
+      jointScienceTargetsGroup.name = 'jointScienceTargetsGroup';
+
+      jointMissionTraverseGroup.add(jointCandidatesGroup);
+      jointMissionTraverseGroup.add(jointSelectedRouteGroup);
+      jointMissionTraverseGroup.add(jointGapsGroup);
+      jointMissionTraverseGroup.add(jointScienceTargetsGroup);
+
+      jezeroSurfaceGroup.add(jointMissionTraverseGroup);
+    }
   }
-};
 
-function applyJointResourcePreset(presetKey) {
-  const p = JOINT_RESOURCE_PRESETS[presetKey];
-  if (!p) return;
 
-  const batEl = document.getElementById('jointBatteryCapacity');
-  const batVal = document.getElementById('jointBatteryCapVal');
-  const resEl = document.getElementById('jointReserveMargin');
-  const resVal = document.getElementById('jointReserveMarginVal');
-  const regEl = document.getElementById('jointAllowRegenBraking');
-  const crrEl = document.getElementById('jointRollingCrr');
-  const effEl = document.getElementById('jointDrivetrainEff');
-  const spdEl = document.getElementById('jointDriveSpeed');
-  const baseEl = document.getElementById('jointBaseLoadW');
-  const instEl = document.getElementById('jointInstActiveW');
-  const dwlEl = document.getElementById('jointScienceDwellS');
-  const depEl = document.getElementById('jointRelayDeployS');
+  // Milestone 13F & 13G: Resource Intelligence State & Presets
+  let jointCurrentParetoMode = 'science_vs_energy'; // 'science_vs_energy', 'science_vs_data', 'storage_vs_distance', 'energy_vs_distance', 'energy_vs_gap', 'distance_vs_gap'
 
-  if (batEl && batVal) { batEl.value = p.batteryCapacity; batVal.textContent = `${p.batteryCapacity.toLocaleString()} Wh`; }
-  if (resEl && resVal) { resEl.value = p.reserveMargin; resVal.textContent = `${p.reserveMargin.toFixed(1)}%`; }
-  if (regEl) { regEl.checked = p.allowRegen; }
-  if (crrEl) { crrEl.value = p.rollingCrr; }
-  if (effEl) { effEl.value = p.drivetrainEff; }
-  if (spdEl) { spdEl.value = p.driveSpeed; }
-  if (baseEl) { baseEl.value = p.baseLoadW; }
-  if (instEl) { instEl.value = p.instActiveW; }
-  if (dwlEl) { dwlEl.value = p.scienceDwellS; }
-  if (depEl) { depEl.value = p.relayDeployS; }
+  const JOINT_RESOURCE_PRESETS = {
+    perseverance_nominal: {
+      batteryCapacity: 4800,
+      reserveMargin: 20,
+      allowRegen: false,
+      rollingCrr: 0.08,
+      drivetrainEff: 0.72,
+      driveSpeed: 0.38,
+      baseLoadW: 110.0,
+      instActiveW: 120.0,
+      scienceDwellS: 900,
+      relayDeployS: 1200
+    },
+    high_power_drill: {
+      batteryCapacity: 6000,
+      reserveMargin: 25,
+      allowRegen: false,
+      rollingCrr: 0.09,
+      drivetrainEff: 0.68,
+      driveSpeed: 0.30,
+      baseLoadW: 140.0,
+      instActiveW: 240.0,
+      scienceDwellS: 1800,
+      relayDeployS: 1200
+    },
+    ultralight_scout: {
+      batteryCapacity: 1600,
+      reserveMargin: 15,
+      allowRegen: false,
+      rollingCrr: 0.06,
+      drivetrainEff: 0.80,
+      driveSpeed: 0.65,
+      baseLoadW: 45.0,
+      instActiveW: 35.0,
+      scienceDwellS: 450,
+      relayDeployS: 900
+    },
+    crew_eva_sortie: {
+      batteryCapacity: 2500,
+      reserveMargin: 25,
+      allowRegen: false,
+      rollingCrr: 0.08,
+      drivetrainEff: 0.72,
+      driveSpeed: 1.00,
+      baseLoadW: 85.0,
+      instActiveW: 20.0,
+      scienceDwellS: 600,
+      relayDeployS: 600
+    }
+  };
 
-  const presetBtns = document.querySelectorAll('.joint-resource-preset-btn');
-  presetBtns.forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.preset === presetKey);
-  });
-}
+  function applyJointResourcePreset(presetKey) {
+    const p = JOINT_RESOURCE_PRESETS[presetKey];
+    if (!p) return;
 
-function bindJointStudioElements() {
-  tabBtnJointMissionStudio = document.getElementById('tabBtnJointMissionStudio');
-  tabJointMissionStudio = document.getElementById('tabJointMissionStudio');
-  btnToggleJointStudio = document.getElementById('btnToggleJointStudio');
-  jointMissionStudioPanel = document.getElementById('jointMissionStudioPanel');
-  btnCloseJointStudioPanel = document.getElementById('btnCloseJointStudioPanel');
-  paretoScatterCanvas = document.getElementById('paretoScatterCanvas');
-  paretoCanvasTooltip = document.getElementById('paretoCanvasTooltip');
-  paretoScorecardTable = document.getElementById('paretoScorecardTable');
-  paretoScorecardBody = document.getElementById('paretoScorecardBody');
-  btnRunJointOptimization = document.getElementById('btnRunJointOptimization');
-  btnTheaterRunJointOptimize = document.getElementById('btnTheaterRunJointOptimize');
-  btnPromoteJointPlan = document.getElementById('btnPromoteJointPlan');
-  btnTheaterPromoteJoint = document.getElementById('btnTheaterPromoteJoint');
-  btnExportJointJson = document.getElementById('btnExportJointJson');
-  btnExportJointMd = document.getElementById('btnExportJointMd');
-  jointTheaterCandidateSelect = document.getElementById('jointTheaterCandidateSelect');
-}
+    const batEl = document.getElementById('jointBatteryCapacity');
+    const batVal = document.getElementById('jointBatteryCapVal');
+    const resEl = document.getElementById('jointReserveMargin');
+    const resVal = document.getElementById('jointReserveMarginVal');
+    const regEl = document.getElementById('jointAllowRegenBraking');
+    const crrEl = document.getElementById('jointRollingCrr');
+    const effEl = document.getElementById('jointDrivetrainEff');
+    const spdEl = document.getElementById('jointDriveSpeed');
+    const baseEl = document.getElementById('jointBaseLoadW');
+    const instEl = document.getElementById('jointInstActiveW');
+    const dwlEl = document.getElementById('jointScienceDwellS');
+    const depEl = document.getElementById('jointRelayDeployS');
 
-function setupJointStudioListeners() {
-  // Tab Button
-  if (tabBtnJointMissionStudio) {
-    tabBtnJointMissionStudio.addEventListener('click', () => {
-      switchInspectorTab('tabJointMissionStudio');
+    if (batEl && batVal) { batEl.value = p.batteryCapacity; batVal.textContent = `${p.batteryCapacity.toLocaleString()} Wh`; }
+    if (resEl && resVal) { resEl.value = p.reserveMargin; resVal.textContent = `${p.reserveMargin.toFixed(1)}%`; }
+    if (regEl) { regEl.checked = p.allowRegen; }
+    if (crrEl) { crrEl.value = p.rollingCrr; }
+    if (effEl) { effEl.value = p.drivetrainEff; }
+    if (spdEl) { spdEl.value = p.driveSpeed; }
+    if (baseEl) { baseEl.value = p.baseLoadW; }
+    if (instEl) { instEl.value = p.instActiveW; }
+    if (dwlEl) { dwlEl.value = p.scienceDwellS; }
+    if (depEl) { depEl.value = p.relayDeployS; }
+
+    const presetBtns = document.querySelectorAll('.joint-resource-preset-btn');
+    presetBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.preset === presetKey);
     });
   }
 
-  // In-Theater Drawer Toggle Button
-  if (btnToggleJointStudio && jointMissionStudioPanel) {
-    btnToggleJointStudio.addEventListener('click', () => {
-      jointMissionDrawerVisible = !jointMissionDrawerVisible;
-      jointMissionStudioPanel.classList.toggle('hidden', !jointMissionDrawerVisible);
-      btnToggleJointStudio.classList.toggle('active', jointMissionDrawerVisible);
-    });
+  function bindJointStudioElements() {
+    tabBtnJointMissionStudio = document.getElementById('tabBtnJointMissionStudio');
+    tabJointMissionStudio = document.getElementById('tabJointMissionStudio');
+    btnToggleJointStudio = document.getElementById('btnToggleJointStudio');
+    jointMissionStudioPanel = document.getElementById('jointMissionStudioPanel');
+    btnCloseJointStudioPanel = document.getElementById('btnCloseJointStudioPanel');
+    paretoScatterCanvas = document.getElementById('paretoScatterCanvas');
+    paretoCanvasTooltip = document.getElementById('paretoCanvasTooltip');
+    paretoScorecardTable = document.getElementById('paretoScorecardTable');
+    paretoScorecardBody = document.getElementById('paretoScorecardBody');
+    btnRunJointOptimization = document.getElementById('btnRunJointOptimization');
+    btnTheaterRunJointOptimize = document.getElementById('btnTheaterRunJointOptimize');
+    btnPromoteJointPlan = document.getElementById('btnPromoteJointPlan');
+    btnTheaterPromoteJoint = document.getElementById('btnTheaterPromoteJoint');
+    btnExportJointJson = document.getElementById('btnExportJointJson');
+    btnExportJointMd = document.getElementById('btnExportJointMd');
+    jointTheaterCandidateSelect = document.getElementById('jointTheaterCandidateSelect');
   }
-  if (btnCloseJointStudioPanel && jointMissionStudioPanel) {
-    btnCloseJointStudioPanel.addEventListener('click', () => {
-      jointMissionDrawerVisible = false;
-      jointMissionStudioPanel.classList.add('hidden');
-      if (btnToggleJointStudio) btnToggleJointStudio.classList.remove('active');
-    });
-  }
 
-  // Stepper Navigation
-  const stepBtns = document.querySelectorAll('.joint-step-btn');
-  stepBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const step = parseInt(btn.dataset.step, 10);
-      switchJointWizardStep(step);
-    });
-  });
-
-  const nextBtns = document.querySelectorAll('.joint-next-step-btn');
-  nextBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const next = parseInt(btn.dataset.next, 10);
-      switchJointWizardStep(next);
-    });
-  });
-
-  const prevBtns = document.querySelectorAll('.joint-prev-step-btn');
-  prevBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const prev = parseInt(btn.dataset.prev, 10);
-      switchJointWizardStep(prev);
-    });
-  });
-
-  // Weight Presets
-  const presetPills = document.querySelectorAll('.joint-preset-pill');
-  presetPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      presetPills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      applyJointWeightPreset(pill.dataset.preset);
-    });
-  });
-
-  // Weight Sliders Sync
-  ['Dist', 'Gap', 'Relays', 'Energy', 'Science'].forEach(metric => {
-    const slider = document.getElementById(`jointWeight${metric}`);
-    const valSpan = document.getElementById(`jointWeight${metric}Val`);
-    if (slider && valSpan) {
-      slider.addEventListener('input', () => {
-        valSpan.textContent = parseFloat(slider.value).toFixed(2);
+  function setupJointStudioListeners() {
+    // Tab Button
+    if (tabBtnJointMissionStudio) {
+      tabBtnJointMissionStudio.addEventListener('click', () => {
+        switchInspectorTab('tabJointMissionStudio');
       });
     }
-  });
 
-  // Auto-Normalize Weights Button
-  const btnNorm = document.getElementById('btnJointNormalizeWeights');
-  if (btnNorm) {
-    btnNorm.addEventListener('click', () => {
-      normalizeJointWeights();
-    });
-  }
+    // In-Theater Drawer Toggle Button
+    if (btnToggleJointStudio && jointMissionStudioPanel) {
+      btnToggleJointStudio.addEventListener('click', () => {
+        jointMissionDrawerVisible = !jointMissionDrawerVisible;
+        jointMissionStudioPanel.classList.toggle('hidden', !jointMissionDrawerVisible);
+        btnToggleJointStudio.classList.toggle('active', jointMissionDrawerVisible);
+      });
+    }
+    if (btnCloseJointStudioPanel && jointMissionStudioPanel) {
+      btnCloseJointStudioPanel.addEventListener('click', () => {
+        jointMissionDrawerVisible = false;
+        jointMissionStudioPanel.classList.add('hidden');
+        if (btnToggleJointStudio) btnToggleJointStudio.classList.remove('active');
+      });
+    }
 
-  // Run Optimization Buttons
-  if (btnRunJointOptimization) {
-    btnRunJointOptimization.addEventListener('click', () => {
-      runJointMissionOptimization();
-    });
-  }
-  if (btnTheaterRunJointOptimize) {
-    btnTheaterRunJointOptimize.addEventListener('click', () => {
-      runJointMissionOptimization();
-    });
-  }
-
-  // Promote Buttons
-  if (btnPromoteJointPlan) {
-    btnPromoteJointPlan.addEventListener('click', () => {
-      promoteJointConfiguration();
-    });
-  }
-  if (btnTheaterPromoteJoint) {
-    btnTheaterPromoteJoint.addEventListener('click', () => {
-      promoteJointConfiguration();
-    });
-  }
-
-  // Export Buttons
-  if (btnExportJointJson) {
-    btnExportJointJson.addEventListener('click', () => {
-      exportJointMissionJson();
-    });
-  }
-  if (btnExportJointMd) {
-    btnExportJointMd.addEventListener('click', () => {
-      exportJointMissionMd();
-    });
-  }
-
-  // Candidate Selectors in Theater Drawer
-  if (jointTheaterCandidateSelect) {
-    jointTheaterCandidateSelect.addEventListener('change', (e) => {
-      if (e.target.value) {
-        selectJointConfiguration(e.target.value);
-      }
-    });
-  }
-
-  // Trajectory Layer Toggles
-  const chkSelected = document.getElementById('chkJointShowSelected');
-  const chkPareto = document.getElementById('chkJointShowParetoAlts');
-  const chkDominated = document.getElementById('chkJointShowDominated');
-  const chkGaps = document.getElementById('chkJointShowGaps');
-
-  if (chkSelected && jointSelectedRouteGroup) {
-    chkSelected.addEventListener('change', () => {
-      jointSelectedRouteGroup.visible = chkSelected.checked;
-    });
-  }
-  if (chkPareto && jointCandidatesGroup) {
-    chkPareto.addEventListener('change', () => {
-      jointCandidatesGroup.children.forEach(mesh => {
-        if (mesh.userData && mesh.userData.is_pareto && !mesh.userData.is_selected) {
-          mesh.visible = chkPareto.checked;
-        }
+    // Stepper Navigation
+    const stepBtns = document.querySelectorAll('.joint-step-btn');
+    stepBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const step = parseInt(btn.dataset.step, 10);
+        switchJointWizardStep(step);
       });
     });
-  }
-  if (chkDominated && jointCandidatesGroup) {
-    chkDominated.addEventListener('change', () => {
-      jointCandidatesGroup.children.forEach(mesh => {
-        if (mesh.userData && !mesh.userData.is_pareto) {
-          mesh.visible = chkDominated.checked;
-        }
+
+    const nextBtns = document.querySelectorAll('.joint-next-step-btn');
+    nextBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const next = parseInt(btn.dataset.next, 10);
+        switchJointWizardStep(next);
       });
     });
-  }
-  if (chkGaps && jointGapsGroup) {
-    chkGaps.addEventListener('change', () => {
-      jointGapsGroup.visible = chkGaps.checked;
+
+    const prevBtns = document.querySelectorAll('.joint-prev-step-btn');
+    prevBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const prev = parseInt(btn.dataset.prev, 10);
+        switchJointWizardStep(prev);
+      });
     });
-  }
 
-  // Pareto Canvas Mouse Interaction (Hover tooltip & Click selection)
-  setupParetoCanvasEvents();
-
-  // Milestone 13F: Resource Presets Listeners
-  const resPresetBtns = document.querySelectorAll('.joint-resource-preset-btn');
-  resPresetBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      applyJointResourcePreset(btn.dataset.preset);
+    // Weight Presets
+    const presetPills = document.querySelectorAll('.joint-preset-pill');
+    presetPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        presetPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        applyJointWeightPreset(pill.dataset.preset);
+      });
     });
-  });
 
-  // Milestone 13G: Storage Capacity Slider Listener
-  const storageCapSlider = document.getElementById('jointStorageCapacitySlider');
-  const storageCapVal = document.getElementById('jointStorageCapacityVal');
-  if (storageCapSlider && storageCapVal) {
-    storageCapSlider.addEventListener('input', () => {
-      const gb = parseFloat(storageCapSlider.value);
-      const b = Math.round(gb * 1024 * 1024 * 1024);
-      storageCapVal.textContent = `${gb.toFixed(1)} GB (${b.toLocaleString()} B)`;
-    });
-  }
-
-  // Milestone 13G: Turret Arm Singularity Protection Listener
-  const turretChks = document.querySelectorAll('.turret-exclusive');
-  turretChks.forEach(chk => {
-    chk.addEventListener('change', () => {
-      if (chk.checked) {
-        turretChks.forEach(other => {
-          if (other !== chk) other.checked = false;
+    // Weight Sliders Sync
+    ['Dist', 'Gap', 'Relays', 'Energy', 'Science'].forEach(metric => {
+      const slider = document.getElementById(`jointWeight${metric}`);
+      const valSpan = document.getElementById(`jointWeight${metric}Val`);
+      if (slider && valSpan) {
+        slider.addEventListener('input', () => {
+          valSpan.textContent = parseFloat(slider.value).toFixed(2);
         });
       }
     });
-  });
 
-  // Battery & Reserve Margin Sliders
-  const batSlider = document.getElementById('jointBatteryCapacity');
-  const batValSpan = document.getElementById('jointBatteryCapVal');
-  if (batSlider && batValSpan) {
-    batSlider.addEventListener('input', () => {
-      const v = parseInt(batSlider.value, 10);
-      batValSpan.textContent = `${v.toLocaleString()} Wh`;
-    });
-  }
-
-  const resSlider = document.getElementById('jointReserveMargin');
-  const resValSpan = document.getElementById('jointReserveMarginVal');
-  if (resSlider && resValSpan) {
-    resSlider.addEventListener('input', () => {
-      const v = parseFloat(resSlider.value);
-      resValSpan.textContent = `${v.toFixed(1)}%`;
-    });
-  }
-
-  // Pareto Mode Selector Buttons
-  const paretoModeBtns = document.querySelectorAll('.joint-pareto-mode-btn');
-  paretoModeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      paretoModeBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      jointCurrentParetoMode = btn.dataset.mode;
-      if (jointMissionOptimizationResult) {
-        renderParetoFrontier(jointMissionOptimizationResult);
-      }
-    });
-  });
-}
-
-function switchJointParetoMode(mode) {
-  jointCurrentParetoMode = mode;
-  const paretoModeBtns = document.querySelectorAll('.joint-pareto-mode-btn');
-  paretoModeBtns.forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.mode === mode);
-  });
-  if (jointMissionOptimizationResult) {
-    renderParetoFrontier(jointMissionOptimizationResult);
-  }
-}
-
-function switchJointWizardStep(stepNum) {
-  currentJointWizardStep = stepNum;
-  const stepBtns = document.querySelectorAll('.joint-step-btn');
-  stepBtns.forEach(btn => {
-    const s = parseInt(btn.dataset.step, 10);
-    btn.classList.toggle('active', s === stepNum);
-    if (s < stepNum) btn.classList.add('completed');
-  });
-
-  for (let i = 1; i <= 9; i++) {
-    const panel = document.getElementById(`jointStepPanel${i}`);
-    if (panel) {
-      panel.classList.toggle('hidden', i !== stepNum);
-      panel.classList.toggle('active', i === stepNum);
-    }
-  }
-
-  if (stepNum === 8 && jointMissionOptimizationResult) {
-    setTimeout(() => {
-      renderParetoFrontier(jointMissionOptimizationResult);
-    }, 50);
-  }
-}
-
-function applyJointWeightPreset(preset) {
-  const wDist = document.getElementById('jointWeightDist');
-  const wGap = document.getElementById('jointWeightGap');
-  const wRelays = document.getElementById('jointWeightRelays');
-  const wEnergy = document.getElementById('jointWeightEnergy');
-  const wScience = document.getElementById('jointWeightScience');
-
-  const vDist = document.getElementById('jointWeightDistVal');
-  const vGap = document.getElementById('jointWeightGapVal');
-  const vRelays = document.getElementById('jointWeightRelaysVal');
-  const vEnergy = document.getElementById('jointWeightEnergyVal');
-  const vScience = document.getElementById('jointWeightScienceVal');
-
-  let weights = { dist: 0.25, gap: 0.25, relays: 0.15, energy: 0.15, science: 0.20 };
-  if (preset === 'mobility_first') {
-    weights = { dist: 0.45, gap: 0.15, relays: 0.10, energy: 0.20, science: 0.10 };
-  } else if (preset === 'connectivity_first') {
-    weights = { dist: 0.15, gap: 0.45, relays: 0.20, energy: 0.10, science: 0.10 };
-  } else if (preset === 'infrastructure_first') {
-    weights = { dist: 0.25, gap: 0.20, relays: 0.40, energy: 0.10, science: 0.05 };
-  } else if (preset === 'science_first') {
-    weights = { dist: 0.15, gap: 0.20, relays: 0.15, energy: 0.10, science: 0.40 };
-  }
-
-  if (wDist && vDist) { wDist.value = weights.dist; vDist.textContent = weights.dist.toFixed(2); }
-  if (wGap && vGap) { wGap.value = weights.gap; vGap.textContent = weights.gap.toFixed(2); }
-  if (wRelays && vRelays) { wRelays.value = weights.relays; vRelays.textContent = weights.relays.toFixed(2); }
-  if (wEnergy && vEnergy) { wEnergy.value = weights.energy; vEnergy.textContent = weights.energy.toFixed(2); }
-  if (wScience && vScience) { wScience.value = weights.science; vScience.textContent = weights.science.toFixed(2); }
-}
-
-function normalizeJointWeights() {
-  const wDist = document.getElementById('jointWeightDist');
-  const wGap = document.getElementById('jointWeightGap');
-  const wRelays = document.getElementById('jointWeightRelays');
-  const wEnergy = document.getElementById('jointWeightEnergy');
-  const wScience = document.getElementById('jointWeightScience');
-
-  let d = parseFloat(wDist.value) || 0;
-  let g = parseFloat(wGap.value) || 0;
-  let r = parseFloat(wRelays.value) || 0;
-  let e = parseFloat(wEnergy.value) || 0;
-  let s = parseFloat(wScience ? wScience.value : 0.20) || 0;
-  const sum = d + g + r + e + s;
-  if (sum > 0) {
-    d = d / sum; g = g / sum; r = r / sum; e = e / sum; s = s / sum;
-    wDist.value = d.toFixed(2); document.getElementById('jointWeightDistVal').textContent = d.toFixed(2);
-    wGap.value = g.toFixed(2); document.getElementById('jointWeightGapVal').textContent = g.toFixed(2);
-    wRelays.value = r.toFixed(2); document.getElementById('jointWeightRelaysVal').textContent = r.toFixed(2);
-    wEnergy.value = e.toFixed(2); document.getElementById('jointWeightEnergyVal').textContent = e.toFixed(2);
-    if (wScience) { wScience.value = s.toFixed(2); document.getElementById('jointWeightScienceVal').textContent = s.toFixed(2); }
-  }
-}
-
-async function runJointMissionOptimization() {
-  const statusBox = document.getElementById('jointSolverStatusBox');
-  const statusText = document.getElementById('jointSolverStatusText');
-  if (statusBox) statusBox.classList.remove('hidden');
-  if (statusText) statusText.textContent = 'Generating candidate traverses & evaluating line-of-sight...';
-
-  // Read input fields
-  const goalVal = document.getElementById('jointSelectGoal') ? document.getElementById('jointSelectGoal').value : '138,114';
-  const goalParts = goalVal.split(',').map(v => parseInt(v.trim(), 10));
-  const goalRc = [goalParts[0] || 138, goalParts[1] || 114];
-  const relayBudget = parseInt(document.getElementById('jointRelayBudget') ? document.getElementById('jointRelayBudget').value : '2', 10);
-  const platform = document.getElementById('jointPlatformSelect') ? document.getElementById('jointPlatformSelect').value : 'perseverance_rover';
-  const baseMast = parseFloat(document.getElementById('jointBaseMast') ? document.getElementById('jointBaseMast').value : '10.0');
-  const roverMast = parseFloat(document.getElementById('jointRoverMast') ? document.getElementById('jointRoverMast').value : '2.5');
-  const fieldMast = parseFloat(document.getElementById('jointFieldMast') ? document.getElementById('jointFieldMast').value : '8.0');
-
-  const wDist = parseFloat(document.getElementById('jointWeightDist') ? document.getElementById('jointWeightDist').value : '0.25');
-  const wGap = parseFloat(document.getElementById('jointWeightGap') ? document.getElementById('jointWeightGap').value : '0.25');
-  const wRelays = parseFloat(document.getElementById('jointWeightRelays') ? document.getElementById('jointWeightRelays').value : '0.15');
-  const wEnergy = parseFloat(document.getElementById('jointWeightEnergy') ? document.getElementById('jointWeightEnergy').value : '0.15');
-  const wScience = parseFloat(document.getElementById('jointWeightScience') ? document.getElementById('jointWeightScience').value : '0.20');
-
-  // Milestone 13F Resource Parameters
-  const batCap = parseFloat(document.getElementById('jointBatteryCapacity') ? document.getElementById('jointBatteryCapacity').value : '4800');
-  const resMargin = parseFloat(document.getElementById('jointReserveMargin') ? document.getElementById('jointReserveMargin').value : '20');
-  const allowRegen = document.getElementById('jointAllowRegenBraking') ? document.getElementById('jointAllowRegenBraking').checked : false;
-  const rollCrr = parseFloat(document.getElementById('jointRollingCrr') ? document.getElementById('jointRollingCrr').value : '0.08');
-  const driveEff = parseFloat(document.getElementById('jointDrivetrainEff') ? document.getElementById('jointDrivetrainEff').value : '0.72');
-  const driveSpd = parseFloat(document.getElementById('jointDriveSpeed') ? document.getElementById('jointDriveSpeed').value : '0.38');
-  const baseLoad = parseFloat(document.getElementById('jointBaseLoadW') ? document.getElementById('jointBaseLoadW').value : '110.0');
-  const instActive = parseFloat(document.getElementById('jointInstActiveW') ? document.getElementById('jointInstActiveW').value : '120.0');
-  const sciDwell = parseFloat(document.getElementById('jointScienceDwellS') ? document.getElementById('jointScienceDwellS').value : '900');
-  const rlyDeploy = parseFloat(document.getElementById('jointRelayDeployS') ? document.getElementById('jointRelayDeployS').value : '1200');
-
-  // Milestone 13G: Science Targets & Data Logistics Parameters
-  const targetCheckboxes = document.querySelectorAll('.joint-target-chk:checked');
-  const selectedTargets = [];
-  targetCheckboxes.forEach(chk => {
-    const tId = chk.dataset.target;
-    if (tId === 'three_forks') {
-      selectedTargets.push({
-        target_id: 'three_forks',
-        target_name: 'Three Forks Sample Depot',
-        grid_coord: [138, 114],
-        priority_score: 75.0,
-        priority_type: 'SOURCE_DERIVED_PRIORITY',
-        primary_objective: 'GEOLOGICAL_CHARACTERIZATION',
-        selected_modes: ['SUPERCAM_LIBS', 'PIXL_XRF_GRID', 'RIMFAX_DEEP']
-      });
-    } else if (tId === 'hawksbill_gap') {
-      selectedTargets.push({
-        target_id: 'hawksbill_gap',
-        target_name: 'Hawksbill Gap Delta Ascent',
-        grid_coord: [145, 95],
-        priority_score: 95.0,
-        priority_type: 'USER_ASSIGNED_PRIORITY',
-        primary_objective: 'MINERALOGICAL_INVESTIGATION',
-        selected_modes: ['MASTCAM_Z_STEREO', 'SUPERCAM_LIBS', 'SHERLOC_DUV_RAMAN']
-      });
-    } else if (tId === 'kodiak_butte') {
-      selectedTargets.push({
-        target_id: 'kodiak_butte',
-        target_name: 'Kodiak Butte Outlier',
-        grid_coord: [175, 122],
-        priority_score: 60.0,
-        priority_type: 'SOURCE_DERIVED_PRIORITY',
-        primary_objective: 'SURFACE_MORPHOLOGY',
-        selected_modes: ['MASTCAM_Z_STEREO', 'MASTCAM_Z_PANO']
+    // Auto-Normalize Weights Button
+    const btnNorm = document.getElementById('btnJointNormalizeWeights');
+    if (btnNorm) {
+      btnNorm.addEventListener('click', () => {
+        normalizeJointWeights();
       });
     }
-  });
 
-  // Default fallback if no targets checked
-  if (selectedTargets.length === 0) {
-    selectedTargets.push(
-      { target_id: 'three_forks', target_name: 'Three Forks Sample Depot', grid_coord: [138, 114], priority_score: 75.0, priority_type: 'SOURCE_DERIVED_PRIORITY', primary_objective: 'GEOLOGICAL_CHARACTERIZATION', selected_modes: ['SUPERCAM_LIBS', 'PIXL_XRF_GRID'] },
-      { target_id: 'hawksbill_gap', target_name: 'Hawksbill Gap Delta Ascent', grid_coord: [145, 95], priority_score: 95.0, priority_type: 'USER_ASSIGNED_PRIORITY', primary_objective: 'MINERALOGICAL_INVESTIGATION', selected_modes: ['MASTCAM_Z_STEREO', 'SUPERCAM_LIBS'] }
-    );
-  }
-
-  // Active instruments from Step 5
-  const activeModes = [];
-  document.querySelectorAll('.joint-inst-chk:checked').forEach(chk => {
-    if (chk.dataset.mode) activeModes.push(chk.dataset.mode);
-  });
-  const COMPATIBILITY_MAP = {
-    GEOLOGICAL_CHARACTERIZATION: ['MASTCAM_Z_PANO', 'SUPERCAM_LIBS', 'PIXL_XRF_GRID', 'RIMFAX_DEEP', 'CORING_ABRASION'],
-    MINERALOGICAL_INVESTIGATION: ['MASTCAM_Z_STEREO', 'SUPERCAM_LIBS', 'SUPERCAM_RAMAN', 'PIXL_XRF_GRID', 'SHERLOC_DUV_RAMAN'],
-    SURFACE_MORPHOLOGY: ['MASTCAM_Z_PANO', 'MASTCAM_Z_STEREO', 'RIMFAX_DEEP'],
-    ATMOSPHERIC_OBSERVATION: ['MASTCAM_Z_PHOTOMETRY', 'MEDA_HIGH_RATE'],
-    ENVIRONMENTAL_MONITORING: ['MEDA_HIGH_RATE'],
-    ASTROBIOLOGY_BIOSIGNATURE_SURVEY: ['SUPERCAM_RAMAN', 'SHERLOC_DUV_RAMAN', 'CORING_ABRASION']
-  };
-
-  const TURRET_MODES = ['PIXL_XRF_GRID', 'SHERLOC_DUV_RAMAN', 'CORING_ABRASION'];
-
-  selectedTargets.forEach(t => {
-    const allowed = COMPATIBILITY_MAP[t.primary_objective] || ['MASTCAM_Z_PANO'];
-    // Filter candidate modes: must be compatible with objective
-    let candidateModes = t.selected_modes ? t.selected_modes.filter(m => allowed.includes(m)) : [];
-    if (activeModes.length > 0) {
-      const activeAllowed = candidateModes.filter(m => activeModes.includes(m));
-      if (activeAllowed.length > 0) {
-        candidateModes = activeAllowed;
-      } else {
-        // Fall back to active modes that are allowed for this objective
-        const anyActive = allowed.filter(m => activeModes.includes(m));
-        if (anyActive.length > 0) candidateModes = anyActive;
-      }
+    // Run Optimization Buttons
+    if (btnRunJointOptimization) {
+      btnRunJointOptimization.addEventListener('click', () => {
+        runJointMissionOptimization();
+      });
     }
-    // If still empty, fall back to first compatible allowed mode
-    if (candidateModes.length === 0) {
-      candidateModes = [allowed[0]];
+    if (btnTheaterRunJointOptimize) {
+      btnTheaterRunJointOptimize.addEventListener('click', () => {
+        runJointMissionOptimization();
+      });
     }
-    // Enforce turret arm singularity: keep at most one turret contact tool
-    let hasTurret = false;
-    const finalModes = [];
-    for (const m of candidateModes) {
-      if (TURRET_MODES.includes(m)) {
-        if (!hasTurret) {
-          finalModes.push(m);
-          hasTurret = true;
+
+    // Promote Buttons
+    if (btnPromoteJointPlan) {
+      btnPromoteJointPlan.addEventListener('click', () => {
+        promoteJointConfiguration();
+      });
+    }
+    if (btnTheaterPromoteJoint) {
+      btnTheaterPromoteJoint.addEventListener('click', () => {
+        promoteJointConfiguration();
+      });
+    }
+
+    // Export Buttons
+    if (btnExportJointJson) {
+      btnExportJointJson.addEventListener('click', () => {
+        exportJointMissionJson();
+      });
+    }
+    if (btnExportJointMd) {
+      btnExportJointMd.addEventListener('click', () => {
+        exportJointMissionMd();
+      });
+    }
+
+    // Candidate Selectors in Theater Drawer
+    if (jointTheaterCandidateSelect) {
+      jointTheaterCandidateSelect.addEventListener('change', (e) => {
+        if (e.target.value) {
+          selectJointConfiguration(e.target.value);
         }
-      } else {
-        finalModes.push(m);
+      });
+    }
+
+    // Trajectory Layer Toggles
+    const chkSelected = document.getElementById('chkJointShowSelected');
+    const chkPareto = document.getElementById('chkJointShowParetoAlts');
+    const chkDominated = document.getElementById('chkJointShowDominated');
+    const chkGaps = document.getElementById('chkJointShowGaps');
+
+    if (chkSelected && jointSelectedRouteGroup) {
+      chkSelected.addEventListener('change', () => {
+        jointSelectedRouteGroup.visible = chkSelected.checked;
+      });
+    }
+    if (chkPareto && jointCandidatesGroup) {
+      chkPareto.addEventListener('change', () => {
+        jointCandidatesGroup.children.forEach(mesh => {
+          if (mesh.userData && mesh.userData.is_pareto && !mesh.userData.is_selected) {
+            mesh.visible = chkPareto.checked;
+          }
+        });
+      });
+    }
+    if (chkDominated && jointCandidatesGroup) {
+      chkDominated.addEventListener('change', () => {
+        jointCandidatesGroup.children.forEach(mesh => {
+          if (mesh.userData && !mesh.userData.is_pareto) {
+            mesh.visible = chkDominated.checked;
+          }
+        });
+      });
+    }
+    if (chkGaps && jointGapsGroup) {
+      chkGaps.addEventListener('change', () => {
+        jointGapsGroup.visible = chkGaps.checked;
+      });
+    }
+
+    // Pareto Canvas Mouse Interaction (Hover tooltip & Click selection)
+    setupParetoCanvasEvents();
+
+    // Milestone 13F: Resource Presets Listeners
+    const resPresetBtns = document.querySelectorAll('.joint-resource-preset-btn');
+    resPresetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyJointResourcePreset(btn.dataset.preset);
+      });
+    });
+
+    // Milestone 13G: Storage Capacity Slider Listener
+    const storageCapSlider = document.getElementById('jointStorageCapacitySlider');
+    const storageCapVal = document.getElementById('jointStorageCapacityVal');
+    if (storageCapSlider && storageCapVal) {
+      storageCapSlider.addEventListener('input', () => {
+        const gb = parseFloat(storageCapSlider.value);
+        const b = Math.round(gb * 1024 * 1024 * 1024);
+        storageCapVal.textContent = `${gb.toFixed(1)} GB (${b.toLocaleString()} B)`;
+      });
+    }
+
+    // Milestone 13G: Turret Arm Singularity Protection Listener
+    const turretChks = document.querySelectorAll('.turret-exclusive');
+    turretChks.forEach(chk => {
+      chk.addEventListener('change', () => {
+        if (chk.checked) {
+          turretChks.forEach(other => {
+            if (other !== chk) other.checked = false;
+          });
+        }
+      });
+    });
+
+    // Battery & Reserve Margin Sliders
+    const batSlider = document.getElementById('jointBatteryCapacity');
+    const batValSpan = document.getElementById('jointBatteryCapVal');
+    if (batSlider && batValSpan) {
+      batSlider.addEventListener('input', () => {
+        const v = parseInt(batSlider.value, 10);
+        batValSpan.textContent = `${v.toLocaleString()} Wh`;
+      });
+    }
+
+    const resSlider = document.getElementById('jointReserveMargin');
+    const resValSpan = document.getElementById('jointReserveMarginVal');
+    if (resSlider && resValSpan) {
+      resSlider.addEventListener('input', () => {
+        const v = parseFloat(resSlider.value);
+        resValSpan.textContent = `${v.toFixed(1)}%`;
+      });
+    }
+
+    // Pareto Mode Selector Buttons
+    const paretoModeBtns = document.querySelectorAll('.joint-pareto-mode-btn');
+    paretoModeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        paretoModeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        jointCurrentParetoMode = btn.dataset.mode;
+        if (jointMissionOptimizationResult) {
+          renderParetoFrontier(jointMissionOptimizationResult);
+        }
+      });
+    });
+  }
+
+  function switchJointParetoMode(mode) {
+    jointCurrentParetoMode = mode;
+    const paretoModeBtns = document.querySelectorAll('.joint-pareto-mode-btn');
+    paretoModeBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+    if (jointMissionOptimizationResult) {
+      renderParetoFrontier(jointMissionOptimizationResult);
+    }
+  }
+
+  function switchJointWizardStep(stepNum) {
+    currentJointWizardStep = stepNum;
+    const stepBtns = document.querySelectorAll('.joint-step-btn');
+    stepBtns.forEach(btn => {
+      const s = parseInt(btn.dataset.step, 10);
+      btn.classList.toggle('active', s === stepNum);
+      if (s < stepNum) btn.classList.add('completed');
+    });
+
+    for (let i = 1; i <= 9; i++) {
+      const panel = document.getElementById(`jointStepPanel${i}`);
+      if (panel) {
+        panel.classList.toggle('hidden', i !== stepNum);
+        panel.classList.toggle('active', i === stepNum);
       }
     }
-    t.selected_modes = finalModes;
-  });
 
-  // Storage and Transfer Logistics from Step 6
-  const storageCapGb = parseFloat(document.getElementById('jointStorageCapacitySlider') ? document.getElementById('jointStorageCapacitySlider').value : '16');
-  const storageCapBytes = Math.round(storageCapGb * 1024 * 1024 * 1024);
-  const transferRateBps = parseFloat(document.getElementById('jointTransferRateSelect') ? document.getElementById('jointTransferRateSelect').value : '2000000');
-  const retentionPolicy = document.getElementById('jointRetentionPolicySelect') ? document.getElementById('jointRetentionPolicySelect').value : 'TRANSFER_THEN_RELEASE';
-
-  const payload = {
-    start_rc: [117, 157],
-    goal_rc: goalRc,
-    base_station: {
-      name: 'Octavia E. Butler Landing Base',
-      row: 117,
-      col: 157,
-      antenna_height_m: baseMast
-    },
-    relay_budget: relayBudget,
-    intermediate_waypoints: [
-      { id: 'WP-SEITAH', name: 'Séítah Carbonates', rc: [150, 140], priority_score: 85.0 },
-      { id: 'WP-KODIAK', name: 'Kodiak Butte', rc: [175, 122], priority_score: 92.0 }
-    ],
-    max_relays_budget: relayBudget,
-    weights: {
-      distance: wDist,
-      gap_duration: wGap,
-      relay_cost: wRelays,
-      metabolic_energy: wEnergy,
-      science: wScience
-    },
-    antenna_mast_rover_m: roverMast,
-    antenna_mast_base_m: baseMast,
-    antenna_mast_relay_m: fieldMast,
-    max_gap_duration_s: 900.0,
-    vehicle_platform: platform,
-    rover_resource_config: {
-      usable_battery_capacity_wh: batCap,
-      reserve_margin_pct: resMargin,
-      allow_regenerative_braking: allowRegen,
-      rolling_resistance_crr: rollCrr,
-      drivetrain_efficiency: driveEff,
-      nominal_drive_speed_mps: driveSpd,
-      base_electrical_load_w: baseLoad,
-      instrument_active_w: instActive,
-      science_dwell_s: sciDwell,
-      relay_deployment_s: rlyDeploy
-    },
-    evaluate_resources: true,
-    science_targets: selectedTargets,
-    storage_capacity_bytes: storageCapBytes,
-    simulated_transfer_rate_bps: transferRateBps,
-    retention_policy: retentionPolicy
-  };
-
-  try {
-    const res = await fetch('/api/science-mission/optimize', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    jointMissionOptimizationResult = data;
-    console.log('[JointMissionStudio] Optimization succeeded:', data);
-
-    if (statusText) statusText.textContent = `Completed: ${data.all_candidates ? data.all_candidates.length : 0} candidates (${data.pareto_candidates ? data.pareto_candidates.length : 0} Pareto non-dominated).`;
-
-    // Populate candidates into UI
-    const defaultSelected = data.recommended_candidate || (data.pareto_candidates && data.pareto_candidates[0]) || (data.all_candidates && data.all_candidates[0]);
-    if (defaultSelected) {
-      jointSelectedCandidateId = defaultSelected.candidate_id;
+    if (stepNum === 8 && jointMissionOptimizationResult) {
+      setTimeout(() => {
+        renderParetoFrontier(jointMissionOptimizationResult);
+      }, 50);
     }
-
-    renderParetoScorecard(data.all_candidates || [], jointSelectedCandidateId);
-    updateJointTheaterCandidateDropdown(data.all_candidates || [], jointSelectedCandidateId);
-    renderJointTraversesIn3D(data, jointSelectedCandidateId);
-    updateJointSelectedSummary(defaultSelected);
-
-    // Switch to step 8 (Pareto Studio)
-    setTimeout(() => {
-      switchJointWizardStep(8);
-    }, 400);
-
-  } catch (err) {
-    console.error('[JointMissionStudio] Optimization failed:', err);
-    if (statusText) statusText.textContent = `Error: ${err.message}`;
   }
-}
 
-function updateJointTheaterCandidateDropdown(candidates, selectedId) {
-  if (!jointTheaterCandidateSelect) return;
-  jointTheaterCandidateSelect.innerHTML = '';
-  candidates.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c.candidate_id;
-    const rankStr = c.is_pareto ? '★ Rank 1' : 'Dominated';
-    const distM = c.metrics ? Math.round(c.metrics.total_distance_m) : 0;
-    const covPct = c.metrics ? c.metrics.comms_coverage_pct.toFixed(0) : 0;
-    opt.textContent = `${c.candidate_id}: ${c.strategy_name || 'Route'} [${distM}m, ${covPct}% cov] (${rankStr})`;
-    if (c.candidate_id === selectedId) opt.selected = true;
-    jointTheaterCandidateSelect.appendChild(opt);
-  });
-}
+  function applyJointWeightPreset(preset) {
+    const wDist = document.getElementById('jointWeightDist');
+    const wGap = document.getElementById('jointWeightGap');
+    const wRelays = document.getElementById('jointWeightRelays');
+    const wEnergy = document.getElementById('jointWeightEnergy');
+    const wScience = document.getElementById('jointWeightScience');
 
-function renderParetoScorecard(candidates, selectedId) {
-  if (!paretoScorecardBody) return;
-  paretoScorecardBody.innerHTML = '';
+    const vDist = document.getElementById('jointWeightDistVal');
+    const vGap = document.getElementById('jointWeightGapVal');
+    const vRelays = document.getElementById('jointWeightRelaysVal');
+    const vEnergy = document.getElementById('jointWeightEnergyVal');
+    const vScience = document.getElementById('jointWeightScienceVal');
 
-  candidates.forEach(c => {
-    const m = c.metrics || {};
-    const rMetrics = m.resource_metrics || {};
-    const sMetrics = m.science_metrics || {};
-    const tr = document.createElement('tr');
-    if (c.candidate_id === selectedId) tr.classList.add('pareto-row-selected');
-    tr.dataset.candidateId = c.candidate_id;
-
-    const rankBadge = c.is_pareto
-      ? `<span class="pareto-rank-badge rank1">Rank 1 (Pareto)</span>`
-      : `<span class="pareto-rank-badge dominated">Dominated</span>`;
-
-    const distM = Math.round(m.total_distance_m || m.distance_m || 0);
-    const durSec = Math.round(m.travel_time_s || m.total_duration_s || 0);
-    const durStr = new Date(durSec * 1000).toISOString().substr(11, 8);
-    const covPct = ((m.comms_coverage_pct !== undefined ? m.comms_coverage_pct : m.availability_pct) || 0).toFixed(1);
-    const relays = m.relay_count !== undefined ? m.relay_count : (c.relays_deployed ? c.relays_deployed.length : 0);
-
-    const energyWh = rMetrics.total_energy_wh !== undefined ? Math.round(rMetrics.total_energy_wh) : Math.round((m.metabolic_energy_j || 0) / 3600);
-    const socPct = rMetrics.final_soc_pct !== undefined ? rMetrics.final_soc_pct.toFixed(1) : '95.0';
-    const reserveMarginWh = rMetrics.reserve_margin_wh !== undefined ? Math.round(rMetrics.reserve_margin_wh) : Math.round(4800 * 0.2);
-
-    // Milestone 13G Science & Data Logistics metrics
-    const sciPts = sMetrics.science_points_total !== undefined ? sMetrics.science_points_total.toFixed(0) : (c.science_plan ? (c.science_plan.science_points_awarded || 0).toFixed(0) : '0');
-    const dataGenMb = sMetrics.data_generated_mb !== undefined ? sMetrics.data_generated_mb.toFixed(1) : (c.data_ledger ? (c.data_ledger.cumulative_generated_bytes / 1e6).toFixed(1) : '0.0');
-    const dataXferMb = sMetrics.data_transferred_mb !== undefined ? sMetrics.data_transferred_mb.toFixed(1) : (c.data_ledger ? (c.data_ledger.cumulative_transferred_bytes / 1e6).toFixed(1) : '0.0');
-    const peakMb = sMetrics.storage_peak_mb !== undefined ? sMetrics.storage_peak_mb.toFixed(1) : (c.data_ledger ? (c.data_ledger.peak_storage_bytes / 1e6).toFixed(1) : '0.0');
-
-    // Feasibility status badge
-    let feas = rMetrics.feasibility || (c.resource_ledger ? c.resource_ledger.feasibility_classification : 'FEASIBLE_WITHIN_CONFIGURED_BUDGET');
-    let feasBadge = '<span class="feasibility-badge feasible">FEASIBLE</span>';
-    if (feas === 'FEASIBLE_WITH_LOW_RESERVE') {
-      feasBadge = '<span class="feasibility-badge low-reserve">LOW RESERVE</span>';
-    } else if (feas === 'ENERGY_CONSTRAINT_VIOLATION') {
-      feasBadge = '<span class="feasibility-badge energy-violation">ENERGY VIOLATION</span>';
-    } else if (feas === 'TIME_CONSTRAINT_VIOLATION') {
-      feasBadge = '<span class="feasibility-badge time-violation">TIME VIOLATION</span>';
-    } else if (feas === 'MULTIPLE_CONSTRAINT_VIOLATIONS') {
-      feasBadge = '<span class="feasibility-badge multi-violation">MULTI VIOLATION</span>';
+    let weights = { dist: 0.25, gap: 0.25, relays: 0.15, energy: 0.15, science: 0.20 };
+    if (preset === 'mobility_first') {
+      weights = { dist: 0.45, gap: 0.15, relays: 0.10, energy: 0.20, science: 0.10 };
+    } else if (preset === 'connectivity_first') {
+      weights = { dist: 0.15, gap: 0.45, relays: 0.20, energy: 0.10, science: 0.10 };
+    } else if (preset === 'infrastructure_first') {
+      weights = { dist: 0.25, gap: 0.20, relays: 0.40, energy: 0.10, science: 0.05 };
+    } else if (preset === 'science_first') {
+      weights = { dist: 0.15, gap: 0.20, relays: 0.15, energy: 0.10, science: 0.40 };
     }
 
-    tr.innerHTML = `
+    if (wDist && vDist) { wDist.value = weights.dist; vDist.textContent = weights.dist.toFixed(2); }
+    if (wGap && vGap) { wGap.value = weights.gap; vGap.textContent = weights.gap.toFixed(2); }
+    if (wRelays && vRelays) { wRelays.value = weights.relays; vRelays.textContent = weights.relays.toFixed(2); }
+    if (wEnergy && vEnergy) { wEnergy.value = weights.energy; vEnergy.textContent = weights.energy.toFixed(2); }
+    if (wScience && vScience) { wScience.value = weights.science; vScience.textContent = weights.science.toFixed(2); }
+  }
+
+  function normalizeJointWeights() {
+    const wDist = document.getElementById('jointWeightDist');
+    const wGap = document.getElementById('jointWeightGap');
+    const wRelays = document.getElementById('jointWeightRelays');
+    const wEnergy = document.getElementById('jointWeightEnergy');
+    const wScience = document.getElementById('jointWeightScience');
+
+    let d = parseFloat(wDist.value) || 0;
+    let g = parseFloat(wGap.value) || 0;
+    let r = parseFloat(wRelays.value) || 0;
+    let e = parseFloat(wEnergy.value) || 0;
+    let s = parseFloat(wScience ? wScience.value : 0.20) || 0;
+    const sum = d + g + r + e + s;
+    if (sum > 0) {
+      d = d / sum; g = g / sum; r = r / sum; e = e / sum; s = s / sum;
+      wDist.value = d.toFixed(2); document.getElementById('jointWeightDistVal').textContent = d.toFixed(2);
+      wGap.value = g.toFixed(2); document.getElementById('jointWeightGapVal').textContent = g.toFixed(2);
+      wRelays.value = r.toFixed(2); document.getElementById('jointWeightRelaysVal').textContent = r.toFixed(2);
+      wEnergy.value = e.toFixed(2); document.getElementById('jointWeightEnergyVal').textContent = e.toFixed(2);
+      if (wScience) { wScience.value = s.toFixed(2); document.getElementById('jointWeightScienceVal').textContent = s.toFixed(2); }
+    }
+  }
+
+  async function runJointMissionOptimization() {
+    const statusBox = document.getElementById('jointSolverStatusBox');
+    const statusText = document.getElementById('jointSolverStatusText');
+    if (statusBox) statusBox.classList.remove('hidden');
+    if (statusText) statusText.textContent = 'Generating candidate traverses & evaluating line-of-sight...';
+
+    // Read input fields
+    const goalVal = document.getElementById('jointSelectGoal') ? document.getElementById('jointSelectGoal').value : '138,114';
+    const goalParts = goalVal.split(',').map(v => parseInt(v.trim(), 10));
+    const goalRc = [goalParts[0] || 138, goalParts[1] || 114];
+    const relayBudget = parseInt(document.getElementById('jointRelayBudget') ? document.getElementById('jointRelayBudget').value : '2', 10);
+    const platform = document.getElementById('jointPlatformSelect') ? document.getElementById('jointPlatformSelect').value : 'perseverance_rover';
+    const baseMast = parseFloat(document.getElementById('jointBaseMast') ? document.getElementById('jointBaseMast').value : '10.0');
+    const roverMast = parseFloat(document.getElementById('jointRoverMast') ? document.getElementById('jointRoverMast').value : '2.5');
+    const fieldMast = parseFloat(document.getElementById('jointFieldMast') ? document.getElementById('jointFieldMast').value : '8.0');
+
+    const wDist = parseFloat(document.getElementById('jointWeightDist') ? document.getElementById('jointWeightDist').value : '0.25');
+    const wGap = parseFloat(document.getElementById('jointWeightGap') ? document.getElementById('jointWeightGap').value : '0.25');
+    const wRelays = parseFloat(document.getElementById('jointWeightRelays') ? document.getElementById('jointWeightRelays').value : '0.15');
+    const wEnergy = parseFloat(document.getElementById('jointWeightEnergy') ? document.getElementById('jointWeightEnergy').value : '0.15');
+    const wScience = parseFloat(document.getElementById('jointWeightScience') ? document.getElementById('jointWeightScience').value : '0.20');
+
+    // Milestone 13F Resource Parameters
+    const batCap = parseFloat(document.getElementById('jointBatteryCapacity') ? document.getElementById('jointBatteryCapacity').value : '4800');
+    const resMargin = parseFloat(document.getElementById('jointReserveMargin') ? document.getElementById('jointReserveMargin').value : '20');
+    const allowRegen = document.getElementById('jointAllowRegenBraking') ? document.getElementById('jointAllowRegenBraking').checked : false;
+    const rollCrr = parseFloat(document.getElementById('jointRollingCrr') ? document.getElementById('jointRollingCrr').value : '0.08');
+    const driveEff = parseFloat(document.getElementById('jointDrivetrainEff') ? document.getElementById('jointDrivetrainEff').value : '0.72');
+    const driveSpd = parseFloat(document.getElementById('jointDriveSpeed') ? document.getElementById('jointDriveSpeed').value : '0.38');
+    const baseLoad = parseFloat(document.getElementById('jointBaseLoadW') ? document.getElementById('jointBaseLoadW').value : '110.0');
+    const instActive = parseFloat(document.getElementById('jointInstActiveW') ? document.getElementById('jointInstActiveW').value : '120.0');
+    const sciDwell = parseFloat(document.getElementById('jointScienceDwellS') ? document.getElementById('jointScienceDwellS').value : '900');
+    const rlyDeploy = parseFloat(document.getElementById('jointRelayDeployS') ? document.getElementById('jointRelayDeployS').value : '1200');
+
+    // Milestone 13G: Science Targets & Data Logistics Parameters
+    const targetCheckboxes = document.querySelectorAll('.joint-target-chk:checked');
+    const selectedTargets = [];
+    targetCheckboxes.forEach(chk => {
+      const tId = chk.dataset.target;
+      if (tId === 'three_forks') {
+        selectedTargets.push({
+          target_id: 'three_forks',
+          target_name: 'Three Forks Sample Depot',
+          grid_coord: [138, 114],
+          priority_score: 75.0,
+          priority_type: 'SOURCE_DERIVED_PRIORITY',
+          primary_objective: 'GEOLOGICAL_CHARACTERIZATION',
+          selected_modes: ['SUPERCAM_LIBS', 'PIXL_XRF_GRID', 'RIMFAX_DEEP']
+        });
+      } else if (tId === 'hawksbill_gap') {
+        selectedTargets.push({
+          target_id: 'hawksbill_gap',
+          target_name: 'Hawksbill Gap Delta Ascent',
+          grid_coord: [145, 95],
+          priority_score: 95.0,
+          priority_type: 'USER_ASSIGNED_PRIORITY',
+          primary_objective: 'MINERALOGICAL_INVESTIGATION',
+          selected_modes: ['MASTCAM_Z_STEREO', 'SUPERCAM_LIBS', 'SHERLOC_DUV_RAMAN']
+        });
+      } else if (tId === 'kodiak_butte') {
+        selectedTargets.push({
+          target_id: 'kodiak_butte',
+          target_name: 'Kodiak Butte Outlier',
+          grid_coord: [175, 122],
+          priority_score: 60.0,
+          priority_type: 'SOURCE_DERIVED_PRIORITY',
+          primary_objective: 'SURFACE_MORPHOLOGY',
+          selected_modes: ['MASTCAM_Z_STEREO', 'MASTCAM_Z_PANO']
+        });
+      }
+    });
+
+    // Default fallback if no targets checked
+    if (selectedTargets.length === 0) {
+      selectedTargets.push(
+        { target_id: 'three_forks', target_name: 'Three Forks Sample Depot', grid_coord: [138, 114], priority_score: 75.0, priority_type: 'SOURCE_DERIVED_PRIORITY', primary_objective: 'GEOLOGICAL_CHARACTERIZATION', selected_modes: ['SUPERCAM_LIBS', 'PIXL_XRF_GRID'] },
+        { target_id: 'hawksbill_gap', target_name: 'Hawksbill Gap Delta Ascent', grid_coord: [145, 95], priority_score: 95.0, priority_type: 'USER_ASSIGNED_PRIORITY', primary_objective: 'MINERALOGICAL_INVESTIGATION', selected_modes: ['MASTCAM_Z_STEREO', 'SUPERCAM_LIBS'] }
+      );
+    }
+
+    // Active instruments from Step 5
+    const activeModes = [];
+    document.querySelectorAll('.joint-inst-chk:checked').forEach(chk => {
+      if (chk.dataset.mode) activeModes.push(chk.dataset.mode);
+    });
+    const COMPATIBILITY_MAP = {
+      GEOLOGICAL_CHARACTERIZATION: ['MASTCAM_Z_PANO', 'SUPERCAM_LIBS', 'PIXL_XRF_GRID', 'RIMFAX_DEEP', 'CORING_ABRASION'],
+      MINERALOGICAL_INVESTIGATION: ['MASTCAM_Z_STEREO', 'SUPERCAM_LIBS', 'SUPERCAM_RAMAN', 'PIXL_XRF_GRID', 'SHERLOC_DUV_RAMAN'],
+      SURFACE_MORPHOLOGY: ['MASTCAM_Z_PANO', 'MASTCAM_Z_STEREO', 'RIMFAX_DEEP'],
+      ATMOSPHERIC_OBSERVATION: ['MASTCAM_Z_PHOTOMETRY', 'MEDA_HIGH_RATE'],
+      ENVIRONMENTAL_MONITORING: ['MEDA_HIGH_RATE'],
+      ASTROBIOLOGY_BIOSIGNATURE_SURVEY: ['SUPERCAM_RAMAN', 'SHERLOC_DUV_RAMAN', 'CORING_ABRASION']
+    };
+
+    const TURRET_MODES = ['PIXL_XRF_GRID', 'SHERLOC_DUV_RAMAN', 'CORING_ABRASION'];
+
+    selectedTargets.forEach(t => {
+      const allowed = COMPATIBILITY_MAP[t.primary_objective] || ['MASTCAM_Z_PANO'];
+      // Filter candidate modes: must be compatible with objective
+      let candidateModes = t.selected_modes ? t.selected_modes.filter(m => allowed.includes(m)) : [];
+      if (activeModes.length > 0) {
+        const activeAllowed = candidateModes.filter(m => activeModes.includes(m));
+        if (activeAllowed.length > 0) {
+          candidateModes = activeAllowed;
+        } else {
+          // Fall back to active modes that are allowed for this objective
+          const anyActive = allowed.filter(m => activeModes.includes(m));
+          if (anyActive.length > 0) candidateModes = anyActive;
+        }
+      }
+      // If still empty, fall back to first compatible allowed mode
+      if (candidateModes.length === 0) {
+        candidateModes = [allowed[0]];
+      }
+      // Enforce turret arm singularity: keep at most one turret contact tool
+      let hasTurret = false;
+      const finalModes = [];
+      for (const m of candidateModes) {
+        if (TURRET_MODES.includes(m)) {
+          if (!hasTurret) {
+            finalModes.push(m);
+            hasTurret = true;
+          }
+        } else {
+          finalModes.push(m);
+        }
+      }
+      t.selected_modes = finalModes;
+    });
+
+    // Storage and Transfer Logistics from Step 6
+    const storageCapGb = parseFloat(document.getElementById('jointStorageCapacitySlider') ? document.getElementById('jointStorageCapacitySlider').value : '16');
+    const storageCapBytes = Math.round(storageCapGb * 1024 * 1024 * 1024);
+    const transferRateBps = parseFloat(document.getElementById('jointTransferRateSelect') ? document.getElementById('jointTransferRateSelect').value : '2000000');
+    const retentionPolicy = document.getElementById('jointRetentionPolicySelect') ? document.getElementById('jointRetentionPolicySelect').value : 'TRANSFER_THEN_RELEASE';
+
+    const payload = {
+      start_rc: [117, 157],
+      goal_rc: goalRc,
+      base_station: {
+        name: 'Octavia E. Butler Landing Base',
+        row: 117,
+        col: 157,
+        antenna_height_m: baseMast
+      },
+      relay_budget: relayBudget,
+      intermediate_waypoints: [
+        { id: 'WP-SEITAH', name: 'Séítah Carbonates', rc: [150, 140], priority_score: 85.0 },
+        { id: 'WP-KODIAK', name: 'Kodiak Butte', rc: [175, 122], priority_score: 92.0 }
+      ],
+      max_relays_budget: relayBudget,
+      weights: {
+        distance: wDist,
+        gap_duration: wGap,
+        relay_cost: wRelays,
+        metabolic_energy: wEnergy,
+        science: wScience
+      },
+      antenna_mast_rover_m: roverMast,
+      antenna_mast_base_m: baseMast,
+      antenna_mast_relay_m: fieldMast,
+      max_gap_duration_s: 900.0,
+      vehicle_platform: platform,
+      rover_resource_config: {
+        usable_battery_capacity_wh: batCap,
+        reserve_margin_pct: resMargin,
+        allow_regenerative_braking: allowRegen,
+        rolling_resistance_crr: rollCrr,
+        drivetrain_efficiency: driveEff,
+        nominal_drive_speed_mps: driveSpd,
+        base_electrical_load_w: baseLoad,
+        instrument_active_w: instActive,
+        science_dwell_s: sciDwell,
+        relay_deployment_s: rlyDeploy
+      },
+      evaluate_resources: true,
+      science_targets: selectedTargets,
+      storage_capacity_bytes: storageCapBytes,
+      simulated_transfer_rate_bps: transferRateBps,
+      retention_policy: retentionPolicy
+    };
+
+    try {
+      const res = await fetch('/api/science-mission/optimize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      jointMissionOptimizationResult = data;
+      console.log('[JointMissionStudio] Optimization succeeded:', data);
+
+      if (statusText) statusText.textContent = `Completed: ${data.all_candidates ? data.all_candidates.length : 0} candidates (${data.pareto_candidates ? data.pareto_candidates.length : 0} Pareto non-dominated).`;
+
+      // Populate candidates into UI
+      const defaultSelected = data.recommended_candidate || (data.pareto_candidates && data.pareto_candidates[0]) || (data.all_candidates && data.all_candidates[0]);
+      if (defaultSelected) {
+        jointSelectedCandidateId = defaultSelected.candidate_id;
+      }
+
+      renderParetoScorecard(data.all_candidates || [], jointSelectedCandidateId);
+      updateJointTheaterCandidateDropdown(data.all_candidates || [], jointSelectedCandidateId);
+      renderJointTraversesIn3D(data, jointSelectedCandidateId);
+      updateJointSelectedSummary(defaultSelected);
+
+      // Switch to step 8 (Pareto Studio)
+      setTimeout(() => {
+        switchJointWizardStep(8);
+      }, 400);
+
+    } catch (err) {
+      console.error('[JointMissionStudio] Optimization failed:', err);
+      if (statusText) statusText.textContent = `Error: ${err.message}`;
+    }
+  }
+
+  function updateJointTheaterCandidateDropdown(candidates, selectedId) {
+    if (!jointTheaterCandidateSelect) return;
+    jointTheaterCandidateSelect.innerHTML = '';
+    candidates.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.candidate_id;
+      const rankStr = c.is_pareto ? '★ Rank 1' : 'Dominated';
+      const distM = c.metrics ? Math.round(c.metrics.total_distance_m) : 0;
+      const covPct = c.metrics ? c.metrics.comms_coverage_pct.toFixed(0) : 0;
+      opt.textContent = `${c.candidate_id}: ${c.strategy_name || 'Route'} [${distM}m, ${covPct}% cov] (${rankStr})`;
+      if (c.candidate_id === selectedId) opt.selected = true;
+      jointTheaterCandidateSelect.appendChild(opt);
+    });
+  }
+
+  function renderParetoScorecard(candidates, selectedId) {
+    if (!paretoScorecardBody) return;
+    paretoScorecardBody.innerHTML = '';
+
+    candidates.forEach(c => {
+      const m = c.metrics || {};
+      const rMetrics = m.resource_metrics || {};
+      const sMetrics = m.science_metrics || {};
+      const tr = document.createElement('tr');
+      if (c.candidate_id === selectedId) tr.classList.add('pareto-row-selected');
+      tr.dataset.candidateId = c.candidate_id;
+
+      const rankBadge = c.is_pareto
+        ? `<span class="pareto-rank-badge rank1">Rank 1 (Pareto)</span>`
+        : `<span class="pareto-rank-badge dominated">Dominated</span>`;
+
+      const distM = Math.round(m.total_distance_m || m.distance_m || 0);
+      const durSec = Math.round(m.travel_time_s || m.total_duration_s || 0);
+      const durStr = new Date(durSec * 1000).toISOString().substr(11, 8);
+      const covPct = ((m.comms_coverage_pct !== undefined ? m.comms_coverage_pct : m.availability_pct) || 0).toFixed(1);
+      const relays = m.relay_count !== undefined ? m.relay_count : (c.relays_deployed ? c.relays_deployed.length : 0);
+
+      const energyWh = rMetrics.total_energy_wh !== undefined ? Math.round(rMetrics.total_energy_wh) : Math.round((m.metabolic_energy_j || 0) / 3600);
+      const socPct = rMetrics.final_soc_pct !== undefined ? rMetrics.final_soc_pct.toFixed(1) : '95.0';
+      const reserveMarginWh = rMetrics.reserve_margin_wh !== undefined ? Math.round(rMetrics.reserve_margin_wh) : Math.round(4800 * 0.2);
+
+      // Milestone 13G Science & Data Logistics metrics
+      const sciPts = sMetrics.science_points_total !== undefined ? sMetrics.science_points_total.toFixed(0) : (c.science_plan ? (c.science_plan.science_points_awarded || 0).toFixed(0) : '0');
+      const dataGenMb = sMetrics.data_generated_mb !== undefined ? sMetrics.data_generated_mb.toFixed(1) : (c.data_ledger ? (c.data_ledger.cumulative_generated_bytes / 1e6).toFixed(1) : '0.0');
+      const dataXferMb = sMetrics.data_transferred_mb !== undefined ? sMetrics.data_transferred_mb.toFixed(1) : (c.data_ledger ? (c.data_ledger.cumulative_transferred_bytes / 1e6).toFixed(1) : '0.0');
+      const peakMb = sMetrics.storage_peak_mb !== undefined ? sMetrics.storage_peak_mb.toFixed(1) : (c.data_ledger ? (c.data_ledger.peak_storage_bytes / 1e6).toFixed(1) : '0.0');
+
+      // Feasibility status badge
+      let feas = rMetrics.feasibility || (c.resource_ledger ? c.resource_ledger.feasibility_classification : 'FEASIBLE_WITHIN_CONFIGURED_BUDGET');
+      let feasBadge = '<span class="feasibility-badge feasible">FEASIBLE</span>';
+      if (feas === 'FEASIBLE_WITH_LOW_RESERVE') {
+        feasBadge = '<span class="feasibility-badge low-reserve">LOW RESERVE</span>';
+      } else if (feas === 'ENERGY_CONSTRAINT_VIOLATION') {
+        feasBadge = '<span class="feasibility-badge energy-violation">ENERGY VIOLATION</span>';
+      } else if (feas === 'TIME_CONSTRAINT_VIOLATION') {
+        feasBadge = '<span class="feasibility-badge time-violation">TIME VIOLATION</span>';
+      } else if (feas === 'MULTIPLE_CONSTRAINT_VIOLATIONS') {
+        feasBadge = '<span class="feasibility-badge multi-violation">MULTI VIOLATION</span>';
+      }
+
+      tr.innerHTML = `
       <td style="font-weight:700; color:var(--telemetry-cyan); font-family:monospace;">${c.candidate_id}</td>
       <td style="font-weight:600;">${c.strategy_name || c.strategy_description || 'Candidate'}</td>
       <td>${rankBadge}</td>
@@ -21458,672 +21496,672 @@ function renderParetoScorecard(candidates, selectedId) {
       </td>
     `;
 
-    tr.addEventListener('click', (e) => {
-      selectJointConfiguration(c.candidate_id);
+      tr.addEventListener('click', (e) => {
+        selectJointConfiguration(c.candidate_id);
+      });
+
+      paretoScorecardBody.appendChild(tr);
     });
 
-    paretoScorecardBody.appendChild(tr);
-  });
-
-  const selectBtns = paretoScorecardBody.querySelectorAll('.btn-select-candidate');
-  selectBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      selectJointConfiguration(btn.dataset.id);
-    });
-  });
-}
-
-function selectJointConfiguration(candidateId) {
-  jointSelectedCandidateId = candidateId;
-
-  // Update table selection
-  if (paretoScorecardBody) {
-    const rows = paretoScorecardBody.querySelectorAll('tr');
-    rows.forEach(r => {
-      r.classList.toggle('pareto-row-selected', r.dataset.candidateId === candidateId);
+    const selectBtns = paretoScorecardBody.querySelectorAll('.btn-select-candidate');
+    selectBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectJointConfiguration(btn.dataset.id);
+      });
     });
   }
 
-  // Update theater dropdown
-  if (jointTheaterCandidateSelect) {
-    jointTheaterCandidateSelect.value = candidateId;
-  }
+  function selectJointConfiguration(candidateId) {
+    jointSelectedCandidateId = candidateId;
 
-  if (!jointMissionOptimizationResult || !jointMissionOptimizationResult.all_candidates) return;
-  const candidate = jointMissionOptimizationResult.all_candidates.find(c => c.candidate_id === candidateId);
-  if (!candidate) return;
-
-  // Update summary & telemetry boxes
-  updateJointSelectedSummary(candidate);
-  updateJointDecisionExplanation(candidate);
-
-  // Redraw 3D routes with new selection
-  renderJointTraversesIn3D(jointMissionOptimizationResult, candidateId);
-
-  // Redraw Pareto scatter
-  renderParetoFrontier(jointMissionOptimizationResult);
-}
-
-function updateJointSelectedSummary(candidate) {
-  if (!candidate) return;
-  const m = candidate.metrics || {};
-  const distM = Math.round(m.total_distance_m || 0);
-  const covPct = (m.comms_coverage_pct || 0).toFixed(1);
-  const relays = m.relay_count !== undefined ? m.relay_count : (candidate.relays_deployed ? candidate.relays_deployed.length : 0);
-  const energyKj = Math.round((m.metabolic_energy_j || 0) / 1000);
-
-  // Tab summary card
-  const nameEl = document.getElementById('jointSelectedName');
-  const rankEl = document.getElementById('jointSelectedRank');
-  const distEl = document.getElementById('jointSummaryDist');
-  const covEl = document.getElementById('jointSummaryCoverage');
-  const relaysEl = document.getElementById('jointSummaryRelays');
-  const energyEl = document.getElementById('jointSummaryEnergy');
-
-  if (nameEl) nameEl.textContent = `${candidate.candidate_id}: ${candidate.strategy_name || 'Route'}`;
-  if (rankEl) {
-    rankEl.textContent = candidate.is_pareto ? 'Pareto Rank 1' : 'Dominated';
-    rankEl.style.background = candidate.is_pareto ? 'rgba(16,185,129,0.15)' : 'rgba(100,116,139,0.2)';
-    rankEl.style.color = candidate.is_pareto ? '#10b981' : '#94a3b8';
-  }
-  if (distEl) distEl.textContent = `${distM} m`;
-  if (covEl) covEl.textContent = `${covPct}%`;
-  if (relaysEl) relaysEl.textContent = `${relays} towers`;
-  if (energyEl) energyEl.textContent = `${energyKj} kJ`;
-
-  // In-Theater Drawer telemetry
-  const thCand = document.getElementById('jointTheaterCandidateId');
-  const thDist = document.getElementById('jointTheaterDistance');
-  const thCov = document.getElementById('jointTheaterCoverage');
-  const thRelays = document.getElementById('jointTheaterRelays');
-  const thEnergy = document.getElementById('jointTheaterEnergy');
-  const thBadge = document.getElementById('jointMissionStatusBadge');
-
-  if (thCand) thCand.textContent = `${candidate.candidate_id} (${candidate.strategy_name || 'Candidate'})`;
-  const rMetrics = m.resource_metrics || {};
-  const energyWh = rMetrics.total_energy_wh !== undefined ? Math.round(rMetrics.total_energy_wh) : Math.round(energyKj * 1000 / 3600);
-  const socPct = rMetrics.final_soc_pct !== undefined ? rMetrics.final_soc_pct : 95.0;
-
-  if (thDist) thDist.textContent = `${distM} m`;
-  if (thCov) thCov.textContent = `${covPct}% (${Math.round(m.max_blackout_duration_s || 0)}s gap)`;
-  if (thRelays) thRelays.textContent = `${relays} (${(candidate.relays_deployed && candidate.relays_deployed.length > 0) ? candidate.relays_deployed.map(r => r.node_id).join(', ') : 'None'})`;
-  if (thEnergy) thEnergy.textContent = `${(energyWh * 3600 / 1e6).toFixed(2)} MJ (${energyWh} Wh)`;
-  if (thBadge) {
-    thBadge.textContent = candidate.is_pareto ? 'PARETO RANK 1' : 'SUB-OPTIMAL';
-    thBadge.className = `jointstudio-badge-status ${candidate.is_pareto ? 'pareto' : 'suboptimal'}`;
-  }
-
-  // Milestone 13F: Update In-Theater Battery Gauge & Feasibility Badge
-  const thFeasBadge = document.getElementById('jointTheaterFeasibilityBadge');
-  const thBatteryVal = document.getElementById('jointTheaterBatterySocVal');
-  const thBatteryBar = document.getElementById('jointTheaterBatteryBar');
-
-  let feas = rMetrics.feasibility || (candidate.resource_ledger ? candidate.resource_ledger.feasibility_classification : 'FEASIBLE_WITHIN_CONFIGURED_BUDGET');
-  if (thFeasBadge) {
-    thFeasBadge.textContent = feas.replace(/_/g, ' ');
-    thFeasBadge.className = 'feasibility-badge ' + (feas === 'FEASIBLE_WITH_LOW_RESERVE' ? 'low-reserve' : (feas.includes('VIOLATION') ? 'energy-violation' : 'feasible'));
-  }
-
-  if (thBatteryVal) {
-    const remWh = rMetrics.reserve_margin_wh !== undefined ? Math.round(rMetrics.reserve_margin_wh + 4800 * 0.2) : Math.round(4800 * (socPct / 100));
-    thBatteryVal.textContent = `${socPct.toFixed(1)}% (${remWh} Wh)`;
-  }
-  if (thBatteryBar) {
-    thBatteryBar.style.width = `${Math.min(100, Math.max(0, socPct))}%`;
-    if (socPct < 20) {
-      thBatteryBar.style.background = '#ef4444';
-    } else if (socPct < 35) {
-      thBatteryBar.style.background = '#f59e0b';
-    } else {
-      thBatteryBar.style.background = '#10b981';
+    // Update table selection
+    if (paretoScorecardBody) {
+      const rows = paretoScorecardBody.querySelectorAll('tr');
+      rows.forEach(r => {
+        r.classList.toggle('pareto-row-selected', r.dataset.candidateId === candidateId);
+      });
     }
-  }
 
-  // Milestone 13G: Update In-Theater Storage Fill Gauge & Transfer Queue
-  const thStorageVal = document.getElementById('jointTheaterStorageVal');
-  const thStorageBar = document.getElementById('jointTheaterStorageBar');
-  const thBacklogVal = document.getElementById('jointTheaterBacklogVal');
-  const thStorageBadge = document.getElementById('jointTheaterStorageStatusBadge');
-
-  const sMetrics = m.science_metrics || {};
-  const dataLedger = candidate.data_ledger || {};
-  const dataHist = dataLedger.ledger_history || [];
-  const latestLedger = dataHist.length > 0 ? dataHist[dataHist.length - 1] : {};
-
-  const usedMb = latestLedger.used_mb !== undefined ? latestLedger.used_mb : (dataLedger.used_bytes ? (dataLedger.used_bytes / 1e6) : (sMetrics.storage_peak_mb || 0));
-  const capMb = latestLedger.capacity_mb !== undefined ? latestLedger.capacity_mb : 16384.0;
-  const fillRatio = capMb > 0 ? (usedMb / capMb) : 0;
-  const fillPct = (fillRatio * 100).toFixed(1);
-  const backlogMb = latestLedger.backlog_mb !== undefined ? latestLedger.backlog_mb : (dataLedger.backlog_bytes ? (dataLedger.backlog_bytes / 1e6) : (sMetrics.data_backlog_mb || 0));
-  const pressState = latestLedger.pressure_state || dataLedger.pressure_state || sMetrics.storage_pressure_state || 'STORAGE_AVAILABLE';
-
-  if (thStorageVal) {
-    thStorageVal.textContent = `${usedMb.toFixed(1)} MB / ${(capMb / 1024).toFixed(1)} GB (${fillPct}%)`;
-  }
-  if (thStorageBar) {
-    thStorageBar.style.width = `${Math.min(100, Math.max(0, fillRatio * 100))}%`;
-    if (fillRatio > 0.95) {
-      thStorageBar.style.background = '#ef4444';
-    } else if (fillRatio > 0.80) {
-      thStorageBar.style.background = '#f59e0b';
-    } else {
-      thStorageBar.style.background = '#06b6d4';
+    // Update theater dropdown
+    if (jointTheaterCandidateSelect) {
+      jointTheaterCandidateSelect.value = candidateId;
     }
+
+    if (!jointMissionOptimizationResult || !jointMissionOptimizationResult.all_candidates) return;
+    const candidate = jointMissionOptimizationResult.all_candidates.find(c => c.candidate_id === candidateId);
+    if (!candidate) return;
+
+    // Update summary & telemetry boxes
+    updateJointSelectedSummary(candidate);
+    updateJointDecisionExplanation(candidate);
+
+    // Redraw 3D routes with new selection
+    renderJointTraversesIn3D(jointMissionOptimizationResult, candidateId);
+
+    // Redraw Pareto scatter
+    renderParetoFrontier(jointMissionOptimizationResult);
   }
-  if (thBacklogVal) {
-    thBacklogVal.textContent = `${backlogMb.toFixed(1)} MB`;
-  }
-  if (thStorageBadge) {
-    thStorageBadge.textContent = pressState.replace(/_/g, ' ');
-    thStorageBadge.className = pressState === 'STORAGE_AVAILABLE' ? 'text-emerald' : (pressState.includes('PRESSURE') || pressState.includes('NEAR') ? 'text-amber' : 'text-rose');
-  }
-}
 
-// Milestone 13G: Dynamic Time-Scrubber Storage & Transfer Playback Hook
-function updateScienceDataPlayback(timeSeconds, state) {
-  if (!jointMissionOptimizationResult || !jointSelectedCandidateId) return;
+  function updateJointSelectedSummary(candidate) {
+    if (!candidate) return;
+    const m = candidate.metrics || {};
+    const distM = Math.round(m.total_distance_m || 0);
+    const covPct = (m.comms_coverage_pct || 0).toFixed(1);
+    const relays = m.relay_count !== undefined ? m.relay_count : (candidate.relays_deployed ? candidate.relays_deployed.length : 0);
+    const energyKj = Math.round((m.metabolic_energy_j || 0) / 1000);
 
-  const candidate = (jointMissionOptimizationResult.all_candidates || []).find(c => c.candidate_id === jointSelectedCandidateId);
-  if (!candidate || !candidate.data_ledger) return;
+    // Tab summary card
+    const nameEl = document.getElementById('jointSelectedName');
+    const rankEl = document.getElementById('jointSelectedRank');
+    const distEl = document.getElementById('jointSummaryDist');
+    const covEl = document.getElementById('jointSummaryCoverage');
+    const relaysEl = document.getElementById('jointSummaryRelays');
+    const energyEl = document.getElementById('jointSummaryEnergy');
 
-  const dataLedger = candidate.data_ledger;
-  const history = dataLedger.ledger_history || [];
-  const capMb = (dataLedger.capacity_bytes || 17179869184) / (1024 * 1024);
-
-  let currentEntry = null;
-  for (let i = 0; i < history.length; i++) {
-    if (history[i].timestamp_s <= timeSeconds) {
-      currentEntry = history[i];
-    } else {
-      break;
+    if (nameEl) nameEl.textContent = `${candidate.candidate_id}: ${candidate.strategy_name || 'Route'}`;
+    if (rankEl) {
+      rankEl.textContent = candidate.is_pareto ? 'Pareto Rank 1' : 'Dominated';
+      rankEl.style.background = candidate.is_pareto ? 'rgba(16,185,129,0.15)' : 'rgba(100,116,139,0.2)';
+      rankEl.style.color = candidate.is_pareto ? '#10b981' : '#94a3b8';
     }
-  }
+    if (distEl) distEl.textContent = `${distM} m`;
+    if (covEl) covEl.textContent = `${covPct}%`;
+    if (relaysEl) relaysEl.textContent = `${relays} towers`;
+    if (energyEl) energyEl.textContent = `${energyKj} kJ`;
 
-  const usedMb = currentEntry ? (currentEntry.used_bytes / (1024 * 1024)) : 0.0;
-  const backlogMb = currentEntry ? (currentEntry.backlog_bytes / (1024 * 1024)) : 0.0;
-  const pressState = currentEntry ? (currentEntry.pressure_state || 'STORAGE_AVAILABLE') : 'STORAGE_AVAILABLE';
-  const fillRatio = capMb > 0 ? (usedMb / capMb) : 0;
-  const fillPct = (fillRatio * 100).toFixed(1);
+    // In-Theater Drawer telemetry
+    const thCand = document.getElementById('jointTheaterCandidateId');
+    const thDist = document.getElementById('jointTheaterDistance');
+    const thCov = document.getElementById('jointTheaterCoverage');
+    const thRelays = document.getElementById('jointTheaterRelays');
+    const thEnergy = document.getElementById('jointTheaterEnergy');
+    const thBadge = document.getElementById('jointMissionStatusBadge');
 
-  const thStorageVal = document.getElementById('jointTheaterStorageVal');
-  const thStorageBar = document.getElementById('jointTheaterStorageBar');
-  const thBacklogVal = document.getElementById('jointTheaterBacklogVal');
-  const thStorageBadge = document.getElementById('jointTheaterStorageStatusBadge');
+    if (thCand) thCand.textContent = `${candidate.candidate_id} (${candidate.strategy_name || 'Candidate'})`;
+    const rMetrics = m.resource_metrics || {};
+    const energyWh = rMetrics.total_energy_wh !== undefined ? Math.round(rMetrics.total_energy_wh) : Math.round(energyKj * 1000 / 3600);
+    const socPct = rMetrics.final_soc_pct !== undefined ? rMetrics.final_soc_pct : 95.0;
 
-  if (thStorageVal) {
-    thStorageVal.textContent = `${usedMb.toFixed(1)} MB / ${(capMb / 1024).toFixed(1)} GB (${fillPct}%)`;
-  }
-  if (thStorageBar) {
-    thStorageBar.style.width = `${Math.min(100, Math.max(0, fillRatio * 100))}%`;
-    if (fillRatio > 0.95) {
-      thStorageBar.style.background = '#ef4444';
-    } else if (fillRatio > 0.80) {
-      thStorageBar.style.background = '#f59e0b';
-    } else {
-      thStorageBar.style.background = '#06b6d4';
+    if (thDist) thDist.textContent = `${distM} m`;
+    if (thCov) thCov.textContent = `${covPct}% (${Math.round(m.max_blackout_duration_s || 0)}s gap)`;
+    if (thRelays) thRelays.textContent = `${relays} (${(candidate.relays_deployed && candidate.relays_deployed.length > 0) ? candidate.relays_deployed.map(r => r.node_id).join(', ') : 'None'})`;
+    if (thEnergy) thEnergy.textContent = `${(energyWh * 3600 / 1e6).toFixed(2)} MJ (${energyWh} Wh)`;
+    if (thBadge) {
+      thBadge.textContent = candidate.is_pareto ? 'PARETO RANK 1' : 'SUB-OPTIMAL';
+      thBadge.className = `jointstudio-badge-status ${candidate.is_pareto ? 'pareto' : 'suboptimal'}`;
     }
-  }
-  if (thBacklogVal) {
-    thBacklogVal.textContent = `${backlogMb.toFixed(1)} MB`;
-  }
-  if (thStorageBadge) {
-    thStorageBadge.textContent = pressState.replace(/_/g, ' ');
-    thStorageBadge.className = pressState === 'STORAGE_AVAILABLE' ? 'text-emerald' : (pressState.includes('PRESSURE') || pressState.includes('NEAR') ? 'text-amber' : 'text-rose');
-  }
-}
 
-function updateJointDecisionExplanation(candidate) {
-  const card = document.getElementById('jointDecisionExplanationCard');
-  const narrEl = document.getElementById('jointExplanationNarrative');
-  const badgeEl = document.getElementById('jointExplanationBadge');
-  if (!card || !narrEl) return;
+    // Milestone 13F: Update In-Theater Battery Gauge & Feasibility Badge
+    const thFeasBadge = document.getElementById('jointTheaterFeasibilityBadge');
+    const thBatteryVal = document.getElementById('jointTheaterBatterySocVal');
+    const thBatteryBar = document.getElementById('jointTheaterBatteryBar');
 
-  const expl = candidate.explanation || {};
-  const m = candidate.metrics || {};
-  const distDelta = expl.marginal_distance_vs_baseline_m || 0;
-  const gapSaved = expl.blackout_reduction_s || 0;
-  const text = expl.narrative_rationale || 
-    `Candidate ${candidate.candidate_id} (${candidate.strategy_name}): achieves ${m.comms_coverage_pct.toFixed(1)}% line-of-sight connectivity with ${m.relay_count} deployed surface relays. Marginal trade-off: ${distDelta > 0 ? '+' : ''}${distDelta.toFixed(0)}m distance for ${gapSaved.toFixed(0)}s blackout reduction.`;
-
-  narrEl.textContent = text;
-  if (badgeEl) {
-    badgeEl.textContent = candidate.is_pareto ? 'PARETO EFFICIENT' : 'DOMINATED ALTERNATIVE';
-    badgeEl.style.color = candidate.is_pareto ? '#10b981' : '#94a3b8';
-  }
-}
-
-// --------------------------------------------------------------------------
-// 3D Mission Theater Trajectory Visualizer
-// --------------------------------------------------------------------------
-
-function renderJointTraversesIn3D(result, selectedId) {
-  if (!jointMissionTraverseGroup) return;
-
-  // Clear previous candidate meshes
-  while (jointCandidatesGroup.children.length > 0) {
-    const obj = jointCandidatesGroup.children.pop();
-    if (obj.geometry) obj.geometry.dispose();
-    if (obj.material) obj.material.dispose();
-  }
-  while (jointSelectedRouteGroup.children.length > 0) {
-    const obj = jointSelectedRouteGroup.children.pop();
-    if (obj.geometry) obj.geometry.dispose();
-    if (obj.material) obj.material.dispose();
-  }
-  while (jointGapsGroup.children.length > 0) {
-    const obj = jointGapsGroup.children.pop();
-    if (obj.geometry) obj.geometry.dispose();
-    if (obj.material) obj.material.dispose();
-  }
-  if (jointScienceTargetsGroup) {
-    while (jointScienceTargetsGroup.children.length > 0) {
-      const obj = jointScienceTargetsGroup.children.pop();
-      if (obj.geometry) obj.geometry.dispose();
-      if (obj.material) obj.material.dispose();
+    let feas = rMetrics.feasibility || (candidate.resource_ledger ? candidate.resource_ledger.feasibility_classification : 'FEASIBLE_WITHIN_CONFIGURED_BUDGET');
+    if (thFeasBadge) {
+      thFeasBadge.textContent = feas.replace(/_/g, ' ');
+      thFeasBadge.className = 'feasibility-badge ' + (feas === 'FEASIBLE_WITH_LOW_RESERVE' ? 'low-reserve' : (feas.includes('VIOLATION') ? 'energy-violation' : 'feasible'));
     }
-    // Render science target beacons if targets present
-    const targets = result.science_targets || (result.candidate_pool && result.candidate_pool.science_targets) || [];
-    targets.forEach(tgt => {
-      const rc = tgt.rc || [130, 130];
-      let elev = -2500;
-      if (missionData && missionData.elevation_samples && missionData.elevation_samples[rc[0]]) {
-        elev = missionData.elevation_samples[rc[0]][rc[1]];
+
+    if (thBatteryVal) {
+      const remWh = rMetrics.reserve_margin_wh !== undefined ? Math.round(rMetrics.reserve_margin_wh + 4800 * 0.2) : Math.round(4800 * (socPct / 100));
+      thBatteryVal.textContent = `${socPct.toFixed(1)}% (${remWh} Wh)`;
+    }
+    if (thBatteryBar) {
+      thBatteryBar.style.width = `${Math.min(100, Math.max(0, socPct))}%`;
+      if (socPct < 20) {
+        thBatteryBar.style.background = '#ef4444';
+      } else if (socPct < 35) {
+        thBatteryBar.style.background = '#f59e0b';
+      } else {
+        thBatteryBar.style.background = '#10b981';
       }
-      const pos = rcToLocalPos(rc[0], rc[1], elev, currentExaggeration);
-      const beaconH = 16.0 * currentExaggeration;
-      const beaconGeom = new THREE.CylinderGeometry(0.8, 1.2, beaconH, 8);
-      beaconGeom.translate(0, beaconH / 2, 0);
-      const beaconMat = new THREE.MeshStandardMaterial({
-        color: 0xec4899,
-        emissive: 0xdb2777,
-        emissiveIntensity: 0.6,
-        roughness: 0.2
-      });
-      const beaconMesh = new THREE.Mesh(beaconGeom, beaconMat);
-      beaconMesh.position.copy(pos);
+    }
 
-      const tipGeom = new THREE.SphereGeometry(2.4, 12, 12);
-      const tipMat = new THREE.MeshBasicMaterial({ color: 0xf472b6 });
-      const tipMesh = new THREE.Mesh(tipGeom, tipMat);
-      tipMesh.position.set(pos.x, pos.y + beaconH, pos.z);
+    // Milestone 13G: Update In-Theater Storage Fill Gauge & Transfer Queue
+    const thStorageVal = document.getElementById('jointTheaterStorageVal');
+    const thStorageBar = document.getElementById('jointTheaterStorageBar');
+    const thBacklogVal = document.getElementById('jointTheaterBacklogVal');
+    const thStorageBadge = document.getElementById('jointTheaterStorageStatusBadge');
 
-      beaconMesh.name = `science_target_${tgt.target_id || tgt.id}`;
-      beaconMesh.userData = { targetData: tgt };
+    const sMetrics = m.science_metrics || {};
+    const dataLedger = candidate.data_ledger || {};
+    const dataHist = dataLedger.ledger_history || [];
+    const latestLedger = dataHist.length > 0 ? dataHist[dataHist.length - 1] : {};
 
-      jointScienceTargetsGroup.add(beaconMesh);
-      jointScienceTargetsGroup.add(tipMesh);
-    });
-  }
+    const usedMb = latestLedger.used_mb !== undefined ? latestLedger.used_mb : (dataLedger.used_bytes ? (dataLedger.used_bytes / 1e6) : (sMetrics.storage_peak_mb || 0));
+    const capMb = latestLedger.capacity_mb !== undefined ? latestLedger.capacity_mb : 16384.0;
+    const fillRatio = capMb > 0 ? (usedMb / capMb) : 0;
+    const fillPct = (fillRatio * 100).toFixed(1);
+    const backlogMb = latestLedger.backlog_mb !== undefined ? latestLedger.backlog_mb : (dataLedger.backlog_bytes ? (dataLedger.backlog_bytes / 1e6) : (sMetrics.data_backlog_mb || 0));
+    const pressState = latestLedger.pressure_state || dataLedger.pressure_state || sMetrics.storage_pressure_state || 'STORAGE_AVAILABLE';
 
-  const candidates = result.all_candidates || [];
-
-  candidates.forEach(c => {
-    const isSelected = c.candidate_id === selectedId;
-    const isPareto = c.is_pareto;
-    const path = c.path_rc || [];
-    if (path.length < 2) return;
-
-    // Convert path_rc to 3D points
-    const points3D = [];
-    for (let i = 0; i < path.length; i++) {
-      const r = path[i][0];
-      const col = path[i][1];
-      let elev = -2500;
-      if (missionData && missionData.elevation_samples && missionData.elevation_samples[r]) {
-        elev = missionData.elevation_samples[r][col];
+    if (thStorageVal) {
+      thStorageVal.textContent = `${usedMb.toFixed(1)} MB / ${(capMb / 1024).toFixed(1)} GB (${fillPct}%)`;
+    }
+    if (thStorageBar) {
+      thStorageBar.style.width = `${Math.min(100, Math.max(0, fillRatio * 100))}%`;
+      if (fillRatio > 0.95) {
+        thStorageBar.style.background = '#ef4444';
+      } else if (fillRatio > 0.80) {
+        thStorageBar.style.background = '#f59e0b';
+      } else {
+        thStorageBar.style.background = '#06b6d4';
       }
-      const pos = rcToLocalPos(r, col, elev, currentExaggeration);
-      // Lift slightly above surface
-      pos.y += isSelected ? 3.0 : 1.5;
-      points3D.push(pos);
     }
-
-    if (isSelected) {
-      // Bold Tube for Selected Route
-      const curve = new THREE.CatmullRomCurve3(points3D);
-      const tubeGeom = new THREE.TubeGeometry(curve, Math.min(path.length * 2, 200), 2.2, 8, false);
-      const tubeMat = new THREE.MeshStandardMaterial({
-        color: 0x00e5ff,
-        emissive: 0x0088cc,
-        emissiveIntensity: 0.6,
-        roughness: 0.3,
-        metalness: 0.4
-      });
-      const tubeMesh = new THREE.Mesh(tubeGeom, tubeMat);
-      tubeMesh.name = `joint_selected_${c.candidate_id}`;
-      tubeMesh.userData = { candidateData: c, is_selected: true, is_pareto: true };
-      jointSelectedRouteGroup.add(tubeMesh);
-
-      // Render Comms Gaps for Selected Route
-      const gaps = c.blackout_gaps || [];
-      gaps.forEach((gap, gIdx) => {
-        const startIdx = Math.max(0, gap.start_step_idx || 0);
-        const endIdx = Math.min(points3D.length - 1, gap.end_step_idx || (startIdx + 5));
-        const gapPts = points3D.slice(startIdx, endIdx + 1);
-        if (gapPts.length >= 2) {
-          const gapCurve = new THREE.CatmullRomCurve3(gapPts);
-          const gapGeom = new THREE.TubeGeometry(gapCurve, Math.min(gapPts.length * 2, 60), 3.0, 8, false);
-          const gapMat = new THREE.MeshBasicMaterial({
-            color: 0xef4444,
-            transparent: true,
-            opacity: 0.85
-          });
-          const gapMesh = new THREE.Mesh(gapGeom, gapMat);
-          gapMesh.name = `joint_gap_${gap.gap_id || gIdx}`;
-          gapMesh.userData = { gapData: gap, candidate_id: c.candidate_id };
-          jointGapsGroup.add(gapMesh);
-        }
-      });
-
-    } else if (isPareto) {
-      // Dashed Violet Ribbon for Pareto Alternatives
-      const geom = new THREE.BufferGeometry().setFromPoints(points3D);
-      const mat = new THREE.LineDashedMaterial({
-        color: 0xa855f7,
-        dashSize: 12,
-        gapSize: 6,
-        linewidth: 2,
-        transparent: true,
-        opacity: 0.85
-      });
-      const lineMesh = new THREE.Line(geom, mat);
-      lineMesh.computeLineDistances();
-      lineMesh.name = `joint_pareto_${c.candidate_id}`;
-      lineMesh.userData = { candidateData: c, is_pareto: true, is_selected: false };
-      jointCandidatesGroup.add(lineMesh);
-
-    } else {
-      // Faint Slate Grey for Dominated Routes
-      const geom = new THREE.BufferGeometry().setFromPoints(points3D);
-      const mat = new THREE.LineBasicMaterial({
-        color: 0x64748b,
-        transparent: true,
-        opacity: 0.35
-      });
-      const lineMesh = new THREE.Line(geom, mat);
-      lineMesh.name = `joint_dominated_${c.candidate_id}`;
-      lineMesh.userData = { candidateData: c, is_pareto: false, is_selected: false };
-      jointCandidatesGroup.add(lineMesh);
+    if (thBacklogVal) {
+      thBacklogVal.textContent = `${backlogMb.toFixed(1)} MB`;
     }
-  });
-
-  // Also update RelayNet 3D deployed towers to match selected configuration
-  if (result.all_candidates) {
-    const selCandidate = result.all_candidates.find(c => c.candidate_id === selectedId);
-    if (selCandidate && selCandidate.relays_deployed) {
-      deployJointSelectedRelays(selCandidate.relays_deployed);
+    if (thStorageBadge) {
+      thStorageBadge.textContent = pressState.replace(/_/g, ' ');
+      thStorageBadge.className = pressState === 'STORAGE_AVAILABLE' ? 'text-emerald' : (pressState.includes('PRESSURE') || pressState.includes('NEAR') ? 'text-amber' : 'text-rose');
     }
   }
 
-  console.log(`[JointMissionStudio] Rendered ${candidates.length} co-design traverses in 3D Theater.`);
-}
+  // Milestone 13G: Dynamic Time-Scrubber Storage & Transfer Playback Hook
+  function updateScienceDataPlayback(timeSeconds, state) {
+    if (!jointMissionOptimizationResult || !jointSelectedCandidateId) return;
 
-function deployJointSelectedRelays(relays) {
-  if (!relayNetNodesGroup) return;
+    const candidate = (jointMissionOptimizationResult.all_candidates || []).find(c => c.candidate_id === jointSelectedCandidateId);
+    if (!candidate || !candidate.data_ledger) return;
 
-  // Clear previously deployed surface relay masts (keep BASE)
-  const toRemove = [];
-  relayNetNodesGroup.children.forEach(child => {
-    if (child.userData && child.userData.nodeType === 'relay_node') {
-      toRemove.push(child);
-    }
-  });
-  toRemove.forEach(obj => {
-    relayNetNodesGroup.remove(obj);
-    if (obj.geometry) obj.geometry.dispose();
-    if (obj.material) obj.material.dispose();
-  });
+    const dataLedger = candidate.data_ledger;
+    const history = dataLedger.ledger_history || [];
+    const capMb = (dataLedger.capacity_bytes || 17179869184) / (1024 * 1024);
 
-  // Re-deploy selected relays
-  relayNetActiveRelays = [];
-  const relayList = Array.isArray(relays) ? relays : ((relays && Array.isArray(relays.relays_deployed)) ? relays.relays_deployed : []);
-  relayList.forEach(r => {
-    relayNetActiveRelays.push(r);
-    const rc = r.rc || [130, 130];
-    let elev = r.elevation_m || -2450;
-    if (missionData && missionData.elevation_samples && missionData.elevation_samples[rc[0]]) {
-      elev = missionData.elevation_samples[rc[0]][rc[1]];
-    }
-    const pos = rcToLocalPos(rc[0], rc[1], elev, currentExaggeration);
-    const mastH = (r.antenna_height_m || 8.0) * currentExaggeration;
-
-    const mastGeom = new THREE.CylinderGeometry(1.2, 2.0, mastH, 8);
-    mastGeom.translate(0, mastH / 2, 0);
-    const mastMat = new THREE.MeshStandardMaterial({
-      color: 0x10b981,
-      emissive: 0x059669,
-      emissiveIntensity: 0.4,
-      roughness: 0.3,
-      metalness: 0.6
-    });
-    const mastMesh = new THREE.Mesh(mastGeom, mastMat);
-    mastMesh.position.copy(pos);
-    mastMesh.userData = {
-      nodeType: 'relay_node',
-      relayData: {
-        node_id: r.node_id,
-        row: rc[0],
-        col: rc[1],
-        elevation_m: elev,
-        antenna_height_m: r.antenna_height_m || 8.0,
-        effective_z_m: elev + (r.antenna_height_m || 8.0)
-      }
-    };
-    relayNetNodesGroup.add(mastMesh);
-  });
-}
-
-// --------------------------------------------------------------------------
-// Interactive Pareto Frontier 2D Scatter Canvas
-// --------------------------------------------------------------------------
-
-let paretoPoints = [];
-
-function renderParetoFrontier(result) {
-  if (!paretoScatterCanvas) return;
-  const ctx = paretoScatterCanvas.getContext('2d');
-  const w = paretoScatterCanvas.width;
-  const h = paretoScatterCanvas.height;
-  ctx.clearRect(0, 0, w, h);
-
-  const candidates = result.all_candidates || [];
-  if (candidates.length === 0) return;
-
-  // Milestone 13G: Multi-Dimensional Trade-off Axes Selection
-  let minX = Infinity, maxX = -Infinity;
-  let minY = Infinity, maxY = -Infinity;
-
-  function getMetricsXY(c) {
-    const m = c.metrics || {};
-    const rM = m.resource_metrics || {};
-    const sM = m.science_metrics || {};
-    const dist = m.total_distance_m || m.distance_m || 0;
-    const gap = m.max_blackout_duration_s || m.gap_duration_s || 0;
-    const energy = rM.total_energy_wh !== undefined ? rM.total_energy_wh : ((m.metabolic_energy_j || 0) / 3600);
-    const sciPts = sM.science_points_total !== undefined ? sM.science_points_total : (m.science_points_total || 0);
-    const dataXferMb = sM.data_transferred_mb !== undefined ? sM.data_transferred_mb : ((sM.data_transferred_bytes || 0) / (1024 * 1024));
-    const peakStorageMb = sM.storage_peak_mb !== undefined ? sM.storage_peak_mb : ((sM.storage_peak_bytes || 0) / (1024 * 1024));
-
-    if (jointCurrentParetoMode === 'science_vs_energy') {
-      return { x: sciPts, y: energy, xLabel: 'pts', yLabel: 'Wh' };
-    } else if (jointCurrentParetoMode === 'science_vs_data') {
-      return { x: sciPts, y: dataXferMb, xLabel: 'pts', yLabel: 'MB' };
-    } else if (jointCurrentParetoMode === 'storage_vs_distance') {
-      return { x: dist, y: peakStorageMb, xLabel: 'm', yLabel: 'MB' };
-    } else if (jointCurrentParetoMode === 'energy_vs_distance') {
-      return { x: dist, y: energy, xLabel: 'm', yLabel: 'Wh' };
-    } else if (jointCurrentParetoMode === 'energy_vs_gap') {
-      return { x: gap, y: energy, xLabel: 's', yLabel: 'Wh' };
-    } else { // 'distance_vs_gap'
-      return { x: dist, y: gap, xLabel: 'm', yLabel: 's' };
-    }
-  }
-
-  candidates.forEach(c => {
-    const pt = getMetricsXY(c);
-    if (pt.x < minX) minX = pt.x;
-    if (pt.x > maxX) maxX = pt.x;
-    if (pt.y < minY) minY = pt.y;
-    if (pt.y > maxY) maxY = pt.y;
-  });
-
-  const padLeft = 50, padRight = 20, padTop = 20, padBottom = 30;
-  const plotW = w - padLeft - padRight;
-  const plotH = h - padTop - padBottom;
-
-  const xSpan = Math.max(maxX - minX, 10);
-  const ySpan = Math.max(maxY - minY, 10);
-
-  // Update DOM Axis Labels
-  const xLblEl = document.getElementById('paretoXAxisLabel');
-  const yLblEl = document.getElementById('paretoYAxisLabel');
-  if (xLblEl && yLblEl) {
-    if (jointCurrentParetoMode === 'science_vs_energy') {
-      xLblEl.textContent = '← X-Axis: Science Utility (Points) [Higher is Better]';
-      yLblEl.textContent = 'Y-Axis: Total Energy Consumed (Wh) [Lower is Better] →';
-    } else if (jointCurrentParetoMode === 'science_vs_data') {
-      xLblEl.textContent = '← X-Axis: Science Utility (Points) [Higher is Better]';
-      yLblEl.textContent = 'Y-Axis: Simulated Data Transferred (MB) [Higher is Better] →';
-    } else if (jointCurrentParetoMode === 'storage_vs_distance') {
-      xLblEl.textContent = '← X-Axis: Traverse Distance (m) [Shorter is Better]';
-      yLblEl.textContent = 'Y-Axis: Peak Onboard Storage Used (MB) [Lower is Better] →';
-    } else if (jointCurrentParetoMode === 'energy_vs_distance') {
-      xLblEl.textContent = '← X-Axis: Traverse Distance (m) [Shorter is Better]';
-      yLblEl.textContent = 'Y-Axis: Total Energy Consumed (Wh) [Lower is Better] →';
-    } else if (jointCurrentParetoMode === 'energy_vs_gap') {
-      xLblEl.textContent = '← X-Axis: Comms Blackout Gap (s) [Zero is Better]';
-      yLblEl.textContent = 'Y-Axis: Total Energy Consumed (Wh) [Lower is Better] →';
-    } else {
-      xLblEl.textContent = '← X-Axis: Traverse Distance (m) [Shorter is Better]';
-      yLblEl.textContent = 'Y-Axis: Comms Blackout Gap (s) [Zero is Better] →';
-    }
-  }
-
-  // Draw Grid Lines
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  for (let i = 0; i <= 4; i++) {
-    const y = padTop + (plotH / 4) * i;
-    ctx.moveTo(padLeft, y);
-    ctx.lineTo(w - padRight, y);
-
-    const x = padLeft + (plotW / 4) * i;
-    ctx.moveTo(x, padTop);
-    ctx.lineTo(x, h - padBottom);
-  }
-  ctx.stroke();
-
-  // Axis Labels
-  ctx.fillStyle = '#64748b';
-  ctx.font = '8px ui-monospace, Consolas, monospace';
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'middle';
-  for (let i = 0; i <= 4; i++) {
-    const yVal = Math.round(maxY - (ySpan / 4) * i);
-    const y = padTop + (plotH / 4) * i;
-    ctx.fillText(`${yVal}`, padLeft - 4, y);
-  }
-
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'top';
-  for (let i = 0; i <= 4; i++) {
-    const xVal = Math.round(minX + (xSpan / 4) * i);
-    const x = padLeft + (plotW / 4) * i;
-    ctx.fillText(`${xVal}`, x, h - padBottom + 4);
-  }
-
-  // Plot Points and build hit-test list
-  paretoPoints = [];
-  const paretoCoords = [];
-
-  candidates.forEach(c => {
-    const pt = getMetricsXY(c);
-    const px = padLeft + ((pt.x - minX) / xSpan) * plotW;
-    const py = padTop + (1.0 - ((pt.y - minY) / ySpan)) * plotH;
-
-    const isSel = c.candidate_id === jointSelectedCandidateId;
-    const isP = c.is_pareto;
-
-    paretoPoints.push({
-      x: px, y: py, radius: isSel ? 8 : (isP ? 6 : 4),
-      candidate: c, is_pareto: isP, is_selected: isSel
-    });
-
-    if (isP) {
-      paretoCoords.push({ x: px, y: py, d: pt.x });
-    }
-  });
-
-  // Sort Pareto coords by Distance to draw non-dominated efficiency boundary
-  paretoCoords.sort((a, b) => a.d - b.d);
-  if (paretoCoords.length > 1) {
-    ctx.strokeStyle = '#10b981';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(paretoCoords[0].x, paretoCoords[0].y);
-    for (let i = 1; i < paretoCoords.length; i++) {
-      ctx.lineTo(paretoCoords[i].x, paretoCoords[i].y);
-    }
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
-
-  // Draw Points
-  paretoPoints.forEach(pt => {
-    ctx.beginPath();
-    ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
-    if (pt.is_selected) {
-      ctx.fillStyle = '#00e5ff';
-      ctx.shadowColor = '#00e5ff';
-      ctx.shadowBlur = 10;
-      ctx.fill();
-      ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-    } else if (pt.is_pareto) {
-      ctx.fillStyle = '#10b981';
-      ctx.shadowColor = '#10b981';
-      ctx.shadowBlur = 6;
-      ctx.fill();
-      ctx.strokeStyle = '#34d399';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-    } else {
-      ctx.fillStyle = '#64748b';
-      ctx.fill();
-    }
-  });
-}
-
-function setupParetoCanvasEvents() {
-  if (!paretoScatterCanvas) return;
-
-  paretoScatterCanvas.addEventListener('mousemove', (e) => {
-    const rect = paretoScatterCanvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-
-    let hit = null;
-    for (let i = 0; i < paretoPoints.length; i++) {
-      const pt = paretoPoints[i];
-      const dist = Math.hypot(pt.x - mx, pt.y - my);
-      if (dist <= pt.radius + 4) {
-        hit = pt;
+    let currentEntry = null;
+    for (let i = 0; i < history.length; i++) {
+      if (history[i].timestamp_s <= timeSeconds) {
+        currentEntry = history[i];
+      } else {
         break;
       }
     }
 
-    if (hit && paretoCanvasTooltip) {
-      const c = hit.candidate;
+    const usedMb = currentEntry ? (currentEntry.used_bytes / (1024 * 1024)) : 0.0;
+    const backlogMb = currentEntry ? (currentEntry.backlog_bytes / (1024 * 1024)) : 0.0;
+    const pressState = currentEntry ? (currentEntry.pressure_state || 'STORAGE_AVAILABLE') : 'STORAGE_AVAILABLE';
+    const fillRatio = capMb > 0 ? (usedMb / capMb) : 0;
+    const fillPct = (fillRatio * 100).toFixed(1);
+
+    const thStorageVal = document.getElementById('jointTheaterStorageVal');
+    const thStorageBar = document.getElementById('jointTheaterStorageBar');
+    const thBacklogVal = document.getElementById('jointTheaterBacklogVal');
+    const thStorageBadge = document.getElementById('jointTheaterStorageStatusBadge');
+
+    if (thStorageVal) {
+      thStorageVal.textContent = `${usedMb.toFixed(1)} MB / ${(capMb / 1024).toFixed(1)} GB (${fillPct}%)`;
+    }
+    if (thStorageBar) {
+      thStorageBar.style.width = `${Math.min(100, Math.max(0, fillRatio * 100))}%`;
+      if (fillRatio > 0.95) {
+        thStorageBar.style.background = '#ef4444';
+      } else if (fillRatio > 0.80) {
+        thStorageBar.style.background = '#f59e0b';
+      } else {
+        thStorageBar.style.background = '#06b6d4';
+      }
+    }
+    if (thBacklogVal) {
+      thBacklogVal.textContent = `${backlogMb.toFixed(1)} MB`;
+    }
+    if (thStorageBadge) {
+      thStorageBadge.textContent = pressState.replace(/_/g, ' ');
+      thStorageBadge.className = pressState === 'STORAGE_AVAILABLE' ? 'text-emerald' : (pressState.includes('PRESSURE') || pressState.includes('NEAR') ? 'text-amber' : 'text-rose');
+    }
+  }
+
+  function updateJointDecisionExplanation(candidate) {
+    const card = document.getElementById('jointDecisionExplanationCard');
+    const narrEl = document.getElementById('jointExplanationNarrative');
+    const badgeEl = document.getElementById('jointExplanationBadge');
+    if (!card || !narrEl) return;
+
+    const expl = candidate.explanation || {};
+    const m = candidate.metrics || {};
+    const distDelta = expl.marginal_distance_vs_baseline_m || 0;
+    const gapSaved = expl.blackout_reduction_s || 0;
+    const text = expl.narrative_rationale ||
+      `Candidate ${candidate.candidate_id} (${candidate.strategy_name}): achieves ${m.comms_coverage_pct.toFixed(1)}% line-of-sight connectivity with ${m.relay_count} deployed surface relays. Marginal trade-off: ${distDelta > 0 ? '+' : ''}${distDelta.toFixed(0)}m distance for ${gapSaved.toFixed(0)}s blackout reduction.`;
+
+    narrEl.textContent = text;
+    if (badgeEl) {
+      badgeEl.textContent = candidate.is_pareto ? 'PARETO EFFICIENT' : 'DOMINATED ALTERNATIVE';
+      badgeEl.style.color = candidate.is_pareto ? '#10b981' : '#94a3b8';
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // 3D Mission Theater Trajectory Visualizer
+  // --------------------------------------------------------------------------
+
+  function renderJointTraversesIn3D(result, selectedId) {
+    if (!jointMissionTraverseGroup) return;
+
+    // Clear previous candidate meshes
+    while (jointCandidatesGroup.children.length > 0) {
+      const obj = jointCandidatesGroup.children.pop();
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) obj.material.dispose();
+    }
+    while (jointSelectedRouteGroup.children.length > 0) {
+      const obj = jointSelectedRouteGroup.children.pop();
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) obj.material.dispose();
+    }
+    while (jointGapsGroup.children.length > 0) {
+      const obj = jointGapsGroup.children.pop();
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) obj.material.dispose();
+    }
+    if (jointScienceTargetsGroup) {
+      while (jointScienceTargetsGroup.children.length > 0) {
+        const obj = jointScienceTargetsGroup.children.pop();
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) obj.material.dispose();
+      }
+      // Render science target beacons if targets present
+      const targets = result.science_targets || (result.candidate_pool && result.candidate_pool.science_targets) || [];
+      targets.forEach(tgt => {
+        const rc = tgt.rc || [130, 130];
+        let elev = -2500;
+        if (missionData && missionData.elevation_samples && missionData.elevation_samples[rc[0]]) {
+          elev = missionData.elevation_samples[rc[0]][rc[1]];
+        }
+        const pos = rcToLocalPos(rc[0], rc[1], elev, currentExaggeration);
+        const beaconH = 16.0 * currentExaggeration;
+        const beaconGeom = new THREE.CylinderGeometry(0.8, 1.2, beaconH, 8);
+        beaconGeom.translate(0, beaconH / 2, 0);
+        const beaconMat = new THREE.MeshStandardMaterial({
+          color: 0xec4899,
+          emissive: 0xdb2777,
+          emissiveIntensity: 0.6,
+          roughness: 0.2
+        });
+        const beaconMesh = new THREE.Mesh(beaconGeom, beaconMat);
+        beaconMesh.position.copy(pos);
+
+        const tipGeom = new THREE.SphereGeometry(2.4, 12, 12);
+        const tipMat = new THREE.MeshBasicMaterial({ color: 0xf472b6 });
+        const tipMesh = new THREE.Mesh(tipGeom, tipMat);
+        tipMesh.position.set(pos.x, pos.y + beaconH, pos.z);
+
+        beaconMesh.name = `science_target_${tgt.target_id || tgt.id}`;
+        beaconMesh.userData = { targetData: tgt };
+
+        jointScienceTargetsGroup.add(beaconMesh);
+        jointScienceTargetsGroup.add(tipMesh);
+      });
+    }
+
+    const candidates = result.all_candidates || [];
+
+    candidates.forEach(c => {
+      const isSelected = c.candidate_id === selectedId;
+      const isPareto = c.is_pareto;
+      const path = c.path_rc || [];
+      if (path.length < 2) return;
+
+      // Convert path_rc to 3D points
+      const points3D = [];
+      for (let i = 0; i < path.length; i++) {
+        const r = path[i][0];
+        const col = path[i][1];
+        let elev = -2500;
+        if (missionData && missionData.elevation_samples && missionData.elevation_samples[r]) {
+          elev = missionData.elevation_samples[r][col];
+        }
+        const pos = rcToLocalPos(r, col, elev, currentExaggeration);
+        // Lift slightly above surface
+        pos.y += isSelected ? 3.0 : 1.5;
+        points3D.push(pos);
+      }
+
+      if (isSelected) {
+        // Bold Tube for Selected Route
+        const curve = new THREE.CatmullRomCurve3(points3D);
+        const tubeGeom = new THREE.TubeGeometry(curve, Math.min(path.length * 2, 200), 2.2, 8, false);
+        const tubeMat = new THREE.MeshStandardMaterial({
+          color: 0x00e5ff,
+          emissive: 0x0088cc,
+          emissiveIntensity: 0.6,
+          roughness: 0.3,
+          metalness: 0.4
+        });
+        const tubeMesh = new THREE.Mesh(tubeGeom, tubeMat);
+        tubeMesh.name = `joint_selected_${c.candidate_id}`;
+        tubeMesh.userData = { candidateData: c, is_selected: true, is_pareto: true };
+        jointSelectedRouteGroup.add(tubeMesh);
+
+        // Render Comms Gaps for Selected Route
+        const gaps = c.blackout_gaps || [];
+        gaps.forEach((gap, gIdx) => {
+          const startIdx = Math.max(0, gap.start_step_idx || 0);
+          const endIdx = Math.min(points3D.length - 1, gap.end_step_idx || (startIdx + 5));
+          const gapPts = points3D.slice(startIdx, endIdx + 1);
+          if (gapPts.length >= 2) {
+            const gapCurve = new THREE.CatmullRomCurve3(gapPts);
+            const gapGeom = new THREE.TubeGeometry(gapCurve, Math.min(gapPts.length * 2, 60), 3.0, 8, false);
+            const gapMat = new THREE.MeshBasicMaterial({
+              color: 0xef4444,
+              transparent: true,
+              opacity: 0.85
+            });
+            const gapMesh = new THREE.Mesh(gapGeom, gapMat);
+            gapMesh.name = `joint_gap_${gap.gap_id || gIdx}`;
+            gapMesh.userData = { gapData: gap, candidate_id: c.candidate_id };
+            jointGapsGroup.add(gapMesh);
+          }
+        });
+
+      } else if (isPareto) {
+        // Dashed Violet Ribbon for Pareto Alternatives
+        const geom = new THREE.BufferGeometry().setFromPoints(points3D);
+        const mat = new THREE.LineDashedMaterial({
+          color: 0xa855f7,
+          dashSize: 12,
+          gapSize: 6,
+          linewidth: 2,
+          transparent: true,
+          opacity: 0.85
+        });
+        const lineMesh = new THREE.Line(geom, mat);
+        lineMesh.computeLineDistances();
+        lineMesh.name = `joint_pareto_${c.candidate_id}`;
+        lineMesh.userData = { candidateData: c, is_pareto: true, is_selected: false };
+        jointCandidatesGroup.add(lineMesh);
+
+      } else {
+        // Faint Slate Grey for Dominated Routes
+        const geom = new THREE.BufferGeometry().setFromPoints(points3D);
+        const mat = new THREE.LineBasicMaterial({
+          color: 0x64748b,
+          transparent: true,
+          opacity: 0.35
+        });
+        const lineMesh = new THREE.Line(geom, mat);
+        lineMesh.name = `joint_dominated_${c.candidate_id}`;
+        lineMesh.userData = { candidateData: c, is_pareto: false, is_selected: false };
+        jointCandidatesGroup.add(lineMesh);
+      }
+    });
+
+    // Also update RelayNet 3D deployed towers to match selected configuration
+    if (result.all_candidates) {
+      const selCandidate = result.all_candidates.find(c => c.candidate_id === selectedId);
+      if (selCandidate && selCandidate.relays_deployed) {
+        deployJointSelectedRelays(selCandidate.relays_deployed);
+      }
+    }
+
+    console.log(`[JointMissionStudio] Rendered ${candidates.length} co-design traverses in 3D Theater.`);
+  }
+
+  function deployJointSelectedRelays(relays) {
+    if (!relayNetNodesGroup) return;
+
+    // Clear previously deployed surface relay masts (keep BASE)
+    const toRemove = [];
+    relayNetNodesGroup.children.forEach(child => {
+      if (child.userData && child.userData.nodeType === 'relay_node') {
+        toRemove.push(child);
+      }
+    });
+    toRemove.forEach(obj => {
+      relayNetNodesGroup.remove(obj);
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) obj.material.dispose();
+    });
+
+    // Re-deploy selected relays
+    relayNetActiveRelays = [];
+    const relayList = Array.isArray(relays) ? relays : ((relays && Array.isArray(relays.relays_deployed)) ? relays.relays_deployed : []);
+    relayList.forEach(r => {
+      relayNetActiveRelays.push(r);
+      const rc = r.rc || [130, 130];
+      let elev = r.elevation_m || -2450;
+      if (missionData && missionData.elevation_samples && missionData.elevation_samples[rc[0]]) {
+        elev = missionData.elevation_samples[rc[0]][rc[1]];
+      }
+      const pos = rcToLocalPos(rc[0], rc[1], elev, currentExaggeration);
+      const mastH = (r.antenna_height_m || 8.0) * currentExaggeration;
+
+      const mastGeom = new THREE.CylinderGeometry(1.2, 2.0, mastH, 8);
+      mastGeom.translate(0, mastH / 2, 0);
+      const mastMat = new THREE.MeshStandardMaterial({
+        color: 0x10b981,
+        emissive: 0x059669,
+        emissiveIntensity: 0.4,
+        roughness: 0.3,
+        metalness: 0.6
+      });
+      const mastMesh = new THREE.Mesh(mastGeom, mastMat);
+      mastMesh.position.copy(pos);
+      mastMesh.userData = {
+        nodeType: 'relay_node',
+        relayData: {
+          node_id: r.node_id,
+          row: rc[0],
+          col: rc[1],
+          elevation_m: elev,
+          antenna_height_m: r.antenna_height_m || 8.0,
+          effective_z_m: elev + (r.antenna_height_m || 8.0)
+        }
+      };
+      relayNetNodesGroup.add(mastMesh);
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // Interactive Pareto Frontier 2D Scatter Canvas
+  // --------------------------------------------------------------------------
+
+  let paretoPoints = [];
+
+  function renderParetoFrontier(result) {
+    if (!paretoScatterCanvas) return;
+    const ctx = paretoScatterCanvas.getContext('2d');
+    const w = paretoScatterCanvas.width;
+    const h = paretoScatterCanvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    const candidates = result.all_candidates || [];
+    if (candidates.length === 0) return;
+
+    // Milestone 13G: Multi-Dimensional Trade-off Axes Selection
+    let minX = Infinity, maxX = -Infinity;
+    let minY = Infinity, maxY = -Infinity;
+
+    function getMetricsXY(c) {
       const m = c.metrics || {};
-      const sM = m.science_metrics || {};
       const rM = m.resource_metrics || {};
-      paretoCanvasTooltip.innerHTML = `
+      const sM = m.science_metrics || {};
+      const dist = m.total_distance_m || m.distance_m || 0;
+      const gap = m.max_blackout_duration_s || m.gap_duration_s || 0;
+      const energy = rM.total_energy_wh !== undefined ? rM.total_energy_wh : ((m.metabolic_energy_j || 0) / 3600);
+      const sciPts = sM.science_points_total !== undefined ? sM.science_points_total : (m.science_points_total || 0);
+      const dataXferMb = sM.data_transferred_mb !== undefined ? sM.data_transferred_mb : ((sM.data_transferred_bytes || 0) / (1024 * 1024));
+      const peakStorageMb = sM.storage_peak_mb !== undefined ? sM.storage_peak_mb : ((sM.storage_peak_bytes || 0) / (1024 * 1024));
+
+      if (jointCurrentParetoMode === 'science_vs_energy') {
+        return { x: sciPts, y: energy, xLabel: 'pts', yLabel: 'Wh' };
+      } else if (jointCurrentParetoMode === 'science_vs_data') {
+        return { x: sciPts, y: dataXferMb, xLabel: 'pts', yLabel: 'MB' };
+      } else if (jointCurrentParetoMode === 'storage_vs_distance') {
+        return { x: dist, y: peakStorageMb, xLabel: 'm', yLabel: 'MB' };
+      } else if (jointCurrentParetoMode === 'energy_vs_distance') {
+        return { x: dist, y: energy, xLabel: 'm', yLabel: 'Wh' };
+      } else if (jointCurrentParetoMode === 'energy_vs_gap') {
+        return { x: gap, y: energy, xLabel: 's', yLabel: 'Wh' };
+      } else { // 'distance_vs_gap'
+        return { x: dist, y: gap, xLabel: 'm', yLabel: 's' };
+      }
+    }
+
+    candidates.forEach(c => {
+      const pt = getMetricsXY(c);
+      if (pt.x < minX) minX = pt.x;
+      if (pt.x > maxX) maxX = pt.x;
+      if (pt.y < minY) minY = pt.y;
+      if (pt.y > maxY) maxY = pt.y;
+    });
+
+    const padLeft = 50, padRight = 20, padTop = 20, padBottom = 30;
+    const plotW = w - padLeft - padRight;
+    const plotH = h - padTop - padBottom;
+
+    const xSpan = Math.max(maxX - minX, 10);
+    const ySpan = Math.max(maxY - minY, 10);
+
+    // Update DOM Axis Labels
+    const xLblEl = document.getElementById('paretoXAxisLabel');
+    const yLblEl = document.getElementById('paretoYAxisLabel');
+    if (xLblEl && yLblEl) {
+      if (jointCurrentParetoMode === 'science_vs_energy') {
+        xLblEl.textContent = '← X-Axis: Science Utility (Points) [Higher is Better]';
+        yLblEl.textContent = 'Y-Axis: Total Energy Consumed (Wh) [Lower is Better] →';
+      } else if (jointCurrentParetoMode === 'science_vs_data') {
+        xLblEl.textContent = '← X-Axis: Science Utility (Points) [Higher is Better]';
+        yLblEl.textContent = 'Y-Axis: Simulated Data Transferred (MB) [Higher is Better] →';
+      } else if (jointCurrentParetoMode === 'storage_vs_distance') {
+        xLblEl.textContent = '← X-Axis: Traverse Distance (m) [Shorter is Better]';
+        yLblEl.textContent = 'Y-Axis: Peak Onboard Storage Used (MB) [Lower is Better] →';
+      } else if (jointCurrentParetoMode === 'energy_vs_distance') {
+        xLblEl.textContent = '← X-Axis: Traverse Distance (m) [Shorter is Better]';
+        yLblEl.textContent = 'Y-Axis: Total Energy Consumed (Wh) [Lower is Better] →';
+      } else if (jointCurrentParetoMode === 'energy_vs_gap') {
+        xLblEl.textContent = '← X-Axis: Comms Blackout Gap (s) [Zero is Better]';
+        yLblEl.textContent = 'Y-Axis: Total Energy Consumed (Wh) [Lower is Better] →';
+      } else {
+        xLblEl.textContent = '← X-Axis: Traverse Distance (m) [Shorter is Better]';
+        yLblEl.textContent = 'Y-Axis: Comms Blackout Gap (s) [Zero is Better] →';
+      }
+    }
+
+    // Draw Grid Lines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let i = 0; i <= 4; i++) {
+      const y = padTop + (plotH / 4) * i;
+      ctx.moveTo(padLeft, y);
+      ctx.lineTo(w - padRight, y);
+
+      const x = padLeft + (plotW / 4) * i;
+      ctx.moveTo(x, padTop);
+      ctx.lineTo(x, h - padBottom);
+    }
+    ctx.stroke();
+
+    // Axis Labels
+    ctx.fillStyle = '#64748b';
+    ctx.font = '8px ui-monospace, Consolas, monospace';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    for (let i = 0; i <= 4; i++) {
+      const yVal = Math.round(maxY - (ySpan / 4) * i);
+      const y = padTop + (plotH / 4) * i;
+      ctx.fillText(`${yVal}`, padLeft - 4, y);
+    }
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    for (let i = 0; i <= 4; i++) {
+      const xVal = Math.round(minX + (xSpan / 4) * i);
+      const x = padLeft + (plotW / 4) * i;
+      ctx.fillText(`${xVal}`, x, h - padBottom + 4);
+    }
+
+    // Plot Points and build hit-test list
+    paretoPoints = [];
+    const paretoCoords = [];
+
+    candidates.forEach(c => {
+      const pt = getMetricsXY(c);
+      const px = padLeft + ((pt.x - minX) / xSpan) * plotW;
+      const py = padTop + (1.0 - ((pt.y - minY) / ySpan)) * plotH;
+
+      const isSel = c.candidate_id === jointSelectedCandidateId;
+      const isP = c.is_pareto;
+
+      paretoPoints.push({
+        x: px, y: py, radius: isSel ? 8 : (isP ? 6 : 4),
+        candidate: c, is_pareto: isP, is_selected: isSel
+      });
+
+      if (isP) {
+        paretoCoords.push({ x: px, y: py, d: pt.x });
+      }
+    });
+
+    // Sort Pareto coords by Distance to draw non-dominated efficiency boundary
+    paretoCoords.sort((a, b) => a.d - b.d);
+    if (paretoCoords.length > 1) {
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(paretoCoords[0].x, paretoCoords[0].y);
+      for (let i = 1; i < paretoCoords.length; i++) {
+        ctx.lineTo(paretoCoords[i].x, paretoCoords[i].y);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Draw Points
+    paretoPoints.forEach(pt => {
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
+      if (pt.is_selected) {
+        ctx.fillStyle = '#00e5ff';
+        ctx.shadowColor = '#00e5ff';
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      } else if (pt.is_pareto) {
+        ctx.fillStyle = '#10b981';
+        ctx.shadowColor = '#10b981';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.strokeStyle = '#34d399';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      } else {
+        ctx.fillStyle = '#64748b';
+        ctx.fill();
+      }
+    });
+  }
+
+  function setupParetoCanvasEvents() {
+    if (!paretoScatterCanvas) return;
+
+    paretoScatterCanvas.addEventListener('mousemove', (e) => {
+      const rect = paretoScatterCanvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+
+      let hit = null;
+      for (let i = 0; i < paretoPoints.length; i++) {
+        const pt = paretoPoints[i];
+        const dist = Math.hypot(pt.x - mx, pt.y - my);
+        if (dist <= pt.radius + 4) {
+          hit = pt;
+          break;
+        }
+      }
+
+      if (hit && paretoCanvasTooltip) {
+        const c = hit.candidate;
+        const m = c.metrics || {};
+        const sM = m.science_metrics || {};
+        const rM = m.resource_metrics || {};
+        paretoCanvasTooltip.innerHTML = `
         <div style="font-weight:700; color:${hit.is_pareto ? '#10b981' : '#cbd5e1'}; font-size:9px;">
           ${c.candidate_id}: ${c.strategy_name || 'Route'}
         </div>
@@ -22139,143 +22177,143 @@ function setupParetoCanvasEvents() {
           <span>Energy: ${Math.round(rM.total_energy_wh || 0)}Wh</span>
         </div>
       `;
-      paretoCanvasTooltip.style.left = `${hit.x}px`;
-      paretoCanvasTooltip.style.top = `${hit.y}px`;
-      paretoCanvasTooltip.classList.remove('hidden');
-    } else if (paretoCanvasTooltip) {
-      paretoCanvasTooltip.classList.add('hidden');
-    }
-  });
-
-  paretoScatterCanvas.addEventListener('mouseleave', () => {
-    if (paretoCanvasTooltip) paretoCanvasTooltip.classList.add('hidden');
-  });
-
-  paretoScatterCanvas.addEventListener('click', (e) => {
-    const rect = paretoScatterCanvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-
-    for (let i = 0; i < paretoPoints.length; i++) {
-      const pt = paretoPoints[i];
-      const dist = Math.hypot(pt.x - mx, pt.y - my);
-      if (dist <= pt.radius + 6) {
-        selectJointConfiguration(pt.candidate.candidate_id);
-        break;
+        paretoCanvasTooltip.style.left = `${hit.x}px`;
+        paretoCanvasTooltip.style.top = `${hit.y}px`;
+        paretoCanvasTooltip.classList.remove('hidden');
+      } else if (paretoCanvasTooltip) {
+        paretoCanvasTooltip.classList.add('hidden');
       }
-    }
-  });
-}
-
-// --------------------------------------------------------------------------
-// Milestone 13G-R: Atlas Science Return Recovery Lab
-// --------------------------------------------------------------------------
-
-let lastRecoveryLabResult = null;
-
-async function runScienceRecoveryLab(scenarioType = 'relay_outage') {
-  const payload = {
-    scenario_type: scenarioType,
-    base_payload: {
-      start_rc: [117, 157],
-      goal_rc: [138, 114],
-      base_station: { name: 'Octavia Butler Base', row: 117, col: 157, antenna_height_m: 10.0 },
-      relay_budget: 2,
-      max_relays_budget: 2,
-      weights: { distance: 0.15, gap_duration: 0.20, relay_cost: 0.15, metabolic_energy: 0.10, science: 0.40 },
-      antenna_mast_rover_m: 2.5,
-      antenna_mast_base_m: 10.0,
-      antenna_mast_relay_m: 8.0,
-      max_gap_duration_s: 900.0,
-      vehicle_platform: 'perseverance_rover',
-      rover_resource_config: { usable_battery_capacity_wh: 4800, reserve_margin_pct: 20 },
-      evaluate_resources: true,
-      science_targets: [
-        { target_id: 'three_forks', target_name: 'Three Forks Sample Depot', grid_coord: [138, 114], priority_score: 75.0, primary_objective: 'GEOLOGICAL_CHARACTERIZATION', selected_modes: ['SUPERCAM_LIBS', 'PIXL_XRF_GRID'] },
-        { target_id: 'hawksbill_gap', target_name: 'Hawksbill Gap Delta Ascent', grid_coord: [145, 95], priority_score: 95.0, primary_objective: 'MINERALOGICAL_INVESTIGATION', selected_modes: ['MASTCAM_Z_STEREO', 'SUPERCAM_LIBS'] }
-      ],
-      storage_capacity_bytes: 17179869184,
-      simulated_transfer_rate_bps: 2000000.0,
-      retention_policy: 'TRANSFER_THEN_RELEASE'
-    }
-  };
-
-  try {
-    const res = await fetch('/api/science-mission/recovery-lab', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    lastRecoveryLabResult = data;
-    console.log('[ScienceRecoveryLab] Simulation Success:', data);
-    return data;
-  } catch (err) {
-    console.error('[ScienceRecoveryLab] Simulation failed:', err);
-    throw err;
-  }
-}
 
-// --------------------------------------------------------------------------
-// Plan Promotion & Artifact Export
-// --------------------------------------------------------------------------
-
-async function promoteJointConfiguration() {
-  if (!jointMissionOptimizationResult || !jointSelectedCandidateId) {
-    alert('Please execute co-design optimization and select a candidate first.');
-    return;
-  }
-
-  const payload = {
-    selected_candidate_id: jointSelectedCandidateId,
-    configuration_id: jointMissionOptimizationResult.optimization_id || 'opt_joint_demo',
-    campaign_id: 'cmp_conference_demo_jezero'
-  };
-
-  try {
-    const res = await fetch('/api/joint-mission/promote', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    paretoScatterCanvas.addEventListener('mouseleave', () => {
+      if (paretoCanvasTooltip) paretoCanvasTooltip.classList.add('hidden');
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    console.log('[JointMissionStudio] Successfully promoted candidate:', data);
 
-    setPlanningStatus(`PROMOTED CO-DESIGN: Candidate ${jointSelectedCandidateId} is now active mission plan.`, 'success');
-    alert(`Success! Co-Design Candidate ${jointSelectedCandidateId} has been promoted to the active mission plan.`);
-  } catch (err) {
-    console.error('[JointMissionStudio] Promotion failed:', err);
-    alert(`Promotion failed: ${err.message}`);
+    paretoScatterCanvas.addEventListener('click', (e) => {
+      const rect = paretoScatterCanvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+
+      for (let i = 0; i < paretoPoints.length; i++) {
+        const pt = paretoPoints[i];
+        const dist = Math.hypot(pt.x - mx, pt.y - my);
+        if (dist <= pt.radius + 6) {
+          selectJointConfiguration(pt.candidate.candidate_id);
+          break;
+        }
+      }
+    });
   }
-}
 
-function exportJointMissionJson() {
-  if (!jointMissionOptimizationResult) {
-    alert('No joint mission optimization result to export.');
-    return;
+  // --------------------------------------------------------------------------
+  // Milestone 13G-R: Atlas Science Return Recovery Lab
+  // --------------------------------------------------------------------------
+
+  let lastRecoveryLabResult = null;
+
+  async function runScienceRecoveryLab(scenarioType = 'relay_outage') {
+    const payload = {
+      scenario_type: scenarioType,
+      base_payload: {
+        start_rc: [117, 157],
+        goal_rc: [138, 114],
+        base_station: { name: 'Octavia Butler Base', row: 117, col: 157, antenna_height_m: 10.0 },
+        relay_budget: 2,
+        max_relays_budget: 2,
+        weights: { distance: 0.15, gap_duration: 0.20, relay_cost: 0.15, metabolic_energy: 0.10, science: 0.40 },
+        antenna_mast_rover_m: 2.5,
+        antenna_mast_base_m: 10.0,
+        antenna_mast_relay_m: 8.0,
+        max_gap_duration_s: 900.0,
+        vehicle_platform: 'perseverance_rover',
+        rover_resource_config: { usable_battery_capacity_wh: 4800, reserve_margin_pct: 20 },
+        evaluate_resources: true,
+        science_targets: [
+          { target_id: 'three_forks', target_name: 'Three Forks Sample Depot', grid_coord: [138, 114], priority_score: 75.0, primary_objective: 'GEOLOGICAL_CHARACTERIZATION', selected_modes: ['SUPERCAM_LIBS', 'PIXL_XRF_GRID'] },
+          { target_id: 'hawksbill_gap', target_name: 'Hawksbill Gap Delta Ascent', grid_coord: [145, 95], priority_score: 95.0, primary_objective: 'MINERALOGICAL_INVESTIGATION', selected_modes: ['MASTCAM_Z_STEREO', 'SUPERCAM_LIBS'] }
+        ],
+        storage_capacity_bytes: 17179869184,
+        simulated_transfer_rate_bps: 2000000.0,
+        retention_policy: 'TRANSFER_THEN_RELEASE'
+      }
+    };
+
+    try {
+      const res = await fetch('/api/science-mission/recovery-lab', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      lastRecoveryLabResult = data;
+      console.log('[ScienceRecoveryLab] Simulation Success:', data);
+      return data;
+    } catch (err) {
+      console.error('[ScienceRecoveryLab] Simulation failed:', err);
+      throw err;
+    }
   }
-  const jsonStr = JSON.stringify(jointMissionOptimizationResult, null, 2);
-  const blob = new Blob([jsonStr], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `atlas_joint_mission_${jointSelectedCandidateId || 'codesign'}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
-function exportJointMissionMd() {
-  if (!jointMissionOptimizationResult || !jointSelectedCandidateId) {
-    alert('No joint mission optimization result to export.');
-    return;
+  // --------------------------------------------------------------------------
+  // Plan Promotion & Artifact Export
+  // --------------------------------------------------------------------------
+
+  async function promoteJointConfiguration() {
+    if (!jointMissionOptimizationResult || !jointSelectedCandidateId) {
+      alert('Please execute co-design optimization and select a candidate first.');
+      return;
+    }
+
+    const payload = {
+      selected_candidate_id: jointSelectedCandidateId,
+      configuration_id: jointMissionOptimizationResult.optimization_id || 'opt_joint_demo',
+      campaign_id: 'cmp_conference_demo_jezero'
+    };
+
+    try {
+      const res = await fetch('/api/joint-mission/promote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      console.log('[JointMissionStudio] Successfully promoted candidate:', data);
+
+      setPlanningStatus(`PROMOTED CO-DESIGN: Candidate ${jointSelectedCandidateId} is now active mission plan.`, 'success');
+      alert(`Success! Co-Design Candidate ${jointSelectedCandidateId} has been promoted to the active mission plan.`);
+    } catch (err) {
+      console.error('[JointMissionStudio] Promotion failed:', err);
+      alert(`Promotion failed: ${err.message}`);
+    }
   }
-  const cand = (jointMissionOptimizationResult.all_candidates || []).find(c => c.candidate_id === jointSelectedCandidateId);
-  if (!cand) return;
 
-  const m = cand.metrics || {};
-  const md = `# MARSWALK 2.0 / PROJECT ATLAS
+  function exportJointMissionJson() {
+    if (!jointMissionOptimizationResult) {
+      alert('No joint mission optimization result to export.');
+      return;
+    }
+    const jsonStr = JSON.stringify(jointMissionOptimizationResult, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `atlas_joint_mission_${jointSelectedCandidateId || 'codesign'}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportJointMissionMd() {
+    if (!jointMissionOptimizationResult || !jointSelectedCandidateId) {
+      alert('No joint mission optimization result to export.');
+      return;
+    }
+    const cand = (jointMissionOptimizationResult.all_candidates || []).find(c => c.candidate_id === jointSelectedCandidateId);
+    if (!cand) return;
+
+    const m = cand.metrics || {};
+    const md = `# MARSWALK 2.0 / PROJECT ATLAS
 # JOINT MISSION CO-DESIGN DECISION DOSSIER
 **Candidate ID:** ${cand.candidate_id} (${cand.strategy_name || 'Selected'})
 **Pareto Classification:** ${cand.is_pareto ? 'Non-Dominated (Rank 1 Efficiency Frontier)' : 'Dominated Alternative'}
@@ -22288,8 +22326,8 @@ function exportJointMissionMd() {
 - **Communications Coverage:** ${m.comms_coverage_pct.toFixed(1)}%
 - **Deployed Surface Relays:** ${m.relay_count} masts
 - **Max Blackout Gap Distance:** ${m.max_blackout_distance_m.toFixed(1)} m
-- **Max Blackout Gap Duration:** ${m.max_blackout_duration_s.toFixed(1)} s (${(m.max_blackout_duration_s/60).toFixed(1)} min)
-- **Apollo Waligora Metabolic Work:** ${(m.metabolic_energy_j/1000).toFixed(1)} kJ
+- **Max Blackout Gap Duration:** ${m.max_blackout_duration_s.toFixed(1)} s (${(m.max_blackout_duration_s / 60).toFixed(1)} min)
+- **Apollo Waligora Metabolic Work:** ${(m.metabolic_energy_j / 1000).toFixed(1)} kJ
 
 ## 2. Decision Rationale & Marginal Rate of Substitution
 ${(cand.explanation && cand.explanation.narrative_rationale) || 'Coupled co-design achieves optimal compromise between terrain mobility cost and geometric line-of-sight visibility.'}
@@ -22300,320 +22338,320 @@ ${(cand.explanation && cand.explanation.narrative_rationale) || 'Coupled co-desi
 - **Operational Safety Notice:** Modeled traverses and communication links are deterministic planning heuristics and are NOT certified astronaut flight paths.
 `;
 
-  const blob = new Blob([md], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `atlas_joint_mission_dossier_${jointSelectedCandidateId}.md`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-
-// =============================================================================
-// Milestone 13H: Atlas Campaign Operations Director & 3D Story Mode Engine
-// =============================================================================
-
-let moccActiveCampaign = null;
-let moccActiveSolIndex = 0;
-let moccStoryPlaybackActive = false;
-let moccPlaybackSpeed = 1.0;
-let moccStoryMetSeconds = 0;
-let moccReplanningState = null;
-
-// Three.js Scene Groups
-let theaterStoryGroup = null;
-let theaterMultiSolPathsGroup = null;
-let theaterScienceMarkersGroup = null;
-let theaterRelayTowersGroup = null;
-let theaterRfBeamsGroup = null;
-
-const MOCC_SOL_COLORS = [
-  0x00e5ff, // Sol 1: Cyan
-  0x10b981, // Sol 2: Emerald
-  0xa855f7, // Sol 3: Purple
-  0xf59e0b, // Sol 4: Amber
-  0xf43f5e  // Sol 5: Rose
-];
-
-function initTheaterStoryEngine() {
-  if (!jezeroSurfaceGroup) return;
-  if (!theaterStoryGroup) {
-    theaterStoryGroup = new THREE.Group();
-    theaterStoryGroup.name = 'theaterStoryGroup';
-
-    theaterMultiSolPathsGroup = new THREE.Group();
-    theaterMultiSolPathsGroup.name = 'theaterMultiSolPathsGroup';
-
-    theaterScienceMarkersGroup = new THREE.Group();
-    theaterScienceMarkersGroup.name = 'theaterScienceMarkersGroup';
-
-    theaterRelayTowersGroup = new THREE.Group();
-    theaterRelayTowersGroup.name = 'theaterRelayTowersGroup';
-
-    theaterRfBeamsGroup = new THREE.Group();
-    theaterRfBeamsGroup.name = 'theaterRfBeamsGroup';
-
-    theaterStoryGroup.add(theaterMultiSolPathsGroup);
-    theaterStoryGroup.add(theaterScienceMarkersGroup);
-    theaterStoryGroup.add(theaterRelayTowersGroup);
-    theaterStoryGroup.add(theaterRfBeamsGroup);
-
-    jezeroSurfaceGroup.add(theaterStoryGroup);
-  }
-  console.log('[MissionTheater] Story Mode Engine initialized on Jezero Surface Group.');
-}
-
-function getInterpolatedTerrainElevation(row, col) {
-  if (missionData && missionData.elevation_samples) {
-    const r = Math.max(0, Math.min(255, Math.round(row)));
-    const c = Math.max(0, Math.min(255, Math.round(col)));
-    if (missionData.elevation_samples[r] && missionData.elevation_samples[r][c] !== undefined) {
-      return missionData.elevation_samples[r][c];
-    }
-  }
-  return -2500;
-}
-
-function renderMultiSolTraverses(solsData) {
-  initTheaterStoryEngine();
-  if (!theaterMultiSolPathsGroup) return;
-
-  while (theaterMultiSolPathsGroup.children.length > 0) {
-    const child = theaterMultiSolPathsGroup.children[0];
-    theaterMultiSolPathsGroup.remove(child);
-    if (child.geometry) child.geometry.dispose();
-    if (child.material) child.material.dispose();
+    const blob = new Blob([md], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `atlas_joint_mission_dossier_${jointSelectedCandidateId}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
-  const sols = solsData || [
-    { sol_number: 1, traverse_points: [[117,157], [122,145], [128,135], [138,114]], traverse_distance_m: 2840, duration_hours: 4.8, target_count: 2, battery_soc_pct: 88.5 },
-    { sol_number: 2, traverse_points: [[138,114], [140,105], [145,95]], traverse_distance_m: 2150, duration_hours: 4.2, target_count: 3, battery_soc_pct: 79.2 },
-    { sol_number: 3, traverse_points: [[145,95], [130,90], [120,85], [110,80]], traverse_distance_m: 3410, duration_hours: 5.6, target_count: 3, battery_soc_pct: 71.8 },
-    { sol_number: 4, traverse_points: [[110,80], [95,90], [90,110], [95,130]], traverse_distance_m: 3200, duration_hours: 5.1, target_count: 2, battery_soc_pct: 64.0 },
-    { sol_number: 5, traverse_points: [[95,130], [105,145], [117,157]], traverse_distance_m: 3220, duration_hours: 4.7, target_count: 2, battery_soc_pct: 58.4 }
+
+  // =============================================================================
+  // Milestone 13H: Atlas Campaign Operations Director & 3D Story Mode Engine
+  // =============================================================================
+
+  let moccActiveCampaign = null;
+  let moccActiveSolIndex = 0;
+  let moccStoryPlaybackActive = false;
+  let moccPlaybackSpeed = 1.0;
+  let moccStoryMetSeconds = 0;
+  let moccReplanningState = null;
+
+  // Three.js Scene Groups
+  let theaterStoryGroup = null;
+  let theaterMultiSolPathsGroup = null;
+  let theaterScienceMarkersGroup = null;
+  let theaterRelayTowersGroup = null;
+  let theaterRfBeamsGroup = null;
+
+  const MOCC_SOL_COLORS = [
+    0x00e5ff, // Sol 1: Cyan
+    0x10b981, // Sol 2: Emerald
+    0xa855f7, // Sol 3: Purple
+    0xf59e0b, // Sol 4: Amber
+    0xf43f5e  // Sol 5: Rose
   ];
 
-  sols.forEach((sol, idx) => {
-    const solColor = MOCC_SOL_COLORS[idx % MOCC_SOL_COLORS.length];
-    const points = [];
-    const pts = sol.traverse_points || [];
+  function initTheaterStoryEngine() {
+    if (!jezeroSurfaceGroup) return;
+    if (!theaterStoryGroup) {
+      theaterStoryGroup = new THREE.Group();
+      theaterStoryGroup.name = 'theaterStoryGroup';
 
-    pts.forEach(p => {
-      const r = Array.isArray(p) ? p[0] : (p.row !== undefined ? p.row : 128);
-      const c = Array.isArray(p) ? p[1] : (p.col !== undefined ? p.col : 128);
+      theaterMultiSolPathsGroup = new THREE.Group();
+      theaterMultiSolPathsGroup.name = 'theaterMultiSolPathsGroup';
+
+      theaterScienceMarkersGroup = new THREE.Group();
+      theaterScienceMarkersGroup.name = 'theaterScienceMarkersGroup';
+
+      theaterRelayTowersGroup = new THREE.Group();
+      theaterRelayTowersGroup.name = 'theaterRelayTowersGroup';
+
+      theaterRfBeamsGroup = new THREE.Group();
+      theaterRfBeamsGroup.name = 'theaterRfBeamsGroup';
+
+      theaterStoryGroup.add(theaterMultiSolPathsGroup);
+      theaterStoryGroup.add(theaterScienceMarkersGroup);
+      theaterStoryGroup.add(theaterRelayTowersGroup);
+      theaterStoryGroup.add(theaterRfBeamsGroup);
+
+      jezeroSurfaceGroup.add(theaterStoryGroup);
+    }
+    console.log('[MissionTheater] Story Mode Engine initialized on Jezero Surface Group.');
+  }
+
+  function getInterpolatedTerrainElevation(row, col) {
+    if (missionData && missionData.elevation_samples) {
+      const r = Math.max(0, Math.min(255, Math.round(row)));
+      const c = Math.max(0, Math.min(255, Math.round(col)));
+      if (missionData.elevation_samples[r] && missionData.elevation_samples[r][c] !== undefined) {
+        return missionData.elevation_samples[r][c];
+      }
+    }
+    return -2500;
+  }
+
+  function renderMultiSolTraverses(solsData) {
+    initTheaterStoryEngine();
+    if (!theaterMultiSolPathsGroup) return;
+
+    while (theaterMultiSolPathsGroup.children.length > 0) {
+      const child = theaterMultiSolPathsGroup.children[0];
+      theaterMultiSolPathsGroup.remove(child);
+      if (child.geometry) child.geometry.dispose();
+      if (child.material) child.material.dispose();
+    }
+
+    const sols = solsData || [
+      { sol_number: 1, traverse_points: [[117, 157], [122, 145], [128, 135], [138, 114]], traverse_distance_m: 2840, duration_hours: 4.8, target_count: 2, battery_soc_pct: 88.5 },
+      { sol_number: 2, traverse_points: [[138, 114], [140, 105], [145, 95]], traverse_distance_m: 2150, duration_hours: 4.2, target_count: 3, battery_soc_pct: 79.2 },
+      { sol_number: 3, traverse_points: [[145, 95], [130, 90], [120, 85], [110, 80]], traverse_distance_m: 3410, duration_hours: 5.6, target_count: 3, battery_soc_pct: 71.8 },
+      { sol_number: 4, traverse_points: [[110, 80], [95, 90], [90, 110], [95, 130]], traverse_distance_m: 3200, duration_hours: 5.1, target_count: 2, battery_soc_pct: 64.0 },
+      { sol_number: 5, traverse_points: [[95, 130], [105, 145], [117, 157]], traverse_distance_m: 3220, duration_hours: 4.7, target_count: 2, battery_soc_pct: 58.4 }
+    ];
+
+    sols.forEach((sol, idx) => {
+      const solColor = MOCC_SOL_COLORS[idx % MOCC_SOL_COLORS.length];
+      const points = [];
+      const pts = sol.traverse_points || [];
+
+      pts.forEach(p => {
+        const r = Array.isArray(p) ? p[0] : (p.row !== undefined ? p.row : 128);
+        const c = Array.isArray(p) ? p[1] : (p.col !== undefined ? p.col : 128);
+        const x = (c - 128) * 20.0;
+        const y = (128 - r) * 20.0;
+        const elev = getInterpolatedTerrainElevation(r, c);
+        const exagg = typeof currentExaggeration === 'number' ? currentExaggeration : 1.5;
+        const z = (elev * exagg) + 1.8;
+        points.push(new THREE.Vector3(x, y, z));
+      });
+
+      if (points.length >= 2) {
+        const geom = new THREE.BufferGeometry().setFromPoints(points);
+        const mat = new THREE.LineBasicMaterial({
+          color: solColor,
+          linewidth: 3,
+          transparent: true,
+          opacity: (idx === moccActiveSolIndex) ? 0.95 : 0.45
+        });
+        const lineMesh = new THREE.Line(geom, mat);
+        lineMesh.userData = {
+          type: 'mocc_sol_path',
+          solIndex: idx,
+          solNumber: sol.sol_number || (idx + 1),
+          stats: sol
+        };
+        theaterMultiSolPathsGroup.add(lineMesh);
+      }
+    });
+
+    if (theaterStoryGroup) theaterStoryGroup.visible = true;
+  }
+
+  function renderStoryScienceTargets(targets) {
+    initTheaterStoryEngine();
+    if (!theaterScienceMarkersGroup) return;
+
+    while (theaterScienceMarkersGroup.children.length > 0) {
+      const child = theaterScienceMarkersGroup.children[0];
+      theaterScienceMarkersGroup.remove(child);
+    }
+
+    const tgts = targets || [
+      { target_id: 'three_forks', name: 'Three Forks Sample Depot', row: 138, col: 114, priority: 75.0, objective: 'GEOLOGICAL_CHARACTERIZATION', instruments: ['SUPERCAM_LIBS', 'PIXL_XRF_GRID'] },
+      { target_id: 'hawksbill_gap', name: 'Hawksbill Gap Delta Ascent', row: 145, col: 95, priority: 95.0, objective: 'ASTROBIOLOGY_CORE_SAMPLE', instruments: ['SHERLOC_RAMAN', 'PIXL_XRF_GRID', 'SUPERCAM_RAMAN'] },
+      { target_id: 'scarp_promontory', name: 'Scarp Promontory', row: 130, col: 90, priority: 80.0, objective: 'COMMUNICATION_RELAY_DEPLOY', instruments: ['SUPERCAM_VIS'] },
+      { target_id: 'kodiak_butte', name: 'Kodiak Butte Overview', row: 110, col: 80, priority: 88.0, objective: 'STRATIGRAPHIC_EXPOSURE', instruments: ['MASTCAM_Z_MULTISPECTRAL', 'SUPERCAM_LIBS'] },
+      { target_id: 'belva_crater', name: 'Belva Impact Crater Rim', row: 95, col: 90, priority: 92.0, objective: 'REGOLITH_SAMPLING', instruments: ['PIXL_XRF_GRID', 'SHERLOC_WATSON'] }
+    ];
+
+    tgts.forEach(tgt => {
+      const r = tgt.row !== undefined ? tgt.row : 128;
+      const c = tgt.col !== undefined ? tgt.col : 128;
       const x = (c - 128) * 20.0;
       const y = (128 - r) * 20.0;
       const elev = getInterpolatedTerrainElevation(r, c);
       const exagg = typeof currentExaggeration === 'number' ? currentExaggeration : 1.5;
-      const z = (elev * exagg) + 1.8;
-      points.push(new THREE.Vector3(x, y, z));
-    });
+      const zBase = elev * exagg;
 
-    if (points.length >= 2) {
-      const geom = new THREE.BufferGeometry().setFromPoints(points);
-      const mat = new THREE.LineBasicMaterial({
-        color: solColor,
-        linewidth: 3,
+      const group = new THREE.Group();
+      group.position.set(x, y, zBase);
+
+      const cylGeom = new THREE.CylinderGeometry(0.6, 0.6, 18, 8);
+      cylGeom.rotateX(Math.PI / 2);
+      const cylMat = new THREE.MeshBasicMaterial({
+        color: 0x00e5ff,
         transparent: true,
-        opacity: (idx === moccActiveSolIndex) ? 0.95 : 0.45
+        opacity: 0.35
       });
-      const lineMesh = new THREE.Line(geom, mat);
-      lineMesh.userData = {
-        type: 'mocc_sol_path',
-        solIndex: idx,
-        solNumber: sol.sol_number || (idx + 1),
-        stats: sol
+      const cyl = new THREE.Mesh(cylGeom, cylMat);
+      cyl.position.z = 9;
+      group.add(cyl);
+
+      const diamGeom = new THREE.OctahedronGeometry(4.0, 0);
+      const isHigh = (tgt.priority || 0) >= 85.0;
+      const diamColor = isHigh ? 0xf59e0b : 0x00e5ff;
+      const diamMat = new THREE.MeshStandardMaterial({
+        color: diamColor,
+        emissive: diamColor,
+        emissiveIntensity: 0.6,
+        metalness: 0.2,
+        roughness: 0.3
+      });
+      const diamond = new THREE.Mesh(diamGeom, diamMat);
+      diamond.position.z = 20;
+      group.add(diamond);
+
+      group.userData = {
+        type: 'mocc_science_target',
+        targetData: tgt
       };
-      theaterMultiSolPathsGroup.add(lineMesh);
+
+      theaterScienceMarkersGroup.add(group);
+    });
+  }
+
+  function updateStoryPlayback(timeSeconds, state) {
+    moccStoryMetSeconds = timeSeconds;
+
+    const clockEl = document.getElementById('moccLiveMetClock');
+    if (clockEl) {
+      const hrs = Math.floor(timeSeconds / 3600);
+      const mins = Math.floor((timeSeconds % 3600) / 60);
+      const secs = Math.floor(timeSeconds % 60);
+      const timeStr = `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      const solStr = moccActiveCampaign && moccActiveCampaign.current_sol ? `SOL ${moccActiveCampaign.current_sol}` : 'SOL 1620';
+      clockEl.textContent = `MET ${timeStr} • ${solStr}`;
     }
-  });
 
-  if (theaterStoryGroup) theaterStoryGroup.visible = true;
-}
+    const hdgEl = document.getElementById('moccLiveHeading');
+    if (hdgEl) {
+      const hdg = state && state.heading_deg !== undefined ? state.heading_deg : (142.5 + Math.sin(timeSeconds * 0.05) * 15).toFixed(1);
+      hdgEl.innerHTML = `${hdg}&deg;`;
+    }
 
-function renderStoryScienceTargets(targets) {
-  initTheaterStoryEngine();
-  if (!theaterScienceMarkersGroup) return;
+    const slopeEl = document.getElementById('moccLiveSlope');
+    if (slopeEl) {
+      const slp = state && state.slope_deg !== undefined ? state.slope_deg : (4.2 + Math.cos(timeSeconds * 0.04) * 2.1).toFixed(1);
+      slopeEl.textContent = `${slp}° (Horn 3x3)`;
+    }
 
-  while (theaterScienceMarkersGroup.children.length > 0) {
-    const child = theaterScienceMarkersGroup.children[0];
-    theaterScienceMarkersGroup.remove(child);
+    const spdEl = document.getElementById('moccLiveSpeed');
+    if (spdEl) {
+      const spd = state && state.is_stationary ? '0.00 m/s' : '0.38 m/s';
+      spdEl.textContent = spd;
+    }
+
+    const socText = document.getElementById('moccLiveSocText');
+    const socFill = document.getElementById('moccLiveSocFill');
+    const socSub = document.getElementById('moccLiveSocSub');
+    if (socText && socFill) {
+      const socPct = Math.max(20.0, 95.0 - (timeSeconds / 10000.0) * 40.0);
+      const wh = (socPct / 100.0 * 4800).toFixed(0);
+      socText.textContent = `${socPct.toFixed(1)}% (${wh} Wh)`;
+      socFill.style.width = `${socPct.toFixed(1)}%`;
+      socFill.style.background = socPct < 25 ? '#ef4444' : (socPct < 40 ? '#f59e0b' : '#10b981');
+      if (socSub) socSub.textContent = `Drain: ${(140 + Math.sin(timeSeconds * 0.1) * 35).toFixed(1)} W • Margin: +${(socPct - 20).toFixed(1)}%`;
+    }
+
+    const bufText = document.getElementById('moccLiveBufferText');
+    const bufFill = document.getElementById('moccLiveBufferFill');
+    const bufSub = document.getElementById('moccLiveBufferSub');
+    if (bufText && bufFill) {
+      const usedMb = Math.min(16000, 2400 + (timeSeconds * 1.5));
+      const usedGb = (usedMb / 1024.0).toFixed(1);
+      const fillPct = (usedMb / 16000.0 * 100.0).toFixed(1);
+      bufText.textContent = `${usedGb} / 16 GB (${fillPct}%)`;
+      bufFill.style.width = `${fillPct}%`;
+      if (bufSub) bufSub.textContent = `Transfer: 2.0 Mbps • Queue: 1 Target`;
+    }
+
+    const rfStatus = document.getElementById('moccLiveRfStatus');
+    const losClear = document.getElementById('moccLiveLosClearance');
+    const hopsEl = document.getElementById('moccLiveHops');
+    if (rfStatus && losClear && hopsEl) {
+      const isDirect = Math.sin(timeSeconds * 0.02) > -0.3;
+      rfStatus.textContent = isDirect ? 'DIRECT (BASE)' : 'RELAY MRN-01';
+      rfStatus.className = isDirect ? 'text-emerald' : 'text-cyan';
+      losClear.textContent = `+${(14.2 + Math.abs(Math.sin(timeSeconds * 0.03) * 8.5)).toFixed(1)} m`;
+      hopsEl.textContent = isDirect ? '0 (Direct)' : '1 (Via MRN-01)';
+    }
   }
 
-  const tgts = targets || [
-    { target_id: 'three_forks', name: 'Three Forks Sample Depot', row: 138, col: 114, priority: 75.0, objective: 'GEOLOGICAL_CHARACTERIZATION', instruments: ['SUPERCAM_LIBS', 'PIXL_XRF_GRID'] },
-    { target_id: 'hawksbill_gap', name: 'Hawksbill Gap Delta Ascent', row: 145, col: 95, priority: 95.0, objective: 'ASTROBIOLOGY_CORE_SAMPLE', instruments: ['SHERLOC_RAMAN', 'PIXL_XRF_GRID', 'SUPERCAM_RAMAN'] },
-    { target_id: 'scarp_promontory', name: 'Scarp Promontory', row: 130, col: 90, priority: 80.0, objective: 'COMMUNICATION_RELAY_DEPLOY', instruments: ['SUPERCAM_VIS'] },
-    { target_id: 'kodiak_butte', name: 'Kodiak Butte Overview', row: 110, col: 80, priority: 88.0, objective: 'STRATIGRAPHIC_EXPOSURE', instruments: ['MASTCAM_Z_MULTISPECTRAL', 'SUPERCAM_LIBS'] },
-    { target_id: 'belva_crater', name: 'Belva Impact Crater Rim', row: 95, col: 90, priority: 92.0, objective: 'REGOLITH_SAMPLING', instruments: ['PIXL_XRF_GRID', 'SHERLOC_WATSON'] }
-  ];
+  function renderMoccCampaign(campaign) {
+    moccActiveCampaign = campaign;
+    if (!campaign) return;
 
-  tgts.forEach(tgt => {
-    const r = tgt.row !== undefined ? tgt.row : 128;
-    const c = tgt.col !== undefined ? tgt.col : 128;
-    const x = (c - 128) * 20.0;
-    const y = (128 - r) * 20.0;
-    const elev = getInterpolatedTerrainElevation(r, c);
-    const exagg = typeof currentExaggeration === 'number' ? currentExaggeration : 1.5;
-    const zBase = elev * exagg;
+    const distEl = document.getElementById('moccKpiDist');
+    if (distEl) distEl.textContent = `${((campaign.total_distance_m || 14820) / 1000).toFixed(2)} km`;
 
-    const group = new THREE.Group();
-    group.position.set(x, y, zBase);
+    const timeEl = document.getElementById('moccKpiTime');
+    if (timeEl) timeEl.textContent = `${((campaign.total_duration_hours || 28.4)).toFixed(1)} h`;
 
-    const cylGeom = new THREE.CylinderGeometry(0.6, 0.6, 18, 8);
-    cylGeom.rotateX(Math.PI / 2);
-    const cylMat = new THREE.MeshBasicMaterial({
-      color: 0x00e5ff,
-      transparent: true,
-      opacity: 0.35
-    });
-    const cyl = new THREE.Mesh(cylGeom, cylMat);
-    cyl.position.z = 9;
-    group.add(cyl);
+    const sciEl = document.getElementById('moccKpiScience');
+    if (sciEl) sciEl.textContent = `${(campaign.total_science_score || 485.0).toFixed(1)} pts`;
 
-    const diamGeom = new THREE.OctahedronGeometry(4.0, 0);
-    const isHigh = (tgt.priority || 0) >= 85.0;
-    const diamColor = isHigh ? 0xf59e0b : 0x00e5ff;
-    const diamMat = new THREE.MeshStandardMaterial({
-      color: diamColor,
-      emissive: diamColor,
-      emissiveIntensity: 0.6,
-      metalness: 0.2,
-      roughness: 0.3
-    });
-    const diamond = new THREE.Mesh(diamGeom, diamMat);
-    diamond.position.z = 20;
-    group.add(diamond);
+    const socEl = document.getElementById('moccKpiSoc');
+    if (socEl) socEl.textContent = `${(campaign.min_battery_soc_pct || 38.2).toFixed(1)}%`;
 
-    group.userData = {
-      type: 'mocc_science_target',
-      targetData: tgt
-    };
+    const commsEl = document.getElementById('moccKpiComms');
+    if (commsEl) commsEl.textContent = `${(campaign.comms_coverage_pct || 98.4).toFixed(1)}%`;
 
-    theaterScienceMarkersGroup.add(group);
-  });
-}
+    const gateEl = document.getElementById('moccKpiGate');
+    if (gateEl) {
+      const st = campaign.lifecycle_state || 'FEASIBLE';
+      gateEl.textContent = st === 'REQUIRES_REPLANNING' ? 'REPLAN REQ' : 'FEASIBLE';
+      gateEl.className = st === 'REQUIRES_REPLANNING' ? 'mocc-kpi-val text-amber' : 'mocc-kpi-val text-emerald';
+    }
 
-function updateStoryPlayback(timeSeconds, state) {
-  moccStoryMetSeconds = timeSeconds;
+    const pillEl = document.getElementById('moccActiveSolPill');
+    if (pillEl) pillEl.textContent = `SOL ${campaign.current_sol || 1620}`;
 
-  const clockEl = document.getElementById('moccLiveMetClock');
-  if (clockEl) {
-    const hrs = Math.floor(timeSeconds / 3600);
-    const mins = Math.floor((timeSeconds % 3600) / 60);
-    const secs = Math.floor(timeSeconds % 60);
-    const timeStr = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-    const solStr = moccActiveCampaign && moccActiveCampaign.current_sol ? `SOL ${moccActiveCampaign.current_sol}` : 'SOL 1620';
-    clockEl.textContent = `MET ${timeStr} • ${solStr}`;
-  }
+    // Render Sol Cards
+    const container = document.getElementById('moccSolBlocksContainer');
+    if (container) {
+      container.innerHTML = '';
+      const sols = campaign.sols || [
+        { sol_number: 1, status: 'EXECUTED', traverse_distance_m: 2840, duration_hours: 4.8, target_count: 2 },
+        { sol_number: 2, status: 'ACTIVE_SIM', traverse_distance_m: 2150, duration_hours: 4.2, target_count: 3 },
+        { sol_number: 3, status: 'NOMINAL', traverse_distance_m: 3410, duration_hours: 5.6, target_count: 3 },
+        { sol_number: 4, status: 'NOMINAL', traverse_distance_m: 3200, duration_hours: 5.1, target_count: 2 },
+        { sol_number: 5, status: 'NOMINAL', traverse_distance_m: 3220, duration_hours: 4.7, target_count: 2 }
+      ];
 
-  const hdgEl = document.getElementById('moccLiveHeading');
-  if (hdgEl) {
-    const hdg = state && state.heading_deg !== undefined ? state.heading_deg : (142.5 + Math.sin(timeSeconds * 0.05) * 15).toFixed(1);
-    hdgEl.innerHTML = `${hdg}&deg;`;
-  }
+      sols.forEach((sol, idx) => {
+        const card = document.createElement('div');
+        card.className = `mocc-sol-card ${idx === moccActiveSolIndex ? 'active' : ''}`;
+        card.dataset.solIdx = idx;
 
-  const slopeEl = document.getElementById('moccLiveSlope');
-  if (slopeEl) {
-    const slp = state && state.slope_deg !== undefined ? state.slope_deg : (4.2 + Math.cos(timeSeconds * 0.04) * 2.1).toFixed(1);
-    slopeEl.textContent = `${slp}° (Horn 3x3)`;
-  }
+        const isExecuted = sol.status === 'EXECUTED';
+        const isActive = idx === moccActiveSolIndex;
+        const tagBg = isExecuted ? 'rgba(100,116,139,0.3)' : (isActive ? 'rgba(0,229,255,0.2)' : 'rgba(16,185,129,0.15)');
+        const tagColor = isExecuted ? '#94a3b8' : (isActive ? '#00e5ff' : '#10b981');
 
-  const spdEl = document.getElementById('moccLiveSpeed');
-  if (spdEl) {
-    const spd = state && state.is_stationary ? '0.00 m/s' : '0.38 m/s';
-    spdEl.textContent = spd;
-  }
-
-  const socText = document.getElementById('moccLiveSocText');
-  const socFill = document.getElementById('moccLiveSocFill');
-  const socSub = document.getElementById('moccLiveSocSub');
-  if (socText && socFill) {
-    const socPct = Math.max(20.0, 95.0 - (timeSeconds / 10000.0) * 40.0);
-    const wh = (socPct / 100.0 * 4800).toFixed(0);
-    socText.textContent = `${socPct.toFixed(1)}% (${wh} Wh)`;
-    socFill.style.width = `${socPct.toFixed(1)}%`;
-    socFill.style.background = socPct < 25 ? '#ef4444' : (socPct < 40 ? '#f59e0b' : '#10b981');
-    if (socSub) socSub.textContent = `Drain: ${(140 + Math.sin(timeSeconds * 0.1) * 35).toFixed(1)} W • Margin: +${(socPct - 20).toFixed(1)}%`;
-  }
-
-  const bufText = document.getElementById('moccLiveBufferText');
-  const bufFill = document.getElementById('moccLiveBufferFill');
-  const bufSub = document.getElementById('moccLiveBufferSub');
-  if (bufText && bufFill) {
-    const usedMb = Math.min(16000, 2400 + (timeSeconds * 1.5));
-    const usedGb = (usedMb / 1024.0).toFixed(1);
-    const fillPct = (usedMb / 16000.0 * 100.0).toFixed(1);
-    bufText.textContent = `${usedGb} / 16 GB (${fillPct}%)`;
-    bufFill.style.width = `${fillPct}%`;
-    if (bufSub) bufSub.textContent = `Transfer: 2.0 Mbps • Queue: 1 Target`;
-  }
-
-  const rfStatus = document.getElementById('moccLiveRfStatus');
-  const losClear = document.getElementById('moccLiveLosClearance');
-  const hopsEl = document.getElementById('moccLiveHops');
-  if (rfStatus && losClear && hopsEl) {
-    const isDirect = Math.sin(timeSeconds * 0.02) > -0.3;
-    rfStatus.textContent = isDirect ? 'DIRECT (BASE)' : 'RELAY MRN-01';
-    rfStatus.className = isDirect ? 'text-emerald' : 'text-cyan';
-    losClear.textContent = `+${(14.2 + Math.abs(Math.sin(timeSeconds * 0.03) * 8.5)).toFixed(1)} m`;
-    hopsEl.textContent = isDirect ? '0 (Direct)' : '1 (Via MRN-01)';
-  }
-}
-
-function renderMoccCampaign(campaign) {
-  moccActiveCampaign = campaign;
-  if (!campaign) return;
-
-  const distEl = document.getElementById('moccKpiDist');
-  if (distEl) distEl.textContent = `${((campaign.total_distance_m || 14820) / 1000).toFixed(2)} km`;
-
-  const timeEl = document.getElementById('moccKpiTime');
-  if (timeEl) timeEl.textContent = `${((campaign.total_duration_hours || 28.4)).toFixed(1)} h`;
-
-  const sciEl = document.getElementById('moccKpiScience');
-  if (sciEl) sciEl.textContent = `${(campaign.total_science_score || 485.0).toFixed(1)} pts`;
-
-  const socEl = document.getElementById('moccKpiSoc');
-  if (socEl) socEl.textContent = `${(campaign.min_battery_soc_pct || 38.2).toFixed(1)}%`;
-
-  const commsEl = document.getElementById('moccKpiComms');
-  if (commsEl) commsEl.textContent = `${(campaign.comms_coverage_pct || 98.4).toFixed(1)}%`;
-
-  const gateEl = document.getElementById('moccKpiGate');
-  if (gateEl) {
-    const st = campaign.lifecycle_state || 'FEASIBLE';
-    gateEl.textContent = st === 'REQUIRES_REPLANNING' ? 'REPLAN REQ' : 'FEASIBLE';
-    gateEl.className = st === 'REQUIRES_REPLANNING' ? 'mocc-kpi-val text-amber' : 'mocc-kpi-val text-emerald';
-  }
-
-  const pillEl = document.getElementById('moccActiveSolPill');
-  if (pillEl) pillEl.textContent = `SOL ${campaign.current_sol || 1620}`;
-
-  // Render Sol Cards
-  const container = document.getElementById('moccSolBlocksContainer');
-  if (container) {
-    container.innerHTML = '';
-    const sols = campaign.sols || [
-      { sol_number: 1, status: 'EXECUTED', traverse_distance_m: 2840, duration_hours: 4.8, target_count: 2 },
-      { sol_number: 2, status: 'ACTIVE_SIM', traverse_distance_m: 2150, duration_hours: 4.2, target_count: 3 },
-      { sol_number: 3, status: 'NOMINAL', traverse_distance_m: 3410, duration_hours: 5.6, target_count: 3 },
-      { sol_number: 4, status: 'NOMINAL', traverse_distance_m: 3200, duration_hours: 5.1, target_count: 2 },
-      { sol_number: 5, status: 'NOMINAL', traverse_distance_m: 3220, duration_hours: 4.7, target_count: 2 }
-    ];
-
-    sols.forEach((sol, idx) => {
-      const card = document.createElement('div');
-      card.className = `mocc-sol-card ${idx === moccActiveSolIndex ? 'active' : ''}`;
-      card.dataset.solIdx = idx;
-
-      const isExecuted = sol.status === 'EXECUTED';
-      const isActive = idx === moccActiveSolIndex;
-      const tagBg = isExecuted ? 'rgba(100,116,139,0.3)' : (isActive ? 'rgba(0,229,255,0.2)' : 'rgba(16,185,129,0.15)');
-      const tagColor = isExecuted ? '#94a3b8' : (isActive ? '#00e5ff' : '#10b981');
-
-      card.innerHTML = `
+        card.innerHTML = `
         <div class="mocc-sol-card-header">
           <span class="mocc-sol-title">SOL ${sol.sol_number || (idx + 1)}</span>
           <span class="mocc-sol-tag" style="background:${tagBg}; color:${tagColor}; border:1px solid ${tagColor}44;">${sol.status || 'NOMINAL'}</span>
@@ -22631,205 +22669,205 @@ function renderMoccCampaign(campaign) {
         </div>
       `;
 
-      card.addEventListener('click', () => {
-        setMoccActiveSol(idx);
+        card.addEventListener('click', () => {
+          setMoccActiveSol(idx);
+        });
+
+        container.appendChild(card);
       });
+    }
 
-      container.appendChild(card);
-    });
+    // Render 3D Traverses and Targets
+    renderMultiSolTraverses(campaign.sols);
+    renderStoryScienceTargets(campaign.science_targets);
   }
 
-  // Render 3D Traverses and Targets
-  renderMultiSolTraverses(campaign.sols);
-  renderStoryScienceTargets(campaign.science_targets);
-}
+  function setMoccActiveSol(solIndex) {
+    moccActiveSolIndex = solIndex;
+    const cards = document.querySelectorAll('.mocc-sol-card');
+    cards.forEach(c => {
+      c.classList.toggle('active', parseInt(c.dataset.solIdx, 10) === solIndex);
+    });
+    if (theaterMultiSolPathsGroup) {
+      theaterMultiSolPathsGroup.children.forEach(mesh => {
+        if (mesh.userData && mesh.userData.solIndex !== undefined) {
+          mesh.material.opacity = (mesh.userData.solIndex === solIndex) ? 0.95 : 0.40;
+        }
+      });
+    }
+  }
 
-function setMoccActiveSol(solIndex) {
-  moccActiveSolIndex = solIndex;
-  const cards = document.querySelectorAll('.mocc-sol-card');
-  cards.forEach(c => {
-    c.classList.toggle('active', parseInt(c.dataset.solIdx, 10) === solIndex);
-  });
-  if (theaterMultiSolPathsGroup) {
-    theaterMultiSolPathsGroup.children.forEach(mesh => {
-      if (mesh.userData && mesh.userData.solIndex !== undefined) {
-        mesh.material.opacity = (mesh.userData.solIndex === solIndex) ? 0.95 : 0.40;
+  async function loadMoccCampaignAction(campaignId) {
+    try {
+      const res = await fetch(`/api/campaign-operations/${campaignId || 'cmp_jezero_delta_5sol'}`);
+      if (res.ok) {
+        const data = await res.json();
+        renderMoccCampaign(data.campaign || data);
+        return data;
       }
-    });
-  }
-}
-
-async function loadMoccCampaignAction(campaignId) {
-  try {
-    const res = await fetch(`/api/campaign-operations/${campaignId || 'cmp_jezero_delta_5sol'}`);
-    if (res.ok) {
-      const data = await res.json();
-      renderMoccCampaign(data.campaign || data);
-      return data;
+    } catch (err) {
+      console.warn('[MOCC] API fetch fallback to mock campaign:', err);
     }
-  } catch (err) {
-    console.warn('[MOCC] API fetch fallback to mock campaign:', err);
+
+    // Graceful fallback campaign
+    const mockCampaign = {
+      campaign_id: campaignId || 'cmp_jezero_delta_5sol',
+      name: 'Jezero Delta Multi-Sol Campaign',
+      current_sol: 1620,
+      lifecycle_state: 'APPROVED_FOR_SIMULATION',
+      total_distance_m: 14820,
+      total_duration_hours: 28.4,
+      total_science_score: 485.0,
+      min_battery_soc_pct: 38.2,
+      comms_coverage_pct: 98.4,
+      sols: [
+        { sol_number: 1, status: 'EXECUTED', traverse_distance_m: 2840, duration_hours: 4.8, target_count: 2 },
+        { sol_number: 2, status: 'ACTIVE_SIM', traverse_distance_m: 2150, duration_hours: 4.2, target_count: 3 },
+        { sol_number: 3, status: 'NOMINAL', traverse_distance_m: 3410, duration_hours: 5.6, target_count: 3 },
+        { sol_number: 4, status: 'NOMINAL', traverse_distance_m: 3200, duration_hours: 5.1, target_count: 2 },
+        { sol_number: 5, status: 'NOMINAL', traverse_distance_m: 3220, duration_hours: 4.7, target_count: 2 }
+      ]
+    };
+    renderMoccCampaign(mockCampaign);
+    return mockCampaign;
   }
 
-  // Graceful fallback campaign
-  const mockCampaign = {
-    campaign_id: campaignId || 'cmp_jezero_delta_5sol',
-    name: 'Jezero Delta Multi-Sol Campaign',
-    current_sol: 1620,
-    lifecycle_state: 'APPROVED_FOR_SIMULATION',
-    total_distance_m: 14820,
-    total_duration_hours: 28.4,
-    total_science_score: 485.0,
-    min_battery_soc_pct: 38.2,
-    comms_coverage_pct: 98.4,
-    sols: [
-      { sol_number: 1, status: 'EXECUTED', traverse_distance_m: 2840, duration_hours: 4.8, target_count: 2 },
-      { sol_number: 2, status: 'ACTIVE_SIM', traverse_distance_m: 2150, duration_hours: 4.2, target_count: 3 },
-      { sol_number: 3, status: 'NOMINAL', traverse_distance_m: 3410, duration_hours: 5.6, target_count: 3 },
-      { sol_number: 4, status: 'NOMINAL', traverse_distance_m: 3200, duration_hours: 5.1, target_count: 2 },
-      { sol_number: 5, status: 'NOMINAL', traverse_distance_m: 3220, duration_hours: 4.7, target_count: 2 }
-    ]
-  };
-  renderMoccCampaign(mockCampaign);
-  return mockCampaign;
-}
+  function triggerMoccContingencyReplan(disruptionPayload) {
+    const drawer = document.getElementById('moccReplanningDrawer');
+    if (!drawer) return;
 
-function triggerMoccContingencyReplan(disruptionPayload) {
-  const drawer = document.getElementById('moccReplanningDrawer');
-  if (!drawer) return;
+    moccReplanningState = {
+      event_type: (disruptionPayload && disruptionPayload.event_type) || 'corridor_block',
+      disruption_description: (disruptionPayload && disruptionPayload.description) || 'Rockfall disruption along nominal delta ascent corridor.',
+      baseline_plan_id: (moccActiveCampaign && moccActiveCampaign.campaign_id) || 'cmp_jezero_delta_5sol',
+      contingency_plan_id: 'cmp_jezero_delta_5sol_alt_v2',
+      deltas: {
+        distance_m: 820.0,
+        duration_h: 1.7,
+        science_score: -25.0,
+        min_battery_soc_pct: -13.4,
+        relays_deployed: 1
+      }
+    };
 
-  moccReplanningState = {
-    event_type: (disruptionPayload && disruptionPayload.event_type) || 'corridor_block',
-    disruption_description: (disruptionPayload && disruptionPayload.description) || 'Rockfall disruption along nominal delta ascent corridor.',
-    baseline_plan_id: (moccActiveCampaign && moccActiveCampaign.campaign_id) || 'cmp_jezero_delta_5sol',
-    contingency_plan_id: 'cmp_jezero_delta_5sol_alt_v2',
-    deltas: {
-      distance_m: 820.0,
-      duration_h: 1.7,
-      science_score: -25.0,
-      min_battery_soc_pct: -13.4,
-      relays_deployed: 1
+    const narr = document.getElementById('moccReplanNarrative');
+    if (narr) {
+      narr.textContent = `${moccReplanningState.disruption_description} Multi-sol replanner synthesized detour traverse and adjusted relay deployment to maintain positive resource margins and RF connectivity.`;
     }
-  };
 
-  const narr = document.getElementById('moccReplanNarrative');
-  if (narr) {
-    narr.textContent = `${moccReplanningState.disruption_description} Multi-sol replanner synthesized detour traverse and adjusted relay deployment to maintain positive resource margins and RF connectivity.`;
+    drawer.classList.remove('hidden');
   }
 
-  drawer.classList.remove('hidden');
-}
-
-function promoteMoccActivePlan() {
-  if (moccActiveCampaign) {
-    moccActiveCampaign.lifecycle_state = 'APPROVED_FOR_SIMULATION';
-    moccActiveCampaign.version = (moccActiveCampaign.version || 1) + 1;
-    moccActiveCampaign.total_distance_m = (moccActiveCampaign.total_distance_m || 14820) + 820;
-    moccActiveCampaign.total_duration_hours = (moccActiveCampaign.total_duration_hours || 28.4) + 1.7;
-    moccActiveCampaign.total_science_score = (moccActiveCampaign.total_science_score || 485.0) - 25.0;
-  }
-  const drawer = document.getElementById('moccReplanningDrawer');
-  if (drawer) drawer.classList.add('hidden');
-
-  const gate = document.getElementById('moccKpiGate');
-  if (gate) {
-    gate.textContent = 'FEASIBLE (v2)';
-    gate.className = 'mocc-kpi-val text-emerald';
-  }
-
-  alert('Success! Contingency plan approved and promoted to active flight campaign.');
-}
-
-function initMoccEngine() {
-  const tabBtn = document.getElementById('tabBtnCampaignOperations');
-  if (tabBtn) {
-    tabBtn.addEventListener('click', () => {
-      switchInspectorTab('tabCampaignOperations');
-    });
-  }
-
-  const headerBtn = document.getElementById('btnHeaderCampaignOperations');
-  if (headerBtn) {
-    headerBtn.addEventListener('click', () => {
-      if (typeof hideLandingPage === 'function') hideLandingPage(true);
-      switchInspectorTab('tabCampaignOperations');
-      const insp = document.getElementById('inspectorPanel');
-      if (insp) insp.classList.remove('hidden');
-    });
-  }
-
-  const select = document.getElementById('moccCampaignSelect');
-  if (select) {
-    select.addEventListener('change', (e) => {
-      loadMoccCampaignAction(e.target.value);
-    });
-  }
-
-  const btnReplan = document.getElementById('btnMoccReplan');
-  if (btnReplan) {
-    btnReplan.addEventListener('click', () => {
-      triggerMoccContingencyReplan({ event_type: 'corridor_block', description: 'Simulated rockfall disruption on Sol 2.' });
-    });
-  }
-
-  const btnTheater = document.getElementById('btnMoccLaunchTheater');
-  if (btnTheater) {
-    btnTheater.addEventListener('click', () => {
-      if (typeof enterMissionTheaterMode === 'function') enterMissionTheaterMode();
-      initTheaterStoryEngine();
-    });
-  }
-
-  const btnCloseDrawer = document.getElementById('btnCloseMoccReplan');
-  if (btnCloseDrawer) {
-    btnCloseDrawer.addEventListener('click', () => {
-      const drawer = document.getElementById('moccReplanningDrawer');
-      if (drawer) drawer.classList.add('hidden');
-    });
-  }
-
-  const btnRevert = document.getElementById('btnMoccRevertReplan');
-  if (btnRevert) {
-    btnRevert.addEventListener('click', () => {
-      const drawer = document.getElementById('moccReplanningDrawer');
-      if (drawer) drawer.classList.add('hidden');
-    });
-  }
-
-  const btnPromote = document.getElementById('btnMoccPromotePlan');
-  if (btnPromote) {
-    btnPromote.addEventListener('click', promoteMoccActivePlan);
-  }
-
-  // Load initial campaign
-  loadMoccCampaignAction('cmp_jezero_delta_5sol');
-
-  console.log('[MOCC] Atlas Campaign Operations Director UI Engine initialized.');
-}
-
-// Expose public API on window.Atlas and window.__atlas
-if (typeof window !== 'undefined') {
-  const moccApi = {
-    loadCampaign: (campaignId) => loadMoccCampaignAction(campaignId),
-    getCampaignData: () => moccActiveCampaign,
-    selectSol: (solIndex) => setMoccActiveSol(solIndex),
-    enterStoryMode: () => {
-      if (typeof enterMissionTheaterMode === 'function') enterMissionTheaterMode();
-      initTheaterStoryEngine();
-    },
-    scrubTimeline: (metSeconds) => updateStoryPlayback(metSeconds, {}),
-    injectContingency: (disruptionPayload) => triggerMoccContingencyReplan(disruptionPayload),
-    promoteActivePlan: () => promoteMoccActivePlan(),
-    getReplanningAudit: () => moccReplanningState,
-    setStoryCameraDirector: (mode) => {
-      if (typeof setCameraDirectorMode === 'function') setCameraDirectorMode(mode);
+  function promoteMoccActivePlan() {
+    if (moccActiveCampaign) {
+      moccActiveCampaign.lifecycle_state = 'APPROVED_FOR_SIMULATION';
+      moccActiveCampaign.version = (moccActiveCampaign.version || 1) + 1;
+      moccActiveCampaign.total_distance_m = (moccActiveCampaign.total_distance_m || 14820) + 820;
+      moccActiveCampaign.total_duration_hours = (moccActiveCampaign.total_duration_hours || 28.4) + 1.7;
+      moccActiveCampaign.total_science_score = (moccActiveCampaign.total_science_score || 485.0) - 25.0;
     }
-  };
+    const drawer = document.getElementById('moccReplanningDrawer');
+    if (drawer) drawer.classList.add('hidden');
 
-  if (window.Atlas) window.Atlas.mocc = moccApi;
-  if (window.__atlas) window.__atlas.mocc = moccApi;
-  if (window.MarsWalk) window.MarsWalk.mocc = moccApi;
-}
+    const gate = document.getElementById('moccKpiGate');
+    if (gate) {
+      gate.textContent = 'FEASIBLE (v2)';
+      gate.className = 'mocc-kpi-val text-emerald';
+    }
+
+    alert('Success! Contingency plan approved and promoted to active flight campaign.');
+  }
+
+  function initMoccEngine() {
+    const tabBtn = document.getElementById('tabBtnCampaignOperations');
+    if (tabBtn) {
+      tabBtn.addEventListener('click', () => {
+        switchInspectorTab('tabCampaignOperations');
+      });
+    }
+
+    const headerBtn = document.getElementById('btnHeaderCampaignOperations');
+    if (headerBtn) {
+      headerBtn.addEventListener('click', () => {
+        if (typeof hideLandingPage === 'function') hideLandingPage(true);
+        switchInspectorTab('tabCampaignOperations');
+        const insp = document.getElementById('inspectorPanel');
+        if (insp) insp.classList.remove('hidden');
+      });
+    }
+
+    const select = document.getElementById('moccCampaignSelect');
+    if (select) {
+      select.addEventListener('change', (e) => {
+        loadMoccCampaignAction(e.target.value);
+      });
+    }
+
+    const btnReplan = document.getElementById('btnMoccReplan');
+    if (btnReplan) {
+      btnReplan.addEventListener('click', () => {
+        triggerMoccContingencyReplan({ event_type: 'corridor_block', description: 'Simulated rockfall disruption on Sol 2.' });
+      });
+    }
+
+    const btnTheater = document.getElementById('btnMoccLaunchTheater');
+    if (btnTheater) {
+      btnTheater.addEventListener('click', () => {
+        if (typeof enterMissionTheaterMode === 'function') enterMissionTheaterMode();
+        initTheaterStoryEngine();
+      });
+    }
+
+    const btnCloseDrawer = document.getElementById('btnCloseMoccReplan');
+    if (btnCloseDrawer) {
+      btnCloseDrawer.addEventListener('click', () => {
+        const drawer = document.getElementById('moccReplanningDrawer');
+        if (drawer) drawer.classList.add('hidden');
+      });
+    }
+
+    const btnRevert = document.getElementById('btnMoccRevertReplan');
+    if (btnRevert) {
+      btnRevert.addEventListener('click', () => {
+        const drawer = document.getElementById('moccReplanningDrawer');
+        if (drawer) drawer.classList.add('hidden');
+      });
+    }
+
+    const btnPromote = document.getElementById('btnMoccPromotePlan');
+    if (btnPromote) {
+      btnPromote.addEventListener('click', promoteMoccActivePlan);
+    }
+
+    // Load initial campaign
+    loadMoccCampaignAction('cmp_jezero_delta_5sol');
+
+    console.log('[MOCC] Atlas Campaign Operations Director UI Engine initialized.');
+  }
+
+  // Expose public API on window.Atlas and window.__atlas
+  if (typeof window !== 'undefined') {
+    const moccApi = {
+      loadCampaign: (campaignId) => loadMoccCampaignAction(campaignId),
+      getCampaignData: () => moccActiveCampaign,
+      selectSol: (solIndex) => setMoccActiveSol(solIndex),
+      enterStoryMode: () => {
+        if (typeof enterMissionTheaterMode === 'function') enterMissionTheaterMode();
+        initTheaterStoryEngine();
+      },
+      scrubTimeline: (metSeconds) => updateStoryPlayback(metSeconds, {}),
+      injectContingency: (disruptionPayload) => triggerMoccContingencyReplan(disruptionPayload),
+      promoteActivePlan: () => promoteMoccActivePlan(),
+      getReplanningAudit: () => moccReplanningState,
+      setStoryCameraDirector: (mode) => {
+        if (typeof setCameraDirectorMode === 'function') setCameraDirectorMode(mode);
+      }
+    };
+
+    if (window.Atlas) window.Atlas.mocc = moccApi;
+    if (window.__atlas) window.__atlas.mocc = moccApi;
+    if (window.MarsWalk) window.MarsWalk.mocc = moccApi;
+  }
 
 
   // =========================================================================
@@ -24322,7 +24360,7 @@ if (typeof window !== 'undefined') {
           if (sliderSols) { sliderSols.value = data.timeline.maximum_sols; sliderSols.dispatchEvent(new Event('input')); }
           if (sliderBattery) { sliderBattery.value = data.resources.minimum_battery_reserve_pct; sliderBattery.dispatchEvent(new Event('input')); }
           if (sliderRelays) { sliderRelays.value = data.communications.maximum_relays_deployable; sliderRelays.dispatchEvent(new Event('input')); }
-          
+
           if (validationPanel) validationPanel.style.display = 'block';
           if (validationBadge) {
             validationBadge.textContent = 'SAMPLE LOADED';
@@ -24513,7 +24551,7 @@ if (typeof window !== 'undefined') {
       let svgHtml = '';
 
       // Compute node coordinates
-      Object.keys(solGroups).sort((a,b) => parseInt(a) - parseInt(b)).forEach((solStr, solIdx) => {
+      Object.keys(solGroups).sort((a, b) => parseInt(a) - parseInt(b)).forEach((solStr, solIdx) => {
         const sol = parseInt(solStr);
         const colTasks = solGroups[sol];
         const x = 60 + solIdx * 180;
@@ -24861,7 +24899,7 @@ if (typeof window !== 'undefined') {
 
       sunLight.position.set(x, y, z);
       sunLight.intensity = solar.is_sun_above_horizon ? Math.max(0.2, (solar.solar_elevation_deg / 70.0) * 1.5) : 0.05;
-      
+
       // Low sun golden tint
       if (solar.solar_elevation_deg < 20.0 && solar.is_sun_above_horizon) {
         sunLight.color.setHex(0xffaa55);
@@ -25654,282 +25692,282 @@ if (typeof window !== 'undefined') {
 
 })();
 
-  // =========================================================================
-  // MILESTONE 13O: ATLAS DEEP SPACE AUTONOMY ENGINE
-  // =========================================================================
-  function initDeepSpaceAutonomyEngine() {
-    const scenarioSelect = document.getElementById('dsScenarioSelect');
-    const btnRunScenario = document.getElementById('btnDsRunScenario');
-    const btnAdvanceTime = document.getElementById('btnDsAdvanceTime');
-    const btnInjectHazard = document.getElementById('btnDsInjectHazard');
-    const btnResetSim = document.getElementById('btnDsResetSim');
+// =========================================================================
+// MILESTONE 13O: ATLAS DEEP SPACE AUTONOMY ENGINE
+// =========================================================================
+function initDeepSpaceAutonomyEngine() {
+  const scenarioSelect = document.getElementById('dsScenarioSelect');
+  const btnRunScenario = document.getElementById('btnDsRunScenario');
+  const btnAdvanceTime = document.getElementById('btnDsAdvanceTime');
+  const btnInjectHazard = document.getElementById('btnDsInjectHazard');
+  const btnResetSim = document.getElementById('btnDsResetSim');
 
-    const elUplink = document.getElementById('dsUplinkDelayText');
-    const elDownlink = document.getElementById('dsDownlinkDelayText');
-    const elRtlt = document.getElementById('dsRtltText');
-    const elInFlight = document.getElementById('dsInFlightText');
-    const elSimTime = document.getElementById('dsSimTimeText');
-    const elEarthTrack = document.getElementById('dsEarthTimelineContent');
-    const elChannelTrack = document.getElementById('dsChannelTimelineContent');
-    const elMarsTrack = document.getElementById('dsMarsTimelineContent');
-    const elBattery = document.getElementById('dsBatteryChargeText');
-    const elStateVer = document.getElementById('dsRoverStateVerText');
-    const elDecisionText = document.getElementById('dsDecisionText');
-    const elStagesContainer = document.getElementById('dsScenarioStagesContainer');
-    const elRoverModeBadge = document.getElementById('dsRoverModeBadge');
+  const elUplink = document.getElementById('dsUplinkDelayText');
+  const elDownlink = document.getElementById('dsDownlinkDelayText');
+  const elRtlt = document.getElementById('dsRtltText');
+  const elInFlight = document.getElementById('dsInFlightText');
+  const elSimTime = document.getElementById('dsSimTimeText');
+  const elEarthTrack = document.getElementById('dsEarthTimelineContent');
+  const elChannelTrack = document.getElementById('dsChannelTimelineContent');
+  const elMarsTrack = document.getElementById('dsMarsTimelineContent');
+  const elBattery = document.getElementById('dsBatteryChargeText');
+  const elStateVer = document.getElementById('dsRoverStateVerText');
+  const elDecisionText = document.getElementById('dsDecisionText');
+  const elStagesContainer = document.getElementById('dsScenarioStagesContainer');
+  const elRoverModeBadge = document.getElementById('dsRoverModeBadge');
 
-    let currentStatus = null;
-    let latestScenarioResult = null;
+  let currentStatus = null;
+  let latestScenarioResult = null;
 
-    async function loadStatus() {
-      try {
-        const resp = await fetch('/api/deep-space/status');
-        if (!resp.ok) return;
-        const data = await resp.json();
-        currentStatus = data;
-        renderStatus(data);
-      } catch (err) {
-        console.warn('Deep space status fetch error:', err);
-      }
+  async function loadStatus() {
+    try {
+      const resp = await fetch('/api/deep-space/status');
+      if (!resp.ok) return;
+      const data = await resp.json();
+      currentStatus = data;
+      renderStatus(data);
+    } catch (err) {
+      console.warn('Deep space status fetch error:', err);
     }
+  }
 
-    async function loadScenarios() {
-      if (!scenarioSelect) return;
-      try {
-        const resp = await fetch('/api/deep-space/scenarios');
-        if (!resp.ok) return;
-        const scenarios = await resp.json();
-        scenarioSelect.innerHTML = '';
-        scenarios.forEach(sc => {
-          const opt = document.createElement('option');
-          opt.value = sc.scenario_id;
-          opt.textContent = `${sc.scenario_id}: ${sc.title}`;
-          scenarioSelect.appendChild(opt);
-        });
-      } catch (err) {
-        console.warn('Deep space scenarios fetch error:', err);
-      }
+  async function loadScenarios() {
+    if (!scenarioSelect) return;
+    try {
+      const resp = await fetch('/api/deep-space/scenarios');
+      if (!resp.ok) return;
+      const scenarios = await resp.json();
+      scenarioSelect.innerHTML = '';
+      scenarios.forEach(sc => {
+        const opt = document.createElement('option');
+        opt.value = sc.scenario_id;
+        opt.textContent = `${sc.scenario_id}: ${sc.title}`;
+        scenarioSelect.appendChild(opt);
+      });
+    } catch (err) {
+      console.warn('Deep space scenarios fetch error:', err);
     }
+  }
 
-    function renderStatus(data) {
-      if (!data) return;
-      const c = data.comm_status || {};
-      const f = data.fleet_status || {};
-      const rovers = f.rovers || {};
-      const rAlpha = rovers['ROVER_ALPHA'] || {};
+  function renderStatus(data) {
+    if (!data) return;
+    const c = data.comm_status || {};
+    const f = data.fleet_status || {};
+    const rovers = f.rovers || {};
+    const rAlpha = rovers['ROVER_ALPHA'] || {};
 
-      if (elUplink) elUplink.textContent = `${c.uplink_owlt_minutes || 14.2} min`;
-      if (elDownlink) elDownlink.textContent = `${c.downlink_owlt_minutes || 14.2} min`;
-      if (elRtlt) elRtlt.textContent = `${c.rtlt_minutes || 28.4} min`;
-      if (elInFlight) elInFlight.textContent = `${c.in_flight_uplink || 0} UP / ${c.in_flight_downlink || 0} DN`;
+    if (elUplink) elUplink.textContent = `${c.uplink_owlt_minutes || 14.2} min`;
+    if (elDownlink) elDownlink.textContent = `${c.downlink_owlt_minutes || 14.2} min`;
+    if (elRtlt) elRtlt.textContent = `${c.rtlt_minutes || 28.4} min`;
+    if (elInFlight) elInFlight.textContent = `${c.in_flight_uplink || 0} UP / ${c.in_flight_downlink || 0} DN`;
 
-      const tSec = data.sim_time_s || 0;
-      const hrs = Math.floor(tSec / 3600);
-      const mins = Math.floor((tSec % 3600) / 60);
-      const secs = Math.floor(tSec % 60);
-      if (elSimTime) elSimTime.textContent = `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    const tSec = data.sim_time_s || 0;
+    const hrs = Math.floor(tSec / 3600);
+    const mins = Math.floor((tSec % 3600) / 60);
+    const secs = Math.floor(tSec % 60);
+    if (elSimTime) elSimTime.textContent = `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 
-      if (elBattery && rAlpha.battery_charge_wh !== undefined) {
-        const pct = Math.round((rAlpha.battery_charge_wh / 1200.0) * 100);
-        elBattery.textContent = `${rAlpha.battery_charge_wh} Wh (${pct}%)`;
-      }
-      if (elStateVer && rAlpha.state_version !== undefined) {
-        elStateVer.textContent = `Version ${rAlpha.state_version}`;
-      }
-      if (elRoverModeBadge && rAlpha.operating_mode) {
-        elRoverModeBadge.textContent = `MODE: ${rAlpha.operating_mode}`;
-      }
+    if (elBattery && rAlpha.battery_charge_wh !== undefined) {
+      const pct = Math.round((rAlpha.battery_charge_wh / 1200.0) * 100);
+      elBattery.textContent = `${rAlpha.battery_charge_wh} Wh (${pct}%)`;
     }
-
-    async function runSelectedScenario() {
-      const scId = scenarioSelect ? scenarioSelect.value : 'SCENARIO_01';
-      try {
-        const resp = await fetch('/api/deep-space/scenarios/run', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ scenario_id: scId, seed: 42 })
-        });
-        if (resp.ok) {
-          const res = await resp.json();
-          latestScenarioResult = res;
-          renderScenarioResult(res);
-          loadStatus();
-        }
-      } catch (err) {
-        console.warn('Scenario run error:', err);
-      }
+    if (elStateVer && rAlpha.state_version !== undefined) {
+      elStateVer.textContent = `Version ${rAlpha.state_version}`;
     }
+    if (elRoverModeBadge && rAlpha.operating_mode) {
+      elRoverModeBadge.textContent = `MODE: ${rAlpha.operating_mode}`;
+    }
+  }
 
-    function renderScenarioResult(res) {
-      if (!elStagesContainer || !res.stage_summaries) return;
-      const badge = document.getElementById('dsScenarioStageCountBadge');
-      if (badge) badge.textContent = `STAGE ${res.stages_completed} / ${res.total_stages} (PASS)`;
+  async function runSelectedScenario() {
+    const scId = scenarioSelect ? scenarioSelect.value : 'SCENARIO_01';
+    try {
+      const resp = await fetch('/api/deep-space/scenarios/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario_id: scId, seed: 42 })
+      });
+      if (resp.ok) {
+        const res = await resp.json();
+        latestScenarioResult = res;
+        renderScenarioResult(res);
+        loadStatus();
+      }
+    } catch (err) {
+      console.warn('Scenario run error:', err);
+    }
+  }
 
-      let html = '';
-      res.stage_summaries.forEach(st => {
-        html += `<div class="deep-space-stage-item completed">
+  function renderScenarioResult(res) {
+    if (!elStagesContainer || !res.stage_summaries) return;
+    const badge = document.getElementById('dsScenarioStageCountBadge');
+    if (badge) badge.textContent = `STAGE ${res.stages_completed} / ${res.total_stages} (PASS)`;
+
+    let html = '';
+    res.stage_summaries.forEach(st => {
+      html += `<div class="deep-space-stage-item completed">
           <span style="font-weight:700; color:#10b981; font-family:monospace;">&#10004; STAGE ${st.stage_num}:</span>
           <strong style="color:#e2e8f0;">${st.title}</strong>
           <span style="color:#94a3b8; font-size:8px;">${st.details}</span>
         </div>`;
-      });
-      elStagesContainer.innerHTML = html;
+    });
+    elStagesContainer.innerHTML = html;
 
-      // Update Tracks
-      if (elEarthTrack) elEarthTrack.innerHTML = '<span style="color:#38bdf8; font-weight:700;">Earth Telecommand Dispatched &amp; Telemetry Confirmed</span>';
-      if (elChannelTrack) elChannelTrack.innerHTML = '<span style="color:#c084fc;">RTLT 28.4 min round-trip propagation verified</span>';
-      if (elMarsTrack) elMarsTrack.innerHTML = '<span style="color:#10b981; font-weight:700;">Stale instruction intercepted &bull; Local detour contingency executed</span>';
+    // Update Tracks
+    if (elEarthTrack) elEarthTrack.innerHTML = '<span style="color:#38bdf8; font-weight:700;">Earth Telecommand Dispatched &amp; Telemetry Confirmed</span>';
+    if (elChannelTrack) elChannelTrack.innerHTML = '<span style="color:#c084fc;">RTLT 28.4 min round-trip propagation verified</span>';
+    if (elMarsTrack) elMarsTrack.innerHTML = '<span style="color:#10b981; font-weight:700;">Stale instruction intercepted &bull; Local detour contingency executed</span>';
 
-      // Update Decision Explanation
-      if (elDecisionText) {
-        elDecisionText.innerHTML = `<span style="color:#10b981; font-weight:700;">ACCEPTED CONTINGENCY:</span> Recomputed local detour around rockfall at (35.0, 50.0). Hard battery reserve preserved (&gt;200 Wh). In-situ state version updated.`;
-      }
+    // Update Decision Explanation
+    if (elDecisionText) {
+      elDecisionText.innerHTML = `<span style="color:#10b981; font-weight:700;">ACCEPTED CONTINGENCY:</span> Recomputed local detour around rockfall at (35.0, 50.0). Hard battery reserve preserved (&gt;200 Wh). In-situ state version updated.`;
     }
-
-    async function advanceSimulation() {
-      try {
-        const resp = await fetch('/api/deep-space/simulation/advance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ step_seconds: 300.0 })
-        });
-        if (resp.ok) {
-          loadStatus();
-        }
-      } catch (err) {
-        console.warn('Advance error:', err);
-      }
-    }
-
-    async function injectHazard() {
-      try {
-        const resp = await fetch('/api/deep-space/simulation/inject-hazard', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            rover_id: 'ROVER_ALPHA',
-            hazard_type: 'FRESH_ROCKFALL_SLUMP',
-            location_xy: [35.0, 50.0],
-            severity: 'HIGH_IMPEDANCE',
-            description: 'Scarp boulder detachment detected'
-          })
-        });
-        if (resp.ok) {
-          loadStatus();
-          if (elDecisionText) {
-            elDecisionText.innerHTML = '<span style="color:#ef4444; font-weight:700;">OBSTACLE DETECTED:</span> Rockfall slump at (35.0, 50.0). Mars state version incremented.';
-          }
-        }
-      } catch (err) {
-        console.warn('Hazard error:', err);
-      }
-    }
-
-    async function resetSimulation() {
-      try {
-        const resp = await fetch('/api/deep-space/simulation/reset', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ seed: 42, default_owlt_s: 852.0 })
-        });
-        if (resp.ok) {
-          loadStatus();
-          if (elStagesContainer) elStagesContainer.innerHTML = '';
-          const badge = document.getElementById('dsScenarioStageCountBadge');
-          if (badge) badge.textContent = 'STAGE 0 / 8';
-          if (elDecisionText) elDecisionText.textContent = 'Standing by for incoming command evaluation.';
-        }
-      } catch (err) {
-        console.warn('Reset error:', err);
-      }
-    }
-
-    if (btnRunScenario) btnRunScenario.addEventListener('click', runSelectedScenario);
-    if (btnAdvanceTime) btnAdvanceTime.addEventListener('click', advanceSimulation);
-    if (btnInjectHazard) btnInjectHazard.addEventListener('click', injectHazard);
-    if (btnResetSim) btnResetSim.addEventListener('click', resetSimulation);
-
-    // Initial triggers
-    loadScenarios();
-    loadStatus();
-
-    // Expose Automation API
-    const dsApi = {
-      loadStatus,
-      loadScenarios,
-      runSelectedScenario,
-      advanceSimulation,
-      injectHazard,
-      resetSimulation,
-      getStatus: () => currentStatus,
-      getResult: () => latestScenarioResult,
-    };
-
-    if (!window.Atlas) window.Atlas = {};
-    window.Atlas.deepSpaceAutonomy = dsApi;
-    if (window.__atlas) window.__atlas.deepSpaceAutonomy = dsApi;
   }
 
-
-  // =========================================================================
-  // MILESTONE 13P: ATLAS AERIAL CORPS FLIGHT OPERATIONS ENGINE
-  // =========================================================================
-  function initAerialCorpsEngine() {
-    const scenarioSelect = document.getElementById('acScenarioSelect');
-    const btnRunScenario = document.getElementById('btnAcRunScenario');
-    const btnEvalPerf = document.getElementById('btnAcEvalPerf');
-    const btnJointPlan = document.getElementById('btnAcJointPlan');
-    const btnReset = document.getElementById('btnAcReset');
-
-    const elFleetCards = document.getElementById('acFleetCardsContainer');
-    const elStagesContainer = document.getElementById('acScenarioStagesContainer');
-    const elStageBadge = document.getElementById('acScenarioStageCountBadge');
-
-    let currentFleet = [];
-    let currentScenarios = [];
-
-    // Load initial status
-    async function loadStatus() {
-      try {
-        const resp = await fetch('/api/aerial/status');
-        if (!resp.ok) return;
-        const data = await resp.json();
-        currentFleet = data.aircraft_fleet || [];
-        renderFleetCards(currentFleet);
-        renderAtmosphericLab(data.atmospheric_state || {});
-      } catch (err) {
-        console.warn('[AerialCorps] Failed to load status:', err);
+  async function advanceSimulation() {
+    try {
+      const resp = await fetch('/api/deep-space/simulation/advance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ step_seconds: 300.0 })
+      });
+      if (resp.ok) {
+        loadStatus();
       }
+    } catch (err) {
+      console.warn('Advance error:', err);
     }
+  }
 
-    // Load scenarios list
-    async function loadScenarios() {
-      try {
-        const resp = await fetch('/api/aerial/scenarios');
-        if (!resp.ok) return;
-        currentScenarios = await resp.json();
-        if (scenarioSelect) {
-          scenarioSelect.innerHTML = '';
-          currentScenarios.forEach(sc => {
-            const opt = document.createElement('option');
-            opt.value = sc.id;
-            opt.textContent = `${sc.id}: ${sc.name}`;
-            if (sc.signature) opt.selected = true;
-            scenarioSelect.appendChild(opt);
-          });
+  async function injectHazard() {
+    try {
+      const resp = await fetch('/api/deep-space/simulation/inject-hazard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          rover_id: 'ROVER_ALPHA',
+          hazard_type: 'FRESH_ROCKFALL_SLUMP',
+          location_xy: [35.0, 50.0],
+          severity: 'HIGH_IMPEDANCE',
+          description: 'Scarp boulder detachment detected'
+        })
+      });
+      if (resp.ok) {
+        loadStatus();
+        if (elDecisionText) {
+          elDecisionText.innerHTML = '<span style="color:#ef4444; font-weight:700;">OBSTACLE DETECTED:</span> Rockfall slump at (35.0, 50.0). Mars state version incremented.';
         }
-      } catch (err) {
-        console.warn('[AerialCorps] Failed to load scenarios:', err);
       }
+    } catch (err) {
+      console.warn('Hazard error:', err);
     }
+  }
 
-    function renderFleetCards(fleet) {
-      if (!elFleetCards) return;
-      elFleetCards.innerHTML = '';
-      fleet.forEach((ac, idx) => {
-        const card = document.createElement('div');
-        card.className = `aerial-corps-aircraft-card ${idx === 0 ? 'active-aircraft' : ''}`;
-        card.innerHTML = `
+  async function resetSimulation() {
+    try {
+      const resp = await fetch('/api/deep-space/simulation/reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ seed: 42, default_owlt_s: 852.0 })
+      });
+      if (resp.ok) {
+        loadStatus();
+        if (elStagesContainer) elStagesContainer.innerHTML = '';
+        const badge = document.getElementById('dsScenarioStageCountBadge');
+        if (badge) badge.textContent = 'STAGE 0 / 8';
+        if (elDecisionText) elDecisionText.textContent = 'Standing by for incoming command evaluation.';
+      }
+    } catch (err) {
+      console.warn('Reset error:', err);
+    }
+  }
+
+  if (btnRunScenario) btnRunScenario.addEventListener('click', runSelectedScenario);
+  if (btnAdvanceTime) btnAdvanceTime.addEventListener('click', advanceSimulation);
+  if (btnInjectHazard) btnInjectHazard.addEventListener('click', injectHazard);
+  if (btnResetSim) btnResetSim.addEventListener('click', resetSimulation);
+
+  // Initial triggers
+  loadScenarios();
+  loadStatus();
+
+  // Expose Automation API
+  const dsApi = {
+    loadStatus,
+    loadScenarios,
+    runSelectedScenario,
+    advanceSimulation,
+    injectHazard,
+    resetSimulation,
+    getStatus: () => currentStatus,
+    getResult: () => latestScenarioResult,
+  };
+
+  if (!window.Atlas) window.Atlas = {};
+  window.Atlas.deepSpaceAutonomy = dsApi;
+  if (window.__atlas) window.__atlas.deepSpaceAutonomy = dsApi;
+}
+
+
+// =========================================================================
+// MILESTONE 13P: ATLAS AERIAL CORPS FLIGHT OPERATIONS ENGINE
+// =========================================================================
+function initAerialCorpsEngine() {
+  const scenarioSelect = document.getElementById('acScenarioSelect');
+  const btnRunScenario = document.getElementById('btnAcRunScenario');
+  const btnEvalPerf = document.getElementById('btnAcEvalPerf');
+  const btnJointPlan = document.getElementById('btnAcJointPlan');
+  const btnReset = document.getElementById('btnAcReset');
+
+  const elFleetCards = document.getElementById('acFleetCardsContainer');
+  const elStagesContainer = document.getElementById('acScenarioStagesContainer');
+  const elStageBadge = document.getElementById('acScenarioStageCountBadge');
+
+  let currentFleet = [];
+  let currentScenarios = [];
+
+  // Load initial status
+  async function loadStatus() {
+    try {
+      const resp = await fetch('/api/aerial/status');
+      if (!resp.ok) return;
+      const data = await resp.json();
+      currentFleet = data.aircraft_fleet || [];
+      renderFleetCards(currentFleet);
+      renderAtmosphericLab(data.atmospheric_state || {});
+    } catch (err) {
+      console.warn('[AerialCorps] Failed to load status:', err);
+    }
+  }
+
+  // Load scenarios list
+  async function loadScenarios() {
+    try {
+      const resp = await fetch('/api/aerial/scenarios');
+      if (!resp.ok) return;
+      currentScenarios = await resp.json();
+      if (scenarioSelect) {
+        scenarioSelect.innerHTML = '';
+        currentScenarios.forEach(sc => {
+          const opt = document.createElement('option');
+          opt.value = sc.id;
+          opt.textContent = `${sc.id}: ${sc.name}`;
+          if (sc.signature) opt.selected = true;
+          scenarioSelect.appendChild(opt);
+        });
+      }
+    } catch (err) {
+      console.warn('[AerialCorps] Failed to load scenarios:', err);
+    }
+  }
+
+  function renderFleetCards(fleet) {
+    if (!elFleetCards) return;
+    elFleetCards.innerHTML = '';
+    fleet.forEach((ac, idx) => {
+      const card = document.createElement('div');
+      card.className = `aerial-corps-aircraft-card ${idx === 0 ? 'active-aircraft' : ''}`;
+      card.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
             <strong style="color:#38bdf8; font-size:10px;">${ac.name}</strong>
             <span class="wp-badge" style="background:rgba(56,189,248,0.2); color:#38bdf8; font-size:8px;">${ac.flight_mode}</span>
@@ -25941,42 +25979,42 @@ if (typeof window !== 'undefined') {
             <div>Power: ${ac.power_draw_w}W</div>
           </div>
         `;
-        elFleetCards.appendChild(card);
+      elFleetCards.appendChild(card);
+    });
+  }
+
+  function renderAtmosphericLab(atmos) {
+    const elDensity = document.getElementById('acMetricDensity');
+    const elSound = document.getElementById('acMetricSound');
+    if (elDensity && atmos.density_kg_m3) elDensity.textContent = `${atmos.density_kg_m3.toFixed(4)} kg/m³`;
+    if (elSound && atmos.speed_of_sound_m_s) elSound.textContent = `${atmos.speed_of_sound_m_s.toFixed(1)} m/s`;
+  }
+
+  async function runScenario(scenarioId) {
+    const scId = scenarioId || (scenarioSelect ? scenarioSelect.value : 'SCENARIO_01');
+    try {
+      const resp = await fetch('/api/aerial/scenarios/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario_id: scId }),
       });
+      if (!resp.ok) return;
+      const res = await resp.json();
+      renderScenarioStages(res);
+    } catch (err) {
+      console.error('[AerialCorps] Run scenario failed:', err);
     }
+  }
 
-    function renderAtmosphericLab(atmos) {
-      const elDensity = document.getElementById('acMetricDensity');
-      const elSound = document.getElementById('acMetricSound');
-      if (elDensity && atmos.density_kg_m3) elDensity.textContent = `${atmos.density_kg_m3.toFixed(4)} kg/m³`;
-      if (elSound && atmos.speed_of_sound_m_s) elSound.textContent = `${atmos.speed_of_sound_m_s.toFixed(1)} m/s`;
-    }
+  function renderScenarioStages(res) {
+    if (!elStagesContainer) return;
+    elStagesContainer.innerHTML = '';
+    if (elStageBadge) elStageBadge.textContent = `STAGE ${res.stages.length} / ${res.total_stages}`;
 
-    async function runScenario(scenarioId) {
-      const scId = scenarioId || (scenarioSelect ? scenarioSelect.value : 'SCENARIO_01');
-      try {
-        const resp = await fetch('/api/aerial/scenarios/run', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ scenario_id: scId }),
-        });
-        if (!resp.ok) return;
-        const res = await resp.json();
-        renderScenarioStages(res);
-      } catch (err) {
-        console.error('[AerialCorps] Run scenario failed:', err);
-      }
-    }
-
-    function renderScenarioStages(res) {
-      if (!elStagesContainer) return;
-      elStagesContainer.innerHTML = '';
-      if (elStageBadge) elStageBadge.textContent = `STAGE ${res.stages.length} / ${res.total_stages}`;
-
-      res.stages.forEach(st => {
-        const div = document.createElement('div');
-        div.className = 'aerial-corps-stage-item completed';
-        div.innerHTML = `
+    res.stages.forEach(st => {
+      const div = document.createElement('div');
+      div.className = 'aerial-corps-stage-item completed';
+      div.innerHTML = `
           <div style="min-width:55px; font-weight:700; color:#38bdf8;">T+${st.elapsed_time_s.toFixed(0)}s</div>
           <div style="flex:1;">
             <div style="font-weight:700; color:#f1f5f9;">Stage ${st.stage_number}: ${st.stage_name}</div>
@@ -25984,147 +26022,147 @@ if (typeof window !== 'undefined') {
             ${st.events.length > 0 ? `<div style="color:#34d399; font-size:8px; margin-top:2px;">&bull; ${st.events.join('<br>&bull; ')}</div>` : ''}
           </div>
         `;
-        elStagesContainer.appendChild(div);
-      });
-    }
-
-    async function evaluatePerformance() {
-      try {
-        const resp = await fetch('/api/aerial/performance/evaluate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ profile: 'LIGHT_SCOUT' }),
-        });
-        if (!resp.ok) return;
-        const env = await resp.json();
-        const elTM = document.getElementById('acMetricThrustMargin');
-        const elPwr = document.getElementById('acMetricHoverPower');
-        const elEnd = document.getElementById('acMetricEndurance');
-        if (elTM) elTM.textContent = `${env.hover_thrust_margin.toFixed(2)} ≥ 1.15`;
-        if (elPwr) elPwr.textContent = `${env.hover_power_w.toFixed(1)} W`;
-        if (elEnd) elEnd.textContent = `${env.estimated_hover_endurance_s.toFixed(1)} s`;
-      } catch (err) {
-        console.error('[AerialCorps] Evaluate performance failed:', err);
-      }
-    }
-
-    async function planJointMission() {
-      try {
-        const resp = await fetch('/api/aerial/rover-cooperation/plan', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            rover_id: 'PERSEVERANCE_01',
-            aircraft_id: 'AERO-INGENUITY-01',
-            target_region_name: 'Jezero Delta Front',
-            rover_current_xy_m: [0.0, 0.0],
-            science_target_xy_m: [80.0, 95.0],
-          }),
-        });
-        if (!resp.ok) return;
-        const plan = await resp.json();
-        const elSaved = document.getElementById('acMetricDistSaved');
-        const elUncert = document.getElementById('acMetricUncertaintyDrop');
-        const elEnergy = document.getElementById('acMetricNetEnergy');
-        if (elSaved) elSaved.textContent = `${plan.net_rover_distance_delta_m.toFixed(1)} m`;
-        if (elUncert) elUncert.textContent = `${plan.baseline_rover_uncertainty_pct.toFixed(0)}% → ${plan.refined_rover_uncertainty_pct.toFixed(1)}%`;
-        if (elEnergy) elEnergy.textContent = `+${plan.net_mission_energy_delta_wh.toFixed(1)} Wh`;
-      } catch (err) {
-        console.error('[AerialCorps] Joint mission plan failed:', err);
-      }
-    }
-
-    async function resetFleet() {
-      try {
-        await fetch('/api/aerial/reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
-        loadStatus();
-        if (elStagesContainer) elStagesContainer.innerHTML = '<div style="color:#94a3b8; font-size:9px; padding:4px;">Fleet reset to initial basecamp standby state.</div>';
-      } catch (err) {
-        console.error('[AerialCorps] Reset failed:', err);
-      }
-    }
-
-    // Attach button listeners
-    if (btnRunScenario) btnRunScenario.addEventListener('click', () => runScenario());
-    if (btnEvalPerf) btnEvalPerf.addEventListener('click', evaluatePerformance);
-    if (btnJointPlan) btnJointPlan.addEventListener('click', planJointMission);
-    if (btnReset) btnReset.addEventListener('click', resetFleet);
-
-    // Initial load
-    loadStatus();
-    loadScenarios();
-
-    // Export API to window.Atlas
-    window.Atlas = window.Atlas || {};
-    window.Atlas.aerialCorps = {
-      loadStatus,
-      loadScenarios,
-      runScenario,
-      evaluatePerformance,
-      planJointMission,
-      resetFleet,
-    };
+      elStagesContainer.appendChild(div);
+    });
   }
-  
-  // ==========================================================================
-  // MILESTONE 13Q: ATLAS AUTONOMOUS SCIENCE DISCOVERY ENGINE UI CONTROLLER
-  // ==========================================================================
-  function initScienceDiscoveryEngine() {
-    const btnRunScenario01 = document.getElementById('btnSdRunScenario01');
-    const btnExecuteNext = document.getElementById('btnSdExecuteNextBest');
-    const btnBenchmarks = document.getElementById('btnSdRunBenchmarks');
-    const btnReset = document.getElementById('btnSdResetDiscovery');
-    const strategySelect = document.getElementById('sdStrategySelect');
 
-    const hypothesesContainer = document.getElementById('sdHypothesesContainer');
-    const actionsContainer = document.getElementById('sdCandidateActionsContainer');
-    const evidenceContainer = document.getElementById('sdEvidenceGraphContainer');
-    const stagesContainer = document.getElementById('sdScenarioStagesContainer');
-
-    const entropyEl = document.getElementById('sdEntropyBits');
-    const eigEl = document.getElementById('sdExpectedInfoGain');
-    const activeHypCountEl = document.getElementById('sdActiveHypothesesCount');
-    const evidenceNodesCountEl = document.getElementById('sdEvidenceNodesCount');
-    const stageCountBadge = document.getElementById('sdScenarioStageCountBadge');
-    const strategyBadge = document.getElementById('sdStrategyBadge');
-
-    async function loadStatus() {
-      try {
-        const resp = await fetch('/api/science-discovery/status');
-        if (!resp.ok) return;
-        const data = await resp.json();
-
-        if (activeHypCountEl) activeHypCountEl.textContent = data.hypotheses.length;
-        if (entropyEl) entropyEl.textContent = `${data.active_learning_status.shannon_entropy_bits.toFixed(3)} bits`;
-        if (eigEl) eigEl.textContent = `+${data.active_learning_status.expected_information_gain_bits.toFixed(3)} bits`;
-        if (evidenceNodesCountEl) evidenceNodesCountEl.textContent = data.evidence_graph_summary.total_nodes;
-
-        renderHypotheses(data.hypotheses);
-        loadActions();
-        loadEvidenceGraph();
-      } catch (err) {
-        console.error('Failed to load science discovery status:', err);
-      }
+  async function evaluatePerformance() {
+    try {
+      const resp = await fetch('/api/aerial/performance/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: 'LIGHT_SCOUT' }),
+      });
+      if (!resp.ok) return;
+      const env = await resp.json();
+      const elTM = document.getElementById('acMetricThrustMargin');
+      const elPwr = document.getElementById('acMetricHoverPower');
+      const elEnd = document.getElementById('acMetricEndurance');
+      if (elTM) elTM.textContent = `${env.hover_thrust_margin.toFixed(2)} ≥ 1.15`;
+      if (elPwr) elPwr.textContent = `${env.hover_power_w.toFixed(1)} W`;
+      if (elEnd) elEnd.textContent = `${env.estimated_hover_endurance_s.toFixed(1)} s`;
+    } catch (err) {
+      console.error('[AerialCorps] Evaluate performance failed:', err);
     }
+  }
 
-    function renderHypotheses(hypotheses) {
-      if (!hypothesesContainer) return;
-      hypothesesContainer.innerHTML = '';
+  async function planJointMission() {
+    try {
+      const resp = await fetch('/api/aerial/rover-cooperation/plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          rover_id: 'PERSEVERANCE_01',
+          aircraft_id: 'AERO-INGENUITY-01',
+          target_region_name: 'Jezero Delta Front',
+          rover_current_xy_m: [0.0, 0.0],
+          science_target_xy_m: [80.0, 95.0],
+        }),
+      });
+      if (!resp.ok) return;
+      const plan = await resp.json();
+      const elSaved = document.getElementById('acMetricDistSaved');
+      const elUncert = document.getElementById('acMetricUncertaintyDrop');
+      const elEnergy = document.getElementById('acMetricNetEnergy');
+      if (elSaved) elSaved.textContent = `${plan.net_rover_distance_delta_m.toFixed(1)} m`;
+      if (elUncert) elUncert.textContent = `${plan.baseline_rover_uncertainty_pct.toFixed(0)}% → ${plan.refined_rover_uncertainty_pct.toFixed(1)}%`;
+      if (elEnergy) elEnergy.textContent = `+${plan.net_mission_energy_delta_wh.toFixed(1)} Wh`;
+    } catch (err) {
+      console.error('[AerialCorps] Joint mission plan failed:', err);
+    }
+  }
 
-      hypotheses.forEach(h => {
-        const card = document.createElement('div');
-        card.className = 'science-discovery-hypothesis-card';
+  async function resetFleet() {
+    try {
+      await fetch('/api/aerial/reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+      loadStatus();
+      if (elStagesContainer) elStagesContainer.innerHTML = '<div style="color:#94a3b8; font-size:9px; padding:4px;">Fleet reset to initial basecamp standby state.</div>';
+    } catch (err) {
+      console.error('[AerialCorps] Reset failed:', err);
+    }
+  }
 
-        let statusColor = '#38bdf8';
-        if (h.status === 'SUPPORTED_BY_EVIDENCE') statusColor = '#4ade80';
-        else if (h.status === 'REJECTED') statusColor = '#ef4444';
-        else if (h.status === 'UNDER_INVESTIGATION') statusColor = '#facc15';
+  // Attach button listeners
+  if (btnRunScenario) btnRunScenario.addEventListener('click', () => runScenario());
+  if (btnEvalPerf) btnEvalPerf.addEventListener('click', evaluatePerformance);
+  if (btnJointPlan) btnJointPlan.addEventListener('click', planJointMission);
+  if (btnReset) btnReset.addEventListener('click', resetFleet);
 
-        card.style.borderLeftColor = statusColor;
+  // Initial load
+  loadStatus();
+  loadScenarios();
 
-        const probStr = h.posterior_probability !== null ? `P: ${(h.posterior_probability * 100).toFixed(1)}%` : (h.prior_probability !== null ? `Prior: ${(h.prior_probability * 100).toFixed(0)}%` : '');
+  // Export API to window.Atlas
+  window.Atlas = window.Atlas || {};
+  window.Atlas.aerialCorps = {
+    loadStatus,
+    loadScenarios,
+    runScenario,
+    evaluatePerformance,
+    planJointMission,
+    resetFleet,
+  };
+}
 
-        card.innerHTML = `
+// ==========================================================================
+// MILESTONE 13Q: ATLAS AUTONOMOUS SCIENCE DISCOVERY ENGINE UI CONTROLLER
+// ==========================================================================
+function initScienceDiscoveryEngine() {
+  const btnRunScenario01 = document.getElementById('btnSdRunScenario01');
+  const btnExecuteNext = document.getElementById('btnSdExecuteNextBest');
+  const btnBenchmarks = document.getElementById('btnSdRunBenchmarks');
+  const btnReset = document.getElementById('btnSdResetDiscovery');
+  const strategySelect = document.getElementById('sdStrategySelect');
+
+  const hypothesesContainer = document.getElementById('sdHypothesesContainer');
+  const actionsContainer = document.getElementById('sdCandidateActionsContainer');
+  const evidenceContainer = document.getElementById('sdEvidenceGraphContainer');
+  const stagesContainer = document.getElementById('sdScenarioStagesContainer');
+
+  const entropyEl = document.getElementById('sdEntropyBits');
+  const eigEl = document.getElementById('sdExpectedInfoGain');
+  const activeHypCountEl = document.getElementById('sdActiveHypothesesCount');
+  const evidenceNodesCountEl = document.getElementById('sdEvidenceNodesCount');
+  const stageCountBadge = document.getElementById('sdScenarioStageCountBadge');
+  const strategyBadge = document.getElementById('sdStrategyBadge');
+
+  async function loadStatus() {
+    try {
+      const resp = await fetch('/api/science-discovery/status');
+      if (!resp.ok) return;
+      const data = await resp.json();
+
+      if (activeHypCountEl) activeHypCountEl.textContent = data.hypotheses.length;
+      if (entropyEl) entropyEl.textContent = `${data.active_learning_status.shannon_entropy_bits.toFixed(3)} bits`;
+      if (eigEl) eigEl.textContent = `+${data.active_learning_status.expected_information_gain_bits.toFixed(3)} bits`;
+      if (evidenceNodesCountEl) evidenceNodesCountEl.textContent = data.evidence_graph_summary.total_nodes;
+
+      renderHypotheses(data.hypotheses);
+      loadActions();
+      loadEvidenceGraph();
+    } catch (err) {
+      console.error('Failed to load science discovery status:', err);
+    }
+  }
+
+  function renderHypotheses(hypotheses) {
+    if (!hypothesesContainer) return;
+    hypothesesContainer.innerHTML = '';
+
+    hypotheses.forEach(h => {
+      const card = document.createElement('div');
+      card.className = 'science-discovery-hypothesis-card';
+
+      let statusColor = '#38bdf8';
+      if (h.status === 'SUPPORTED_BY_EVIDENCE') statusColor = '#4ade80';
+      else if (h.status === 'REJECTED') statusColor = '#ef4444';
+      else if (h.status === 'UNDER_INVESTIGATION') statusColor = '#facc15';
+
+      card.style.borderLeftColor = statusColor;
+
+      const probStr = h.posterior_probability !== null ? `P: ${(h.posterior_probability * 100).toFixed(1)}%` : (h.prior_probability !== null ? `Prior: ${(h.prior_probability * 100).toFixed(0)}%` : '');
+
+      card.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
             <strong style="color:#f8fafc; font-size:10px;">${h.title}</strong>
             <span class="badge" style="background:rgba(255,255,255,0.06); color:${statusColor}; font-size:8px; border:1px solid ${statusColor}40;">${h.status}</span>
@@ -26135,24 +26173,24 @@ if (typeof window !== 'undefined') {
             <span style="font-weight:700; color:#facc15;">${probStr}</span>
           </div>
         `;
-        hypothesesContainer.appendChild(card);
-      });
-    }
+      hypothesesContainer.appendChild(card);
+    });
+  }
 
-    async function loadActions() {
-      if (!actionsContainer) return;
-      const strat = strategySelect ? strategySelect.value : 'COST_AWARE_DISCOVERY';
-      try {
-        const resp = await fetch(`/api/science-discovery/actions/candidates?strategy=${strat}`);
-        if (!resp.ok) return;
-        const candidates = await resp.json();
+  async function loadActions() {
+    if (!actionsContainer) return;
+    const strat = strategySelect ? strategySelect.value : 'COST_AWARE_DISCOVERY';
+    try {
+      const resp = await fetch(`/api/science-discovery/actions/candidates?strategy=${strat}`);
+      if (!resp.ok) return;
+      const candidates = await resp.json();
 
-        actionsContainer.innerHTML = '';
-        candidates.slice(0, 5).forEach((item, idx) => {
-          const act = item.action;
-          const row = document.createElement('div');
-          row.className = 'science-discovery-action-item';
-          row.innerHTML = `
+      actionsContainer.innerHTML = '';
+      candidates.slice(0, 5).forEach((item, idx) => {
+        const act = item.action;
+        const row = document.createElement('div');
+        row.className = 'science-discovery-action-item';
+        row.innerHTML = `
             <div>
               <strong style="color:#e2e8f0; font-size:9.5px;">#${idx + 1} ${act.required_instrument_id} (${act.required_platform})</strong>
               <div style="font-size:8px; color:#94a3b8;">${act.target_name} &bull; Coordinates: [${act.coordinates_xy_m[0]}, ${act.coordinates_xy_m[1]}]</div>
@@ -26162,244 +26200,244 @@ if (typeof window !== 'undefined') {
               <div style="font-size:7.5px; color:#f59e0b;">${act.cost.energy_wh.toFixed(1)} Wh &bull; Score: ${item.utility_score.toFixed(3)}</div>
             </div>
           `;
-          actionsContainer.appendChild(row);
-        });
-      } catch (err) {
-        console.error('Failed to load candidate actions:', err);
-      }
+        actionsContainer.appendChild(row);
+      });
+    } catch (err) {
+      console.error('Failed to load candidate actions:', err);
     }
+  }
 
-    async function loadEvidenceGraph() {
-      if (!evidenceContainer) return;
-      try {
-        const resp = await fetch('/api/science-discovery/evidence-graph');
-        if (!resp.ok) return;
-        const graph = await resp.json();
+  async function loadEvidenceGraph() {
+    if (!evidenceContainer) return;
+    try {
+      const resp = await fetch('/api/science-discovery/evidence-graph');
+      if (!resp.ok) return;
+      const graph = await resp.json();
 
-        evidenceContainer.innerHTML = `
+      evidenceContainer.innerHTML = `
           <div style="color:#38bdf8; margin-bottom:4px; font-weight:700;">// CRYPTOGRAPHIC EVIDENCE DAG (${graph.statistics.total_nodes} nodes, ${graph.statistics.total_edges} edges, 0 orphans)</div>
         `;
 
-        graph.nodes.slice(-4).forEach(n => {
-          const div = document.createElement('div');
-          div.style.borderBottom = '1px dashed rgba(148,163,184,0.2)';
-          div.style.padding = '3px 0';
-          div.innerHTML = `
+      graph.nodes.slice(-4).forEach(n => {
+        const div = document.createElement('div');
+        div.style.borderBottom = '1px dashed rgba(148,163,184,0.2)';
+        div.style.padding = '3px 0';
+        div.innerHTML = `
             <span style="color:#a855f7;">[${n.classification}]</span> <strong style="color:#f1f5f9;">${n.node_id}</strong> &mdash; ${n.label}
             <div style="color:#64748b; font-size:8px;">Provenance: ${n.scientific_provenance}</div>
           `;
-          evidenceContainer.appendChild(div);
-        });
-      } catch (err) {
-        console.error('Failed to load evidence graph:', err);
-      }
+        evidenceContainer.appendChild(div);
+      });
+    } catch (err) {
+      console.error('Failed to load evidence graph:', err);
     }
+  }
 
-    async function runScenario01() {
-      if (btnRunScenario01) {
-        btnRunScenario01.disabled = true;
-        btnRunScenario01.textContent = 'EXECUTING SCENARIO 01...';
-      }
-      try {
-        const resp = await fetch('/api/science-discovery/scenarios/run', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ scenario_id: 'SCENARIO_01' }),
-        });
-        if (!resp.ok) return;
-        const result = await resp.json();
+  async function runScenario01() {
+    if (btnRunScenario01) {
+      btnRunScenario01.disabled = true;
+      btnRunScenario01.textContent = 'EXECUTING SCENARIO 01...';
+    }
+    try {
+      const resp = await fetch('/api/science-discovery/scenarios/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario_id: 'SCENARIO_01' }),
+      });
+      if (!resp.ok) return;
+      const result = await resp.json();
 
-        if (stagesContainer) {
-          stagesContainer.innerHTML = '';
-          result.stages.forEach((stg, i) => {
-            const item = document.createElement('div');
-            item.className = 'science-discovery-stage-item completed';
-            item.innerHTML = `
+      if (stagesContainer) {
+        stagesContainer.innerHTML = '';
+        result.stages.forEach((stg, i) => {
+          const item = document.createElement('div');
+          item.className = 'science-discovery-stage-item completed';
+          item.innerHTML = `
               <span style="background:#22c55e; color:#0f172a; font-weight:800; font-size:8px; border-radius:50%; width:14px; height:14px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;">${stg.stage_number}</span>
               <div style="flex:1;">
                 <div style="font-weight:700; color:#4ade80;">Stage ${stg.stage_number}: ${stg.stage_name}</div>
                 <div style="color:#cbd5e1; font-size:8.5px; margin-top:1px;">${stg.description}</div>
               </div>
             `;
-            stagesContainer.appendChild(item);
-          });
-        }
-        if (stageCountBadge) stageCountBadge.textContent = `STAGE ${result.total_stages} / ${result.total_stages}`;
-
-        await loadStatus();
-      } catch (err) {
-        console.error('Failed to run Scenario 01:', err);
-      } finally {
-        if (btnRunScenario01) {
-          btnRunScenario01.disabled = false;
-          btnRunScenario01.textContent = '&#9654; RUN SCENARIO 01: THE CRATER REVEAL';
-        }
-      }
-    }
-
-    async function executeNextBest() {
-      try {
-        const strat = strategySelect ? strategySelect.value : 'COST_AWARE_DISCOVERY';
-        const resp = await fetch('/api/science-discovery/experiments/execute', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ strategy: strat }),
+          stagesContainer.appendChild(item);
         });
-        if (resp.ok) {
-          await loadStatus();
-        }
-      } catch (err) {
-        console.error('Failed to execute next best experiment:', err);
+      }
+      if (stageCountBadge) stageCountBadge.textContent = `STAGE ${result.total_stages} / ${result.total_stages}`;
+
+      await loadStatus();
+    } catch (err) {
+      console.error('Failed to run Scenario 01:', err);
+    } finally {
+      if (btnRunScenario01) {
+        btnRunScenario01.disabled = false;
+        btnRunScenario01.textContent = '&#9654; RUN SCENARIO 01: THE CRATER REVEAL';
       }
     }
-
-    async function runBenchmarks() {
-      try {
-        const resp = await fetch('/api/science-discovery/benchmarks');
-        if (!resp.ok) return;
-        const bench = await resp.json();
-        alert(`Discovery Benchmark Complete!\n\n${bench.summary_conclusion}`);
-      } catch (err) {
-        console.error('Failed to run benchmarks:', err);
-      }
-    }
-
-    async function resetDiscovery() {
-      try {
-        await fetch('/api/science-discovery/reset', { method: 'POST' });
-        if (stagesContainer) stagesContainer.innerHTML = '';
-        if (stageCountBadge) stageCountBadge.textContent = 'STAGE 0 / 6';
-        await loadStatus();
-      } catch (err) {
-        console.error('Failed to reset discovery:', err);
-      }
-    }
-
-    // Attach event listeners
-    if (btnRunScenario01) btnRunScenario01.addEventListener('click', runScenario01);
-    if (btnExecuteNext) btnExecuteNext.addEventListener('click', executeNextBest);
-    if (btnBenchmarks) btnBenchmarks.addEventListener('click', runBenchmarks);
-    if (btnReset) btnReset.addEventListener('click', resetDiscovery);
-    if (strategySelect) strategySelect.addEventListener('change', () => {
-      if (strategyBadge) strategyBadge.textContent = `STRATEGY: ${strategySelect.value.replace(/_/g, ' ')}`;
-      loadActions();
-    });
-
-    // Initial load
-    loadStatus();
-
-    // Export API to window.Atlas
-    window.Atlas = window.Atlas || {};
-    window.Atlas.scienceDiscovery = {
-      loadStatus,
-      loadActions,
-      runScenario01,
-      executeNextBest,
-      runBenchmarks,
-      resetDiscovery,
-    };
   }
 
-  // ==========================================================================
-  // MILESTONE 13R: ATLAS MISSION RESILIENCE & APOCALYPSE ENGINE UI CONTROLLER
-  // ==========================================================================
-  function initMissionResilienceEngine() {
-    const btnRunApocalypse = document.getElementById('btnResilienceRunApocalypse');
-    const btnRunBenchmark = document.getElementById('btnResilienceRunBenchmark');
-    const btnReset = document.getElementById('btnResilienceReset');
-    const btnInjectFault = document.getElementById('btnInjectFault');
+  async function executeNextBest() {
+    try {
+      const strat = strategySelect ? strategySelect.value : 'COST_AWARE_DISCOVERY';
+      const resp = await fetch('/api/science-discovery/experiments/execute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ strategy: strat }),
+      });
+      if (resp.ok) {
+        await loadStatus();
+      }
+    } catch (err) {
+      console.error('Failed to execute next best experiment:', err);
+    }
+  }
 
-    const statusBadge = document.getElementById('resilienceStatusBadge');
-    const healthIndex = document.getElementById('resilienceHealthIndex');
-    const activeFaultsCount = document.getElementById('resilienceActiveFaultsCount');
-    const cascadesCount = document.getElementById('resilienceCascadesCount');
-    const diagnosesCount = document.getElementById('resilienceDiagnosesCount');
+  async function runBenchmarks() {
+    try {
+      const resp = await fetch('/api/science-discovery/benchmarks');
+      if (!resp.ok) return;
+      const bench = await resp.json();
+      alert(`Discovery Benchmark Complete!\n\n${bench.summary_conclusion}`);
+    } catch (err) {
+      console.error('Failed to run benchmarks:', err);
+    }
+  }
 
-    const dagContainer = document.getElementById('resilienceDagContainer');
-    const symptomsList = document.getElementById('resilienceSymptomsList');
-    const diagnosesList = document.getElementById('resilienceDiagnosesList');
-    const plansContainer = document.getElementById('resiliencePlansContainer');
-    const scenariosGrid = document.getElementById('resilienceScenariosGrid');
-    const fmeaContainer = document.getElementById('resilienceFmeaTableContainer');
-    const stateHashSpan = document.getElementById('resilienceStateHash');
+  async function resetDiscovery() {
+    try {
+      await fetch('/api/science-discovery/reset', { method: 'POST' });
+      if (stagesContainer) stagesContainer.innerHTML = '';
+      if (stageCountBadge) stageCountBadge.textContent = 'STAGE 0 / 6';
+      await loadStatus();
+    } catch (err) {
+      console.error('Failed to reset discovery:', err);
+    }
+  }
 
-    const selAsset = document.getElementById('selKillAsset');
-    const selFaultMode = document.getElementById('selKillFaultMode');
-    const selProfile = document.getElementById('selKillProfile');
+  // Attach event listeners
+  if (btnRunScenario01) btnRunScenario01.addEventListener('click', runScenario01);
+  if (btnExecuteNext) btnExecuteNext.addEventListener('click', executeNextBest);
+  if (btnBenchmarks) btnBenchmarks.addEventListener('click', runBenchmarks);
+  if (btnReset) btnReset.addEventListener('click', resetDiscovery);
+  if (strategySelect) strategySelect.addEventListener('change', () => {
+    if (strategyBadge) strategyBadge.textContent = `STRATEGY: ${strategySelect.value.replace(/_/g, ' ')}`;
+    loadActions();
+  });
 
-    let activeBarriers = new Set();
+  // Initial load
+  loadStatus();
 
-    async function loadStatus() {
-      try {
-        const resp = await fetch('/api/resilience/status');
-        if (!resp.ok) return;
-        const data = await resp.json();
+  // Export API to window.Atlas
+  window.Atlas = window.Atlas || {};
+  window.Atlas.scienceDiscovery = {
+    loadStatus,
+    loadActions,
+    runScenario01,
+    executeNextBest,
+    runBenchmarks,
+    resetDiscovery,
+  };
+}
 
-        if (statusBadge) {
-          statusBadge.textContent = `STATUS: ${data.status}`;
-          statusBadge.className = 'resilience-badge ' + (
-            data.status === 'NOMINAL' ? 'badge-nominal' :
+// ==========================================================================
+// MILESTONE 13R: ATLAS MISSION RESILIENCE & APOCALYPSE ENGINE UI CONTROLLER
+// ==========================================================================
+function initMissionResilienceEngine() {
+  const btnRunApocalypse = document.getElementById('btnResilienceRunApocalypse');
+  const btnRunBenchmark = document.getElementById('btnResilienceRunBenchmark');
+  const btnReset = document.getElementById('btnResilienceReset');
+  const btnInjectFault = document.getElementById('btnInjectFault');
+
+  const statusBadge = document.getElementById('resilienceStatusBadge');
+  const healthIndex = document.getElementById('resilienceHealthIndex');
+  const activeFaultsCount = document.getElementById('resilienceActiveFaultsCount');
+  const cascadesCount = document.getElementById('resilienceCascadesCount');
+  const diagnosesCount = document.getElementById('resilienceDiagnosesCount');
+
+  const dagContainer = document.getElementById('resilienceDagContainer');
+  const symptomsList = document.getElementById('resilienceSymptomsList');
+  const diagnosesList = document.getElementById('resilienceDiagnosesList');
+  const plansContainer = document.getElementById('resiliencePlansContainer');
+  const scenariosGrid = document.getElementById('resilienceScenariosGrid');
+  const fmeaContainer = document.getElementById('resilienceFmeaTableContainer');
+  const stateHashSpan = document.getElementById('resilienceStateHash');
+
+  const selAsset = document.getElementById('selKillAsset');
+  const selFaultMode = document.getElementById('selKillFaultMode');
+  const selProfile = document.getElementById('selKillProfile');
+
+  let activeBarriers = new Set();
+
+  async function loadStatus() {
+    try {
+      const resp = await fetch('/api/resilience/status');
+      if (!resp.ok) return;
+      const data = await resp.json();
+
+      if (statusBadge) {
+        statusBadge.textContent = `STATUS: ${data.status}`;
+        statusBadge.className = 'resilience-badge ' + (
+          data.status === 'NOMINAL' ? 'badge-nominal' :
             data.status === 'DEGRADED' ? 'badge-degraded' : 'badge-critical'
-          );
-        }
-        if (healthIndex) {
-          const hVal = data.system_health_index;
-          healthIndex.textContent = hVal.toFixed(3);
-          healthIndex.style.color = hVal > 0.75 ? '#4ade80' : hVal > 0.4 ? '#facc15' : '#f87171';
-        }
-        if (activeFaultsCount) activeFaultsCount.textContent = data.active_faults ? data.active_faults.length : 0;
-        if (cascadesCount) cascadesCount.textContent = data.dag_failed_nodes_count || 0;
-        if (diagnosesCount) diagnosesCount.textContent = data.diagnoses ? data.diagnoses.length : 0;
-
-        renderDiagnoses(data.diagnoses || []);
-        loadDag();
-      } catch (err) {
-        console.error('Failed to load resilience status:', err);
+        );
       }
-    }
-
-    async function loadDag() {
-      try {
-        const resp = await fetch('/api/resilience/propagation', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ current_time_s: 3800.0 })
-        });
-        if (!resp.ok) return;
-        const data = await resp.json();
-        renderDagNodes(data);
-      } catch (err) {
-        console.error('Failed to load DAG:', err);
+      if (healthIndex) {
+        const hVal = data.system_health_index;
+        healthIndex.textContent = hVal.toFixed(3);
+        healthIndex.style.color = hVal > 0.75 ? '#4ade80' : hVal > 0.4 ? '#facc15' : '#f87171';
       }
+      if (activeFaultsCount) activeFaultsCount.textContent = data.active_faults ? data.active_faults.length : 0;
+      if (cascadesCount) cascadesCount.textContent = data.dag_failed_nodes_count || 0;
+      if (diagnosesCount) diagnosesCount.textContent = data.diagnoses ? data.diagnoses.length : 0;
+
+      renderDiagnoses(data.diagnoses || []);
+      loadDag();
+    } catch (err) {
+      console.error('Failed to load resilience status:', err);
     }
+  }
 
-    function renderDagNodes(dagState) {
-      if (!dagContainer) return;
-      dagContainer.innerHTML = '';
-      const failedMap = new Set((dagState.failed_nodes || []).map(n => n.node_id));
+  async function loadDag() {
+    try {
+      const resp = await fetch('/api/resilience/propagation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ current_time_s: 3800.0 })
+      });
+      if (!resp.ok) return;
+      const data = await resp.json();
+      renderDagNodes(data);
+    } catch (err) {
+      console.error('Failed to load DAG:', err);
+    }
+  }
 
-      const nodes = [
-        { id: 'ROV_MOTOR_FR_STALL', name: 'FR Drive Motor Stall', sub: 'ROVER MOBILITY' },
-        { id: 'ROV_POWER_BUS_SURGE', name: 'Main Power Bus Overcurrent', sub: 'ROVER POWER' },
-        { id: 'ROV_SPEED_DEGRADATION', name: '5-Wheel Drag Speed Derate', sub: 'ROVER MOBILITY' },
-        { id: 'ROV_SCHEDULE_SLIP', name: 'Sol Margin Exhaustion', sub: 'CAMPAIGN' },
-        { id: 'ROV_UHF_TRANSCEIVER_FAIL', name: 'UHF Electra Drop', sub: 'ROVER COMMS' },
-        { id: 'ROV_BUFFER_OVERFLOW', name: 'Flash Buffer Overflow', sub: 'ROVER AVIONICS' },
-        { id: 'ENV_DUST_STORM_TAU', name: 'Dust Storm Tau Spike', sub: 'ENVIRONMENT' },
-        { id: 'AERO_SOLAR_DEPLETION', name: 'Rotor Solar Starvation', sub: 'AIRCRAFT POWER' },
-        { id: 'AERO_BLADE_EROSION', name: 'Rotor Blade Tip Erosion', sub: 'AIRCRAFT PROPULSION' },
-        { id: 'AERO_LIFT_DEFICIT', name: 'Rotor Lift Margin Deficit', sub: 'AIRCRAFT FLIGHT' },
-        { id: 'AERO_MOTOR_OVERHEAT', name: 'Rotor Motor Thermal Ceiling', sub: 'AIRCRAFT PROPULSION' },
-        { id: 'AERO_EMERGENCY_DESCENT', name: 'Autorotative Emergency Descent', sub: 'AIRCRAFT SAFETY' },
-        { id: 'SCI_PIXL_THERMAL_DRIFT', name: 'PIXL Detector Drift', sub: 'SCIENCE PAYLOAD' },
-        { id: 'SCI_FALSE_DISCOVERY', name: 'Spurious Mineral Identification', sub: 'SCIENCE ASSURANCE' }
-      ];
+  function renderDagNodes(dagState) {
+    if (!dagContainer) return;
+    dagContainer.innerHTML = '';
+    const failedMap = new Set((dagState.failed_nodes || []).map(n => n.node_id));
 
-      nodes.forEach(n => {
-        const isFailed = failedMap.has(n.id);
-        const card = document.createElement('div');
-        card.className = `dag-node-card ${isFailed ? 'failed' : 'nominal'}`;
-        card.innerHTML = `
+    const nodes = [
+      { id: 'ROV_MOTOR_FR_STALL', name: 'FR Drive Motor Stall', sub: 'ROVER MOBILITY' },
+      { id: 'ROV_POWER_BUS_SURGE', name: 'Main Power Bus Overcurrent', sub: 'ROVER POWER' },
+      { id: 'ROV_SPEED_DEGRADATION', name: '5-Wheel Drag Speed Derate', sub: 'ROVER MOBILITY' },
+      { id: 'ROV_SCHEDULE_SLIP', name: 'Sol Margin Exhaustion', sub: 'CAMPAIGN' },
+      { id: 'ROV_UHF_TRANSCEIVER_FAIL', name: 'UHF Electra Drop', sub: 'ROVER COMMS' },
+      { id: 'ROV_BUFFER_OVERFLOW', name: 'Flash Buffer Overflow', sub: 'ROVER AVIONICS' },
+      { id: 'ENV_DUST_STORM_TAU', name: 'Dust Storm Tau Spike', sub: 'ENVIRONMENT' },
+      { id: 'AERO_SOLAR_DEPLETION', name: 'Rotor Solar Starvation', sub: 'AIRCRAFT POWER' },
+      { id: 'AERO_BLADE_EROSION', name: 'Rotor Blade Tip Erosion', sub: 'AIRCRAFT PROPULSION' },
+      { id: 'AERO_LIFT_DEFICIT', name: 'Rotor Lift Margin Deficit', sub: 'AIRCRAFT FLIGHT' },
+      { id: 'AERO_MOTOR_OVERHEAT', name: 'Rotor Motor Thermal Ceiling', sub: 'AIRCRAFT PROPULSION' },
+      { id: 'AERO_EMERGENCY_DESCENT', name: 'Autorotative Emergency Descent', sub: 'AIRCRAFT SAFETY' },
+      { id: 'SCI_PIXL_THERMAL_DRIFT', name: 'PIXL Detector Drift', sub: 'SCIENCE PAYLOAD' },
+      { id: 'SCI_FALSE_DISCOVERY', name: 'Spurious Mineral Identification', sub: 'SCIENCE ASSURANCE' }
+    ];
+
+    nodes.forEach(n => {
+      const isFailed = failedMap.has(n.id);
+      const card = document.createElement('div');
+      card.className = `dag-node-card ${isFailed ? 'failed' : 'nominal'}`;
+      card.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="font-size:9px; color:#94a3b8; font-weight:700;">${n.sub}</span>
             <span style="font-size:8px; font-weight:800; color:${isFailed ? '#ef4444' : '#22c55e'};">${isFailed ? 'FAILED' : 'NOMINAL'}</span>
@@ -26407,25 +26445,25 @@ if (typeof window !== 'undefined') {
           <div style="font-size:11px; font-weight:700; color:#f1f5f9; margin-top:3px;">${n.name}</div>
           <div style="font-size:9px; font-family:monospace; color:#64748b; margin-top:2px;">${n.id}</div>
         `;
-        dagContainer.appendChild(card);
-      });
-    }
+      dagContainer.appendChild(card);
+    });
+  }
 
-    function renderDiagnoses(diagnoses) {
-      if (!diagnosesList) return;
-      if (!diagnoses || diagnoses.length === 0) {
-        diagnosesList.innerHTML = '<div style="font-size:11px; color:#64748b; font-style:italic;">Zero active fault diagnoses. Autonomous integrity nominal.</div>';
-        return;
-      }
-      diagnosesList.innerHTML = '';
-      diagnoses.forEach(d => {
-        const item = document.createElement('div');
-        item.style.padding = '6px';
-        item.style.marginBottom = '6px';
-        item.style.background = 'rgba(239,68,68,0.1)';
-        item.style.border = '1px solid rgba(239,68,68,0.3)';
-        item.style.borderRadius = '4px';
-        item.innerHTML = `
+  function renderDiagnoses(diagnoses) {
+    if (!diagnosesList) return;
+    if (!diagnoses || diagnoses.length === 0) {
+      diagnosesList.innerHTML = '<div style="font-size:11px; color:#64748b; font-style:italic;">Zero active fault diagnoses. Autonomous integrity nominal.</div>';
+      return;
+    }
+    diagnosesList.innerHTML = '';
+    diagnoses.forEach(d => {
+      const item = document.createElement('div');
+      item.style.padding = '6px';
+      item.style.marginBottom = '6px';
+      item.style.background = 'rgba(239,68,68,0.1)';
+      item.style.border = '1px solid rgba(239,68,68,0.3)';
+      item.style.borderRadius = '4px';
+      item.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="font-size:11px; font-weight:800; color:#f87171;">${d.fault_name}</span>
             <span style="font-size:10px; color:#facc15; font-weight:700;">CONF: ${(d.confidence * 100).toFixed(0)}%</span>
@@ -26433,19 +26471,19 @@ if (typeof window !== 'undefined') {
           <div style="font-size:10px; color:#cbd5e1; margin-top:2px;">${d.discriminating_evidence}</div>
           <div style="font-size:10px; color:#38bdf8; margin-top:2px; font-weight:600;">ACTION: ${d.recommended_isolation_action}</div>
         `;
-        diagnosesList.appendChild(item);
-      });
-    }
+      diagnosesList.appendChild(item);
+    });
+  }
 
-    function renderPlans(plans) {
-      if (!plansContainer) return;
-      plansContainer.innerHTML = '';
-      (plans || []).forEach(p => {
-        const m = p.metrics;
-        const isRank1 = p.overall_resilience_rank === 1;
-        const card = document.createElement('div');
-        card.className = `plan-card ${isRank1 ? 'rank-1' : ''}`;
-        card.innerHTML = `
+  function renderPlans(plans) {
+    if (!plansContainer) return;
+    plansContainer.innerHTML = '';
+    (plans || []).forEach(p => {
+      const m = p.metrics;
+      const isRank1 = p.overall_resilience_rank === 1;
+      const card = document.createElement('div');
+      card.className = `plan-card ${isRank1 ? 'rank-1' : ''}`;
+      card.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <span style="font-size:12px; font-weight:800; color:${isRank1 ? '#c084fc' : '#94a3b8'};">
               ${isRank1 ? '★ RANK 1: ' : ''}${p.name}
@@ -26472,22 +26510,22 @@ if (typeof window !== 'undefined') {
             <em>${m.state_validity_explanation}</em>
           </div>
         `;
-        plansContainer.appendChild(card);
-      });
-    }
+      plansContainer.appendChild(card);
+    });
+  }
 
-    async function loadScenarios() {
-      try {
-        const resp = await fetch('/api/resilience/scenarios');
-        if (!resp.ok) return;
-        const catalog = await resp.json();
-        if (!scenariosGrid) return;
-        scenariosGrid.innerHTML = '';
-        catalog.forEach(scen => {
-          const isApocalypse = scen.scenario_id === 'SCENARIO-12';
-          const card = document.createElement('div');
-          card.className = `scenario-card ${isApocalypse ? 'apocalypse-card' : ''}`;
-          card.innerHTML = `
+  async function loadScenarios() {
+    try {
+      const resp = await fetch('/api/resilience/scenarios');
+      if (!resp.ok) return;
+      const catalog = await resp.json();
+      if (!scenariosGrid) return;
+      scenariosGrid.innerHTML = '';
+      catalog.forEach(scen => {
+        const isApocalypse = scen.scenario_id === 'SCENARIO-12';
+        const card = document.createElement('div');
+        card.className = `scenario-card ${isApocalypse ? 'apocalypse-card' : ''}`;
+        card.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size:10px; font-weight:800; color:${isApocalypse ? '#ef4444' : '#38bdf8'}; font-family:monospace;">
                 ${scen.scenario_id}
@@ -26500,24 +26538,24 @@ if (typeof window !== 'undefined') {
               ▶ Execute ${scen.scenario_id}
             </button>
           `;
-          card.querySelector('button').addEventListener('click', (e) => {
-            e.stopPropagation();
-            runScenario(scen.scenario_id);
-          });
-          scenariosGrid.appendChild(card);
+        card.querySelector('button').addEventListener('click', (e) => {
+          e.stopPropagation();
+          runScenario(scen.scenario_id);
         });
-      } catch (err) {
-        console.error('Failed to load scenarios:', err);
-      }
+        scenariosGrid.appendChild(card);
+      });
+    } catch (err) {
+      console.error('Failed to load scenarios:', err);
     }
+  }
 
-    async function loadFmea() {
-      try {
-        const resp = await fetch('/api/resilience/fmea');
-        if (!resp.ok) return;
-        const data = await resp.json();
-        if (!fmeaContainer) return;
-        let html = `
+  async function loadFmea() {
+    try {
+      const resp = await fetch('/api/resilience/fmea');
+      if (!resp.ok) return;
+      const data = await resp.json();
+      if (!fmeaContainer) return;
+      let html = `
           <table style="width:100%; border-collapse:collapse; font-size:10px; text-align:left;">
             <thead>
               <tr style="border-bottom:1px solid #334155; color:#94a3b8;">
@@ -26534,8 +26572,8 @@ if (typeof window !== 'undefined') {
             </thead>
             <tbody>
         `;
-        (data.fmea_table || []).forEach(row => {
-          html += `
+      (data.fmea_table || []).forEach(row => {
+        html += `
             <tr style="border-bottom:1px solid rgba(51,65,85,0.4);">
               <td style="padding:4px; font-family:monospace; color:#38bdf8;">${row.item_id}</td>
               <td style="padding:4px; color:#cbd5e1;">${row.subsystem}</td>
@@ -26548,254 +26586,254 @@ if (typeof window !== 'undefined') {
               <td style="padding:4px; font-weight:800; color:#4ade80;">${row.mitigated_rpn}</td>
             </tr>
           `;
-        });
-        html += `</tbody></table>`;
-        fmeaContainer.innerHTML = html;
-      } catch (err) {
-        console.error('Failed to load FMEA:', err);
-      }
-    }
-
-    async function runScenario(scenarioId) {
-      try {
-        const resp = await fetch('/api/resilience/scenarios/run', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ scenario_id: scenarioId })
-        });
-        if (!resp.ok) return;
-        const result = await resp.json();
-
-        if (stateHashSpan) stateHashSpan.textContent = result.state_hash || 'BA87A9EA97A25717';
-        renderPlans(result.candidate_recovery_plans || []);
-        await loadStatus();
-      } catch (err) {
-        console.error('Failed to run scenario:', err);
-      }
-    }
-
-    async function injectFault() {
-      try {
-        const payload = {
-          failure_id: selFaultMode ? selFaultMode.value : 'FAIL-MEC-01',
-          trigger_sol: 1,
-          trigger_time_s: 3600.0,
-          profile_type: selProfile ? selProfile.value : 'IMMEDIATE',
-        };
-        const resp = await fetch('/api/resilience/faults/inject', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        if (resp.ok) {
-          // Immediately evaluate candidate recovery plans
-          const evalResp = await fetch('/api/resilience/recovery/evaluate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sol: 1, time_s: 3610.0 })
-          });
-          if (evalResp.ok) {
-            const evalData = await evalResp.json();
-            renderPlans(evalData.candidate_plans || []);
-          }
-          await loadStatus();
-        }
-      } catch (err) {
-        console.error('Failed to inject fault:', err);
-      }
-    }
-
-    async function resetLab() {
-      try {
-        await fetch('/api/resilience/reset', { method: 'POST' });
-        if (plansContainer) plansContainer.innerHTML = '';
-        if (diagnosesList) diagnosesList.innerHTML = '<div style="font-size:11px; color:#64748b; font-style:italic;">Zero active fault diagnoses. Autonomous integrity nominal.</div>';
-        if (symptomsList) symptomsList.innerHTML = '<div style="font-size:11px; color:#64748b; font-style:italic;">All telemetry channels nominal. No out-of-bounds residuals observed.</div>';
-        await loadStatus();
-      } catch (err) {
-        console.error('Failed to reset lab:', err);
-      }
-    }
-
-    async function runBenchmarks() {
-      try {
-        const resp = await fetch('/api/resilience/benchmarks');
-        if (!resp.ok) return;
-        const data = await resp.json();
-        alert(`Atlas Mission Resilience Benchmark Complete!\n\n${data.held_out_suite.summary_verdict}`);
-      } catch (err) {
-        console.error('Failed to run benchmarks:', err);
-      }
-    }
-
-    // Attach listeners
-    if (btnRunApocalypse) btnRunApocalypse.addEventListener('click', () => runScenario('SCENARIO-12'));
-    if (btnRunBenchmark) btnRunBenchmark.addEventListener('click', runBenchmarks);
-    if (btnReset) btnReset.addEventListener('click', resetLab);
-    if (btnInjectFault) btnInjectFault.addEventListener('click', injectFault);
-
-    document.querySelectorAll('.btn-barrier').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const barrier = btn.getAttribute('data-barrier');
-        btn.classList.toggle('active');
-        const isActive = btn.classList.contains('active');
-        if (isActive) activeBarriers.add(barrier);
-        else activeBarriers.delete(barrier);
-
-        await fetch('/api/resilience/propagation', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            current_time_s: 3800.0,
-            activate_barrier: isActive ? barrier : undefined,
-            deactivate_barrier: !isActive ? barrier : undefined
-          })
-        });
-        await loadDag();
       });
-    });
-
-    // Initial loads
-    loadStatus();
-    loadScenarios();
-    loadFmea();
-
-    // Export to window.Atlas
-    window.Atlas = window.Atlas || {};
-    window.Atlas.missionResilience = {
-      loadStatus,
-      loadDag,
-      loadScenarios,
-      runScenario,
-      injectFault,
-      resetLab,
-      runBenchmarks
-    };
+      html += `</tbody></table>`;
+      fmeaContainer.innerHTML = html;
+    } catch (err) {
+      console.error('Failed to load FMEA:', err);
+    }
   }
 
-
-  // ==========================================================================
-  // MILESTONE 13S: ATLAS PLANETARY SETTLEMENT OPERATIONS CENTER CONTROLLER
-  // ==========================================================================
-  function initSettlementEngine() {
-    const tabBtnSettlement = document.getElementById('tabBtnSettlement');
-
-    const btnReset = document.getElementById('btnSettlementReset');
-    const btnAdvance = document.getElementById('btnSettlementAdvanceSol');
-    const lifecycleBadge = document.getElementById('settlementLifecycleBadge');
-    const solVal = document.getElementById('settlementSolVal');
-    const siteSelect = document.getElementById('settlementSiteSelect');
-    const archSelect = document.getElementById('settlementArchSelect');
-
-    const powerBadge = document.getElementById('settlementPowerSourceBadge');
-    const grossGenVal = document.getElementById('settlementGrossGenVal');
-    const demandVal = document.getElementById('settlementDemandVal');
-    const deliveredVal = document.getElementById('settlementDeliveredVal');
-    const batterySocVal = document.getElementById('settlementBatterySocVal');
-    const shedLoadsContainer = document.getElementById('settlementShedLoadsContainer');
-
-    const waterStockVal = document.getElementById('settlementWaterStockVal');
-    const o2StockVal = document.getElementById('settlementO2StockVal');
-    const ch4StockVal = document.getElementById('settlementCh4StockVal');
-    const sinteredBlocksVal = document.getElementById('settlementSinteredBlocksVal');
-
-    const habitatList = document.getElementById('settlementHabitatList');
-    const constructionList = document.getElementById('settlementConstructionOperationsList');
-    const constructionBadge = document.getElementById('settlementConstructionStatusBadge');
-    const btnStepConstruction = document.getElementById('btnStepConstructionStage');
-
-    const btnFission = document.getElementById('btnSimulatePowerFission');
-    const btnSolarStorm = document.getElementById('btnSimulatePowerSolarStorm');
-    const btnWater = document.getElementById('btnRunIsruWaterBatch');
-    const btnO2 = document.getElementById('btnRunIsruOxygenBatch');
-    const btnSinter = document.getElementById('btnRunIsruSinterBatch');
-
-    const scoreBadge = document.getElementById('settlementReadinessScoreBadge');
-    const scorePct = document.getElementById('settlementReadinessScorePct');
-    const progressBar = document.getElementById('settlementReadinessProgressBar');
-    const verifiedList = document.getElementById('settlementVerifiedCheckpointsList');
-    const unmetList = document.getElementById('settlementUnmetGapsList');
-    const btnReadiness = document.getElementById('btnExecuteReadinessReview');
-
-    const scenarioSelect = document.getElementById('settlementScenarioSelect');
-    const btnRunScenario = document.getElementById('btnRunSettlementScenario');
-    const scenarioConsole = document.getElementById('settlementScenarioConsole');
-    const stateHashVal = document.getElementById('settlementStateHashVal');
-
-    // Tab button listener
-    if (tabBtnSettlement) {
-      tabBtnSettlement.addEventListener('click', () => {
-        if (typeof switchInspectorTab === 'function') {
-          switchInspectorTab('tabSettlement');
-        }
-        loadStatus();
+  async function runScenario(scenarioId) {
+    try {
+      const resp = await fetch('/api/resilience/scenarios/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario_id: scenarioId })
       });
+      if (!resp.ok) return;
+      const result = await resp.json();
+
+      if (stateHashSpan) stateHashSpan.textContent = result.state_hash || 'BA87A9EA97A25717';
+      renderPlans(result.candidate_recovery_plans || []);
+      await loadStatus();
+    } catch (err) {
+      console.error('Failed to run scenario:', err);
     }
+  }
 
-    async function loadStatus() {
-      try {
-        const resp = await fetch('/api/settlement/status');
-        if (!resp.ok) return;
-        const data = await resp.json();
-
-        if (lifecycleBadge) {
-          lifecycleBadge.textContent = data.lifecycle_state || 'NOMINAL';
-          lifecycleBadge.className = `settlement-badge ${data.status === 'DEGRADED' || data.status === 'RECOVERY' ? 'badge-critical' : 'badge-nominal'}`;
-        }
-        if (solVal) solVal.textContent = `Sol ${data.current_sol || 1}`;
-        if (siteSelect && data.site_id) siteSelect.value = data.site_id;
-        if (archSelect && data.archetype) archSelect.value = data.archetype;
-
-        if (data.power) {
-          if (grossGenVal) grossGenVal.textContent = `${(data.power.generation_gross_kw || 0).toFixed(1)} kW`;
-          if (demandVal) demandVal.textContent = `${(data.power.total_demand_kw || 0).toFixed(1)} kW`;
-          if (deliveredVal) deliveredVal.textContent = `${(data.power.total_delivered_kw || 0).toFixed(1)} kW`;
-          if (batterySocVal) batterySocVal.textContent = `${(data.power.battery_soc_pct || 0).toFixed(1)}%`;
-
-          if (shedLoadsContainer) {
-            const sheds = data.power.active_shed_loads || [];
-            if (sheds.length === 0) {
-              shedLoadsContainer.innerHTML = '<span style="color:#4ade80; font-size:9.5px;">&check; Zero loads shed &bull; All 7 priority tiers fully energized</span>';
-            } else {
-              shedLoadsContainer.innerHTML = sheds.map(s => `<span class="settlement-badge badge-warning" style="margin-right:4px; margin-bottom:4px;">${s}</span>`).join('');
-            }
-          }
-        }
-
-        if (data.consumables && data.consumables.water) {
-          if (waterStockVal) waterStockVal.textContent = `${Math.round(data.consumables.water.final_inventory || 0).toLocaleString()} kg`;
-        }
-        if (data.consumables && data.consumables.oxygen) {
-          if (o2StockVal) o2StockVal.textContent = `${Math.round(data.consumables.oxygen.final_inventory || 0).toLocaleString()} kg`;
-        }
-        if (data.isru_inventories) {
-          if (ch4StockVal) ch4StockVal.textContent = `${Math.round(data.isru_inventories.liquid_methane_ch4_kg || 0).toLocaleString()} kg`;
-          if (sinteredBlocksVal) sinteredBlocksVal.textContent = `${Math.round(data.isru_inventories.sintered_regolith_blocks || 0).toLocaleString()} blocks`;
-        }
-
-        if (data.construction_summary && constructionBadge) {
-          constructionBadge.textContent = `${data.construction_summary.completed_count} / ${data.construction_summary.total_operations} STAGES COMPLETE`;
-        }
-
-        await loadHabitats();
-        await loadConstructionSchedule();
-        await loadReplayHash();
-      } catch (err) {
-        console.error('Failed to load settlement status:', err);
-      }
-    }
-
-    async function loadHabitats() {
-      try {
-        const resp = await fetch('/api/settlement/habitat/thermal', {
+  async function injectFault() {
+    try {
+      const payload = {
+        failure_id: selFaultMode ? selFaultMode.value : 'FAIL-MEC-01',
+        trigger_sol: 1,
+        trigger_time_s: 3600.0,
+        profile_type: selProfile ? selProfile.value : 'IMMEDIATE',
+      };
+      const resp = await fetch('/api/resilience/faults/inject', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (resp.ok) {
+        // Immediately evaluate candidate recovery plans
+        const evalResp = await fetch('/api/resilience/recovery/evaluate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ambient_temp_c: -65.0, solar_flux_wm2: 450.0, dt_s: 3600.0 })
+          body: JSON.stringify({ sol: 1, time_s: 3610.0 })
         });
-        if (!resp.ok) return;
-        const data = await resp.json();
-        if (habitatList && data.modules) {
-          habitatList.innerHTML = data.modules.map(m => `
+        if (evalResp.ok) {
+          const evalData = await evalResp.json();
+          renderPlans(evalData.candidate_plans || []);
+        }
+        await loadStatus();
+      }
+    } catch (err) {
+      console.error('Failed to inject fault:', err);
+    }
+  }
+
+  async function resetLab() {
+    try {
+      await fetch('/api/resilience/reset', { method: 'POST' });
+      if (plansContainer) plansContainer.innerHTML = '';
+      if (diagnosesList) diagnosesList.innerHTML = '<div style="font-size:11px; color:#64748b; font-style:italic;">Zero active fault diagnoses. Autonomous integrity nominal.</div>';
+      if (symptomsList) symptomsList.innerHTML = '<div style="font-size:11px; color:#64748b; font-style:italic;">All telemetry channels nominal. No out-of-bounds residuals observed.</div>';
+      await loadStatus();
+    } catch (err) {
+      console.error('Failed to reset lab:', err);
+    }
+  }
+
+  async function runBenchmarks() {
+    try {
+      const resp = await fetch('/api/resilience/benchmarks');
+      if (!resp.ok) return;
+      const data = await resp.json();
+      alert(`Atlas Mission Resilience Benchmark Complete!\n\n${data.held_out_suite.summary_verdict}`);
+    } catch (err) {
+      console.error('Failed to run benchmarks:', err);
+    }
+  }
+
+  // Attach listeners
+  if (btnRunApocalypse) btnRunApocalypse.addEventListener('click', () => runScenario('SCENARIO-12'));
+  if (btnRunBenchmark) btnRunBenchmark.addEventListener('click', runBenchmarks);
+  if (btnReset) btnReset.addEventListener('click', resetLab);
+  if (btnInjectFault) btnInjectFault.addEventListener('click', injectFault);
+
+  document.querySelectorAll('.btn-barrier').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const barrier = btn.getAttribute('data-barrier');
+      btn.classList.toggle('active');
+      const isActive = btn.classList.contains('active');
+      if (isActive) activeBarriers.add(barrier);
+      else activeBarriers.delete(barrier);
+
+      await fetch('/api/resilience/propagation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          current_time_s: 3800.0,
+          activate_barrier: isActive ? barrier : undefined,
+          deactivate_barrier: !isActive ? barrier : undefined
+        })
+      });
+      await loadDag();
+    });
+  });
+
+  // Initial loads
+  loadStatus();
+  loadScenarios();
+  loadFmea();
+
+  // Export to window.Atlas
+  window.Atlas = window.Atlas || {};
+  window.Atlas.missionResilience = {
+    loadStatus,
+    loadDag,
+    loadScenarios,
+    runScenario,
+    injectFault,
+    resetLab,
+    runBenchmarks
+  };
+}
+
+
+// ==========================================================================
+// MILESTONE 13S: ATLAS PLANETARY SETTLEMENT OPERATIONS CENTER CONTROLLER
+// ==========================================================================
+function initSettlementEngine() {
+  const tabBtnSettlement = document.getElementById('tabBtnSettlement');
+
+  const btnReset = document.getElementById('btnSettlementReset');
+  const btnAdvance = document.getElementById('btnSettlementAdvanceSol');
+  const lifecycleBadge = document.getElementById('settlementLifecycleBadge');
+  const solVal = document.getElementById('settlementSolVal');
+  const siteSelect = document.getElementById('settlementSiteSelect');
+  const archSelect = document.getElementById('settlementArchSelect');
+
+  const powerBadge = document.getElementById('settlementPowerSourceBadge');
+  const grossGenVal = document.getElementById('settlementGrossGenVal');
+  const demandVal = document.getElementById('settlementDemandVal');
+  const deliveredVal = document.getElementById('settlementDeliveredVal');
+  const batterySocVal = document.getElementById('settlementBatterySocVal');
+  const shedLoadsContainer = document.getElementById('settlementShedLoadsContainer');
+
+  const waterStockVal = document.getElementById('settlementWaterStockVal');
+  const o2StockVal = document.getElementById('settlementO2StockVal');
+  const ch4StockVal = document.getElementById('settlementCh4StockVal');
+  const sinteredBlocksVal = document.getElementById('settlementSinteredBlocksVal');
+
+  const habitatList = document.getElementById('settlementHabitatList');
+  const constructionList = document.getElementById('settlementConstructionOperationsList');
+  const constructionBadge = document.getElementById('settlementConstructionStatusBadge');
+  const btnStepConstruction = document.getElementById('btnStepConstructionStage');
+
+  const btnFission = document.getElementById('btnSimulatePowerFission');
+  const btnSolarStorm = document.getElementById('btnSimulatePowerSolarStorm');
+  const btnWater = document.getElementById('btnRunIsruWaterBatch');
+  const btnO2 = document.getElementById('btnRunIsruOxygenBatch');
+  const btnSinter = document.getElementById('btnRunIsruSinterBatch');
+
+  const scoreBadge = document.getElementById('settlementReadinessScoreBadge');
+  const scorePct = document.getElementById('settlementReadinessScorePct');
+  const progressBar = document.getElementById('settlementReadinessProgressBar');
+  const verifiedList = document.getElementById('settlementVerifiedCheckpointsList');
+  const unmetList = document.getElementById('settlementUnmetGapsList');
+  const btnReadiness = document.getElementById('btnExecuteReadinessReview');
+
+  const scenarioSelect = document.getElementById('settlementScenarioSelect');
+  const btnRunScenario = document.getElementById('btnRunSettlementScenario');
+  const scenarioConsole = document.getElementById('settlementScenarioConsole');
+  const stateHashVal = document.getElementById('settlementStateHashVal');
+
+  // Tab button listener
+  if (tabBtnSettlement) {
+    tabBtnSettlement.addEventListener('click', () => {
+      if (typeof switchInspectorTab === 'function') {
+        switchInspectorTab('tabSettlement');
+      }
+      loadStatus();
+    });
+  }
+
+  async function loadStatus() {
+    try {
+      const resp = await fetch('/api/settlement/status');
+      if (!resp.ok) return;
+      const data = await resp.json();
+
+      if (lifecycleBadge) {
+        lifecycleBadge.textContent = data.lifecycle_state || 'NOMINAL';
+        lifecycleBadge.className = `settlement-badge ${data.status === 'DEGRADED' || data.status === 'RECOVERY' ? 'badge-critical' : 'badge-nominal'}`;
+      }
+      if (solVal) solVal.textContent = `Sol ${data.current_sol || 1}`;
+      if (siteSelect && data.site_id) siteSelect.value = data.site_id;
+      if (archSelect && data.archetype) archSelect.value = data.archetype;
+
+      if (data.power) {
+        if (grossGenVal) grossGenVal.textContent = `${(data.power.generation_gross_kw || 0).toFixed(1)} kW`;
+        if (demandVal) demandVal.textContent = `${(data.power.total_demand_kw || 0).toFixed(1)} kW`;
+        if (deliveredVal) deliveredVal.textContent = `${(data.power.total_delivered_kw || 0).toFixed(1)} kW`;
+        if (batterySocVal) batterySocVal.textContent = `${(data.power.battery_soc_pct || 0).toFixed(1)}%`;
+
+        if (shedLoadsContainer) {
+          const sheds = data.power.active_shed_loads || [];
+          if (sheds.length === 0) {
+            shedLoadsContainer.innerHTML = '<span style="color:#4ade80; font-size:9.5px;">&check; Zero loads shed &bull; All 7 priority tiers fully energized</span>';
+          } else {
+            shedLoadsContainer.innerHTML = sheds.map(s => `<span class="settlement-badge badge-warning" style="margin-right:4px; margin-bottom:4px;">${s}</span>`).join('');
+          }
+        }
+      }
+
+      if (data.consumables && data.consumables.water) {
+        if (waterStockVal) waterStockVal.textContent = `${Math.round(data.consumables.water.final_inventory || 0).toLocaleString()} kg`;
+      }
+      if (data.consumables && data.consumables.oxygen) {
+        if (o2StockVal) o2StockVal.textContent = `${Math.round(data.consumables.oxygen.final_inventory || 0).toLocaleString()} kg`;
+      }
+      if (data.isru_inventories) {
+        if (ch4StockVal) ch4StockVal.textContent = `${Math.round(data.isru_inventories.liquid_methane_ch4_kg || 0).toLocaleString()} kg`;
+        if (sinteredBlocksVal) sinteredBlocksVal.textContent = `${Math.round(data.isru_inventories.sintered_regolith_blocks || 0).toLocaleString()} blocks`;
+      }
+
+      if (data.construction_summary && constructionBadge) {
+        constructionBadge.textContent = `${data.construction_summary.completed_count} / ${data.construction_summary.total_operations} STAGES COMPLETE`;
+      }
+
+      await loadHabitats();
+      await loadConstructionSchedule();
+      await loadReplayHash();
+    } catch (err) {
+      console.error('Failed to load settlement status:', err);
+    }
+  }
+
+  async function loadHabitats() {
+    try {
+      const resp = await fetch('/api/settlement/habitat/thermal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ambient_temp_c: -65.0, solar_flux_wm2: 450.0, dt_s: 3600.0 })
+      });
+      if (!resp.ok) return;
+      const data = await resp.json();
+      if (habitatList && data.modules) {
+        habitatList.innerHTML = data.modules.map(m => `
             <div class="settlement-op-item">
               <div>
                 <strong>${m.module_id}</strong> &bull; Temp: <span style="color:#38bdf8;">${m.internal_temp_c.toFixed(1)}&deg;C</span>
@@ -26805,19 +26843,19 @@ if (typeof window !== 'undefined') {
               </div>
             </div>
           `).join('');
-        }
-      } catch (err) {
-        console.error('Failed to load habitats:', err);
       }
+    } catch (err) {
+      console.error('Failed to load habitats:', err);
     }
+  }
 
-    async function loadConstructionSchedule() {
-      try {
-        const resp = await fetch('/api/settlement/construction/schedule');
-        if (!resp.ok) return;
-        const data = await resp.json();
-        if (constructionList && data.operations) {
-          constructionList.innerHTML = data.operations.map(op => `
+  async function loadConstructionSchedule() {
+    try {
+      const resp = await fetch('/api/settlement/construction/schedule');
+      if (!resp.ok) return;
+      const data = await resp.json();
+      if (constructionList && data.operations) {
+        constructionList.innerHTML = data.operations.map(op => `
             <div class="settlement-op-item">
               <div>
                 <span style="font-family:monospace; font-weight:700;">${op.op_id}</span>: ${op.name}
@@ -26827,464 +26865,464 @@ if (typeof window !== 'undefined') {
               </div>
             </div>
           `).join('');
-        }
-      } catch (err) {
-        console.error('Failed to load construction schedule:', err);
       }
+    } catch (err) {
+      console.error('Failed to load construction schedule:', err);
     }
+  }
 
-    async function loadReplayHash() {
-      try {
-        const resp = await fetch('/api/settlement/replay');
-        if (!resp.ok) return;
-        const data = await resp.json();
-        if (stateHashVal && data.final_state_hash) {
-          stateHashVal.textContent = data.final_state_hash;
-        }
-      } catch (err) {
-        console.error('Failed to load replay hash:', err);
+  async function loadReplayHash() {
+    try {
+      const resp = await fetch('/api/settlement/replay');
+      if (!resp.ok) return;
+      const data = await resp.json();
+      if (stateHashVal && data.final_state_hash) {
+        stateHashVal.textContent = data.final_state_hash;
       }
+    } catch (err) {
+      console.error('Failed to load replay hash:', err);
     }
+  }
 
-    async function runReadinessReview() {
-      try {
-        if (btnReadiness) {
-          btnReadiness.disabled = true;
-          btnReadiness.textContent = 'AUDITING GATES...';
-        }
-        const resp = await fetch('/api/settlement/readiness-review');
-        if (!resp.ok) return;
-        const data = await resp.json();
+  async function runReadinessReview() {
+    try {
+      if (btnReadiness) {
+        btnReadiness.disabled = true;
+        btnReadiness.textContent = 'AUDITING GATES...';
+      }
+      const resp = await fetch('/api/settlement/readiness-review');
+      if (!resp.ok) return;
+      const data = await resp.json();
 
-        if (scorePct) scorePct.textContent = `${data.readiness_score_pct.toFixed(1)}%`;
-        if (progressBar) progressBar.style.width = `${Math.min(100, data.readiness_score_pct)}%`;
-        if (scoreBadge) {
-          scoreBadge.textContent = data.is_ready_for_simulation_arrival ? 'SIMULATION READY' : 'UNMET GAPS DETECTED';
-          scoreBadge.className = `settlement-badge ${data.is_ready_for_simulation_arrival ? 'badge-nominal' : 'badge-warning'}`;
-        }
+      if (scorePct) scorePct.textContent = `${data.readiness_score_pct.toFixed(1)}%`;
+      if (progressBar) progressBar.style.width = `${Math.min(100, data.readiness_score_pct)}%`;
+      if (scoreBadge) {
+        scoreBadge.textContent = data.is_ready_for_simulation_arrival ? 'SIMULATION READY' : 'UNMET GAPS DETECTED';
+        scoreBadge.className = `settlement-badge ${data.is_ready_for_simulation_arrival ? 'badge-nominal' : 'badge-warning'}`;
+      }
 
-        if (verifiedList && data.verified_checkpoints) {
-          verifiedList.innerHTML = data.verified_checkpoints.map(c => `<li style="color:#4ade80;">&check; ${c}</li>`).join('');
-        }
-        if (unmetList && data.unmet_gaps) {
-          if (data.unmet_gaps.length === 0) {
-            unmetList.innerHTML = '<li style="color:#4ade80;">&check; Zero unmet gaps. All Phase F requirements verified!</li>';
-          } else {
-            unmetList.innerHTML = data.unmet_gaps.map(g => `<li style="color:#f87171;">&#9888; ${g}</li>`).join('');
-          }
-        }
-      } catch (err) {
-        console.error('Failed to execute readiness review:', err);
-      } finally {
-        if (btnReadiness) {
-          btnReadiness.disabled = false;
-          btnReadiness.textContent = 'RUN READINESS REVIEW';
+      if (verifiedList && data.verified_checkpoints) {
+        verifiedList.innerHTML = data.verified_checkpoints.map(c => `<li style="color:#4ade80;">&check; ${c}</li>`).join('');
+      }
+      if (unmetList && data.unmet_gaps) {
+        if (data.unmet_gaps.length === 0) {
+          unmetList.innerHTML = '<li style="color:#4ade80;">&check; Zero unmet gaps. All Phase F requirements verified!</li>';
+        } else {
+          unmetList.innerHTML = data.unmet_gaps.map(g => `<li style="color:#f87171;">&#9888; ${g}</li>`).join('');
         }
       }
+    } catch (err) {
+      console.error('Failed to execute readiness review:', err);
+    } finally {
+      if (btnReadiness) {
+        btnReadiness.disabled = false;
+        btnReadiness.textContent = 'RUN READINESS REVIEW';
+      }
     }
+  }
 
-    async function runScenario() {
-      try {
-        const scenId = scenarioSelect ? scenarioSelect.value : 'SCENARIO-10-MARS-BASE-ALPHA';
-        if (btnRunScenario) {
-          btnRunScenario.disabled = true;
-          btnRunScenario.textContent = 'EXECUTING...';
-        }
-        if (scenarioConsole) scenarioConsole.textContent = `[EXEC] Running ${scenId}...
+  async function runScenario() {
+    try {
+      const scenId = scenarioSelect ? scenarioSelect.value : 'SCENARIO-10-MARS-BASE-ALPHA';
+      if (btnRunScenario) {
+        btnRunScenario.disabled = true;
+        btnRunScenario.textContent = 'EXECUTING...';
+      }
+      if (scenarioConsole) scenarioConsole.textContent = `[EXEC] Running ${scenId}...
 `;
 
-        const resp = await fetch('/api/settlement/scenarios/run', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ scenario_id: scenId })
-        });
-        if (!resp.ok) return;
-        const res = await resp.json();
+      const resp = await fetch('/api/settlement/scenarios/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario_id: scenId })
+      });
+      if (!resp.ok) return;
+      const res = await resp.json();
 
-        let output = `=================================================================\n`;
-        output += `SCENARIO: ${res.scenario_title} (${res.scenario_id})\n`;
-        output += `STATUS: ${res.success ? 'SUCCESS (PASS)' : 'DEGRADED / COMPROMISED'}\n`;
-        output += `SUMMARY: ${res.summary}\n`;
-        output += `-----------------------------------------------------------------\n`;
-        output += `KEY METRICS:\n`;
-        for (const [k, v] of Object.entries(res.key_metrics || {})) {
-          output += `  &bull; ${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}\n`;
-        }
-        output += `-----------------------------------------------------------------\n`;
-        output += `TIMELINE EVENTS:\n`;
-        (res.timeline_events || []).forEach(ev => {
-          output += `  &bull; ${JSON.stringify(ev)}\n`;
-        });
-        output += `=================================================================\n`;
+      let output = `=================================================================\n`;
+      output += `SCENARIO: ${res.scenario_title} (${res.scenario_id})\n`;
+      output += `STATUS: ${res.success ? 'SUCCESS (PASS)' : 'DEGRADED / COMPROMISED'}\n`;
+      output += `SUMMARY: ${res.summary}\n`;
+      output += `-----------------------------------------------------------------\n`;
+      output += `KEY METRICS:\n`;
+      for (const [k, v] of Object.entries(res.key_metrics || {})) {
+        output += `  &bull; ${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}\n`;
+      }
+      output += `-----------------------------------------------------------------\n`;
+      output += `TIMELINE EVENTS:\n`;
+      (res.timeline_events || []).forEach(ev => {
+        output += `  &bull; ${JSON.stringify(ev)}\n`;
+      });
+      output += `=================================================================\n`;
 
-        if (scenarioConsole) scenarioConsole.innerHTML = output.replace(/\n/g, '<br>');
-        await loadStatus();
-      } catch (err) {
-        console.error('Failed to run settlement scenario:', err);
-      } finally {
-        if (btnRunScenario) {
-          btnRunScenario.disabled = false;
-          btnRunScenario.textContent = 'RUN SCENARIO';
-        }
+      if (scenarioConsole) scenarioConsole.innerHTML = output.replace(/\n/g, '<br>');
+      await loadStatus();
+    } catch (err) {
+      console.error('Failed to run settlement scenario:', err);
+    } finally {
+      if (btnRunScenario) {
+        btnRunScenario.disabled = false;
+        btnRunScenario.textContent = 'RUN SCENARIO';
       }
     }
-
-    async function advanceSol() {
-      try {
-        await fetch('/api/settlement/advance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sols_to_advance: 1 })
-        });
-        await loadStatus();
-      } catch (err) {
-        console.error('Failed to advance sol:', err);
-      }
-    }
-
-    async function resetSettlement() {
-      try {
-        await fetch('/api/settlement/reset', { method: 'POST' });
-        await loadStatus();
-      } catch (err) {
-        console.error('Failed to reset settlement:', err);
-      }
-    }
-
-    // Attach button listeners
-    if (btnAdvance) btnAdvance.addEventListener('click', advanceSol);
-    if (btnReset) btnReset.addEventListener('click', resetSettlement);
-    if (btnReadiness) btnReadiness.addEventListener('click', runReadinessReview);
-    if (btnRunScenario) btnRunScenario.addEventListener('click', runScenario);
-
-    if (btnFission) {
-      btnFission.addEventListener('click', async () => {
-        await fetch('/api/settlement/power/simulate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ power_source: 'NUCLEAR_FISSION', atmospheric_tau: 0.45 })
-        });
-        await loadStatus();
-      });
-    }
-
-    if (btnSolarStorm) {
-      btnSolarStorm.addEventListener('click', async () => {
-        await fetch('/api/settlement/power/simulate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ power_source: 'SOLAR_PV', atmospheric_tau: 2.85 })
-        });
-        await loadStatus();
-      });
-    }
-
-    if (btnWater) {
-      btnWater.addEventListener('click', async () => {
-        await fetch('/api/settlement/isru/evaluate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ process: 'WATER_EXTRACTION', feedstock_kg: 500.0, water_wt_pct: 7.5 })
-        });
-        await loadStatus();
-      });
-    }
-
-    if (btnO2) {
-      btnO2.addEventListener('click', async () => {
-        await fetch('/api/settlement/isru/evaluate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ process: 'ATMOSPHERIC_OXYGEN', co2_intake_kg: 250.0 })
-        });
-        await loadStatus();
-      });
-    }
-
-    if (btnSinter) {
-      btnSinter.addEventListener('click', async () => {
-        await fetch('/api/settlement/isru/evaluate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ process: 'REGOLITH_SINTERING', regolith_mass_kg: 1200.0 })
-        });
-        await loadStatus();
-      });
-    }
-
-    if (btnStepConstruction) {
-      btnStepConstruction.addEventListener('click', async () => {
-        await fetch('/api/settlement/construction/step', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ op_id: 'OP-02-PAD-GRADING', execution_timestamp_s: 1000.0, command_dispatch_timestamp_s: 800.0 })
-        });
-        await loadStatus();
-      });
-    }
-
-    // Initial load
-    loadStatus();
-
-    // Export to window.Atlas
-    window.Atlas = window.Atlas || {};
-    window.Atlas.settlementEngine = {
-      loadStatus,
-      runScenario,
-      runReadinessReview,
-      advanceSol,
-      resetSettlement,
-    };
   }
 
-  // ============================================================================
-  // MILESTONE 13T: ATLAS PLANETARY MISSION OPERATING SYSTEM ENGINE
-  // ============================================================================
-  function initMissionOSEngine() {
-    const statusBadge = document.getElementById('missionOSStatusBadge');
-    const solVal = document.getElementById('missionOSSol');
-    const solTimeVal = document.getElementById('missionOSSolTime');
-    const lsVal = document.getElementById('missionOSLs');
-    const powerVal = document.getElementById('missionOSPower');
-    const batteryVal = document.getElementById('missionOSBattery');
-    const waterVal = document.getElementById('missionOSWater');
-    const oxygenVal = document.getElementById('missionOSOxygen');
-    const sinteredVal = document.getElementById('missionOSSinteredBlocks');
-    const habVal = document.getElementById('missionOSHabStatus');
-    const stateHashVal = document.getElementById('missionOSStateHash');
+  async function advanceSol() {
+    try {
+      await fetch('/api/settlement/advance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sols_to_advance: 1 })
+      });
+      await loadStatus();
+    } catch (err) {
+      console.error('Failed to advance sol:', err);
+    }
+  }
 
-    const btnFlagship = document.getElementById('btnRunFlagshipMissionOS');
-    const btnAdvance1 = document.getElementById('btnAdvanceSolMissionOS');
-    const btnAdvance5 = document.getElementById('btnAdvance5SolMissionOS');
-    const btnDispatchCmd = document.getElementById('btnDispatchEarthCmdMissionOS');
-    const btnInjectDust = document.getElementById('btnInjectDustStormMissionOS');
-    const btnVerifyReplay = document.getElementById('btnVerifyReplayMissionOS');
-    const btnExportDossier = document.getElementById('btnExportDossierMissionOS');
+  async function resetSettlement() {
+    try {
+      await fetch('/api/settlement/reset', { method: 'POST' });
+      await loadStatus();
+    } catch (err) {
+      console.error('Failed to reset settlement:', err);
+    }
+  }
 
-    const contingencyStatus = document.getElementById('missionOSContingencyStatus');
-    const diagnosisText = document.getElementById('missionOSDiagnosisText');
-    const readinessScore = document.getElementById('missionOSReadinessScore');
-    const replayAuditBadge = document.getElementById('missionOSReplayAuditBadge');
+  // Attach button listeners
+  if (btnAdvance) btnAdvance.addEventListener('click', advanceSol);
+  if (btnReset) btnReset.addEventListener('click', resetSettlement);
+  if (btnReadiness) btnReadiness.addEventListener('click', runReadinessReview);
+  if (btnRunScenario) btnRunScenario.addEventListener('click', runScenario);
 
-    async function loadStatus() {
-      try {
-        const res = await fetch('/api/mission-os/status');
-        if (!res.ok) return;
-        const data = await res.json();
+  if (btnFission) {
+    btnFission.addEventListener('click', async () => {
+      await fetch('/api/settlement/power/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ power_source: 'NUCLEAR_FISSION', atmospheric_tau: 0.45 })
+      });
+      await loadStatus();
+    });
+  }
 
-        if (statusBadge) {
-          statusBadge.textContent = data.status || 'EXECUTING';
-          if (data.status === 'COMPLETED') {
-            statusBadge.style.background = '#1b3d2f';
-            statusBadge.style.color = '#7ee787';
-            statusBadge.style.borderColor = '#238636';
-          }
+  if (btnSolarStorm) {
+    btnSolarStorm.addEventListener('click', async () => {
+      await fetch('/api/settlement/power/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ power_source: 'SOLAR_PV', atmospheric_tau: 2.85 })
+      });
+      await loadStatus();
+    });
+  }
+
+  if (btnWater) {
+    btnWater.addEventListener('click', async () => {
+      await fetch('/api/settlement/isru/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ process: 'WATER_EXTRACTION', feedstock_kg: 500.0, water_wt_pct: 7.5 })
+      });
+      await loadStatus();
+    });
+  }
+
+  if (btnO2) {
+    btnO2.addEventListener('click', async () => {
+      await fetch('/api/settlement/isru/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ process: 'ATMOSPHERIC_OXYGEN', co2_intake_kg: 250.0 })
+      });
+      await loadStatus();
+    });
+  }
+
+  if (btnSinter) {
+    btnSinter.addEventListener('click', async () => {
+      await fetch('/api/settlement/isru/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ process: 'REGOLITH_SINTERING', regolith_mass_kg: 1200.0 })
+      });
+      await loadStatus();
+    });
+  }
+
+  if (btnStepConstruction) {
+    btnStepConstruction.addEventListener('click', async () => {
+      await fetch('/api/settlement/construction/step', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ op_id: 'OP-02-PAD-GRADING', execution_timestamp_s: 1000.0, command_dispatch_timestamp_s: 800.0 })
+      });
+      await loadStatus();
+    });
+  }
+
+  // Initial load
+  loadStatus();
+
+  // Export to window.Atlas
+  window.Atlas = window.Atlas || {};
+  window.Atlas.settlementEngine = {
+    loadStatus,
+    runScenario,
+    runReadinessReview,
+    advanceSol,
+    resetSettlement,
+  };
+}
+
+// ============================================================================
+// MILESTONE 13T: ATLAS PLANETARY MISSION OPERATING SYSTEM ENGINE
+// ============================================================================
+function initMissionOSEngine() {
+  const statusBadge = document.getElementById('missionOSStatusBadge');
+  const solVal = document.getElementById('missionOSSol');
+  const solTimeVal = document.getElementById('missionOSSolTime');
+  const lsVal = document.getElementById('missionOSLs');
+  const powerVal = document.getElementById('missionOSPower');
+  const batteryVal = document.getElementById('missionOSBattery');
+  const waterVal = document.getElementById('missionOSWater');
+  const oxygenVal = document.getElementById('missionOSOxygen');
+  const sinteredVal = document.getElementById('missionOSSinteredBlocks');
+  const habVal = document.getElementById('missionOSHabStatus');
+  const stateHashVal = document.getElementById('missionOSStateHash');
+
+  const btnFlagship = document.getElementById('btnRunFlagshipMissionOS');
+  const btnAdvance1 = document.getElementById('btnAdvanceSolMissionOS');
+  const btnAdvance5 = document.getElementById('btnAdvance5SolMissionOS');
+  const btnDispatchCmd = document.getElementById('btnDispatchEarthCmdMissionOS');
+  const btnInjectDust = document.getElementById('btnInjectDustStormMissionOS');
+  const btnVerifyReplay = document.getElementById('btnVerifyReplayMissionOS');
+  const btnExportDossier = document.getElementById('btnExportDossierMissionOS');
+
+  const contingencyStatus = document.getElementById('missionOSContingencyStatus');
+  const diagnosisText = document.getElementById('missionOSDiagnosisText');
+  const readinessScore = document.getElementById('missionOSReadinessScore');
+  const replayAuditBadge = document.getElementById('missionOSReplayAuditBadge');
+
+  async function loadStatus() {
+    try {
+      const res = await fetch('/api/mission-os/status');
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (statusBadge) {
+        statusBadge.textContent = data.status || 'EXECUTING';
+        if (data.status === 'COMPLETED') {
+          statusBadge.style.background = '#1b3d2f';
+          statusBadge.style.color = '#7ee787';
+          statusBadge.style.borderColor = '#238636';
         }
-        if (solVal) solVal.textContent = 'SOL ' + String(data.current_sol || 1).padStart(2, '0');
-        if (solTimeVal) solTimeVal.textContent = data.current_sol_time || '06:00:00';
-        if (lsVal) lsVal.textContent = (data.solar_longitude_ls || 56.4).toFixed(2) + '°';
-
-        if (data.resource_ledgers && data.resource_ledgers.length > 0) {
-          const lastLedger = data.resource_ledgers[data.resource_ledgers.length - 1];
-          if (powerVal) powerVal.textContent = `${lastLedger.power_generated_kwe || 120} / ${lastLedger.power_consumed_kwe || 68}`;
-          if (batteryVal) batteryVal.textContent = `${lastLedger.battery_soc_pct || 94}%`;
-          if (waterVal) waterVal.textContent = Math.round(lastLedger.water_reserve_kg || 3450).toLocaleString();
-          if (oxygenVal) oxygenVal.textContent = Math.round(lastLedger.oxygen_reserve_kg || 1250).toLocaleString();
-          if (sinteredVal) sinteredVal.textContent = lastLedger.sintered_blocks_count || 120;
-        }
-
-        if (stateHashVal && data.state_hash) {
-          stateHashVal.textContent = data.state_hash.substring(0, 8) + '...' + data.state_hash.substring(56);
-        }
-
-        // Update phase progress bars
-        if (data.phases && data.phases.length >= 7) {
-          const pKeys = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-          pKeys.forEach((key, idx) => {
-            const phase = data.phases[idx];
-            const pText = document.getElementById(`phase${key}Progress`);
-            const pBar = document.getElementById(`phase${key}Bar`);
-            if (pText && phase) {
-              pText.textContent = phase.is_completed ? '100% COMPLETE' : (phase.is_active ? `${phase.completion_pct}% ACTIVE` : 'PENDING');
-            }
-            if (pBar && phase) {
-              pBar.style.width = `${phase.completion_pct || (phase.is_completed ? 100 : 0)}%`;
-            }
-          });
-        }
-      } catch (err) {
-        console.warn('[MissionOS] Failed to load status:', err);
       }
-    }
+      if (solVal) solVal.textContent = 'SOL ' + String(data.current_sol || 1).padStart(2, '0');
+      if (solTimeVal) solTimeVal.textContent = data.current_sol_time || '06:00:00';
+      if (lsVal) lsVal.textContent = (data.solar_longitude_ls || 56.4).toFixed(2) + '°';
 
-    if (btnFlagship) {
-      btnFlagship.addEventListener('click', async () => {
-        btnFlagship.disabled = true;
-        btnFlagship.textContent = 'RUNNING 12 PHASES...';
-        try {
-          const res = await fetch('/api/mission-os/flagship/run');
-          if (res.ok) {
-            await loadStatus();
-            if (readinessScore) readinessScore.textContent = '100.0% / PASSED';
-            if (replayAuditBadge) replayAuditBadge.textContent = '100% BIT-EXACT VERIFIED';
-            btnFlagship.textContent = '✓ FLAGSHIP COMPLETED (100% QUALIFIED)';
+      if (data.resource_ledgers && data.resource_ledgers.length > 0) {
+        const lastLedger = data.resource_ledgers[data.resource_ledgers.length - 1];
+        if (powerVal) powerVal.textContent = `${lastLedger.power_generated_kwe || 120} / ${lastLedger.power_consumed_kwe || 68}`;
+        if (batteryVal) batteryVal.textContent = `${lastLedger.battery_soc_pct || 94}%`;
+        if (waterVal) waterVal.textContent = Math.round(lastLedger.water_reserve_kg || 3450).toLocaleString();
+        if (oxygenVal) oxygenVal.textContent = Math.round(lastLedger.oxygen_reserve_kg || 1250).toLocaleString();
+        if (sinteredVal) sinteredVal.textContent = lastLedger.sintered_blocks_count || 120;
+      }
+
+      if (stateHashVal && data.state_hash) {
+        stateHashVal.textContent = data.state_hash.substring(0, 8) + '...' + data.state_hash.substring(56);
+      }
+
+      // Update phase progress bars
+      if (data.phases && data.phases.length >= 7) {
+        const pKeys = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+        pKeys.forEach((key, idx) => {
+          const phase = data.phases[idx];
+          const pText = document.getElementById(`phase${key}Progress`);
+          const pBar = document.getElementById(`phase${key}Bar`);
+          if (pText && phase) {
+            pText.textContent = phase.is_completed ? '100% COMPLETE' : (phase.is_active ? `${phase.completion_pct}% ACTIVE` : 'PENDING');
           }
-        } catch (err) {
-          console.error('[MissionOS] Flagship run error:', err);
-          btnFlagship.textContent = 'RUN FLAGSHIP DEMO (12 PHASES)';
-        } finally {
-          btnFlagship.disabled = false;
-        }
-      });
-    }
-
-    if (btnAdvance1) {
-      btnAdvance1.addEventListener('click', async () => {
-        await fetch('/api/mission-os/advance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sols_to_advance: 1 })
+          if (pBar && phase) {
+            pBar.style.width = `${phase.completion_pct || (phase.is_completed ? 100 : 0)}%`;
+          }
         });
-        await loadStatus();
-      });
+      }
+    } catch (err) {
+      console.warn('[MissionOS] Failed to load status:', err);
     }
+  }
 
-    if (btnAdvance5) {
-      btnAdvance5.addEventListener('click', async () => {
-        await fetch('/api/mission-os/advance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sols_to_advance: 5 })
-        });
-        await loadStatus();
-      });
-    }
-
-    if (btnDispatchCmd) {
-      btnDispatchCmd.addEventListener('click', async () => {
-        await fetch('/api/mission-os/dispatch-command', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            target_asset_id: 'ATLAS-ROVER-01',
-            action: 'EXPLORE_DELTA_FAN',
-            parameters: { target_lat: 18.4520, target_lon: 77.4350 }
-          })
-        });
-        await loadStatus();
-      });
-    }
-
-    if (btnInjectDust) {
-      btnInjectDust.addEventListener('click', async () => {
-        const res = await fetch('/api/mission-os/inject-event', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            subsystem: 'ATMOSPHERE',
-            mode: 'REGIONAL_DUST_STORM',
-            root_cause: 'Particulate optical depth tau surge to 2.80'
-          })
-        });
+  if (btnFlagship) {
+    btnFlagship.addEventListener('click', async () => {
+      btnFlagship.disabled = true;
+      btnFlagship.textContent = 'RUNNING 12 PHASES...';
+      try {
+        const res = await fetch('/api/mission-os/flagship/run');
         if (res.ok) {
-          const injData = await res.json();
-          if (contingencyStatus) {
-            contingencyStatus.textContent = 'DUST STORM INJECTED (tau=2.80)';
-            contingencyStatus.style.color = '#ff7b72';
-          }
-          if (diagnosisText && injData.response) {
-            diagnosisText.textContent = injData.response.diagnosis;
-          }
           await loadStatus();
+          if (readinessScore) readinessScore.textContent = '100.0% / PASSED';
+          if (replayAuditBadge) replayAuditBadge.textContent = '100% BIT-EXACT VERIFIED';
+          btnFlagship.textContent = '✓ FLAGSHIP COMPLETED (100% QUALIFIED)';
         }
-      });
-    }
-
-    if (btnVerifyReplay) {
-      btnVerifyReplay.addEventListener('click', async () => {
-        const res = await fetch('/api/mission-os/replay');
-        if (res.ok) {
-          const replayData = await res.json();
-          if (replayAuditBadge) {
-            replayAuditBadge.textContent = replayData.is_valid ? '100% BIT-EXACT VERIFIED' : 'REPLAY MISMATCH';
-            replayAuditBadge.style.color = replayData.is_valid ? '#7ee787' : '#ff7b72';
-          }
-        }
-      });
-    }
-
-    if (btnExportDossier) {
-      btnExportDossier.addEventListener('click', async () => {
-        const res = await fetch('/api/mission-os/dossier');
-        if (res.ok) {
-          const dossier = await res.json();
-          const blob = new Blob([JSON.stringify(dossier, null, 2)], { type: 'application/json' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `ATLAS_MISSION_DOSSIER_${dossier.mission_id}.json`;
-          a.click();
-        }
-      });
-    }
-
-    const btnReviewEvidence = document.getElementById('btnReviewEvidenceMissionOS');
-    const reviewEvidenceBox = document.getElementById('reviewEvidenceContainer');
-
-    if (btnReviewEvidence && reviewEvidenceBox) {
-      btnReviewEvidence.addEventListener('click', async () => {
-        if (reviewEvidenceBox.style.display === 'block') {
-          reviewEvidenceBox.style.display = 'none';
-          return;
-        }
-        try {
-          const res = await fetch('/api/review-evidence');
-          if (res.ok) {
-            const data = await res.json();
-            const relBadge = document.getElementById('evidenceReleaseBadge');
-            if (relBadge) {
-              relBadge.textContent = data.release_status;
-              relBadge.style.color = data.release_status === 'LOCAL_RESEARCH_PREVIEW' ? '#7ee787' : '#ff7b72';
-            }
-            const bId = document.getElementById('evidenceBuildId');
-            if (bId) bId.textContent = data.build_identifier;
-            const dsStatus = document.getElementById('evidenceDatasetStatus');
-            if (dsStatus && data.dataset_verification) {
-              dsStatus.textContent = data.dataset_verification.dtm_status;
-            }
-            const reproStatus = document.getElementById('evidenceReproStatus');
-            if (reproStatus && data.reproduction_audit) {
-              reproStatus.textContent = data.reproduction_audit.reproduction_status + ' (' + data.reproduction_audit.root_hash.substring(0, 8) + '...)';
-            }
-            const testMetrics = document.getElementById('evidenceTestMetrics');
-            if (testMetrics && data.verification_metrics) {
-              testMetrics.textContent = `${data.verification_metrics.total_passed} / ${data.verification_metrics.total_repository_tests} PASS (${data.verification_metrics.pass_rate_pct}%)`;
-            }
-            const limList = document.getElementById('evidenceLimitationsList');
-            if (limList && data.known_limitations_summary) {
-              limList.innerHTML = data.known_limitations_summary.map(item => `<li>${item}</li>`).join('');
-            }
-          }
-        } catch (err) {
-          console.error('[MissionOS] Failed to load review evidence:', err);
-        }
-        reviewEvidenceBox.style.display = 'block';
-      });
-    }
-
-    // Initial status load
-    loadStatus();
-
-    // Export to window.Atlas
-    window.Atlas = window.Atlas || {};
-    window.Atlas.missionOS = {
-      loadStatus,
-      advanceSol: async (n=1) => {
-        await fetch('/api/mission-os/advance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sols_to_advance: n }) });
-        await loadStatus();
-      },
-    };
+      } catch (err) {
+        console.error('[MissionOS] Flagship run error:', err);
+        btnFlagship.textContent = 'RUN FLAGSHIP DEMO (12 PHASES)';
+      } finally {
+        btnFlagship.disabled = false;
+      }
+    });
   }
+
+  if (btnAdvance1) {
+    btnAdvance1.addEventListener('click', async () => {
+      await fetch('/api/mission-os/advance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sols_to_advance: 1 })
+      });
+      await loadStatus();
+    });
+  }
+
+  if (btnAdvance5) {
+    btnAdvance5.addEventListener('click', async () => {
+      await fetch('/api/mission-os/advance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sols_to_advance: 5 })
+      });
+      await loadStatus();
+    });
+  }
+
+  if (btnDispatchCmd) {
+    btnDispatchCmd.addEventListener('click', async () => {
+      await fetch('/api/mission-os/dispatch-command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          target_asset_id: 'ATLAS-ROVER-01',
+          action: 'EXPLORE_DELTA_FAN',
+          parameters: { target_lat: 18.4520, target_lon: 77.4350 }
+        })
+      });
+      await loadStatus();
+    });
+  }
+
+  if (btnInjectDust) {
+    btnInjectDust.addEventListener('click', async () => {
+      const res = await fetch('/api/mission-os/inject-event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subsystem: 'ATMOSPHERE',
+          mode: 'REGIONAL_DUST_STORM',
+          root_cause: 'Particulate optical depth tau surge to 2.80'
+        })
+      });
+      if (res.ok) {
+        const injData = await res.json();
+        if (contingencyStatus) {
+          contingencyStatus.textContent = 'DUST STORM INJECTED (tau=2.80)';
+          contingencyStatus.style.color = '#ff7b72';
+        }
+        if (diagnosisText && injData.response) {
+          diagnosisText.textContent = injData.response.diagnosis;
+        }
+        await loadStatus();
+      }
+    });
+  }
+
+  if (btnVerifyReplay) {
+    btnVerifyReplay.addEventListener('click', async () => {
+      const res = await fetch('/api/mission-os/replay');
+      if (res.ok) {
+        const replayData = await res.json();
+        if (replayAuditBadge) {
+          replayAuditBadge.textContent = replayData.is_valid ? '100% BIT-EXACT VERIFIED' : 'REPLAY MISMATCH';
+          replayAuditBadge.style.color = replayData.is_valid ? '#7ee787' : '#ff7b72';
+        }
+      }
+    });
+  }
+
+  if (btnExportDossier) {
+    btnExportDossier.addEventListener('click', async () => {
+      const res = await fetch('/api/mission-os/dossier');
+      if (res.ok) {
+        const dossier = await res.json();
+        const blob = new Blob([JSON.stringify(dossier, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ATLAS_MISSION_DOSSIER_${dossier.mission_id}.json`;
+        a.click();
+      }
+    });
+  }
+
+  const btnReviewEvidence = document.getElementById('btnReviewEvidenceMissionOS');
+  const reviewEvidenceBox = document.getElementById('reviewEvidenceContainer');
+
+  if (btnReviewEvidence && reviewEvidenceBox) {
+    btnReviewEvidence.addEventListener('click', async () => {
+      if (reviewEvidenceBox.style.display === 'block') {
+        reviewEvidenceBox.style.display = 'none';
+        return;
+      }
+      try {
+        const res = await fetch('/api/review-evidence');
+        if (res.ok) {
+          const data = await res.json();
+          const relBadge = document.getElementById('evidenceReleaseBadge');
+          if (relBadge) {
+            relBadge.textContent = data.release_status;
+            relBadge.style.color = data.release_status === 'LOCAL_RESEARCH_PREVIEW' ? '#7ee787' : '#ff7b72';
+          }
+          const bId = document.getElementById('evidenceBuildId');
+          if (bId) bId.textContent = data.build_identifier;
+          const dsStatus = document.getElementById('evidenceDatasetStatus');
+          if (dsStatus && data.dataset_verification) {
+            dsStatus.textContent = data.dataset_verification.dtm_status;
+          }
+          const reproStatus = document.getElementById('evidenceReproStatus');
+          if (reproStatus && data.reproduction_audit) {
+            reproStatus.textContent = data.reproduction_audit.reproduction_status + ' (' + data.reproduction_audit.root_hash.substring(0, 8) + '...)';
+          }
+          const testMetrics = document.getElementById('evidenceTestMetrics');
+          if (testMetrics && data.verification_metrics) {
+            testMetrics.textContent = `${data.verification_metrics.total_passed} / ${data.verification_metrics.total_repository_tests} PASS (${data.verification_metrics.pass_rate_pct}%)`;
+          }
+          const limList = document.getElementById('evidenceLimitationsList');
+          if (limList && data.known_limitations_summary) {
+            limList.innerHTML = data.known_limitations_summary.map(item => `<li>${item}</li>`).join('');
+          }
+        }
+      } catch (err) {
+        console.error('[MissionOS] Failed to load review evidence:', err);
+      }
+      reviewEvidenceBox.style.display = 'block';
+    });
+  }
+
+  // Initial status load
+  loadStatus();
+
+  // Export to window.Atlas
+  window.Atlas = window.Atlas || {};
+  window.Atlas.missionOS = {
+    loadStatus,
+    advanceSol: async (n = 1) => {
+      await fetch('/api/mission-os/advance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sols_to_advance: n }) });
+      await loadStatus();
+    },
+  };
+}
 
 // =============================================================================
 // Milestone 13Y: Atlas Planetary Network Operations Center Engine
@@ -27333,14 +27371,14 @@ function initPlanetaryNetworkEngine() {
         tr.style.borderBottom = '1px solid #1e293b';
 
         const bandsStr = (n.supported_bands || []).map(b => `<span style="background:#0f172a; padding:1px 4px; border-radius:2px; font-size:8px; border:1px solid #334155; margin-right:2px;">${b}</span>`).join('');
-        const statusBadge = n.is_active 
+        const statusBadge = n.is_active
           ? `<span style="color:#10b981; font-weight:700;">&#9679; ACTIVE</span>`
           : `<span style="color:#ef4444; font-weight:700;">&#9679; OFFLINE</span>`;
 
         tr.innerHTML = `
           <td style="padding:4px; font-weight:700; color:#f8fafc;">${n.name} <div style="font-size:8px; color:#64748b;">${n.node_id}</div></td>
           <td style="padding:4px; color:#94a3b8;">${n.node_type}</td>
-          <td style="padding:4px; color:#cbd5e1;">${n.altitude_m > 10000 ? 'Orbit ' + (n.altitude_m/1000).toFixed(0) + ' km' : n.latitude_deg.toFixed(2) + '°N, ' + n.longitude_deg.toFixed(2) + '°E'}</td>
+          <td style="padding:4px; color:#cbd5e1;">${n.altitude_m > 10000 ? 'Orbit ' + (n.altitude_m / 1000).toFixed(0) + ' km' : n.latitude_deg.toFixed(2) + '°N, ' + n.longitude_deg.toFixed(2) + '°E'}</td>
           <td style="padding:4px;">${n.buffer_used_mb} / ${n.buffer_capacity_mb} MB <span style="color:#94a3b8;">(${n.buffer_utilization_pct}%)</span></td>
           <td style="padding:4px;">${bandsStr}</td>
           <td style="padding:4px; color:#10b981;">${n.battery_level_pct}%</td>
@@ -27491,7 +27529,7 @@ function initPlanetaryNetworkEngine() {
 
           tr.innerHTML = `
             <td style="padding:4px; font-weight:700; color:${isChamp ? '#fbbf24' : '#f8fafc'};">
-              ${isChamp ? '&#127942; ' : (idx+1) + '. '}${rk.name}
+              ${isChamp ? '&#127942; ' : (idx + 1) + '. '}${rk.name}
             </td>
             <td style="padding:4px; color:#10b981; font-weight:700;">${rk.delivery_ratio_pct}%</td>
             <td style="padding:4px; color:${rk.emergency_ratio_pct === 100 ? '#10b981' : '#ef4444'}; font-weight:700;">${rk.emergency_ratio_pct}%</td>
@@ -27639,7 +27677,7 @@ function initPlanetaryFoundryEngine() {
           </div>
           <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:4px; margin-bottom:6px; font-size:8px;">
             <div style="background:#1c1917; padding:4px; border-radius:2px;">Accepted: <strong style="color:#10b981;">${r.accepted}/${r.planned}</strong></div>
-            <div style="background:#1c1917; padding:4px; border-radius:2px;">ISRU Mass: <strong style="color:#fdba74;">${(r.isru_mass_kg/1000).toFixed(1)} t (${r.isru_fraction_pct}%)</strong></div>
+            <div style="background:#1c1917; padding:4px; border-radius:2px;">ISRU Mass: <strong style="color:#fdba74;">${(r.isru_mass_kg / 1000).toFixed(1)} t (${r.isru_fraction_pct}%)</strong></div>
             <div style="background:#1c1917; padding:4px; border-radius:2px;">Duration: <strong style="color:#cbd5e1;">${r.duration_h} h</strong></div>
             <div style="background:#1c1917; padding:4px; border-radius:2px;">Energy: <strong style="color:#f59e0b;">${r.energy_kwh} kWh</strong></div>
           </div>
@@ -27674,7 +27712,7 @@ function initPlanetaryFoundryEngine() {
 
           tr.innerHTML = `
             <td style="padding:4px; font-weight:700; color:${isChamp ? '#fde047' : '#f8fafc'};">
-              ${isChamp ? '&#127942; ' : (idx+1) + '. '}${rk.name}
+              ${isChamp ? '&#127942; ' : (idx + 1) + '. '}${rk.name}
             </td>
             <td style="padding:4px; color:#10b981; font-weight:700;">${rk.accepted} / ${rk.planned}</td>
             <td style="padding:4px; color:#cbd5e1;">${rk.duration_h} h</td>
@@ -28110,8 +28148,8 @@ function initNasaPillarsDeck() {
             try {
               const res = await fetch('/api/pillars/terrain/inspect', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({row: 136, col: 91})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ row: 136, col: 91 })
               });
               const d = await res.json();
               renderActionOutput(
@@ -28122,7 +28160,7 @@ function initNasaPillarsDeck() {
                 `<div><strong>Horn Slope:</strong> <span style="color:${d.slope_deg > 15 ? '#ef4444' : '#10b981'}; font-weight:bold;">${d.slope_deg.toFixed(1)}°</span> (${d.slope_classification})</div>` +
                 `<div style="font-size:7px; color:#94a3b8; margin-top:3px;"><strong>Citation:</strong> ${d.source_citation}</div>`
               );
-            } catch(e) { renderActionOutput(`Error: ${e.message}`); }
+            } catch (e) { renderActionOutput(`Error: ${e.message}`); }
           }
         },
         {
@@ -28133,8 +28171,8 @@ function initNasaPillarsDeck() {
             try {
               const res = await fetch('/api/pillars/terrain/inspect', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({row: 50, col: 50})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ row: 50, col: 50 })
               });
               const d = await res.json();
               renderActionOutput(
@@ -28145,7 +28183,7 @@ function initNasaPillarsDeck() {
                 `<div><strong>Horn Slope:</strong> ${d.slope_deg.toFixed(1)}° (${d.slope_classification})</div>` +
                 `<div style="font-size:7px; color:#94a3b8; margin-top:3px;"><strong>Citation:</strong> ${d.source_citation}</div>`
               );
-            } catch(e) { renderActionOutput(`Error: ${e.message}`); }
+            } catch (e) { renderActionOutput(`Error: ${e.message}`); }
           }
         },
         {
@@ -28216,7 +28254,7 @@ function initNasaPillarsDeck() {
                 `<tr style="border-bottom:1px solid #334155; color:#94a3b8;"><th>Tube</th><th>Sample</th><th>Deposition</th><th>Lithology</th></tr>` +
                 `${rows}</table>`
               );
-            } catch(e) { renderActionOutput(`Error: ${e.message}`); }
+            } catch (e) { renderActionOutput(`Error: ${e.message}`); }
           }
         },
         {
@@ -28230,14 +28268,14 @@ function initNasaPillarsDeck() {
               const count = d.total_matching_records || d.matching_records || 0;
               const recs = d.rover_tactical_records || d.records || [];
               const firstPt = recs.length > 0 ? `${recs[0].latitude_planetocentric.toFixed(4)}°N, ${recs[0].longitude_east.toFixed(4)}°E` : '18.4446°N, 77.4509°E';
-              const lastPt = recs.length > 0 ? `${recs[recs.length-1].latitude_planetocentric.toFixed(4)}°N, ${recs[recs.length-1].longitude_east.toFixed(4)}°E` : '18.4350°N, 77.4420°E';
+              const lastPt = recs.length > 0 ? `${recs[recs.length - 1].latitude_planetocentric.toFixed(4)}°N, ${recs[recs.length - 1].longitude_east.toFixed(4)}°E` : '18.4350°N, 77.4420°E';
               renderActionOutput(
                 `<div style="color:#fbbf24; font-weight:bold;">CRATER FLOOR CAMPAIGN (SOLS 13–300)</div>` +
                 `<div>Matching Records: <strong>${count}</strong> archived tactical locations</div>` +
                 `<div>Spatial Span: (${firstPt}) &rarr; (${lastPt})</div>` +
                 `<div>Depot Samples Available: <strong>${d.sample_depot_count || d.depot_sample_count || 10}</strong></div>`
               );
-            } catch(e) { renderActionOutput(`Error: ${e.message}`); }
+            } catch (e) { renderActionOutput(`Error: ${e.message}`); }
           }
         },
         {
@@ -28254,7 +28292,7 @@ function initNasaPillarsDeck() {
                 `<div>Matching Records: <strong>${count}</strong> &bull; Includes Hawksbill Gap Delta Ascent</div>` +
                 `<div>Key Sol 550 Target: <strong>Wildcat Ridge</strong> cored at Sol 553 (Hazelton Core)</div>`
               );
-            } catch(e) { renderActionOutput(`Error: ${e.message}`); }
+            } catch (e) { renderActionOutput(`Error: ${e.message}`); }
           }
         },
         {
@@ -28310,25 +28348,25 @@ function initNasaPillarsDeck() {
         renderActionOutput(`<em>Applying MEDA atmospheric injection (${preset.name})...</em>`);
         fetch('/api/pillars/environment-meda/calibrate', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(preset.params)
         })
-        .then(r => r.json())
-        .then(d => {
-          const sim = d.derived_simulation_parameters || {};
-          const insitu = d.in_situ_measurements || {};
-          const isNominal = !d.operational_margin_assessment.includes('DEGRADED') && !d.operational_margin_assessment.includes('BLACKOUT');
-          const feasColor = isNominal ? '#10b981' : (d.operational_margin_assessment.includes('BLACKOUT') ? '#ef4444' : '#f59e0b');
-          renderActionOutput(
-            `<div style="color:#fbbf24; font-weight:bold; margin-bottom:2px;">[MEDA CALIBRATION: ${(d.calibration_label || preset.name).toUpperCase()}]</div>` +
-            `<div><strong>Atmospheric State:</strong> τ = ${insitu.optical_depth_tau || 0.82} &bull; Air Temp: ${insitu.air_temperature_c}°C &bull; Pressure: ${insitu.atmospheric_pressure_pa} Pa &bull; Wind: ${insitu.wind_speed_ms} m/s</div>` +
-            `<div><strong>Solar Array Output:</strong> <span style="color:#10b981; font-weight:bold;">${sim.solar_array_output_w.toFixed(1)} W</span> (Loss: ${sim.solar_attenuation_pct.toFixed(1)}%) &bull; <strong>Battery Heater Load:</strong> <span style="color:#f59e0b;">${sim.battery_heater_load_w.toFixed(1)} W</span></div>` +
-            `<div><strong>Atmospheric Density:</strong> ${sim.atmospheric_density_kg_m3.toFixed(5)} kg/m³ &bull; <strong>RF Dust Attenuation:</strong> ${sim.rf_carrier_dust_attenuation_db_km.toFixed(3)} dB/km</div>` +
-            `<div><strong>Operational Assessment:</strong> <span style="color:${feasColor}; font-weight:bold;">${d.operational_margin_assessment}</span></div>` +
-            `<div style="font-size:7px; color:#94a3b8; margin-top:3px;"><em>${d.primary_citation} &bull; ${d.source_authority}</em></div>`
-          );
-        })
-        .catch(e => renderActionOutput(`Error: ${e.message}`));
+          .then(r => r.json())
+          .then(d => {
+            const sim = d.derived_simulation_parameters || {};
+            const insitu = d.in_situ_measurements || {};
+            const isNominal = !d.operational_margin_assessment.includes('DEGRADED') && !d.operational_margin_assessment.includes('BLACKOUT');
+            const feasColor = isNominal ? '#10b981' : (d.operational_margin_assessment.includes('BLACKOUT') ? '#ef4444' : '#f59e0b');
+            renderActionOutput(
+              `<div style="color:#fbbf24; font-weight:bold; margin-bottom:2px;">[MEDA CALIBRATION: ${(d.calibration_label || preset.name).toUpperCase()}]</div>` +
+              `<div><strong>Atmospheric State:</strong> τ = ${insitu.optical_depth_tau || 0.82} &bull; Air Temp: ${insitu.air_temperature_c}°C &bull; Pressure: ${insitu.atmospheric_pressure_pa} Pa &bull; Wind: ${insitu.wind_speed_ms} m/s</div>` +
+              `<div><strong>Solar Array Output:</strong> <span style="color:#10b981; font-weight:bold;">${sim.solar_array_output_w.toFixed(1)} W</span> (Loss: ${sim.solar_attenuation_pct.toFixed(1)}%) &bull; <strong>Battery Heater Load:</strong> <span style="color:#f59e0b;">${sim.battery_heater_load_w.toFixed(1)} W</span></div>` +
+              `<div><strong>Atmospheric Density:</strong> ${sim.atmospheric_density_kg_m3.toFixed(5)} kg/m³ &bull; <strong>RF Dust Attenuation:</strong> ${sim.rf_carrier_dust_attenuation_db_km.toFixed(3)} dB/km</div>` +
+              `<div><strong>Operational Assessment:</strong> <span style="color:${feasColor}; font-weight:bold;">${d.operational_margin_assessment}</span></div>` +
+              `<div style="font-size:7px; color:#94a3b8; margin-top:3px;"><em>${d.primary_citation} &bull; ${d.source_authority}</em></div>`
+            );
+          })
+          .catch(e => renderActionOutput(`Error: ${e.message}`));
       }
 
       setActionButtons([
@@ -28403,7 +28441,7 @@ function initNasaPillarsDeck() {
             try {
               const res = await fetch('/api/pillars/science-targets/plan', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                   start_rc: [146, 77],
                   goal_rc: [30, 90],
@@ -28416,8 +28454,8 @@ function initNasaPillarsDeck() {
               const tr = d.trade_off_analysis || d.trade_off || {};
               const distA = (rA.distance_m || 0).toFixed(0);
               const distB = (rB.distance_m || 0).toFixed(0);
-              const timeA = rA.formatted_time || `${((rA.travel_time_s || 0)/3600).toFixed(2)} h`;
-              const timeB = rB.formatted_time || `${((rB.travel_time_s || 0)/3600).toFixed(2)} h`;
+              const timeA = rA.formatted_time || `${((rA.travel_time_s || 0) / 3600).toFixed(2)} h`;
+              const timeB = rB.formatted_time || `${((rB.travel_time_s || 0) / 3600).toFixed(2)} h`;
               const nrgA = (rA.estimated_energy_wh || rA.energy_wh || 0).toFixed(1);
               const nrgB = (rB.estimated_energy_wh || rB.energy_wh || 0).toFixed(1);
               const sciA = rA.science_yield_score || rA.science_priority_score || 0;
@@ -28436,7 +28474,7 @@ function initNasaPillarsDeck() {
                 `</table>` +
                 `<div style="font-size:7px; color:#cbd5e1; margin-top:4px;"><strong>Scientific Takeaway:</strong> ${tr.recommendation || 'Route B maximizes astrobiology yield by sampling Wildcat Ridge.'}</div>`
               );
-            } catch(e) { renderActionOutput(`Error: ${e.message}`); }
+            } catch (e) { renderActionOutput(`Error: ${e.message}`); }
           }
         },
         {
@@ -28511,7 +28549,7 @@ function initNasaPillarsDeck() {
                 `<div><strong>DTN RFC 9171 Buffer:</strong> 6/6 telemetry bundles delivered during 4-hour blackout (0 KB Lost)</div>` +
                 `<div><strong>Autonomous Detour:</strong> Safe-hold triage &rarr; Lateral ridge bypass &rarr; MRO orbiter link restored</div>`
               );
-            } catch(e) { renderActionOutput(`Error: ${e.message}`); }
+            } catch (e) { renderActionOutput(`Error: ${e.message}`); }
           }
         }
       ]);
@@ -28555,13 +28593,13 @@ function initNasaPillarsDeck() {
               const d = await res.json();
               const ds = d.datasets || {};
               let list = Object.entries(ds).map(([k, v]) =>
-                `<div>&bull; <strong style="color:#38bdf8;">${v.dataset_name || k}</strong> (${v.coverage}): <code>${(v.sha256||'').substring(0,12)}...</code> &bull; DOI: ${v.primary_source_doi || v.doi || 'N/A'}</div>`
+                `<div>&bull; <strong style="color:#38bdf8;">${v.dataset_name || k}</strong> (${v.coverage}): <code>${(v.sha256 || '').substring(0, 12)}...</code> &bull; DOI: ${v.primary_source_doi || v.doi || 'N/A'}</div>`
               ).join('');
               renderActionOutput(
                 `<div style="color:#cbd5e1; font-weight:bold; margin-bottom:3px;">NASA / USGS DATA PROVENANCE REGISTRY</div>` +
                 `<div style="font-size:7px; max-height:120px; overflow-y:auto;">${list}</div>`
               );
-            } catch(e) { renderActionOutput(`Error: ${e.message}`); }
+            } catch (e) { renderActionOutput(`Error: ${e.message}`); }
           }
         }
       ]);

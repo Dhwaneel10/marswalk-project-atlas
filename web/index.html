@@ -120,10 +120,6 @@
             <span>&#129497; ENTER ASTRONAUT EVA MODE</span>
             <span class="btn-hero-arrow">&rarr;</span>
           </button>
-          <button id="btnLandingExploreEnv" class="btn-hero-secondary" title="Explore Planetary Environment & 3D Orbital Canvas">
-            <span>&#127758; Explore Planetary Environment</span>
-            <span class="btn-hero-arrow">&rarr;</span>
-          </button>
           <button id="btnLandingEvaluatorTour" class="btn-hero-primary btn-hero-tour" title="Launch 7-Step Step-by-Step Evaluator Golden Path Tour">
             <span>★ EVALUATOR TOUR</span>
             <span class="btn-hero-arrow">&rarr;</span>
@@ -132,17 +128,14 @@
             <span>★ 5-Min Showcase</span>
             <span class="btn-hero-arrow">&rarr;</span>
           </button>
-          <button id="btnLandingExplore" class="btn-hero-secondary" title="Explore Workstation">
+          <button id="btnLandingExplore" class="btn-hero-secondary" title="Explore Workstation Canvas">
             <span>Workstation Canvas &rarr;</span>
-          </button>
-          <button id="btnLandingHowItWorks" class="btn-hero-secondary" title="View architectural design and algorithmic pipeline">
-            <span>How It Works</span>
           </button>
           <button id="btnLandingPreflight" class="btn-hero-secondary" title="Run 12-point preflight readiness diagnostics">
             <span>⚙ Preflight Check</span>
           </button>
-          <button id="btnLandingBrowseMissions" class="btn-hero-tertiary">
-            <span>Saved Workspaces</span>
+          <button id="btnLandingHowItWorks" class="btn-hero-secondary" title="View architectural design and algorithmic pipeline">
+            <span>How It Works</span>
           </button>
         </div>
 
@@ -172,57 +165,52 @@
         </div>
       </div>
 
-      <!-- Right Column: Vertical Destination Selector (Inspired by Reference 1) -->
+      <!-- Right Column: Jezero Crater Operational Digital Twin Hub (Focused Release) -->
       <aside class="landing-hero-sidebar">
         <div class="dest-selector-header">
-          <span class="dest-selector-tag">CURATED TRAVERSE REGIONS</span>
-          <span class="dest-selector-badge">IAU 2000 SPHERE</span>
+          <span class="dest-selector-tag">OPERATIONAL MISSION HUB</span>
+          <span class="dest-selector-badge" style="background:rgba(16,185,129,0.15); color:#10B981; border:1px solid rgba(16,185,129,0.3); font-weight:700;">ACTIVE 3D TWIN</span>
         </div>
 
         <div class="vertical-destination-list">
           <div class="dest-item active" data-dest="jezero">
             <div class="dest-num">01</div>
             <div class="dest-info">
-              <div class="dest-name">Jezero Crater</div>
+              <div class="dest-name">Jezero Crater &bull; Delta Scarp</div>
               <div class="dest-meta">18.44&deg;N, 77.45&deg;E &bull; Perseverance Rover &amp; Ancient Delta</div>
-              <div class="dest-capability-tag">20 m CTX Elevation DTM &bull; Live A* Pathfinding</div>
+              <div class="dest-capability-tag">USGS 20m CTX + 1m HiRISE DTM &bull; Live Asymmetric A*</div>
             </div>
-            <button class="dest-explore-btn" title="Explore Jezero Crater Region">EXPLORE &rarr;</button>
+            <button class="dest-explore-btn" id="btnSidebarExploreJezero" title="Launch Jezero Surface Workstation">EXPLORE &rarr;</button>
           </div>
 
-          <div class="dest-item" data-dest="olympus">
-            <div class="dest-num">02</div>
-            <div class="dest-info">
-              <div class="dest-name">Olympus Mons</div>
-              <div class="dest-meta">18.65&deg;N, 226.20&deg;E &bull; Solar System's Tallest Volcano (21.9 km)</div>
-              <div class="dest-capability-tag">Calibrated 6 m CTX Mosaic &bull; Caldera Scarps</div>
+          <div class="dest-feature-card">
+            <div class="feature-card-header">
+              <span class="feature-card-icon">&#128506;</span>
+              <strong>VERIFIED JEZERO WORKSTATION DATA</strong>
             </div>
-            <button class="dest-explore-btn" title="Explore Olympus Mons Region">EXPLORE &rarr;</button>
-          </div>
-
-          <div class="dest-item" data-dest="valles">
-            <div class="dest-num">03</div>
-            <div class="dest-info">
-              <div class="dest-name">Valles Marineris</div>
-              <div class="dest-meta">13.90&deg;S, 300.80&deg;E &bull; Planetary Tectonic Rift (4,000 km)</div>
-              <div class="dest-capability-tag">Calibrated Regional Mosaic &bull; Coprates / Melas Chasma</div>
+            <div class="feature-card-body">
+              <div class="feature-row">
+                <span class="feature-label">Topography:</span>
+                <span class="feature-val">USGS CTX 20m &bull; HiRISE 1m DTM</span>
+              </div>
+              <div class="feature-row">
+                <span class="feature-label">Ground Truth:</span>
+                <span class="feature-val">NASA PDS Sols 0–1000+ (33.2 km)</span>
+              </div>
+              <div class="feature-row">
+                <span class="feature-label">Meteorology:</span>
+                <span class="feature-val">PDS MEDA In-Situ (Sol 89 Storm)</span>
+              </div>
+              <div class="feature-row">
+                <span class="feature-label">Science Targets:</span>
+                <span class="feature-val">12 Delta Outcrops &bull; Sample Depot</span>
+              </div>
             </div>
-            <button class="dest-explore-btn" title="Explore Valles Marineris Region">EXPLORE &rarr;</button>
-          </div>
-
-          <div class="dest-item" data-dest="gale">
-            <div class="dest-num">04</div>
-            <div class="dest-info">
-              <div class="dest-name">Gale Crater</div>
-              <div class="dest-meta">5.38&deg;S, 137.44&deg;E &bull; Curiosity Rover Traverse &amp; Mount Sharp</div>
-              <div class="dest-capability-tag">Controlled 6 m CTX Mosaic &bull; Aeolis Mons</div>
-            </div>
-            <button class="dest-explore-btn" title="Explore Gale Crater Region">EXPLORE &rarr;</button>
           </div>
         </div>
 
         <div class="landing-disclaimer-card">
-          <strong>Scientific Integrity Disclosure:</strong> MarsWalk is an independent planetary mission rehearsal prototype developed for the NASA Space Apps Challenge. Modeled traverses reflect terrain slope equations and are NOT certified operational paths for human astronauts.
+          <strong>Scientific Integrity Disclosure:</strong> MarsWalk 2.0 is an independent planetary mission rehearsal prototype developed for the NASA Space Apps Challenge. Jezero Crater is the sole verified surface operations workstation in this release. Traverses reflect terrain slope equations and are NOT certified operational paths for human astronauts.
         </div>
       </aside>
     </main>
@@ -269,6 +257,70 @@
         <button id="btnHowClose" class="btn-hero-secondary">Close Guide</button>
       </div>
     </section>
+
+    <!-- Cinematic Planetary Landing Footer (Mission 16 Showcase & Data Provenance) -->
+    <footer id="landingFooter" class="landing-footer">
+      <div class="landing-footer-container">
+        <!-- Top Footer Grid: 3 Pillars -->
+        <div class="landing-footer-grid">
+          <div class="footer-col-brand">
+            <div class="footer-brand-title">
+              MARS<span class="coral-accent">WALK</span> 2.0
+              <span class="landing-brand-tag" style="margin-left:8px;">PROJECT ATLAS</span>
+            </div>
+            <p class="footer-brand-desc">
+              Next-generation dual-mode planetary mission operations and astronaut EVA rehearsal system. Developed for the <strong>NASA International Space Apps Challenge 2026</strong>.
+            </p>
+            <div class="footer-meta-pill">
+              <span>&#128506; IAU 2000 Mars Spheroid &bull; ESRI:103885</span>
+            </div>
+          </div>
+
+          <div class="footer-col-provenance">
+            <h4 class="footer-col-heading">&#128269; Data Provenance &amp; Archives</h4>
+            <ul class="footer-links-list">
+              <li><span class="footer-bullet">&#9670;</span> <strong>USGS Astrogeology:</strong> MRO CTX 20m &amp; HiRISE 1m DTMs (Jezero Crater)</li>
+              <li><span class="footer-bullet">&#9670;</span> <strong>NASA PDS Geosciences:</strong> Perseverance Rover Sols 0–1000+ Traverse &amp; Samples</li>
+              <li><span class="footer-bullet">&#9670;</span> <strong>NASA PDS Atmospheres:</strong> MEDA Environmental Sensor Suite (Sol 89 Dust Event)</li>
+              <li><span class="footer-bullet">&#9670;</span> <strong>RFC 9171 DTN:</strong> Merkle-Verified Custody Transfer &amp; Delay-Tolerant Bundles</li>
+            </ul>
+          </div>
+
+          <div class="footer-col-actions">
+            <h4 class="footer-col-heading">&#128640; Quick Mission Operations</h4>
+            <div class="footer-actions-grid">
+              <button id="btnFooterEnterEVA" class="footer-btn footer-btn-eva">&#129497; Astronaut EVA Mode</button>
+              <button id="btnFooterEnterRover" class="footer-btn footer-btn-rover">&#128663; Robotic Rover Mode</button>
+              <button id="btnFooterHowItWorks" class="footer-btn">&#128221; System Architecture</button>
+              <button id="btnFooterPreflight" class="footer-btn">&#9881; Preflight Diagnostics</button>
+            </div>
+            <button id="btnFooterBackToTop" class="footer-back-to-top" title="Return to Top of Overview">&uarr; Back to Top</button>
+          </div>
+        </div>
+
+        <!-- Non-Safety Operational Disclaimer Banner -->
+        <div class="footer-disclaimer-banner">
+          <div class="disclaimer-header">
+            <span class="disclaimer-badge">&#9888; SCIENTIFIC RESEARCH PROTOTYPE &bull; NOT OPERATIONAL SAFETY FLIGHT CERTIFIED</span>
+          </div>
+          <p class="disclaimer-text">
+            MarsWalk 2.0 (Project Atlas) is an independent planetary mission rehearsal and decision-support demonstrator. Traverses, biophysical effort models, metabolic rates, and consumable envelopes are computational heuristics derived from NASA/USGS observations. Under no circumstances should modeled traverses be interpreted as certified operationally safe for human astronauts.
+          </p>
+        </div>
+
+        <!-- Bottom Copyright / Acknowledgments -->
+        <div class="footer-bottom-bar">
+          <div class="footer-copy">
+            &copy; 2026 Team MarsWalk &bull; Built with Three.js &amp; Python &bull; NASA Space Apps Challenge Submission
+          </div>
+          <div class="footer-tags">
+            <span class="footer-tag">OFFLINE ARCHIVE READY</span>
+            <span class="footer-tag">ZERO TELEMETRY TRACKERS</span>
+            <span class="footer-tag">RFC 9171 COMPLIANT</span>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 
   <!-- Cinematic Planetary Onboarding Modal (Milestone 9L) -->
@@ -941,27 +993,27 @@
   <div id="locationCard" class="location-card hidden">
     <div class="location-card-header">
       <div>
-        <div class="location-card-title" id="locCardTitle">OLYMPUS MONS</div>
-        <span class="location-card-badge" id="locCardCategory">SHIELD VOLCANO</span>
+        <div class="location-card-title" id="locCardTitle">JEZERO CRATER</div>
+        <span class="location-card-badge" id="locCardCategory">IMPACT CRATER &bull; SURFACE WORKSTATION</span>
       </div>
       <button id="btnCloseLocCard" class="modal-close-btn">&times;</button>
     </div>
     <div class="location-card-body">
       <div class="location-metrics">
-        <div class="location-chip">LAT: <strong id="locCardLat">18.65&deg; N</strong></div>
-        <div class="location-chip">LON: <strong id="locCardLon">-133.80&deg; E</strong></div>
-        <div class="location-chip" id="locCardSizeChip">DIAM: <strong id="locCardSize">624.0 km</strong></div>
+        <div class="location-chip">LAT: <strong id="locCardLat">18.44&deg; N</strong></div>
+        <div class="location-chip">LON: <strong id="locCardLon">77.45&deg; E</strong></div>
+        <div class="location-chip" id="locCardSizeChip">DIAM: <strong id="locCardSize">45.0 km</strong></div>
       </div>
       <div class="location-imagery-badge-row">
-        <span class="imagery-tag" id="locCardImagery">IMAGERY: MRO CTX (6 m)</span>
-        <span class="elevation-tag" id="locCardElevation">ELEVATION: GLOBAL DATUM ONLY</span>
+        <span class="imagery-tag" id="locCardImagery">IMAGERY: USGS CTX (20 m) &bull; HiRISE (1 m)</span>
+        <span class="elevation-tag" id="locCardElevation">ELEVATION: USGS 20m STEREO DTM</span>
       </div>
       <div class="location-scientific-disclosures" id="locCardDisclosures" style="margin: 6px 0 6px 0; font-size: 9.5px; color: var(--text-tertiary); line-height: 1.4; border-left: 2px solid var(--accent-coral); padding-left: 8px; background: rgba(255,255,255,0.02); border-radius: 0 4px 4px 0; padding: 4px 8px;">
-        <div id="locCardSamplingDisclosure">&#9670; Display Sampling: ~651 m/px (Level 6 Tile Grid)</div>
-        <div id="locCardContrastDisclosure" style="margin-top: 2px;">&#9670; Visual: Synthetic contrast enhancement over monochrome CTX</div>
-        <div id="locCardPlanningDisclosure" style="margin-top: 2px; color: var(--accent-coral);">&#9670; Traverse Planning: Restricted to Jezero 20 m DTM</div>
+        <div id="locCardSamplingDisclosure">&#9670; Operational Workspace: Full 20 m/pixel CTX Elevation Matrix</div>
+        <div id="locCardContrastDisclosure" style="margin-top: 2px;">&#9670; Terrain Provenance: USGS Astrogeology Science Center</div>
+        <div id="locCardPlanningDisclosure" style="margin-top: 2px; color: var(--status-green);">&#9670; Traverse Planning: Active Asymmetric A* Biomechanics</div>
       </div>
-      <div class="location-narrative" id="locCardOrigin">Largest shield volcano on Mars and in the Solar System.</div>
+      <div class="location-narrative" id="locCardOrigin">Landing site of NASA's Mars 2020 Perseverance rover and ancient river delta. Active operational workstation.</div>
       <div class="location-provenance" id="locCardAttribution">USGS Gazetteer of Planetary Nomenclature / IAU WGPSN</div>
       <div class="location-card-actions">
         <button id="btnLocFly" class="btn-primary" style="flex:1; justify-content:center; font-size:11px;">
