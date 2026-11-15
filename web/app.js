@@ -19548,13 +19548,14 @@ function setupRelayNetUIListeners() {
       });
     }
 
-    let isPaused = false;
-    document.addEventListener('visibilitychange', () => {
-      isPaused = document.hidden;
-    });
+    let animationFrameId = null;
 
     function renderStarfield() {
-      if (!isPaused && ctx) {
+      if (document.hidden) {
+        animationFrameId = null;
+        return;
+      }
+      if (ctx) {
         ctx.clearRect(0, 0, width, height);
         for (let i = 0; i < stars.length; i++) {
           const s = stars[i];
@@ -19580,10 +19581,16 @@ function setupRelayNetUIListeners() {
           ctx.fill();
         }
       }
-      requestAnimationFrame(renderStarfield);
+      animationFrameId = requestAnimationFrame(renderStarfield);
     }
 
-    requestAnimationFrame(renderStarfield);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && !animationFrameId) {
+        animationFrameId = requestAnimationFrame(renderStarfield);
+      }
+    });
+
+    animationFrameId = requestAnimationFrame(renderStarfield);
   }
 
   // ==========================================================================
@@ -19757,7 +19764,7 @@ function setupRelayNetUIListeners() {
       evaRouteOptionsGrid.innerHTML = '';
 
       const routeConfigs = [
-        { key: 'conservative', badge: 'SAFEST &bull; <=15&deg; SLOPE', color: '#10b981' },
+        { key: 'conservative', badge: 'LOWEST SLOPE &bull; <=15&deg; BIOMECHANICS', color: '#10b981' },
         { key: 'science_first', badge: 'MAX SCIENCE YIELD', color: '#a78bfa' },
         { key: 'time_efficient', badge: 'FASTEST PACE', color: '#38bdf8' }
       ];
@@ -19962,6 +19969,29 @@ function setupRelayNetUIListeners() {
         }
       });
     });
+
+    // Reset contingency state
+    const btnEvaContingencyReset = document.getElementById('btnEvaContingencyReset');
+    if (btnEvaContingencyReset) {
+      btnEvaContingencyReset.addEventListener('click', () => {
+        evaCurrentMissionState = 'NOMINAL';
+        if (evaContingencyStateBadge) {
+          evaContingencyStateBadge.className = 'eva-state-pill eva-state-nominal';
+          evaContingencyStateBadge.textContent = 'NOMINAL';
+        }
+        if (evaHudMissionState) {
+          evaHudMissionState.className = 'eva-state-pill eva-state-nominal';
+          evaHudMissionState.textContent = 'NOMINAL';
+        }
+        if (evaContingencyAdvisoryBanner) {
+          evaContingencyAdvisoryBanner.classList.add('hidden');
+        }
+        if (activeEvaRouteKey && evaPlannedRoutes && evaPlannedRoutes[activeEvaRouteKey]) {
+          selectEVARoute(activeEvaRouteKey);
+          setPlanningStatus("Contingency cleared. Resumed nominal traverse planning.", "success");
+        }
+      });
+    }
 
     // Rover scouting toggle
     if (evaToggleRoverScouting) {
