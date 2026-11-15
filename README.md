@@ -21,7 +21,9 @@
 **Reproducible Server Command:** `python3 scripts/run_atlas.py --port 3000` (Listening on `0.0.0.0:3000`)  
 **Automated Verification Suite:** `.venv/bin/python3 scripts/verify_mission17_workflow.py`  
 
-### 📑 Mission 17 Core Release Documents
+### 📑 Mission 17 & 17B Release Documents
+- **[Mission 17B Homepage Repair Report](docs/MISSION_17B_HOMEPAGE_REPAIR_REPORT.md):** Architectural root-cause repair, 7-section continuous document flow, and layout rebalancing.
+- **[Mission 17B Multi-Resolution Responsive QA](docs/MISSION_17B_RESPONSIVE_QA.md):** Automated CDP audit across 7 viewports (1920x1080 to 360x800) with 0px horizontal overflow verification.
 - **[Mission 17 Final Handover Report](docs/MISSION_17_FINAL_HANDOVER.md):** Complete release sign-off, phase-by-phase completion matrix, and screenshot index.
 - **[Product Scope & Release Boundaries](docs/MISSION_17_PRODUCT_SCOPE.md):** Definitive boundaries of the Jezero Crater surface release vs deferred subsystems.
 - **[Subsystem Feature Audit & Deferral Ledger](docs/MISSION_17_FEATURE_AUDIT.md):** Forensic audit of RelayNet Comms, Joint Co-Design Studio, and extended engineering labs.

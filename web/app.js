@@ -18129,7 +18129,10 @@
 
     if (btnLandingHowItWorks) {
       btnLandingHowItWorks.addEventListener('click', () => {
-        if (landingHowItWorksSection) {
+        const workflowSection = document.getElementById('workflowSection');
+        if (workflowSection) {
+          workflowSection.scrollIntoView({ behavior: 'smooth' });
+        } else if (landingHowItWorksSection) {
           landingHowItWorksSection.classList.toggle('hidden');
           if (!landingHowItWorksSection.classList.contains('hidden')) {
             landingHowItWorksSection.scrollIntoView({ behavior: 'smooth' });
@@ -18284,10 +18287,46 @@
       });
     }
 
+    function setLandingNavLinkActive(activeLink) {
+      document.querySelectorAll('.landing-nav-link').forEach(link => link.classList.remove('active'));
+      if (activeLink) activeLink.classList.add('active');
+    }
+
     if (navLinkExplore) {
       navLinkExplore.addEventListener('click', () => {
-        if (landingHowItWorksSection) landingHowItWorksSection.classList.add('hidden');
+        setLandingNavLinkActive(navLinkExplore);
         if (marsLandingPage) marsLandingPage.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    const navLinkData = document.getElementById('navLinkData');
+    if (navLinkData) {
+      navLinkData.addEventListener('click', () => {
+        setLandingNavLinkActive(navLinkData);
+        const dataSec = document.getElementById('dataOverviewSection');
+        if (dataSec) dataSec.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    if (navLinkHowItWorks) {
+      navLinkHowItWorks.addEventListener('click', () => {
+        setLandingNavLinkActive(navLinkHowItWorks);
+        const workflowSec = document.getElementById('workflowSection');
+        if (workflowSec) {
+          workflowSec.scrollIntoView({ behavior: 'smooth' });
+        } else if (landingHowItWorksSection) {
+          landingHowItWorksSection.classList.remove('hidden');
+          landingHowItWorksSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    const navLinkProvenance = document.getElementById('navLinkProvenance');
+    if (navLinkProvenance) {
+      navLinkProvenance.addEventListener('click', () => {
+        setLandingNavLinkActive(navLinkProvenance);
+        const provSec = document.getElementById('provenanceSection');
+        if (provSec) provSec.scrollIntoView({ behavior: 'smooth' });
       });
     }
 
@@ -18299,28 +18338,22 @@
       });
     }
 
-    if (navLinkHowItWorks) {
-      navLinkHowItWorks.addEventListener('click', () => {
-        if (landingHowItWorksSection) {
-          landingHowItWorksSection.classList.remove('hidden');
-          landingHowItWorksSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    }
-
     if (navLinkAbout) {
       navLinkAbout.addEventListener('click', () => {
-        const footerEl = document.getElementById('landingFooter');
-        if (footerEl) {
-          footerEl.scrollIntoView({ behavior: 'smooth' });
-        } else if (landingHowItWorksSection) {
-          landingHowItWorksSection.classList.remove('hidden');
-          landingHowItWorksSection.scrollIntoView({ behavior: 'smooth' });
+        setLandingNavLinkActive(navLinkAbout);
+        const limitationsSec = document.getElementById('limitationsSection') || document.getElementById('landingFooter');
+        if (limitationsSec) {
+          limitationsSec.scrollIntoView({ behavior: 'smooth' });
         }
       });
     }
 
-    // Landing Page Footer Actions (Mission 16)
+    // Landing Page Footer Actions (Mission 17B)
+    const btnFooterEnterWorkstation = document.getElementById('btnFooterEnterWorkstation');
+    if (btnFooterEnterWorkstation && btnLandingEnterWorkstation) {
+      btnFooterEnterWorkstation.addEventListener('click', () => btnLandingEnterWorkstation.click());
+    }
+
     const btnFooterEnterEVA = document.getElementById('btnFooterEnterEVA');
     if (btnFooterEnterEVA && btnLandingEnterEVA) {
       btnFooterEnterEVA.addEventListener('click', () => btnLandingEnterEVA.click());
@@ -18354,12 +18387,14 @@
     if (btnFooterBackToTop) {
       btnFooterBackToTop.addEventListener('click', () => {
         if (marsLandingPage) marsLandingPage.scrollTo({ top: 0, behavior: 'smooth' });
+        if (navLinkExplore) setLandingNavLinkActive(navLinkExplore);
       });
     }
 
     if (brandLandingLogo) {
       brandLandingLogo.addEventListener('click', () => {
         if (marsLandingPage) marsLandingPage.scrollTo({ top: 0, behavior: 'smooth' });
+        if (navLinkExplore) setLandingNavLinkActive(navLinkExplore);
       });
     }
 
