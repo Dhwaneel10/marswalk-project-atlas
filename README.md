@@ -16,10 +16,20 @@
 
 ## 🏆 Official Competition Release Package (NASA Space Apps 2026)
 
-**Mission 7 Release Status:** **9 / 9 Quality Gates Passed (100% Qualified)**  
-**Reproducible Preflight Command:** `./scripts/release_preflight.sh 3000`
+**Release Candidate:** `v2.6.0-competition-release` (`mission-17-competition-readiness`)  
+**Mission 17 Validation Status:** **11 / 11 Checkpoints Passed (100% Verified)**  
+**Reproducible Server Command:** `python3 scripts/run_atlas.py --port 3000` (Listening on `0.0.0.0:3000`)  
+**Automated Verification Suite:** `.venv/bin/python3 scripts/verify_mission17_workflow.py`  
 
-### 📑 Official Submission Documents
+### 📑 Mission 17 Core Release Documents
+- **[Mission 17 Final Handover Report](docs/MISSION_17_FINAL_HANDOVER.md):** Complete release sign-off, phase-by-phase completion matrix, and screenshot index.
+- **[Product Scope & Release Boundaries](docs/MISSION_17_PRODUCT_SCOPE.md):** Definitive boundaries of the Jezero Crater surface release vs deferred subsystems.
+- **[Subsystem Feature Audit & Deferral Ledger](docs/MISSION_17_FEATURE_AUDIT.md):** Forensic audit of RelayNet Comms, Joint Co-Design Studio, and extended engineering labs.
+- **[Homepage Architecture & Redesign Report](docs/MISSION_17_HOMEPAGE_REDESIGN.md):** Unobstructed viewport hierarchy, two-tier CTA architecture, and Sol 89 dust storm specs grid.
+- **[Workstation Verification & Test Report](docs/MISSION_17_WORKSTATION_TESTS.md):** Detailed audit of the 5 core views (Astronaut EVA, Rover, Terrain, Science, Environment) and persistent 3D map legend.
+- **[Public Release Readiness & Deployment Feasibility](docs/MISSION_17_PUBLIC_RELEASE_READINESS.md):** Repository hygiene, zero-cloud reproducibility, Docker roadmap, and network socket architecture.
+
+### 📑 Comprehensive Technical & Scientific Archives
 - **[Project Overview](docs/PROJECT_OVERVIEW.md):** Executive summary, core innovation, and Space Apps challenge alignment.
 - **[Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md):** Full end-to-end architecture, data flows, and subsystem specifications.
 - **[Evaluator Demo Script](docs/DEMO_SCRIPT.md):** 3-minute video pitch and 5-minute technical demo script with exact spoken cues.
@@ -29,7 +39,6 @@
 - **[Official Release Manifest](docs/RELEASE_MANIFEST.md):** Machine-verified build manifest, SHA-256 dataset digests, and test results.
 - **[Reproducible Setup Runbook](docs/REPRODUCIBLE_SETUP.md):** Linux bootstrap, dependencies, and one-command reproduction guide.
 - **[Evaluator Experience & Interface Specification](docs/MISSION_7_EVALUATOR_EXPERIENCE.md):** The 15-second opening screen and 7-step Golden Path HUD design.
-- **[Mission 7 Final Handover Report](docs/MISSION_7_FINAL_HANDOVER.md):** Complete mission sign-off, system verification ledger, and certification.
 
 ---
 

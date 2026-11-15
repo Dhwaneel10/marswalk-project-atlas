@@ -117,19 +117,17 @@
         <!-- CTA Action Group -->
         <div class="landing-cta-row stagger-4">
           <button id="btnLandingEnterEVA" class="btn-hero-primary btn-hero-eva" title="Launch Directly into Astronaut EVA Mission Mode">
-            <span>&#129497; ENTER ASTRONAUT EVA MODE</span>
+            <span>&#9889; ENTER ASTRONAUT EVA MODE</span>
             <span class="btn-hero-arrow">&rarr;</span>
           </button>
-          <button id="btnLandingEvaluatorTour" class="btn-hero-primary btn-hero-tour" title="Launch 7-Step Step-by-Step Evaluator Golden Path Tour">
-            <span>★ EVALUATOR TOUR</span>
-            <span class="btn-hero-arrow">&rarr;</span>
+          <button id="btnLandingExploreEnv" class="btn-hero-secondary" title="Explore Jezero 3D Surface &amp; In-Situ Atmospheric Environment">
+            <span>&#9728;&#65039; Explore Jezero Environment &rarr;</span>
           </button>
-          <button id="btnLandingDemoMode" class="btn-hero-primary btn-hero-demo" title="Start Guided 5-Minute Competition Demonstration">
+          <button id="btnLandingEvaluatorTour" class="btn-hero-secondary btn-hero-tour" title="Launch 7-Step Step-by-Step Evaluator Golden Path Tour">
+            <span>★ Evaluator Tour</span>
+          </button>
+          <button id="btnLandingDemoMode" class="btn-hero-secondary btn-hero-demo" title="Start Guided 5-Minute Competition Demonstration">
             <span>★ 5-Min Showcase</span>
-            <span class="btn-hero-arrow">&rarr;</span>
-          </button>
-          <button id="btnLandingExplore" class="btn-hero-secondary" title="Explore Workstation Canvas">
-            <span>Workstation Canvas &rarr;</span>
           </button>
           <button id="btnLandingPreflight" class="btn-hero-secondary" title="Run 12-point preflight readiness diagnostics">
             <span>⚙ Preflight Check</span>
@@ -154,8 +152,8 @@
             <span class="spec-label">Life-Support Oxygen &amp; Reserve Gate</span>
           </div>
           <div class="landing-spec-item">
-            <span class="spec-value">0 KB Lost</span>
-            <span class="spec-label">RFC 9171 DTN Custody (Merkle Verified)</span>
+            <span class="spec-value">&tau; = 1.5 Storm</span>
+            <span class="spec-label">NASA MEDA Sol 89 In-Situ Dust Contingency</span>
           </div>
         </div>
 
@@ -398,6 +396,44 @@
   <div id="labelsOverlay" class="labels-overlay"></div>
   <div id="jezeroLabelsOverlay" class="labels-overlay" style="display: none;"></div>
 
+  <!-- Mission 17: Persistent 3D Surface Map Legend -->
+  <div id="jezeroMapLegend" class="jezero-map-legend hidden">
+    <div class="map-legend-header">
+      <span class="map-legend-title">&#128506; MAP LEGEND</span>
+      <button id="btnToggleMapLegend" class="map-legend-toggle" title="Toggle Legend Details">&minus;</button>
+    </div>
+    <div class="map-legend-body" id="jezeroMapLegendBody">
+      <div class="map-legend-item">
+        <span class="legend-badge legend-badge-eva">&#129497;</span>
+        <div class="legend-info">
+          <span class="legend-name" style="color:#fbbf24;">ASTRONAUT EVA</span>
+          <span class="legend-desc">Crew Sortie &bull; Amber Out / Cyan Return</span>
+        </div>
+      </div>
+      <div class="map-legend-item">
+        <span class="legend-badge legend-badge-rover">&#128663;</span>
+        <div class="legend-info">
+          <span class="legend-name" style="color:#38bdf8;">PERSEVERANCE</span>
+          <span class="legend-desc">Robotic Recon &bull; 33.2 km Ground Truth</span>
+        </div>
+      </div>
+      <div class="map-legend-item">
+        <span class="legend-badge legend-badge-science">&#9670;</span>
+        <div class="legend-info">
+          <span class="legend-name" style="color:#c084fc;">SCIENCE TARGETS</span>
+          <span class="legend-desc">12 In-Situ Delta Outcrops (SHERLOC)</span>
+        </div>
+      </div>
+      <div class="map-legend-item">
+        <span class="legend-badge legend-badge-base">&#9873;</span>
+        <div class="legend-info">
+          <span class="legend-name" style="color:#34d399;">BASE CAMP</span>
+          <span class="legend-desc">Octavia E. Butler Base (Landing Site)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Milestone 10A: Cockpit HUD Overlay & Telemetry Reticle -->
   <div id="cockpitHudOverlay" class="cockpit-hud-overlay hidden">
     <div class="cockpit-header-banner">
@@ -530,11 +566,11 @@
             <option value="3.0">3.0&times; (High Relief)</option>
           </select>
         </div>
-        <button id="btnToggleRelayNet" class="theater-action-btn theater-relaynet-btn active" title="Toggle Atlas Mars RelayNet Mesh & Connectivity Twin">
+        <button id="btnToggleRelayNet" class="theater-action-btn theater-relaynet-btn" title="Toggle Atlas Mars RelayNet Mesh & Connectivity Twin">
           <span class="btn-icon">&#128225;</span> RELAYNET
           <span id="theaterRelayStatusDot" class="relaynet-status-dot online"></span>
         </button>
-        <button id="btnToggleJointStudio" class="theater-action-btn theater-jointstudio-btn active" title="Toggle Joint Mission Co-Design Studio Drawer">
+        <button id="btnToggleJointStudio" class="theater-action-btn theater-jointstudio-btn" title="Toggle Joint Mission Co-Design Studio Drawer">
           <span class="btn-icon">&#9881;</span> CO-DESIGN
           <span id="theaterJointStatusDot" class="relaynet-status-dot online"></span>
         </button>
@@ -619,7 +655,7 @@
   </div>
 
   <!-- Milestone 13D: Atlas Mars RelayNet Control Drawer Panel -->
-  <div id="relayNetPanel" class="relaynet-control-panel">
+  <div id="relayNetPanel" class="relaynet-control-panel hidden">
     <div class="relaynet-panel-header">
       <div class="relaynet-panel-title">
         <span class="relaynet-icon">&#128225;</span>
@@ -706,7 +742,7 @@
   </div>
 
     <!-- Milestone 13E: Joint Mission Co-Design In-Theater Control Drawer Panel -->
-  <div id="jointMissionStudioPanel" class="jointstudio-control-panel">
+  <div id="jointMissionStudioPanel" class="jointstudio-control-panel hidden">
     <div class="jointstudio-panel-header">
       <div class="jointstudio-panel-title">
         <span class="jointstudio-icon">&#9881;</span>
@@ -1076,25 +1112,30 @@
 
         <select id="extendedLabsSelect" class="inspector-tab-select" style="background:#0f172a; color:#94a3b8; border:1px solid rgba(148,163,184,0.3); font-size:9px; font-weight:600; padding:3px 6px; border-radius:3px; cursor:pointer; max-width:180px;" title="Access specialized engineering labs">
           <option value="">⚙️ Extended Labs (17)...</option>
-          <option value="tabExperimentStudio">&#129514; Exp Studio</option>
-          <option value="tabRobustnessLab">&#128737; Robustness Lab</option>
-          <option value="tabRehearsalDirector">&#127916; Rehearsal Director</option>
-          <option value="tabJointMissionStudio">&#9881; Joint Co-Design</option>
-          <option value="tabCampaignOperations">&#128506; MOCC Campaign Ops</option>
-          <option value="tabMissionAssurance">&#128737; Assurance Lab</option>
-          <option value="tabFleetControl">&#128741; Fleet Intelligence</option>
-          <option value="tabMissionDesignStudio">&#127919; Design Studio</option>
-          <option value="tabEnvironmentStudio">&#9728;&#65039; Environment Studio</option>
-          <option value="tabDeepSpaceAutonomy">&#128760; Deep Space Autonomy</option>
-          <option value="tabAerialCorps">&#128641; Aerial Corps</option>
-          <option value="tabScienceDiscovery">&#129504; Discovery Center</option>
-          <option value="tabEnvironmentValidation">&#129514; Climate Assimilation</option>
-          <option value="tabSettlement">&#127960; Settlement Center</option>
-          <option value="tabMissionOS">&#127757; Unified Mission OS</option>
-          <option value="tabPlanetaryFoundry">&#127959; Planetary Foundry</option>
-          <option value="tabResults">&#128202; Results Workbench</option>
-          <option value="tabScenarios">&#128203; Curated Scenarios</option>
-          <option value="tabWorkspaces">&#128193; Workspaces</option>
+          <optgroup label="Specialized Science &amp; Simulation">
+            <option value="tabExperimentStudio">&#129514; Exp Studio</option>
+            <option value="tabRobustnessLab">&#128737; Robustness Lab</option>
+            <option value="tabRehearsalDirector">&#127916; Rehearsal Director</option>
+            <option value="tabCampaignOperations">&#128506; MOCC Campaign Ops</option>
+            <option value="tabMissionAssurance">&#128737; Assurance Lab</option>
+            <option value="tabFleetControl">&#128741; Fleet Intelligence</option>
+            <option value="tabMissionDesignStudio">&#127919; Design Studio</option>
+            <option value="tabEnvironmentStudio">&#9728;&#65039; Environment Studio</option>
+            <option value="tabScienceDiscovery">&#129504; Discovery Center</option>
+            <option value="tabEnvironmentValidation">&#129514; Climate Assimilation</option>
+            <option value="tabSettlement">&#127960; Settlement Center</option>
+            <option value="tabMissionOS">&#127757; Unified Mission OS</option>
+            <option value="tabPlanetaryFoundry">&#127959; Planetary Foundry</option>
+            <option value="tabResults">&#128202; Results Workbench</option>
+            <option value="tabScenarios">&#128203; Curated Scenarios</option>
+            <option value="tabWorkspaces">&#128193; Workspaces</option>
+          </optgroup>
+          <optgroup label="Experimental / Deferred Labs">
+            <option value="tabPlanetaryNetwork">&#128225; Comms &amp; DTN (RelayNet)</option>
+            <option value="tabJointMissionStudio">&#9881; Joint Co-Design Studio</option>
+            <option value="tabDeepSpaceAutonomy">&#128760; Deep Space Autonomy</option>
+            <option value="tabAerialCorps">&#128641; Aerial Corps</option>
+          </optgroup>
         </select>
       </div>
 

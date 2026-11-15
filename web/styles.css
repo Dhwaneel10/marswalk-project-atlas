@@ -6129,7 +6129,7 @@ body.theater-mode-active .hud-header {
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(0, 229, 255, 0.35);
   border-radius: 8px;
-  z-index: 105;
+  z-index: 28;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 15px rgba(0, 229, 255, 0.15);
   display: flex;
   flex-direction: column;
@@ -10881,6 +10881,134 @@ select:focus:not(:focus-visible) {
     gap: 10px;
     align-items: flex-start;
   }
+}
+
+/* ========================================================================== */
+/* Mission 17: Persistent 3D Surface Map Legend                               */
+/* ========================================================================== */
+.jezero-map-legend {
+  position: absolute;
+  bottom: 68px;
+  left: 20px;
+  z-index: 25;
+  background: rgba(10, 15, 26, 0.90);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 0 0 16px rgba(56, 189, 248, 0.15);
+  font-family: var(--font-body, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  min-width: 250px;
+  max-width: 290px;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+}
+
+.map-legend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.map-legend-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--telemetry-cyan, #38bdf8);
+}
+
+.map-legend-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.map-legend-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+}
+
+.map-legend-body {
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+
+.map-legend-body.collapsed {
+  display: none;
+}
+
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.legend-badge-eva {
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid #f59e0b;
+}
+
+.legend-badge-rover {
+  background: rgba(56, 189, 248, 0.2);
+  border: 1px solid #38bdf8;
+}
+
+.legend-badge-science {
+  background: rgba(168, 85, 247, 0.2);
+  border: 1px solid #c084fc;
+}
+
+.legend-badge-base {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10b981;
+}
+
+.legend-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.legend-name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.legend-desc {
+  font-size: 8px;
+  color: #94a3b8;
+  font-family: var(--font-mono, monospace);
 }
 
 /* Accessibility: Respect Prefers-Reduced-Motion */

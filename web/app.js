@@ -1163,6 +1163,8 @@
       isLandingActive = true;
       document.body.classList.add('landing-active');
     }
+    const mapLeg = document.getElementById('jezeroMapLegend');
+    if (mapLeg) mapLeg.classList.add('hidden');
   }
 
   function hideLandingPage(triggerExploration = false) {
@@ -1170,6 +1172,10 @@
       marsLandingPage.classList.add('hidden');
       isLandingActive = false;
       document.body.classList.remove('landing-active');
+    }
+    if (currentViewMode === 'jezero') {
+      const mapLeg = document.getElementById('jezeroMapLegend');
+      if (mapLeg) mapLeg.classList.remove('hidden');
     }
     if (triggerExploration && currentViewMode === 'orbit') {
       // Allow gentle orbit view to continue
@@ -4936,6 +4942,20 @@
     // Initialize 2D Screen-Aligned Waypoint Labels
     initJezeroLabels();
 
+    // Mission 17: Initialize Playback Vehicle Mesh at Base Camp
+    if (typeof createPlaybackVehicleMesh === 'function') {
+      createPlaybackVehicleMesh();
+      if (missionData && missionData.elevation_samples) {
+        const baseElev = missionData.elevation_samples[117] ? missionData.elevation_samples[117][157] : -2548;
+        const basePos = rcToLocalPos(117, 157, baseElev, currentExaggeration);
+        basePos.y += 8.0;
+        if (playbackVehicleMesh) {
+          playbackVehicleMesh.position.copy(basePos);
+          playbackVehicleMesh.visible = true;
+        }
+      }
+    }
+
     scene.add(jezeroSurfaceGroup);
   }
 
@@ -7669,8 +7689,51 @@
 
 
   // ==========================================================================
-  // Milestone 9Z: Mission Timeline Playback & Synchronized 3D Route Animation
+  // Milestone 9Z & 17: Mission Timeline Playback & High-Fidelity 3D Vehicles
   // ==========================================================================
+
+  function createVehicleLabelSprite(iconText, titleText, subText, primaryColor, borderColor) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 72;
+    const ctx = canvas.getContext('2d');
+
+    // Background glass pill
+    ctx.fillStyle = 'rgba(10, 15, 26, 0.88)';
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    if (ctx.roundRect) {
+      ctx.roundRect(4, 4, 248, 64, 10);
+    } else {
+      ctx.rect(4, 4, 248, 64);
+    }
+    ctx.fill();
+    ctx.stroke();
+
+    // Icon + Title
+    ctx.fillStyle = primaryColor;
+    ctx.font = 'bold 20px Inter, -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(`${iconText} ${titleText}`, 128, 25);
+
+    // Subtitle
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 11px "JetBrains Mono", monospace';
+    ctx.fillText(subText, 128, 48);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    const spriteMat = new THREE.SpriteMaterial({
+      map: texture,
+      depthTest: false,
+      transparent: true
+    });
+    const sprite = new THREE.Sprite(spriteMat);
+    sprite.scale.set(32, 9, 1);
+    return sprite;
+  }
 
   function createPlaybackVehicleMesh() {
     if (playbackVehicleMesh && jezeroSurfaceGroup) {
@@ -7680,50 +7743,187 @@
     playbackVehicleMesh = new THREE.Group();
     playbackVehicleMesh.name = "playbackVehicleMarker";
 
-    // 1. Rover Chassis (Metallic Bronze Box)
-    const chassisGeom = new THREE.BoxGeometry(10, 3, 14);
-    const chassisMat = new THREE.MeshStandardMaterial({
-      color: 0xC88B46,
-      roughness: 0.35,
-      metalness: 0.8,
-    });
-    const chassis = new THREE.Mesh(chassisGeom, chassisMat);
-    chassis.position.y = 2.5;
-    playbackVehicleMesh.add(chassis);
+    const isEva = (typeof currentExplorationMode !== 'undefined' && currentExplorationMode === 'crew_eva');
 
-    // 2. Solar Deck Top (Dark Sapphire)
-    const deckGeom = new THREE.BoxGeometry(9.2, 0.4, 13.2);
-    const deckMat = new THREE.MeshStandardMaterial({
-      color: 0x1A237E,
-      roughness: 0.2,
-      metalness: 0.9,
-    });
-    const deck = new THREE.Mesh(deckGeom, deckMat);
-    deck.position.y = 4.2;
-    playbackVehicleMesh.add(deck);
+    if (isEva) {
+      // ===================================================================
+      // ASTRONAUT EVA REPRESENTATION (Milestone 17 Human-First Model)
+      // ===================================================================
 
-    // 3. Sensor Mast
-    const mastGeom = new THREE.CylinderGeometry(0.5, 0.5, 9, 8);
-    const mastMat = new THREE.MeshStandardMaterial({
-      color: 0xE0E0E0,
-      metalness: 0.6,
-    });
-    const mast = new THREE.Mesh(mastGeom, mastMat);
-    mast.position.set(0, 8.5, -4);
-    playbackVehicleMesh.add(mast);
+      // 1. EVA Space Suit Torso (Matte White Composite)
+      const torsoGeom = new THREE.BoxGeometry(6.5, 8.5, 4.5);
+      const torsoMat = new THREE.MeshStandardMaterial({
+        color: 0xEEEEEE,
+        roughness: 0.65,
+        metalness: 0.1
+      });
+      const torso = new THREE.Mesh(torsoGeom, torsoMat);
+      torso.position.y = 8.5;
+      playbackVehicleMesh.add(torso);
 
-    // 4. Directional Heading Indicator (Cyan Cone pointing forward -Z)
-    const arrowGeom = new THREE.ConeGeometry(2.5, 6, 8);
-    const arrowMat = new THREE.MeshBasicMaterial({ color: 0x00E5FF });
-    const arrow = new THREE.Mesh(arrowGeom, arrowMat);
-    arrow.rotation.x = -Math.PI / 2;
-    arrow.position.set(0, 3, 10);
-    playbackVehicleMesh.add(arrow);
+      // 2. PLSS Backpack (Portable Life Support System in Slate Grey)
+      const plssGeom = new THREE.BoxGeometry(5.4, 7.6, 3.2);
+      const plssMat = new THREE.MeshStandardMaterial({
+        color: 0x334155,
+        roughness: 0.45,
+        metalness: 0.5
+      });
+      const plss = new THREE.Mesh(plssGeom, plssMat);
+      plss.position.set(0, 8.8, -3.2);
+      playbackVehicleMesh.add(plss);
 
-    // 5. Pulsing Nav Beacon Light
-    playbackBeaconLight = new THREE.PointLight(0x00E5FF, 1.8, 120);
-    playbackBeaconLight.position.set(0, 14, -4);
-    playbackVehicleMesh.add(playbackBeaconLight);
+      // PLSS Telemetry LED Strip (Glow Green)
+      const ledGeom = new THREE.BoxGeometry(3.6, 0.7, 0.4);
+      const ledMat = new THREE.MeshBasicMaterial({ color: 0x10B981 });
+      const led = new THREE.Mesh(ledGeom, ledMat);
+      led.position.set(0, 10.5, -4.9);
+      playbackVehicleMesh.add(led);
+
+      // 3. Suit Legs & Boots
+      const legMat = new THREE.MeshStandardMaterial({ color: 0xD1D5DB, roughness: 0.6 });
+      const leftLeg = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.4, 7.5, 8), legMat);
+      leftLeg.position.set(-1.8, 3.8, 0);
+      const rightLeg = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.4, 7.5, 8), legMat);
+      rightLeg.position.set(1.8, 3.8, 0);
+      playbackVehicleMesh.add(leftLeg);
+      playbackVehicleMesh.add(rightLeg);
+
+      // 4. Suit Arms
+      const leftArm = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 6.5, 8), legMat);
+      leftArm.position.set(-4.2, 8.5, 0);
+      leftArm.rotation.z = Math.PI / 16;
+      const rightArm = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 6.5, 8), legMat);
+      rightArm.position.set(4.2, 8.5, 0);
+      rightArm.rotation.z = -Math.PI / 16;
+      playbackVehicleMesh.add(leftArm);
+      playbackVehicleMesh.add(rightArm);
+
+      // 5. Extravehicular Helmet & Reflective Gold Visor
+      const helmetGeom = new THREE.SphereGeometry(3.6, 20, 20);
+      const helmetMat = new THREE.MeshStandardMaterial({
+        color: 0xFFFFFF,
+        roughness: 0.25,
+        metalness: 0.15
+      });
+      const helmet = new THREE.Mesh(helmetGeom, helmetMat);
+      helmet.position.set(0, 15.0, 0);
+      playbackVehicleMesh.add(helmet);
+
+      // Gold Solar Visor on Front Face (+Z)
+      const visorGeom = new THREE.SphereGeometry(3.68, 20, 20, 0, Math.PI, 0, Math.PI * 0.55);
+      const visorMat = new THREE.MeshStandardMaterial({
+        color: 0xFFD700,
+        roughness: 0.08,
+        metalness: 0.95
+      });
+      const visor = new THREE.Mesh(visorGeom, visorMat);
+      visor.rotation.x = -Math.PI / 2;
+      visor.position.set(0, 15.0, 0);
+      playbackVehicleMesh.add(visor);
+
+      // 6. Directional Heading Indicator (Amber Cone pointing forward +Z)
+      const arrowGeom = new THREE.ConeGeometry(2.2, 5.5, 8);
+      const arrowMat = new THREE.MeshBasicMaterial({ color: 0xF59E0B });
+      const arrow = new THREE.Mesh(arrowGeom, arrowMat);
+      arrow.rotation.x = -Math.PI / 2;
+      arrow.position.set(0, 3.5, 9);
+      playbackVehicleMesh.add(arrow);
+
+      // 7. Amber Nav Beacon Light
+      playbackBeaconLight = new THREE.PointLight(0xF59E0B, 2.0, 140);
+      playbackBeaconLight.position.set(0, 17, 0);
+      playbackVehicleMesh.add(playbackBeaconLight);
+
+      // 8. 2D Billboard HUD Sprite Tag
+      const sprite = createVehicleLabelSprite('👨‍🚀', 'ASTRONAUT', 'CREW EVA SORTIE', '#FBBF24', '#F59E0B');
+      sprite.position.set(0, 26, 0);
+      playbackVehicleMesh.add(sprite);
+
+    } else {
+      // ===================================================================
+      // ROBOTIC ROVER REPRESENTATION (Perseverance Ground Truth Model)
+      // ===================================================================
+
+      // 1. Rover Chassis (Metallic Bronze Box)
+      const chassisGeom = new THREE.BoxGeometry(10, 3, 14);
+      const chassisMat = new THREE.MeshStandardMaterial({
+        color: 0xC88B46,
+        roughness: 0.35,
+        metalness: 0.8,
+      });
+      const chassis = new THREE.Mesh(chassisGeom, chassisMat);
+      chassis.position.y = 2.5;
+      playbackVehicleMesh.add(chassis);
+
+      // 2. Solar Deck Top (Dark Sapphire)
+      const deckGeom = new THREE.BoxGeometry(9.2, 0.4, 13.2);
+      const deckMat = new THREE.MeshStandardMaterial({
+        color: 0x1A237E,
+        roughness: 0.2,
+        metalness: 0.9,
+      });
+      const deck = new THREE.Mesh(deckGeom, deckMat);
+      deck.position.y = 4.2;
+      playbackVehicleMesh.add(deck);
+
+      // 3. Sensor Mast & Mastcam-Z
+      const mastGeom = new THREE.CylinderGeometry(0.5, 0.5, 9, 8);
+      const mastMat = new THREE.MeshStandardMaterial({
+        color: 0xE0E0E0,
+        metalness: 0.6,
+      });
+      const mast = new THREE.Mesh(mastGeom, mastMat);
+      mast.position.set(0, 8.5, -4);
+      playbackVehicleMesh.add(mast);
+
+      // Mastcam-Z Camera Head
+      const headGeom = new THREE.BoxGeometry(3.0, 1.8, 2.4);
+      const headMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8 });
+      const camHead = new THREE.Mesh(headGeom, headMat);
+      camHead.position.set(0, 13.0, -4);
+      playbackVehicleMesh.add(camHead);
+
+      // 4. 6 Rocker-Bogie Wheels
+      const wheelGeom = new THREE.CylinderGeometry(1.8, 1.8, 1.6, 12);
+      const wheelMat = new THREE.MeshStandardMaterial({ color: 0x1E293B, roughness: 0.5, metalness: 0.7 });
+      const wheelOffsets = [
+        [-5.8, 1.8, -5.0], [5.8, 1.8, -5.0],
+        [-6.0, 1.8,  0.0], [6.0, 1.8,  0.0],
+        [-5.8, 1.8,  5.0], [5.8, 1.8,  5.0]
+      ];
+      wheelOffsets.forEach(([wx, wy, wz]) => {
+        const wheel = new THREE.Mesh(wheelGeom, wheelMat);
+        wheel.rotation.z = Math.PI / 2;
+        wheel.position.set(wx, wy, wz);
+        playbackVehicleMesh.add(wheel);
+      });
+
+      // 5. Front Robotic Sample Arm
+      const armGeom = new THREE.CylinderGeometry(0.4, 0.4, 6.0, 8);
+      const armMat = new THREE.MeshStandardMaterial({ color: 0x94A3B8, metalness: 0.7 });
+      const arm = new THREE.Mesh(armGeom, armMat);
+      arm.rotation.x = -Math.PI / 3;
+      arm.position.set(0, 2.0, 8.5);
+      playbackVehicleMesh.add(arm);
+
+      // 6. Directional Heading Indicator (Cyan Cone pointing forward +Z)
+      const arrowGeom = new THREE.ConeGeometry(2.5, 6, 8);
+      const arrowMat = new THREE.MeshBasicMaterial({ color: 0x00E5FF });
+      const arrow = new THREE.Mesh(arrowGeom, arrowMat);
+      arrow.rotation.x = -Math.PI / 2;
+      arrow.position.set(0, 3, 10);
+      playbackVehicleMesh.add(arrow);
+
+      // 7. Telemetry Cyan Beacon Light
+      playbackBeaconLight = new THREE.PointLight(0x00E5FF, 1.8, 120);
+      playbackBeaconLight.position.set(0, 14, -4);
+      playbackVehicleMesh.add(playbackBeaconLight);
+
+      // 8. 2D Billboard HUD Sprite Tag
+      const sprite = createVehicleLabelSprite('🚙', 'ROVER', 'PERSEVERANCE (PDS)', '#00E5FF', '#00E5FF');
+      sprite.position.set(0, 24, 0);
+      playbackVehicleMesh.add(sprite);
+    }
 
     playbackVehicleMesh.visible = false;
     if (jezeroSurfaceGroup) {
@@ -14874,6 +15074,8 @@
     if (labelsOverlay) labelsOverlay.style.display = 'block';
     if (jezeroLabelsOverlay) jezeroLabelsOverlay.style.display = 'none';
     if (cockpitHudOverlay) cockpitHudOverlay.classList.add('hidden');
+    const mapLeg = document.getElementById('jezeroMapLegend');
+    if (mapLeg) mapLeg.classList.add('hidden');
 
     // In Orbit view, hide the surface planning inspector, terrain legend and waypoint search
     if (inspectorPanel) inspectorPanel.classList.add('hidden');
@@ -14922,6 +15124,8 @@
     if (marsGlobeGroup) marsGlobeGroup.visible = false;
     if (jezeroSurfaceGroup) jezeroSurfaceGroup.visible = true;
     if (jezeroLabelsOverlay) jezeroLabelsOverlay.style.display = 'block';
+    const mapLeg = document.getElementById('jezeroMapLegend');
+    if (mapLeg) mapLeg.classList.remove('hidden');
 
     // Show surface planning inspector and waypoint select; hide Fly Jezero CTA
     if (inspectorPanel) inspectorPanel.classList.remove('hidden');
@@ -17947,6 +18151,9 @@
       btnLandingEnterEVA.addEventListener('click', () => {
         hideLandingPage(true);
         setTimeout(() => {
+          if (typeof setJezeroView === 'function') {
+            setJezeroView(false);
+          }
           switchInspectorTab('tabPlan');
           const btnEVA = document.getElementById('btnModeAstronautEVA');
           if (btnEVA) btnEVA.click();
@@ -17960,8 +18167,12 @@
       btnLandingExploreEnv.addEventListener('click', () => {
         hideLandingPage(true);
         setTimeout(() => {
-          const btnOrbit = document.getElementById('btnOrbitView');
-          if (btnOrbit) btnOrbit.click();
+          if (typeof setJezeroView === 'function') {
+            setJezeroView(false);
+          }
+          switchInspectorTab('tabEnvironmentStudio');
+          if (inspectorPanel) inspectorPanel.classList.remove('hidden');
+          setActiveNavPill(btnNavEnvironment);
         }, 150);
       });
     }
@@ -17980,6 +18191,10 @@
 
     if (btnNavAstronautEVA) {
       btnNavAstronautEVA.addEventListener('click', () => {
+        hideLandingPage(true);
+        if (currentViewMode !== 'jezero' && typeof setJezeroView === 'function') {
+          setJezeroView(false);
+        }
         switchInspectorTab('tabPlan');
         const btnEVA = document.getElementById('btnModeAstronautEVA');
         if (btnEVA) btnEVA.click();
@@ -17990,6 +18205,10 @@
 
     if (btnNavRover) {
       btnNavRover.addEventListener('click', () => {
+        hideLandingPage(true);
+        if (currentViewMode !== 'jezero' && typeof setJezeroView === 'function') {
+          setJezeroView(false);
+        }
         switchInspectorTab('tabPlan');
         const btnRover = document.getElementById('btnModeRoboticRover');
         if (btnRover) btnRover.click();
@@ -18000,14 +18219,24 @@
 
     if (btnNavTerrain) {
       btnNavTerrain.addEventListener('click', () => {
+        hideLandingPage(true);
+        if (currentViewMode !== 'jezero' && typeof setJezeroView === 'function') {
+          setJezeroView(false);
+        }
         switchInspectorTab('tabPlan');
         if (inspectorPanel) inspectorPanel.classList.remove('hidden');
         setActiveNavPill(btnNavTerrain);
+        const gisCard = document.getElementById('gisCoverageStatus')?.closest('.control-card');
+        if (gisCard) gisCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     }
 
     if (btnNavScience) {
       btnNavScience.addEventListener('click', () => {
+        hideLandingPage(true);
+        if (currentViewMode !== 'jezero' && typeof setJezeroView === 'function') {
+          setJezeroView(false);
+        }
         switchInspectorTab('tabScienceDiscovery');
         if (inspectorPanel) inspectorPanel.classList.remove('hidden');
         setActiveNavPill(btnNavScience);
@@ -18016,9 +18245,24 @@
 
     if (btnNavEnvironment) {
       btnNavEnvironment.addEventListener('click', () => {
+        hideLandingPage(true);
+        if (currentViewMode !== 'jezero' && typeof setJezeroView === 'function') {
+          setJezeroView(false);
+        }
         switchInspectorTab('tabEnvironmentStudio');
         if (inspectorPanel) inspectorPanel.classList.remove('hidden');
         setActiveNavPill(btnNavEnvironment);
+      });
+    }
+
+    // Mission 17: Persistent Map Legend Toggle
+    const btnToggleMapLegend = document.getElementById('btnToggleMapLegend');
+    const jezeroMapLegendBody = document.getElementById('jezeroMapLegendBody');
+    if (btnToggleMapLegend && jezeroMapLegendBody) {
+      btnToggleMapLegend.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isCollapsed = jezeroMapLegendBody.classList.toggle('collapsed');
+        btnToggleMapLegend.textContent = isCollapsed ? '+' : '−';
       });
     }
 
@@ -18908,7 +19152,7 @@
   let relayNetObstructionsGroup = null;
   let relayNetActiveCarrierBeam = null;
 
-  let relayNetVisible = true;
+  let relayNetVisible = false;
   let relayNetActiveRelays = [];
   let relayNetCandidates = [];
   let relayNetTimelineData = null;
@@ -19707,6 +19951,23 @@
         statTravelTimeLabel.textContent = (mode === 'crew_eva')
           ? 'Estimated EVA Traverse Time (Human Biomechanics Model)'
           : 'Estimated Rover Drive Time (Perseverance 0.035 m/s Model)';
+      }
+
+      // Mission 17: Immediately recreate the vehicle mesh to reflect active mode
+      if (typeof createPlaybackVehicleMesh === 'function') {
+        createPlaybackVehicleMesh();
+        const currentModel = (typeof playbackModels !== 'undefined') && (playbackModels[playbackState?.activeVariant] || playbackModels?.nominal);
+        if (currentModel && typeof applyPlaybackFrame === 'function') {
+          applyPlaybackFrame(playbackState?.elapsedSeconds || 0);
+        } else if (jezeroSurfaceGroup && missionData) {
+          const baseElev = (missionData.elevation_samples && missionData.elevation_samples[117]) ? missionData.elevation_samples[117][157] : -2548;
+          const basePos = rcToLocalPos(117, 157, baseElev, currentExaggeration);
+          basePos.y += 8.0;
+          if (playbackVehicleMesh) {
+            playbackVehicleMesh.position.copy(basePos);
+            playbackVehicleMesh.visible = true;
+          }
+        }
       }
     }
 
@@ -20726,7 +20987,7 @@
   let jointMissionOptimizationResult = null;
   let jointSelectedCandidateId = null;
   let currentJointWizardStep = 1;
-  let jointMissionDrawerVisible = true;
+  let jointMissionDrawerVisible = false;
 
   // DOM Element Handles
   let tabBtnJointMissionStudio = null;
