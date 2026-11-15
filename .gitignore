@@ -13,6 +13,7 @@ data/preferences/*
 outputs/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+!data/processed/jezero_ready_20m.tif
 !data/preferences/.gitkeep
 !outputs/.gitkeep
 
