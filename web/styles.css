@@ -4,79 +4,90 @@
    ========================================================================== */
 
 :root {
-  /* Space Foundation & Glassmorphic Surfaces */
-  --bg-space-void: #03060c;
-  --bg-space-navy: #060a14;
-  --bg-deep-space: #06080D;
-  --bg-surface-dark: #0D111A;
-  --bg-surface-glass: rgba(8, 14, 26, 0.76);
-  --bg-surface-elevated: rgba(12, 19, 35, 0.90);
-  --bg-surface-card: rgba(16, 26, 48, 0.60);
-  --bg-surface-input: rgba(6, 11, 22, 0.85);
-  --bg-surface-hover: rgba(255, 255, 255, 0.06);
-  --bg-panel: rgba(13, 17, 26, 0.88);
-  --bg-panel-hover: rgba(22, 29, 43, 0.94);
-  --bg-card: rgba(19, 25, 38, 0.85);
+  /* ==========================================================================
+     Mission 14: Ascend-Inspired Planetary Dark-Space Palette
+     ========================================================================== */
+  --bg-space-void: #05070D;
+  --bg-deep-space: #05070D;
+  --bg-space-navy: #0A0E18;
+  --bg-surface-dark: #0A0E18;
+  --bg-surface-elevated: #0E1424;
+  --bg-panel: rgba(13, 19, 31, 0.72);
+  --bg-surface-glass: rgba(13, 19, 31, 0.72);
+  --bg-surface-card: rgba(13, 19, 31, 0.65);
+  --bg-surface-input: rgba(8, 12, 22, 0.85);
+  --bg-surface-hover: rgba(255, 255, 255, 0.07);
+  --bg-panel-hover: rgba(18, 26, 42, 0.88);
+  --bg-card: rgba(13, 19, 31, 0.78);
 
   /* Hairlines, Borders & Glass Blurs */
-  --border-hairline: rgba(255, 255, 255, 0.08);
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.16);
-  --border-focus: #ff453a;
-  --border-coral: rgba(255, 69, 58, 0.45);
-  --border-telemetry: rgba(0, 229, 255, 0.35);
-  --glass-blur: blur(18px);
-  --glass-blur-heavy: blur(28px);
+  --border-hairline: rgba(148, 163, 184, 0.12);
+  --border-subtle: rgba(148, 163, 184, 0.15);
+  --border-medium: rgba(148, 163, 184, 0.28);
+  --border-focus: #F97316;
+  --border-coral: rgba(249, 115, 22, 0.45);
+  --border-telemetry: rgba(6, 182, 212, 0.35);
+  --glass-blur: blur(16px);
+  --glass-blur-heavy: blur(24px);
 
-  /* Brand Accents (Martian Coral & Editorial Palette) */
-  --accent-coral: #ff453a;
-  --accent-coral-glow: rgba(255, 69, 58, 0.35);
-  --accent-coral-subtle: rgba(255, 69, 58, 0.12);
-  --accent-crimson: #e63946;
-  --accent-lavender: #c4b5fd;
-  --accent-rose: #fda4af;
-  --mars-rust-core: #ff453a;
-  --mars-rust-light: #FF8A65;
-  --mars-rust-dark: #C43B12;
-  --mars-dune-gold: #FFB300;
+  /* Brand Accents & Mission Identity */
+  --mars-accent: #F97316;
+  --accent-coral: #F97316;
+  --accent-coral-glow: rgba(249, 115, 22, 0.35);
+  --accent-coral-subtle: rgba(249, 115, 22, 0.12);
+  --accent-crimson: #EF4444;
+  --accent-lavender: #C4B5FD;
+  --accent-rose: #FDA4AF;
+  --mars-rust-core: #F97316;
+  --mars-rust-light: #FB923C;
+  --mars-rust-dark: #C2410C;
+  --mars-dune-gold: #FBBF24;
 
-  /* Authoritative Scientific Data Colors (Preserved for Research Integrity) */
-  --telemetry-cyan: #00E5FF;
-  --telemetry-cyan-glow: rgba(0, 229, 255, 0.4);
-  --status-green: #00E676;
-  --hazard-red: #FF3D00;
-  --data-telemetry-cyan: #00E5FF;
-  --data-route-green: #00E676;
-  --data-route-amber: #FFA726;
-  --data-route-purple: #B388FF;
-  --data-hazard-red: #FF1744;
+  /* Human EVA Mode & Traversal Dual-Tracks */
+  --eva-outbound: #FBBF24;
+  --eva-return: #06B6D4;
+  --telemetry-cyan: #06B6D4;
+  --telemetry-cyan-glow: rgba(6, 182, 212, 0.4);
+
+  /* Restrained State Signals */
+  --status-green: #10B981;
+  --status-warning: #F59E0B;
+  --status-danger: #EF4444;
+  --hazard-red: #EF4444;
+  --data-telemetry-cyan: #06B6D4;
+  --data-route-green: #10B981;
+  --data-route-amber: #FBBF24;
+  --data-route-purple: #A78BFA;
+  --data-hazard-red: #EF4444;
 
   /* Typography Colors */
-  --text-primary: #F0F4FC;
-  --text-secondary: #9AA5B8;
-  --text-tertiary: #606C80;
-  --text-mono: #80D8FF;
-  --text-accent: #ff5252;
-  --text-code: #7dd3fc;
+  --text-primary: #F1F5FA;
+  --text-secondary: #9AA7B8;
+  --text-tertiary: #66758A;
+  --text-muted: #66758A;
+  --text-mono: #38BDF8;
+  --text-accent: #F97316;
+  --text-code: #7DD3FC;
 
-  /* Typography Families: Editorial Serif paired with Modern Sans and Tabular Mono */
-  --font-serif: 'Cinzel', 'Playfair Display', 'Bodoni MT', 'Didot', 'Georgia', serif;
-  --font-editorial: 'Playfair Display', 'Cinzel', 'Georgia', serif;
-  --font-display: 'Cinzel', 'Playfair Display', 'Orbitron', -apple-system, sans-serif;
+  /* Typography Families: Editorial Display with Modern Sans and Tabular Mono */
+  --font-serif: 'Cinzel', 'Playfair Display', Georgia, serif;
+  --font-editorial: 'Cinzel', 'Playfair Display', Georgia, serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
 
-  /* Elevation & Glow Shadows */
-  --shadow-elevation-1: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-elevation-2: 0 8px 32px rgba(0, 0, 0, 0.7);
-  --shadow-mars-glow: 0 0 20px rgba(255, 69, 58, 0.35);
-  --shadow-cyan-glow: 0 0 16px rgba(0, 229, 255, 0.3);
-  --shadow-glow-coral: 0 0 28px rgba(255, 69, 58, 0.28);
-  --shadow-glow-cyan: 0 0 20px rgba(0, 229, 255, 0.25);
+  /* Elevation & Subtle Shadows */
+  --shadow-elevation-1: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-elevation-2: 0 12px 36px rgba(0, 0, 0, 0.65);
+  --shadow-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-mars-glow: 0 0 24px rgba(249, 115, 22, 0.28);
+  --shadow-cyan-glow: 0 0 20px rgba(6, 182, 212, 0.25);
+  --shadow-amber-glow: 0 0 20px rgba(251, 191, 36, 0.25);
 
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius-xl: 16px;
 }
 
 * {
@@ -9407,3 +9418,577 @@ html, body {
   100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
 }
 
+
+/* ==========================================================================
+   MISSION 14: ASCEND-INSPIRED CINEMATIC UI & DESIGN SYSTEM UPGRADE
+   Restrained Dark-Space Palette • Glassmorphism • Motion • Responsive
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Canvas Starfield & Atmospheric Backdrop
+   -------------------------------------------------------------------------- */
+#ambientStarfieldCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+  transition: opacity 0.8s ease;
+}
+
+body.landing-active #ambientStarfieldCanvas {
+  opacity: 1;
+}
+
+/* Atmospheric Glow Accents */
+.atmospheric-glow-mars {
+  position: absolute;
+  top: -100px;
+  right: 15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.12) 0%, rgba(249, 115, 22, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(40px);
+  z-index: 1;
+}
+
+.atmospheric-glow-cyan {
+  position: absolute;
+  bottom: -150px;
+  left: 10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(6, 182, 212, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(50px);
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   2. Glassmorphic Surface System
+   -------------------------------------------------------------------------- */
+.glass-panel {
+  background: var(--bg-panel);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-inner-highlight), var(--shadow-elevation-2);
+  border-radius: var(--radius-md);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.glass-card {
+  background: var(--bg-surface-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-hairline);
+  box-shadow: var(--shadow-inner-highlight), var(--shadow-elevation-1);
+  border-radius: var(--radius-md);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(148, 163, 184, 0.3);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-inner-highlight), 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.glass-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  background: rgba(13, 19, 31, 0.6);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   3. Cinematic Landing Page Redesign
+   -------------------------------------------------------------------------- */
+.landing-page-overlay {
+  background: radial-gradient(circle at 50% 12%, rgba(249, 115, 22, 0.09) 0%, rgba(5, 7, 13, 0) 55%),
+              radial-gradient(circle at 85% 45%, rgba(6, 182, 212, 0.06) 0%, rgba(5, 7, 13, 0) 50%),
+              var(--bg-space-void) !important;
+}
+
+.landing-nav {
+  background: rgba(10, 14, 24, 0.78) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.landing-brand-title {
+  font-family: var(--font-serif) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.18em !important;
+}
+
+.landing-brand-title .coral-accent {
+  color: var(--mars-accent) !important;
+  text-shadow: 0 0 16px rgba(249, 115, 22, 0.4);
+}
+
+.landing-headline {
+  font-family: var(--font-sans) !important;
+  font-weight: 800 !important;
+  font-size: clamp(34px, 4.4vw, 64px) !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.08 !important;
+  color: #FFFFFF !important;
+  margin-bottom: 16px !important;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8) !important;
+}
+
+.landing-headline .editorial-accent {
+  font-family: var(--font-sans) !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, #F1F5FA 0%, #9AA7B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+
+.landing-subheadline {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--mars-accent);
+  margin-top: 8px;
+  text-transform: uppercase;
+  -webkit-text-fill-color: var(--mars-accent) !important;
+}
+
+.landing-narrative {
+  color: var(--text-secondary) !important;
+  font-size: clamp(14px, 1.05vw, 16px) !important;
+  line-height: 1.65 !important;
+  max-width: 620px !important;
+  margin-bottom: 24px !important;
+}
+
+/* Epistemic Truth Taxonomy Chips */
+.epistemic-truth-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.epistemic-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  backdrop-filter: blur(8px);
+}
+
+.epistemic-pill-measured {
+  background: rgba(16, 185, 129, 0.14);
+  color: #34D399;
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.epistemic-pill-derived {
+  background: rgba(6, 182, 212, 0.14);
+  color: #38BDF8;
+  border-color: rgba(6, 182, 212, 0.35);
+}
+
+.epistemic-pill-sim {
+  background: rgba(245, 158, 11, 0.14);
+  color: #FBBF24;
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+/* Primary EVA CTA Button */
+.btn-hero-eva {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  color: #05070D !important;
+  border-color: #FDE047 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  box-shadow: 0 4px 24px rgba(245, 158, 11, 0.45) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn-hero-eva:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 32px rgba(245, 158, 11, 0.65) !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. Staggered Entry Reveals
+   -------------------------------------------------------------------------- */
+.stagger-1 { animation: heroReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.stagger-2 { animation: heroReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.12s backwards; }
+.stagger-3 { animation: heroReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.24s backwards; }
+.stagger-4 { animation: heroReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.36s backwards; }
+
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Mission Control Quick Navigation Header
+   -------------------------------------------------------------------------- */
+.hud-nav-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(10, 14, 24, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  padding: 3px 6px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.hud-nav-pill {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 4px 10px;
+  border-radius: 18px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.hud-nav-pill:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hud-nav-pill.active {
+  color: #FFFFFF;
+  background: rgba(249, 115, 22, 0.2);
+  border: 1px solid rgba(249, 115, 22, 0.5);
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.25);
+}
+
+.hud-nav-pill-eva.active {
+  color: #05070D;
+  background: #FBBF24;
+  border: 1px solid #FDE047;
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   6. Upgraded Astronaut EVA Planning Studio & Cards
+   -------------------------------------------------------------------------- */
+.eva-dashboard-card {
+  background: var(--bg-panel) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-inner-highlight), var(--shadow-elevation-1) !important;
+}
+
+.eva-route-card {
+  background: rgba(10, 14, 24, 0.75) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 10px 12px !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: var(--shadow-inner-highlight) !important;
+}
+
+.eva-route-card:hover {
+  border-color: rgba(251, 191, 36, 0.5) !important;
+  background: rgba(18, 25, 42, 0.9) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-inner-highlight), 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+.eva-route-card.selected {
+  border-color: #FBBF24 !important;
+  background: rgba(251, 191, 36, 0.08) !important;
+  box-shadow: inset 0 1px 0 rgba(251, 191, 36, 0.3), 0 0 20px rgba(251, 191, 36, 0.2) !important;
+}
+
+/* Disaggregated Leg Metric Badges */
+.eva-leg-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+
+.eva-leg-outbound {
+  background: rgba(251, 191, 36, 0.18);
+  color: #FBBF24;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+}
+
+.eva-leg-return {
+  background: rgba(6, 182, 212, 0.18);
+  color: #06B6D4;
+  border: 1px solid rgba(6, 182, 212, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   7. Cinematic Visor HUD Overlay
+   -------------------------------------------------------------------------- */
+.eva-visor-hud-overlay {
+  position: absolute;
+  top: 70px;
+  right: 24px;
+  left: auto !important;
+  width: 360px;
+  pointer-events: none;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eva-visor-banner {
+  background: rgba(10, 14, 24, 0.85) !important;
+  border: 1px solid rgba(251, 191, 36, 0.45) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 8px 14px !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 12px 32px rgba(0, 0, 0, 0.6) !important;
+}
+
+.eva-visor-metrics-strip {
+  background: rgba(10, 14, 24, 0.82) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 8px 12px !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 6px !important;
+}
+
+/* Life Support Animated Progress Bar */
+.plss-gauge-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 4px;
+}
+
+.plss-gauge-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10B981 0%, #34D399 75%, #F59E0B 100%);
+  border-radius: 3px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.plss-gauge-reserve-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20%;
+  width: 2px;
+  background: #EF4444;
+  z-index: 2;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.8);
+}
+
+/* --------------------------------------------------------------------------
+   8. Micro-Interactions & Transitions
+   -------------------------------------------------------------------------- */
+.telemetry-updated {
+  animation: telemetryFlash 0.5s ease-out;
+}
+
+@keyframes telemetryFlash {
+  0% { color: #FBBF24; text-shadow: 0 0 8px rgba(251, 191, 36, 0.8); }
+  100% { color: var(--text-primary); text-shadow: none; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* --------------------------------------------------------------------------
+   9. Multi-Viewport Responsive Rules (1920, 1600, 1366, 1024, 768, 390, 360)
+   -------------------------------------------------------------------------- */
+/* Large Desktop (1600px - 1920px+) */
+@media (min-width: 1600px) {
+  .landing-hero-container {
+    max-width: 1720px;
+    padding: 64px 80px 80px 80px;
+  }
+  .hud-inspector {
+    width: 520px;
+  }
+}
+
+/* Standard Laptop (1366px - 1599px) */
+@media (max-width: 1599px) and (min-width: 1200px) {
+  .landing-hero-container {
+    padding: 36px 48px;
+    gap: 36px;
+  }
+  .landing-headline {
+    font-size: 42px !important;
+  }
+  .hud-inspector {
+    width: 440px;
+  }
+}
+
+/* Compact Desktop / Large Tablet (1024px - 1199px) */
+@media (max-width: 1199px) and (min-width: 900px) {
+  .landing-hero-container {
+    grid-template-columns: 1fr;
+    padding: 32px;
+    max-width: 900px;
+  }
+  .landing-hero-sidebar {
+    max-width: 540px;
+  }
+  .hud-inspector {
+    width: 390px;
+    max-height: 520px;
+  }
+  .eva-visor-hud-overlay {
+    width: 320px;
+    right: 14px;
+    top: 60px;
+  }
+}
+
+/* Tablet Portrait (768px - 899px) */
+@media (max-width: 899px) and (min-width: 600px) {
+  .landing-nav {
+    padding: 12px 24px;
+  }
+  .landing-nav-links {
+    display: none;
+  }
+  .landing-hero-container {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+  }
+  .landing-headline {
+    font-size: 32px !important;
+  }
+  .hud-inspector {
+    width: calc(100vw - 28px);
+    right: 14px;
+    left: 14px;
+    bottom: 14px;
+    max-height: 440px;
+  }
+  .eva-visor-hud-overlay {
+    width: calc(100vw - 28px);
+    right: 14px;
+    left: 14px !important;
+    top: 60px;
+  }
+  .hud-header-right button:not(#btnHeaderLanding):not(#btnHeaderDemoMode) {
+    display: none;
+  }
+}
+
+/* Mobile & Small Handheld (360px - 599px) */
+@media (max-width: 599px) {
+  .landing-nav {
+    padding: 10px 16px;
+  }
+  .landing-nav-links {
+    display: none;
+  }
+  .landing-brand-tag {
+    display: none;
+  }
+  .landing-hero-container {
+    grid-template-columns: 1fr;
+    padding: 18px 14px;
+  }
+  .landing-headline {
+    font-size: 26px !important;
+    line-height: 1.15 !important;
+  }
+  .landing-specs-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .hud-inspector {
+    width: calc(100vw - 16px);
+    right: 8px;
+    left: 8px;
+    bottom: 8px;
+    max-height: 380px;
+  }
+  .eva-visor-hud-overlay {
+    width: calc(100vw - 16px);
+    right: 8px;
+    left: 8px !important;
+    top: 55px;
+  }
+  .eva-visor-metrics-strip {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 4px !important;
+  }
+}
+
+/* Accessibility: Respect Prefers-Reduced-Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  #ambientStarfieldCanvas {
+    display: none !important;
+  }
+}

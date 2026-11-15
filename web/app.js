@@ -1115,12 +1115,20 @@
     setRouteExplanationStale(stale);
   }
 
-  // Milestone 9L DOM Elements: Cinematic Landing Page & Planetary Onboarding
+  // Milestone 9L & 14 DOM Elements: Cinematic Landing Page & Planetary Onboarding
   const marsLandingPage = document.getElementById('marsLandingPage');
+  const btnLandingEnterEVA = document.getElementById('btnLandingEnterEVA');
+  const btnLandingExploreEnv = document.getElementById('btnLandingExploreEnv');
   const btnLandingExplore = document.getElementById('btnLandingExplore');
   const btnLandingHowItWorks = document.getElementById('btnLandingHowItWorks');
   const btnLandingBrowseMissions = document.getElementById('btnLandingBrowseMissions');
   const btnLandingEnterWorkstation = document.getElementById('btnLandingEnterWorkstation');
+  const btnNavOverview = document.getElementById('btnNavOverview');
+  const btnNavAstronautEVA = document.getElementById('btnNavAstronautEVA');
+  const btnNavRover = document.getElementById('btnNavRover');
+  const btnNavTerrain = document.getElementById('btnNavTerrain');
+  const btnNavScience = document.getElementById('btnNavScience');
+  const btnNavEnvironment = document.getElementById('btnNavEnvironment');
   const landingHowItWorksSection = document.getElementById('landingHowItWorksSection');
   const btnHowEnterAtlas = document.getElementById('btnHowEnterAtlas');
   const btnHowClose = document.getElementById('btnHowClose');
@@ -17934,6 +17942,86 @@
       });
     }
 
+    // Mission 14 Primary Landing Actions & Navigation
+    if (btnLandingEnterEVA) {
+      btnLandingEnterEVA.addEventListener('click', () => {
+        hideLandingPage(true);
+        setTimeout(() => {
+          switchInspectorTab('tabPlan');
+          const btnEVA = document.getElementById('btnModeAstronautEVA');
+          if (btnEVA) btnEVA.click();
+          if (inspectorPanel) inspectorPanel.classList.remove('hidden');
+          setActiveNavPill(btnNavAstronautEVA);
+        }, 150);
+      });
+    }
+
+    if (btnLandingExploreEnv) {
+      btnLandingExploreEnv.addEventListener('click', () => {
+        hideLandingPage(true);
+        setTimeout(() => {
+          const btnOrbit = document.getElementById('btnOrbitView');
+          if (btnOrbit) btnOrbit.click();
+        }, 150);
+      });
+    }
+
+    function setActiveNavPill(activeBtn) {
+      document.querySelectorAll('.hud-nav-pill').forEach(p => p.classList.remove('active'));
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    if (btnNavOverview) {
+      btnNavOverview.addEventListener('click', () => {
+        showLandingPage();
+        setActiveNavPill(btnNavOverview);
+      });
+    }
+
+    if (btnNavAstronautEVA) {
+      btnNavAstronautEVA.addEventListener('click', () => {
+        switchInspectorTab('tabPlan');
+        const btnEVA = document.getElementById('btnModeAstronautEVA');
+        if (btnEVA) btnEVA.click();
+        if (inspectorPanel) inspectorPanel.classList.remove('hidden');
+        setActiveNavPill(btnNavAstronautEVA);
+      });
+    }
+
+    if (btnNavRover) {
+      btnNavRover.addEventListener('click', () => {
+        switchInspectorTab('tabPlan');
+        const btnRover = document.getElementById('btnModeRoboticRover');
+        if (btnRover) btnRover.click();
+        if (inspectorPanel) inspectorPanel.classList.remove('hidden');
+        setActiveNavPill(btnNavRover);
+      });
+    }
+
+    if (btnNavTerrain) {
+      btnNavTerrain.addEventListener('click', () => {
+        switchInspectorTab('tabPlan');
+        if (inspectorPanel) inspectorPanel.classList.remove('hidden');
+        setActiveNavPill(btnNavTerrain);
+      });
+    }
+
+    if (btnNavScience) {
+      btnNavScience.addEventListener('click', () => {
+        switchInspectorTab('tabScienceDiscovery');
+        if (inspectorPanel) inspectorPanel.classList.remove('hidden');
+        setActiveNavPill(btnNavScience);
+      });
+    }
+
+    if (btnNavEnvironment) {
+      btnNavEnvironment.addEventListener('click', () => {
+        switchInspectorTab('tabEnvironmentStudio');
+        if (inspectorPanel) inspectorPanel.classList.remove('hidden');
+        setActiveNavPill(btnNavEnvironment);
+      });
+    }
+
     if (btnLandingEnterWorkstation) {
       btnLandingEnterWorkstation.addEventListener('click', () => {
         hideLandingPage(true);
@@ -19425,6 +19513,80 @@ function setupRelayNetUIListeners() {
 }
 
   // ==========================================================================
+  // Mission 14: Ascend-Inspired Ambient Starfield Engine
+  // ==========================================================================
+  function initAmbientStarfield() {
+    const canvas = document.getElementById('ambientStarfieldCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      canvas.style.display = 'none';
+      return;
+    }
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const starCount = 120;
+    const stars = [];
+    for (let i = 0; i < starCount; i++) {
+      stars.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 1.5 + 0.4,
+        alpha: Math.random() * 0.7 + 0.2,
+        alphaDelta: (Math.random() * 0.008 + 0.002) * (Math.random() < 0.5 ? 1 : -1),
+        speedX: (Math.random() - 0.5) * 0.06,
+        speedY: (Math.random() - 0.5) * 0.06
+      });
+    }
+
+    let isPaused = false;
+    document.addEventListener('visibilitychange', () => {
+      isPaused = document.hidden;
+    });
+
+    function renderStarfield() {
+      if (!isPaused && ctx) {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < stars.length; i++) {
+          const s = stars[i];
+          s.alpha += s.alphaDelta;
+          if (s.alpha > 0.85) {
+            s.alpha = 0.85;
+            s.alphaDelta = -s.alphaDelta;
+          } else if (s.alpha < 0.15) {
+            s.alpha = 0.15;
+            s.alphaDelta = -s.alphaDelta;
+          }
+
+          s.x += s.speedX;
+          s.y += s.speedY;
+          if (s.x < 0) s.x = width;
+          if (s.x > width) s.x = 0;
+          if (s.y < 0) s.y = height;
+          if (s.y > height) s.y = 0;
+
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(241, 245, 250, ${s.alpha.toFixed(3)})`;
+          ctx.fill();
+        }
+      }
+      requestAnimationFrame(renderStarfield);
+    }
+
+    requestAnimationFrame(renderStarfield);
+  }
+
+  // ==========================================================================
   // Mission 12: Astronaut EVA Mode — Human-First Surface Excursion Engine
   // ==========================================================================
   let currentExplorationMode = 'crew_eva'; // 'crew_eva' (default) or 'robotic_rover'
@@ -19484,6 +19646,9 @@ function setupRelayNetUIListeners() {
 
       if (evaPlanningStudio) {
         evaPlanningStudio.style.display = (mode === 'crew_eva') ? 'block' : 'none';
+      }
+      if (mode === 'robotic_rover' && evaVisorHudOverlay) {
+        evaVisorHudOverlay.classList.add('hidden');
       }
 
       // Update vehicle mode pills for backward compatibility
@@ -19619,6 +19784,10 @@ function setupRelayNetUIListeners() {
           <div style="font-size:7.5px; color:#94a3b8; margin-bottom:4px; line-height:1.2;">
             ${r.description}
           </div>
+          <div style="display:flex; gap:5px; margin-bottom:5px;">
+            <span class="eva-leg-tag eva-leg-outbound">&#128694; Out: ${r.outbound_distance_m || Math.round(r.total_distance_m/2)}m (${Math.round((r.outbound_walk_time_s || r.total_duration_s/2)/60)}m)</span>
+            <span class="eva-leg-tag eva-leg-return">&#8617; Ret: ${r.return_distance_m || Math.round(r.total_distance_m/2)}m (${Math.round((r.return_walk_time_s || r.total_duration_s/2)/60)}m)</span>
+          </div>
           <div class="eva-route-metrics-grid">
             <div class="eva-metric-col">
               <span>Ground Dist</span>
@@ -19699,10 +19868,36 @@ function setupRelayNetUIListeners() {
         const c = routeData.consumables;
         if (evaHudElapsed) evaHudElapsed.textContent = '00h 00m';
         if (evaHudRemaining) evaHudRemaining.textContent = routeData.formatted_duration;
-        if (evaHudO2) evaHudO2.textContent = `${c.remaining_o2_liters} L (${c.o2_reserve_margin_pct}%)`;
-        if (evaHudKcal) evaHudKcal.textContent = `${c.metabolic_burn_kcal} kcal`;
+        if (evaHudO2) {
+          evaHudO2.textContent = `${c.remaining_o2_liters} L (${c.o2_reserve_margin_pct}%)`;
+          evaHudO2.classList.add('telemetry-updated');
+          setTimeout(() => evaHudO2.classList.remove('telemetry-updated'), 500);
+        }
+        if (evaHudKcal) {
+          evaHudKcal.textContent = `${c.metabolic_burn_kcal} kcal`;
+          evaHudKcal.classList.add('telemetry-updated');
+          setTimeout(() => evaHudKcal.classList.remove('telemetry-updated'), 500);
+        }
         if (evaHudBaseDist) evaHudBaseDist.textContent = `${(routeData.total_distance_m / 2.0).toFixed(0)} m`;
         if (evaHudReturnEta) evaHudReturnEta.textContent = `${Math.round(routeData.active_walk_time_s / 120.0)} min`;
+
+        const plssBar = document.getElementById('evaHudPlssBar');
+        if (plssBar) {
+          const pct = Math.max(0, Math.min(100, c.o2_reserve_margin_pct !== undefined ? c.o2_reserve_margin_pct : 77));
+          plssBar.style.width = `${pct}%`;
+          if (pct < 20) {
+            plssBar.style.background = '#ef4444';
+          } else if (pct < 35) {
+            plssBar.style.background = '#f59e0b';
+          } else {
+            plssBar.style.background = 'linear-gradient(90deg, #10B981 0%, #34D399 75%, #F59E0B 100%)';
+          }
+        }
+        const hudMargin = document.getElementById('evaHudMargin');
+        if (hudMargin) {
+          const usableAboveReserve = Math.max(0, (c.remaining_o2_liters || 462.1) - 120.0);
+          hudMargin.textContent = `${usableAboveReserve.toFixed(0)} L USABLE (ABOVE 20% RESERVE)`;
+        }
       }
     }
 
@@ -19803,6 +19998,7 @@ function setupRelayNetUIListeners() {
       initMissionDesignLab();
 
       init3DEngine();
+      initAmbientStarfield();
 
       const params = new URLSearchParams(window.location.search);
       const routeParam = params.get('route');

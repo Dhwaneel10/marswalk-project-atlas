@@ -55,12 +55,18 @@
     <div class="loading-subtitle" id="loadingStatus">Loading planetary atlas...</div>
   </div>
 
-  <!-- Cinematic Landing Page Overlay (Milestone 9L Visual Identity) -->
+  <!-- Ambient Planetary Starfield Canvas (Mission 14 Ascend Visual Layer) -->
+  <canvas id="ambientStarfieldCanvas"></canvas>
+
+  <!-- Cinematic Landing Page Overlay (Mission 14 Visual Identity) -->
   <div id="marsLandingPage" class="landing-page-overlay">
+    <div class="atmospheric-glow-mars"></div>
+    <div class="atmospheric-glow-cyan"></div>
+
     <!-- Top Landing Navigation Bar -->
     <nav class="landing-nav">
       <div class="landing-nav-brand" id="brandLandingLogo">
-        <span class="landing-brand-title">MARS<span class="coral-accent">WALK</span></span>
+        <span class="landing-brand-title">MARS<span class="coral-accent">WALK</span> 2.0</span>
         <span class="landing-brand-tag">PROJECT ATLAS</span>
       </div>
 
@@ -79,34 +85,45 @@
     <!-- Main Hero Stage -->
     <main class="landing-hero-container">
       <div class="landing-hero-content">
-        <div class="landing-kicker-row">
-          <span class="landing-kicker-pill" style="background:rgba(234,179,8,0.2); color:#fde047; border:1px solid #eab308;">NASA SPACE APPS CHALLENGE 2026</span>
+        <div class="landing-kicker-row stagger-1">
+          <span class="landing-kicker-pill" style="background:rgba(249,115,22,0.18); color:#f97316; border:1px solid rgba(249,115,22,0.4);">NASA SPACE APPS CHALLENGE 2026</span>
           <span class="landing-kicker-line"></span>
-          <span class="landing-kicker-sub" style="color:#38bdf8; font-weight:700;">FIVE-PILLAR MISSION ARCHITECTURE &bull; USGS CTX+HiRISE</span>
+          <span class="landing-kicker-sub" style="color:#06b6d4; font-weight:700;">USGS 1m HiRISE &bull; PDS MEDA WEATHER &bull; PLSS LIFE-SUPPORT</span>
         </div>
 
-        <h1 class="landing-headline" style="font-size:2.8rem; line-height:1.15; margin-bottom:12px;">
-          MARSWALK 2.0 / ATLAS<br>
-          <span class="editorial-accent" style="color:#38bdf8;">REAL MARS SCIENCE. AUTONOMOUS RESILIENCE.</span>
-          <span style="display:block; font-size:1rem; color:#94a3b8; font-weight:400; margin-top:4px; letter-spacing:2px;">A NEW WORLD. WITHIN REACH.</span>
+        <h1 class="landing-headline stagger-2">
+          EXPLORE MARS.<br>
+          <span class="editorial-accent">PLAN THE HUMAN FRONTIER.</span>
+          <span class="landing-subheadline">NEXT-GENERATION DUAL-MODE SURFACE MISSION OPERATIONS</span>
         </h1>
 
-        <p class="landing-narrative" style="font-size:1.05rem; line-height:1.5; color:#cbd5e1; max-width:680px;">
-          Autonomous rover traverse planning, astrobiology site optimization, and deep-space communication resilience grounded in authentic USGS digital terrain models (20m CTX + 1m HiRISE) and NASA PDS Mars 2020 ground truth.
+        <p class="landing-narrative stagger-3">
+          An integrated planetary exploration platform combining Martian terrain intelligence, rover observations, environmental science and human EVA mission planning.
         </p>
 
-        <!-- Epistemological Data Truth Pill -->
-        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; font-family:var(--font-mono); font-size:10px;">
-          <span style="background:rgba(16,185,129,0.18); color:#34d399; border:1px solid #10b981; padding:3px 8px; border-radius:3px;">
-            &#10004; <strong>MEASURED ARCHIVES:</strong> USGS 20m/1m DTMs &bull; PDS 33.2 km Traverse &bull; MEDA Weather
+        <!-- Epistemological Data Truth Taxonomy -->
+        <div class="epistemic-truth-row stagger-3">
+          <span class="epistemic-pill epistemic-pill-measured">
+            &#10004; <strong>MEASURED ARCHIVES:</strong> USGS 1m/20m DTMs &bull; PDS Sols 0–1000+ &bull; MEDA Weather
           </span>
-          <span style="background:rgba(234,179,8,0.18); color:#fde047; border:1px solid #eab308; padding:3px 8px; border-radius:3px;">
-            &#9881; <strong>SIMULATION MODELS:</strong> Multi-Objective A* Detours &bull; RFC 9171 DTN Buffer
+          <span class="epistemic-pill epistemic-pill-derived">
+            &#9670; <strong>DERIVED PRODUCTS:</strong> Horn Slope Matrices &bull; Solar Geometry &bull; Viewshed
+          </span>
+          <span class="epistemic-pill epistemic-pill-sim">
+            &#9881; <strong>SIMULATION MODELS:</strong> Asymmetric Biophysical A* &bull; PLSS Life-Support
           </span>
         </div>
 
         <!-- CTA Action Group -->
-        <div class="landing-cta-row">
+        <div class="landing-cta-row stagger-4">
+          <button id="btnLandingEnterEVA" class="btn-hero-primary btn-hero-eva" title="Launch Directly into Astronaut EVA Mission Mode">
+            <span>&#129497; ENTER ASTRONAUT EVA MODE</span>
+            <span class="btn-hero-arrow">&rarr;</span>
+          </button>
+          <button id="btnLandingExploreEnv" class="btn-hero-secondary" title="Explore Planetary Environment & 3D Orbital Canvas">
+            <span>&#127758; Explore Planetary Environment</span>
+            <span class="btn-hero-arrow">&rarr;</span>
+          </button>
           <button id="btnLandingEvaluatorTour" class="btn-hero-primary" style="background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); border-color: #fde047; color:#0f172a; font-weight:800; box-shadow: 0 4px 20px rgba(234,179,8,0.4);" title="Launch 7-Step Step-by-Step Evaluator Golden Path Tour">
             <span>★ EVALUATOR TOUR</span>
             <span class="btn-hero-arrow">&rarr;</span>
@@ -115,9 +132,8 @@
             <span>★ 5-Min Showcase</span>
             <span class="btn-hero-arrow">&rarr;</span>
           </button>
-          <button id="btnLandingExplore" class="btn-hero-primary">
-            <span>Explore Workstation</span>
-            <span class="btn-hero-arrow">&rarr;</span>
+          <button id="btnLandingExplore" class="btn-hero-secondary" title="Explore Workstation">
+            <span>Workstation Canvas &rarr;</span>
           </button>
           <button id="btnLandingHowItWorks" class="btn-hero-secondary" title="View architectural design and algorithmic pipeline">
             <span>How It Works</span>
@@ -131,7 +147,7 @@
         </div>
 
         <!-- Editorial Scientific Specs Grid -->
-        <div class="landing-specs-grid">
+        <div class="landing-specs-grid stagger-4">
           <div class="landing-spec-item">
             <span class="spec-value">20m / 1m</span>
             <span class="spec-label">USGS CTX + HiRISE Micro-Hazard DTM</span>
@@ -141,13 +157,18 @@
             <span class="spec-label">NASA PDS Rover Traverse Ground Truth</span>
           </div>
           <div class="landing-spec-item">
-            <span class="spec-value">+160 pts</span>
-            <span class="spec-label">A* Multi-Objective Science Detour</span>
+            <span class="spec-value">8-Hour PLSS</span>
+            <span class="spec-label">Life-Support Oxygen &amp; Reserve Gate</span>
           </div>
           <div class="landing-spec-item">
             <span class="spec-value">0 KB Lost</span>
             <span class="spec-label">RFC 9171 DTN Custody (Merkle Verified)</span>
           </div>
+        </div>
+
+        <div class="landing-hero-disclaimer stagger-4" style="margin-top:16px; padding:8px 14px; background:rgba(239,68,68,0.08); border-left:3px solid #ef4444; border-radius:4px; font-size:10px; color:#cbd5e1; display:flex; flex-direction:column; gap:3px;">
+          <strong style="color:#f87171; letter-spacing:0.5px;">&#9888; RESEARCH DECISION-SUPPORT MODEL &bull; NOT OPERATIONAL SAFETY FLIGHT CERTIFIED</strong>
+          <span>Traverses and consumable metrics are computational heuristics derived from NASA/USGS planetary observations and are never designated operationally safe for astronauts.</span>
         </div>
       </div>
 
@@ -348,14 +369,14 @@
     </div>
   </div>
 
-  <!-- Mission 12: Dedicated Astronaut EVA Visor HUD Overlay -->
+  <!-- Mission 12 & 14: Dedicated Astronaut EVA Visor HUD Overlay -->
   <div id="evaVisorHudOverlay" class="eva-visor-hud-overlay hidden">
     <div class="eva-visor-banner">
       <div style="display:flex; align-items:center; gap:8px;">
-        <span style="font-size:14px;">&#129497;</span>
+        <span style="font-size:16px;">&#129497;</span>
         <div>
-          <div style="font-size:10px; font-weight:800; color:#fbbf24; letter-spacing:0.5px;">ASTRONAUT EVA VISOR HUD &bull; PLSS TELEMETRY</div>
-          <div style="font-size:7px; color:#94a3b8;">CONCEPTUAL EVA MODEL &bull; NOT CERTIFIED FOR FLIGHT LIFE SUPPORT</div>
+          <div style="font-size:10px; font-weight:800; color:#fbbf24; letter-spacing:0.8px;">ASTRONAUT EVA VISOR HUD &bull; PLSS TELEMETRY</div>
+          <div style="font-size:7px; color:#94a3b8; letter-spacing:0.2px;">RESEARCH DECISION-SUPPORT MODEL &bull; NOT OPERATIONAL SAFETY FLIGHT CERTIFIED</div>
         </div>
       </div>
       <div style="display:flex; align-items:center; gap:6px;">
@@ -363,6 +384,19 @@
         <button id="btnCloseEvaVisor" class="modal-close-btn" style="font-size:12px; padding:0 4px;" title="Exit EVA Visor">&times;</button>
       </div>
     </div>
+    
+    <!-- PLSS Usable Oxygen Animated Progress Gauge -->
+    <div style="background:rgba(10, 14, 24, 0.85); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:6px 12px; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);">
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:8px; font-family:var(--font-mono); margin-bottom:2px;">
+        <span style="color:#94a3b8;">PLSS CONSUMABLE MARGIN</span>
+        <span id="evaHudMargin" style="color:#34d399; font-weight:700;">120 L (20% MANDATORY RESERVE GATE)</span>
+      </div>
+      <div class="plss-gauge-container">
+        <div id="evaHudPlssBar" class="plss-gauge-fill" style="width: 77%;"></div>
+        <div class="plss-gauge-reserve-marker" title="20% Emergency Reserve Barrier"></div>
+      </div>
+    </div>
+
     <div class="eva-visor-metrics-strip">
       <div class="eva-visor-metric">
         <span class="label">EVA Elapsed</span>
@@ -389,8 +423,12 @@
         <span id="evaHudReturnEta" class="val">0 min</span>
       </div>
       <div class="eva-visor-metric">
+        <span class="label">Atmospheric Tau</span>
+        <span id="evaHudTau" class="val" style="color:#34d399; font-size:10px;">0.45 (NOMINAL)</span>
+      </div>
+      <div class="eva-visor-metric">
         <span class="label">Radiation</span>
-        <span class="val" style="color:#94a3b8; font-size:9px;">UNKNOWN</span>
+        <span class="val" style="color:#66758a; font-size:9px;">UNKNOWN</span>
       </div>
     </div>
   </div>
@@ -759,6 +797,16 @@
         <span>TARGET: <strong>MARS</strong> <span class="telemetry-chip-detail">(IAU 2000 &bull; R=3,396.19 KM)</span></span>
       </div>
     </div>
+
+    <!-- Mission 14 Refined Navigation Bar -->
+    <nav class="hud-nav-pills" id="hudNavPills" aria-label="Mission Operations Navigation">
+      <button class="hud-nav-pill" id="btnNavOverview" title="Return to Launch Overview">&#127757; Overview</button>
+      <button class="hud-nav-pill hud-nav-pill-eva active" id="btnNavAstronautEVA" title="Astronaut EVA Surface Excursion Mode">&#129497; Astronaut EVA</button>
+      <button class="hud-nav-pill" id="btnNavRover" title="Robotic Rover Exploration Mode">&#128663; Rover</button>
+      <button class="hud-nav-pill" id="btnNavTerrain" title="Planetary Terrain & 1m HiRISE DTMs">&#128506; Terrain</button>
+      <button class="hud-nav-pill" id="btnNavScience" title="Astrobiology Science Discovery Center">&#129504; Science</button>
+      <button class="hud-nav-pill" id="btnNavEnvironment" title="In-Situ Atmospheric & Weather Intelligence">&#9728;&#65039; Environment</button>
+    </nav>
 
     <!-- Exploration & Cartographic Search Bar -->
     <div class="search-box-container">
