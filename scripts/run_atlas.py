@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 MarsWalk 2.0 — Project Atlas Local Server & Routing API Runner
 Serves the isolated web/ 3D planetary application and provides live Python
@@ -6,6 +7,16 @@ A* traverse planning, Gauntlet stress-testing, and persistent workspace endpoint
 
 import os
 import sys
+
+# Auto-reexec inside project virtual environment if dependencies are missing in current python
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VENV_PYTHON = os.path.join(PROJECT_ROOT, ".venv", "bin", "python3")
+if os.path.exists(VENV_PYTHON) and sys.executable != VENV_PYTHON:
+    try:
+        import rasterio
+    except ImportError:
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+
 import json
 import argparse
 import socket
@@ -2041,6 +2052,7 @@ def preload_terrain_and_waypoints(
 
 def main():
     parser = argparse.ArgumentParser(description="Launch MarsWalk 2.0 3D Atlas and Live Routing API.")
+    parser.add_argument("--host", type=str, default="0.0.0.0", help="Host interface to bind to (default: 0.0.0.0 for LAN/WSL/Windows access)")
     parser.add_argument("--port", type=int, default=3000, help="Port to serve on (default: 3000)")
     parser.add_argument("--no-browser", action="store_true", help="Do not auto-open default web browser")
     parser.add_argument("--export-only", action="store_true", help="Only export mission assets and exit")
@@ -2074,21 +2086,33 @@ def main():
     port = find_available_port(args.port)
     os.chdir(web_dir)
 
-    server_address = ("127.0.0.1", port)
+    def get_primary_lan_ip():
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+                s.connect(("8.8.8.8", 80))
+                return s.getsockname()[0]
+        except Exception:
+            return "127.0.0.1"
+
+    lan_ip = get_primary_lan_ip()
+    server_address = (args.host, port)
     httpd = ThreadingHTTPServer(server_address, MarsWalkHTTPRequestHandler)
     httpd.daemon_threads = True
     base_url = f"http://127.0.0.1:{port}"
+    lan_url = f"http://{lan_ip}:{port}"
     url = f"{base_url}/?mode=demo" if args.demo else base_url
 
     print("=" * 72)
     print("  MARSWALK 2.0 — PROJECT ATLAS: 3D PLANETARY WORKSTATION & LIVE API")
-    print(f"  Local Web URL:    {url}")
-    print(f"  Routing API:      {base_url}/api/plan_route  (POST)")
-    print(f"  Gauntlet API:     {base_url}/api/gauntlet    (POST)")
-    print(f"  Missions API:     {base_url}/api/missions    (GET, POST)")
-    print(f"  Experiments API:  {base_url}/api/experiments (GET, POST)")
-    print(f"  Health Status:    {base_url}/api/health      (GET)")
-    print("  Target:           Mars (IAU 2000 Sphere / USGS CTX Jezero Crater DTM)")
+    print(f"  Primary Local URL:    {url}")
+    print(f"  Network / Windows URL: {lan_url}")
+    print(f"  Binding Address:      {args.host}:{port}")
+    print(f"  Routing API:          {base_url}/api/plan_route  (POST)")
+    print(f"  Gauntlet API:         {base_url}/api/gauntlet    (POST)")
+    print(f"  Missions API:         {base_url}/api/missions    (GET, POST)")
+    print(f"  Experiments API:      {base_url}/api/experiments (GET, POST)")
+    print(f"  Health Status:        {base_url}/api/health      (GET)")
+    print("  Target:               Mars (IAU 2000 Sphere / USGS CTX Jezero Crater DTM)")
     print("  Press CTRL+C to terminate the server.")
     print("=" * 72)
 
