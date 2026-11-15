@@ -19361,7 +19361,372 @@ function setupRelayNetUIListeners() {
       if (relayNetObstructionsGroup) relayNetObstructionsGroup.visible = chkObs.checked;
     });
   }
+
+  // Mission 12: Astronaut EVA Mode Event Setup
+  setupAstronautEVAMode();
 }
+
+  // ==========================================================================
+  // Mission 12: Astronaut EVA Mode — Human-First Surface Excursion Engine
+  // ==========================================================================
+  let currentExplorationMode = 'crew_eva'; // 'crew_eva' (default) or 'robotic_rover'
+  let evaPlannedRoutes = null;
+  let activeEvaRouteKey = 'conservative';
+  let evaCurrentMissionState = 'NOMINAL';
+
+  function setupAstronautEVAMode() {
+    const btnModeAstronautEVA = document.getElementById('btnModeAstronautEVA');
+    const btnModeRoboticRover = document.getElementById('btnModeRoboticRover');
+    const activeModeBadge = document.getElementById('activeModeBadge');
+    const evaPlanningStudio = document.getElementById('evaPlanningStudio');
+    const evaBaseSelect = document.getElementById('evaBaseSelect');
+    const evaScienceTargetsList = document.getElementById('evaScienceTargetsList');
+    const evaTargetCountBadge = document.getElementById('evaTargetCountBadge');
+    const evaWalkSpeedSelect = document.getElementById('evaWalkSpeedSelect');
+    const evaMaxSlopeSelect = document.getElementById('evaMaxSlopeSelect');
+    const evaGearMassSelect = document.getElementById('evaGearMassSelect');
+    const evaRequireReturnChk = document.getElementById('evaRequireReturnChk');
+    const btnPlanEVARoutes = document.getElementById('btnPlanEVARoutes');
+    const evaRouteComparisonContainer = document.getElementById('evaRouteComparisonContainer');
+    const evaRouteOptionsGrid = document.getElementById('evaRouteOptionsGrid');
+    const evaSelectedRouteTag = document.getElementById('evaSelectedRouteTag');
+    const evaContingencyStateBadge = document.getElementById('evaContingencyStateBadge');
+    const evaContingencyAdvisoryBanner = document.getElementById('evaContingencyAdvisoryBanner');
+    const evaContingencyAdvisoryText = document.getElementById('evaContingencyAdvisoryText');
+    const evaToggleRoverScouting = document.getElementById('evaToggleRoverScouting');
+    const evaVisorHudOverlay = document.getElementById('evaVisorHudOverlay');
+    const btnCloseEvaVisor = document.getElementById('btnCloseEvaVisor');
+    const evaHudMissionState = document.getElementById('evaHudMissionState');
+    const evaHudElapsed = document.getElementById('evaHudElapsed');
+    const evaHudRemaining = document.getElementById('evaHudRemaining');
+    const evaHudO2 = document.getElementById('evaHudO2');
+    const evaHudKcal = document.getElementById('evaHudKcal');
+    const evaHudBaseDist = document.getElementById('evaHudBaseDist');
+    const evaHudReturnEta = document.getElementById('evaHudReturnEta');
+
+    function updateExplorationModeUI(mode) {
+      currentExplorationMode = mode;
+      currentVehicleMode = mode;
+      if (btnModeAstronautEVA) btnModeAstronautEVA.classList.toggle('active', mode === 'crew_eva');
+      if (btnModeRoboticRover) btnModeRoboticRover.classList.toggle('active', mode === 'robotic_rover');
+      
+      if (activeModeBadge) {
+        if (mode === 'crew_eva') {
+          activeModeBadge.textContent = 'ASTRONAUT EVA ACTIVE';
+          activeModeBadge.style.color = '#fbbf24';
+          activeModeBadge.style.borderColor = '#f59e0b';
+          activeModeBadge.style.background = 'rgba(245,158,11,0.2)';
+        } else {
+          activeModeBadge.textContent = 'ROVER MISSION ACTIVE';
+          activeModeBadge.style.color = '#38bdf8';
+          activeModeBadge.style.borderColor = '#0284c7';
+          activeModeBadge.style.background = 'rgba(2,132,199,0.2)';
+        }
+      }
+
+      if (evaPlanningStudio) {
+        evaPlanningStudio.style.display = (mode === 'crew_eva') ? 'block' : 'none';
+      }
+
+      // Update vehicle mode pills for backward compatibility
+      if (vehicleModePills) {
+        vehicleModePills.forEach(p => {
+          p.classList.toggle('active', p.dataset.vehicle === mode);
+        });
+      }
+
+      // Update telemetry labels
+      if (statTravelTimeLabel) {
+        statTravelTimeLabel.textContent = (mode === 'crew_eva')
+          ? 'Estimated EVA Traverse Time (Human Biomechanics Model)'
+          : 'Estimated Rover Drive Time (Perseverance 0.035 m/s Model)';
+      }
+    }
+
+    if (btnModeAstronautEVA) {
+      btnModeAstronautEVA.addEventListener('click', () => updateExplorationModeUI('crew_eva'));
+    }
+    if (btnModeRoboticRover) {
+      btnModeRoboticRover.addEventListener('click', () => updateExplorationModeUI('robotic_rover'));
+    }
+
+    // Target checklist listener
+    if (evaScienceTargetsList) {
+      evaScienceTargetsList.addEventListener('change', () => {
+        const checked = evaScienceTargetsList.querySelectorAll('.eva-target-chk:checked');
+        if (evaTargetCountBadge) {
+          evaTargetCountBadge.textContent = `${checked.length} SELECTED`;
+        }
+      });
+    }
+
+    // Plan 3 Astronaut EVA Routes
+    if (btnPlanEVARoutes) {
+      btnPlanEVARoutes.addEventListener('click', async () => {
+        if (!evaBaseSelect) return;
+        const baseCoords = evaBaseSelect.value.split(',').map(s => parseInt(s.trim(), 10));
+        const checkedTargets = Array.from(document.querySelectorAll('.eva-target-chk:checked')).map(chk => ({
+          id: chk.value,
+          name: chk.dataset.name || chk.value,
+          row: parseInt(chk.dataset.row, 10),
+          col: parseInt(chk.dataset.col, 10),
+          priority_score: 80.0
+        }));
+
+        if (checkedTargets.length === 0) {
+          setPlanningStatus("Please select at least 1 science outcrop target for the astronaut EVA.", "error");
+          return;
+        }
+
+        btnPlanEVARoutes.disabled = true;
+        btnPlanEVARoutes.innerHTML = '&#9889; COMPUTING 3 HUMAN EVA ROUTES...';
+        setPlanningStatus("Evaluating human biomechanics and PLSS consumable envelopes across terrain...", "calculating");
+
+        try {
+          const payload = {
+            base: { row: baseCoords[0], col: baseCoords[1] },
+            science_targets: checkedTargets,
+            walking_profile: {
+              nominal_walk_speed_kmh: parseFloat(evaWalkSpeedSelect ? evaWalkSpeedSelect.value : 2.0),
+              max_walk_slope_deg: parseFloat(evaMaxSlopeSelect ? evaMaxSlopeSelect.value : 20.0),
+              carried_gear_mass_kg: parseFloat(evaGearMassSelect ? evaGearMassSelect.value : 25.0)
+            },
+            consumable_budget: {
+              max_duration_hours: 8.0,
+              primary_o2_capacity_liters: 600.0,
+              emergency_o2_reserve_liters: 120.0
+            },
+            require_return_to_base: Boolean(evaRequireReturnChk ? evaRequireReturnChk.checked : true),
+            dwell_time_per_target_s: 900.0
+          };
+
+          const resp = await fetch('/api/eva/plan', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!resp.ok) {
+            const errData = await resp.json();
+            throw new Error(errData.detail || `HTTP ${resp.status}`);
+          }
+
+          const data = await resp.json();
+          evaPlannedRoutes = data.routes;
+
+          renderEVARouteCards(data.routes);
+          if (evaRouteComparisonContainer) evaRouteComparisonContainer.classList.remove('hidden');
+
+          // Activate conservative route by default
+          selectEVARoute('conservative');
+          setPlanningStatus("3 Human EVA Routes Computed: Conservative, Science-Priority, and Time-Efficient ready.", "success");
+        } catch (err) {
+          console.error('[MarsWalk EVA] Route planning error:', err);
+          setPlanningStatus(`EVA PLANNING ERROR: ${err.message}`, "error");
+        } finally {
+          btnPlanEVARoutes.disabled = false;
+          btnPlanEVARoutes.innerHTML = '&#9889; PLAN 3 ASTRONAUT EVA ROUTES (CONSERVATIVE &bull; SCIENCE &bull; TIME)';
+        }
+      });
+    }
+
+    function renderEVARouteCards(routes) {
+      if (!evaRouteOptionsGrid) return;
+      evaRouteOptionsGrid.innerHTML = '';
+
+      const routeConfigs = [
+        { key: 'conservative', badge: 'SAFEST &bull; <=15&deg; SLOPE', color: '#10b981' },
+        { key: 'science_first', badge: 'MAX SCIENCE YIELD', color: '#a78bfa' },
+        { key: 'time_efficient', badge: 'FASTEST PACE', color: '#38bdf8' }
+      ];
+
+      routeConfigs.forEach(cfg => {
+        const r = routes[cfg.key];
+        if (!r) return;
+
+        const card = document.createElement('div');
+        card.className = `eva-route-card ${cfg.key === activeEvaRouteKey ? 'selected' : ''}`;
+        card.dataset.routeKey = cfg.key;
+
+        const walkKm = (r.total_distance_m / 1000.0).toFixed(2);
+        const o2L = r.consumables ? r.consumables.oxygen_consumed_liters : 0;
+        const o2Pct = r.consumables ? r.consumables.o2_reserve_margin_pct : 100;
+        const kcal = r.consumables ? r.consumables.metabolic_burn_kcal : 0;
+        const isFeasible = r.is_feasible;
+
+        card.innerHTML = `
+          <div class="eva-route-header">
+            <span class="eva-route-name">${r.profile_name}</span>
+            <span class="eva-route-badge" style="border-color:${cfg.color}; color:${cfg.color};">${cfg.badge}</span>
+          </div>
+          <div style="font-size:7.5px; color:#94a3b8; margin-bottom:4px; line-height:1.2;">
+            ${r.description}
+          </div>
+          <div class="eva-route-metrics-grid">
+            <div class="eva-metric-col">
+              <span>Ground Dist</span>
+              <strong>${walkKm} km</strong>
+            </div>
+            <div class="eva-metric-col">
+              <span>Total Time</span>
+              <strong>${r.formatted_duration}</strong>
+            </div>
+            <div class="eva-metric-col">
+              <span>Peak Slope</span>
+              <strong>${r.max_slope_deg}&deg;</strong>
+            </div>
+            <div class="eva-metric-col">
+              <span>O2 Used</span>
+              <strong style="color:#38bdf8;">${o2L} L (${o2Pct}%)</strong>
+            </div>
+            <div class="eva-metric-col">
+              <span>Metabolics</span>
+              <strong style="color:#f59e0b;">${kcal} kcal</strong>
+            </div>
+            <div class="eva-metric-col">
+              <span>Return Status</span>
+              <strong style="color:${isFeasible ? '#34d399' : '#f87171'};">${isFeasible ? 'FEASIBLE' : 'LIMIT EXCEEDED'}</strong>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          selectEVARoute(cfg.key);
+        });
+
+        evaRouteOptionsGrid.appendChild(card);
+      });
+    }
+
+    function selectEVARoute(routeKey) {
+      if (!evaPlannedRoutes || !evaPlannedRoutes[routeKey]) return;
+      activeEvaRouteKey = routeKey;
+      const r = evaPlannedRoutes[routeKey];
+
+      document.querySelectorAll('.eva-route-card').forEach(c => {
+        c.classList.toggle('selected', c.dataset.routeKey === routeKey);
+      });
+
+      if (evaSelectedRouteTag) {
+        evaSelectedRouteTag.textContent = `${routeKey.toUpperCase()} ACTIVE`;
+      }
+
+      if (r.path_rc && r.path_rc.length > 0) {
+        activeRoutePath = r.path_rc;
+        drawLiveRoute(r.path_rc, routeKey === 'science_first' ? 'science_first' : (routeKey === 'time_efficient' ? 'balanced' : 'conservative'));
+      }
+
+      // Update telemetry box
+      if (statDistance) statDistance.innerHTML = `${r.total_distance_m.toLocaleString()} <span class="unit">m</span>`;
+      if (statEffort) statEffort.innerHTML = `${r.terrain_effort_cost.toLocaleString()} <span class="unit">flat-m</span>`;
+      if (statSlope) statSlope.innerHTML = `${r.max_slope_deg} <span class="unit">&deg;</span>`;
+      if (statTravelTime) statTravelTime.innerHTML = `${r.formatted_duration} <span class="unit">(O2: ${r.consumables.oxygen_consumed_liters} L &bull; ${r.consumables.metabolic_burn_kcal} kcal)</span>`;
+
+      // Update HUD Overlay
+      updateEvaVisorHUD(r);
+    }
+
+    function updateEvaVisorHUD(routeData) {
+      if (!evaVisorHudOverlay) return;
+      evaVisorHudOverlay.classList.remove('hidden');
+
+      if (evaHudMissionState) {
+        evaHudMissionState.className = `eva-state-pill eva-state-${evaCurrentMissionState.toLowerCase()}`;
+        evaHudMissionState.textContent = evaCurrentMissionState;
+      }
+
+      if (routeData && routeData.consumables) {
+        const c = routeData.consumables;
+        if (evaHudElapsed) evaHudElapsed.textContent = '00h 00m';
+        if (evaHudRemaining) evaHudRemaining.textContent = routeData.formatted_duration;
+        if (evaHudO2) evaHudO2.textContent = `${c.remaining_o2_liters} L (${c.o2_reserve_margin_pct}%)`;
+        if (evaHudKcal) evaHudKcal.textContent = `${c.metabolic_burn_kcal} kcal`;
+        if (evaHudBaseDist) evaHudBaseDist.textContent = `${(routeData.total_distance_m / 2.0).toFixed(0)} m`;
+        if (evaHudReturnEta) evaHudReturnEta.textContent = `${Math.round(routeData.active_walk_time_s / 120.0)} min`;
+      }
+    }
+
+    if (btnCloseEvaVisor && evaVisorHudOverlay) {
+      btnCloseEvaVisor.addEventListener('click', () => {
+        evaVisorHudOverlay.classList.add('hidden');
+      });
+    }
+
+    // EVA Contingency Trigger Listeners
+    document.querySelectorAll('.btn-eva-contingency-trigger').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const cType = btn.dataset.contingency || 'dust_event';
+        if (!evaBaseSelect) return;
+        const baseCoords = evaBaseSelect.value.split(',').map(s => parseInt(s.trim(), 10));
+
+        let currentPos = { row: 100, col: 140 };
+        if (activeRoutePath && activeRoutePath.length > 5) {
+          const midIdx = Math.floor(activeRoutePath.length / 2);
+          currentPos = { row: activeRoutePath[midIdx][0], col: activeRoutePath[midIdx][1] };
+        }
+
+        try {
+          const payload = {
+            current_position: currentPos,
+            base: { row: baseCoords[0], col: baseCoords[1] },
+            contingency_type: cType,
+            custom_message: `Simulated ${cType} during science excursion.`
+          };
+
+          const resp = await fetch('/api/eva/contingency', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+          const cData = await resp.json();
+          evaCurrentMissionState = cData.mission_state;
+
+          if (evaContingencyStateBadge) {
+            evaContingencyStateBadge.className = `eva-state-pill eva-state-${cData.mission_state.toLowerCase()}`;
+            evaContingencyStateBadge.textContent = cData.mission_state;
+          }
+          if (evaHudMissionState) {
+            evaHudMissionState.className = `eva-state-pill eva-state-${cData.mission_state.toLowerCase()}`;
+            evaHudMissionState.textContent = cData.mission_state;
+          }
+
+          if (evaContingencyAdvisoryBanner && evaContingencyAdvisoryText) {
+            evaContingencyAdvisoryText.innerHTML = `<strong>[${cData.mission_state}]</strong> ${cData.advisory}`;
+            evaContingencyAdvisoryBanner.classList.remove('hidden');
+          }
+
+          // If emergency return route is provided, draw it in bright orange/red
+          if (cData.emergency_return_route && cData.emergency_return_route.path_rc && cData.emergency_return_route.path_rc.length > 0) {
+            drawLiveRoute(cData.emergency_return_route.path_rc, 'conservative');
+            setPlanningStatus(`EMERGENCY RETURN ACTIVE: ${cData.emergency_return_route.metrics.formatted_return_time} walkback (${cData.emergency_return_route.metrics.return_distance_m}m)`, "error");
+          }
+        } catch (err) {
+          console.error('[MarsWalk EVA] Contingency error:', err);
+        }
+      });
+    });
+
+    // Rover scouting toggle
+    if (evaToggleRoverScouting) {
+      evaToggleRoverScouting.addEventListener('change', (e) => {
+        const show = e.target.checked;
+        const chkRover = document.getElementById('chkLayerRoverTraverse');
+        const chkDepot = document.getElementById('chkLayerSampleDepot');
+        if (chkRover) {
+          chkRover.checked = show;
+          chkRover.dispatchEvent(new Event('change'));
+        }
+        if (chkDepot) {
+          chkDepot.checked = show;
+          chkDepot.dispatchEvent(new Event('change'));
+        }
+      });
+    }
+
+    // Default to Astronaut EVA mode on boot
+    updateExplorationModeUI('crew_eva');
+  }
 
 
   // Application Lifecycle Boot

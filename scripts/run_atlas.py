@@ -26,6 +26,8 @@ from marswalk.core.terrain import load_and_process_terrain, TerrainGrid
 from marswalk.core.planner import ScienceWaypoint
 from marswalk.api.service import (
     plan_route_api,
+    plan_astronaut_eva_api,
+    eva_contingency_api,
     gauntlet_api,
     contingency_simulate_api,
     scenario_comparison_api,
@@ -1318,6 +1320,14 @@ class MarsWalkHTTPRequestHandler(SimpleHTTPRequestHandler):
                 return
             elif clean_path == "/api/plan_route":
                 result = plan_route_api(payload, self.terrain, self.transform, self.waypoints)
+                self.send_json_response(result, 200)
+                return
+            elif clean_path == "/api/eva/plan":
+                result = plan_astronaut_eva_api(payload, self.terrain, self.transform, self.waypoints)
+                self.send_json_response(result, 200)
+                return
+            elif clean_path == "/api/eva/contingency":
+                result = eva_contingency_api(payload, self.terrain, self.transform, self.waypoints)
                 self.send_json_response(result, 200)
                 return
             elif clean_path == "/api/gauntlet":

@@ -49,6 +49,19 @@ from marswalk.core.contingency import (
     build_contingency_comparison_table,
 )
 from marswalk.data.ingest import proj_xy_to_planetocentric, query_elevation_at_lonlat
+from marswalk.core.astronaut_eva import (
+    EVAMissionState,
+    EVAContingencyType,
+    HumanMobilityConfig,
+    EVAConsumableBudget,
+    EVAConsumableUsage,
+    calculate_human_step_cost,
+    calculate_human_walk_time_and_metabolics,
+    evaluate_eva_consumable_budget,
+    plan_human_eva_leg,
+    plan_three_astronaut_eva_routes,
+    execute_eva_contingency_workflow,
+)
 from marswalk.api.contracts import (
     SCHEMA_VERSION,
     TERRAIN_DATASET_ID,
@@ -267,11 +280,18 @@ def format_route_result(
         metabolic_kcal = round(hrs * 320.0, 1)
         o2_liters = round(hrs * 50.0, 1)
         walkback_exceeded = bool(ground_dist_val is not None and ground_dist_val > 4000.0)
+        remaining_o2 = max(0.0, round(600.0 - o2_liters, 1))
         human_eva_metrics = {
             "metabolic_burn_kcal": metabolic_kcal,
             "estimated_o2_liters": o2_liters,
             "walkback_limit_exceeded": walkback_exceeded,
             "apollo_walkback_limit_m": 4000.0,
+            "primary_o2_capacity_liters": 600.0,
+            "remaining_o2_liters": remaining_o2,
+            "emergency_reserve_liters": 120.0,
+            "suit_battery_capacity_wh": 1800.0,
+            "remaining_battery_wh": max(0.0, round(1800.0 - (hrs * 120.0), 1)),
+            "o2_reserve_margin_pct": round((remaining_o2 / 600.0) * 100.0, 1) if 600.0 > 0 else 0.0,
         }
         if walkback_exceeded:
             warnings.append(
@@ -11269,5 +11289,140 @@ def pillars_science_targets_plan_api(
             ),
         },
     }
+
+
+def plan_astronaut_eva_api(
+    payload: Dict[str, Any],
+    terrain: TerrainGrid,
+    transform: rasterio.Affine,
+    waypoints: Optional[List[ScienceWaypoint]] = None,
+) -> Dict[str, Any]:
+    """
+    Handle POST /api/eva/plan request.
+    Generates three human EVA route options (Conservative, Science-Priority, Time-Efficient)
+    with human biomechanical cost modeling, consumable budgeting, and return-to-base validation.
+    """
+    if not isinstance(payload, dict):
+        raise APIError("Request body must be a JSON object", 400, error_code="ERR_MALFORMED_JSON")
+
+    # Base location (starting habitat / lander)
+    base_raw = payload.get("base", payload.get("start"))
+    if not base_raw:
+        raise APIError("Missing required field 'base' (or 'start') coordinate for EVA departure", 400, error_code="ERR_MISSING_REQUIRED_FIELD")
+    base_rc = parse_endpoint_rc(base_raw, terrain, transform, "Base Location")
+
+    # Science stops / targets
+    raw_targets = payload.get("science_targets", payload.get("stops", []))
+    if not isinstance(raw_targets, list) or len(raw_targets) == 0:
+        raise APIError("Astronaut EVA planning requires at least one science target in 'science_targets'", 400, error_code="ERR_MISSING_REQUIRED_FIELD")
+
+    parsed_targets = []
+    seen_cells = {base_rc}
+    for idx, t in enumerate(raw_targets):
+        t_rc = parse_endpoint_rc(t, terrain, transform, f"Science Target {idx+1}")
+        if t_rc in seen_cells:
+            raise APIError(
+                f"Duplicate waypoint coordinate detected at pixel ({t_rc[0]}, {t_rc[1]})",
+                400,
+                error_code="ERR_DUPLICATE_STOPS",
+            )
+        seen_cells.add(t_rc)
+        parsed_targets.append({
+            "id": t.get("id", f"target_{idx+1}"),
+            "name": t.get("name", f"Science Target {idx+1}"),
+            "row": t_rc[0],
+            "col": t_rc[1],
+            "priority_score": float(t.get("priority_score", 50.0)),
+        })
+
+    # Human mobility config overrides
+    mob_cfg = HumanMobilityConfig()
+    p_mob = payload.get("walking_profile", {})
+    if isinstance(p_mob, dict):
+        if "nominal_walk_speed_kmh" in p_mob and p_mob["nominal_walk_speed_kmh"]:
+            mob_cfg.nominal_walk_speed_kmh = float(p_mob["nominal_walk_speed_kmh"])
+        if "max_walk_slope_deg" in p_mob and p_mob["max_walk_slope_deg"]:
+            mob_cfg.max_walk_slope_deg = float(p_mob["max_walk_slope_deg"])
+        if "carried_gear_mass_kg" in p_mob and p_mob["carried_gear_mass_kg"]:
+            mob_cfg.carried_gear_mass_kg = float(p_mob["carried_gear_mass_kg"])
+
+    # Consumable budget overrides
+    b_cfg = EVAConsumableBudget()
+    p_bud = payload.get("consumable_budget", {})
+    if isinstance(p_bud, dict):
+        if "max_duration_hours" in p_bud and p_bud["max_duration_hours"]:
+            b_cfg.max_duration_s = float(p_bud["max_duration_hours"]) * 3600.0
+        if "primary_o2_capacity_liters" in p_bud and p_bud["primary_o2_capacity_liters"]:
+            b_cfg.primary_o2_capacity_liters = float(p_bud["primary_o2_capacity_liters"])
+        if "emergency_o2_reserve_liters" in p_bud and p_bud["emergency_o2_reserve_liters"]:
+            b_cfg.emergency_o2_reserve_liters = float(p_bud["emergency_o2_reserve_liters"])
+
+    dwell_s = float(payload.get("dwell_time_per_target_s", 900.0))
+    require_return = bool(payload.get("require_return_to_base", True))
+
+    result = plan_three_astronaut_eva_routes(
+        base_rc=base_rc,
+        science_stops=parsed_targets,
+        terrain=terrain,
+        mobility_config=mob_cfg,
+        consumable_budget=b_cfg,
+        dwell_time_per_target_s=dwell_s,
+        require_return_to_base=require_return,
+    )
+    return sanitize_for_json(result)
+
+
+def eva_contingency_api(
+    payload: Dict[str, Any],
+    terrain: TerrainGrid,
+    transform: rasterio.Affine,
+    waypoints: Optional[List[ScienceWaypoint]] = None,
+) -> Dict[str, Any]:
+    """
+    Handle POST /api/eva/contingency request.
+    Injects human EVA disruptions (dust event, comms loss, obstacle, low consumable reserve)
+    and evaluates state transitions and emergency return routes.
+    """
+    if not isinstance(payload, dict):
+        raise APIError("Request body must be a JSON object", 400, error_code="ERR_MALFORMED_JSON")
+
+    curr_pos_raw = payload.get("current_position", payload.get("start"))
+    if not curr_pos_raw:
+        raise APIError("Missing required field 'current_position'", 400, error_code="ERR_MISSING_REQUIRED_FIELD")
+    curr_rc = parse_endpoint_rc(curr_pos_raw, terrain, transform, "Current Astronaut Position")
+
+    base_raw = payload.get("base", payload.get("goal"))
+    if not base_raw:
+        raise APIError("Missing required field 'base'", 400, error_code="ERR_MISSING_REQUIRED_FIELD")
+    base_rc = parse_endpoint_rc(base_raw, terrain, transform, "Base Location")
+
+    c_type_str = str(payload.get("contingency_type", "dust_event")).lower()
+    try:
+        c_type = EVAContingencyType(c_type_str)
+    except ValueError:
+        valid_types = [e.value for e in EVAContingencyType]
+        raise APIError(f"Invalid contingency_type '{c_type_str}'. Allowed: {valid_types}", 400, error_code="ERR_UNSUPPORTED_CONTINGENCY")
+
+    custom_msg = payload.get("custom_message")
+
+    # Obstacle footprint if obstacle or route obstruction
+    blocked_mask = None
+    if c_type in (EVAContingencyType.NEWLY_DETECTED_OBSTACLE, EVAContingencyType.ROUTE_OBSTRUCTION):
+        obs_rc = curr_rc
+        if "obstacle_location" in payload:
+            obs_rc = parse_endpoint_rc(payload["obstacle_location"], terrain, transform, "Obstacle Location")
+        radius_m = float(payload.get("obstacle_radius_m", 150.0))
+        blocked_mask = compute_circular_footprint(obs_rc, radius_m, terrain)
+
+    result = execute_eva_contingency_workflow(
+        current_astronaut_rc=curr_rc,
+        base_rc=base_rc,
+        contingency_type=c_type,
+        terrain=terrain,
+        blocked_mask=blocked_mask,
+        custom_message=custom_msg,
+    )
+    return sanitize_for_json(result)
+
 
 
